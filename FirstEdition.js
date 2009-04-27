@@ -1,4 +1,4 @@
-/* $Id: FirstEdition.js,v 1.1 2009/04/26 01:22:11 Jim Exp $ */
+/* $Id: FirstEdition.js,v 1.2 2009/04/27 14:19:49 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -89,15 +89,15 @@ FirstEdition.SHIELDS = [
   'Large Shield', 'Medium Shield', 'None', 'Small Shield'
 ];
 FirstEdition.WEAPONS = [
-  'Bastard Sword:2d4', 'Battle Axe:d8', 'Broad Sword:2d4', 'Club:d4+1',
-  'Composite Long Bow:d6r60', 'Composite Short Bow:d6r50', 'Dagger:d4',
-  'Dart:d3r15', 'Halbert:d10', 'Hand Axe:d6', 'Heavy Crossbow:d4+1r80',
-  'Heavy Flail:d6+1', 'Heavy Mace:d6+1', 'Heavy Pick:d6+1', 'Javelin:d6r20',
-  'Lance:2d4+1', 'Light Crossbow:d4r60', 'Light Flail:d4+1', 'Light Mace:d4+1',
-  'Light Pick:d4+1', 'Long Bow:d6r70', 'Long Sword:d8', 'Morning Star:2d4',
-  'Pole Arm:d6', 'Scimitar Sword:d6', 'Short Bow:d6r50', 'Short Sword:d6',
-  'Spear:d6', 'Staff:d6', 'Trident:d6+1', 'Two-Handed Sword:d10',
-  'War Hammer:d4+1'
+  'Bastard Sword:2d4x1', 'Battle Axe:d8x1', 'Broad Sword:2d4x1', 'Club:d4+1x1',
+  'Composite Long Bow:d6x1r60', 'Composite Short Bow:d6x1r50', 'Dagger:d4x1',
+  'Dart:d3x1r15', 'Halbert:d10x1', 'Hand Axe:d6x1', 'Heavy Crossbow:d4+1x1r80',
+  'Heavy Flail:d6+1x1', 'Heavy Mace:d6+1x1', 'Heavy Pick:d6+1x1',
+  'Javelin:d6x1r20', 'Lance:2d4+1x1', 'Light Crossbow:d4x1r60',
+  'Light Flail:d4+1x1', 'Light Mace:d4+1x1', 'Light Pick:d4+1x1',
+  'Long Bow:d6x1r70', 'Long Sword:d8x1', 'Morning Star:2d4x1', 'Pole Arm:d6x1',
+  'Scimitar Sword:d6x1', 'Short Bow:d6x1r50', 'Short Sword:d6x1', 'Spear:d6x1',
+  'Staff:d6x1', 'Trident:d6+1x1', 'Two-Handed Sword:d10x1', 'War Hammer:d4+1'
 ];
 
 // Related information used internally by FirstEdition
@@ -662,7 +662,49 @@ FirstEdition.magicRules = function(rules, classes) {
       spells = [
         'C1:Bless:Command:Create Water:Cure Light Wounds:Detect Evil:' +
         'Detect Magic:Light:Protection From Evil:Purify Food And Drink:' +
-        'Remove Fear:Resist Cold:Sanctuary'
+        'Remove Fear:Resist Cold:Sanctuary',
+        'C2:Augury:Chant:Detect Charm:Find Traps:Hold Person:Know Alignment:' +
+        'Resist Fire:Silence 15\' Radius:Slow Poison:Snake Charm:' +
+        'Speak With Animals:Spiritual Weapon',
+        'C3:Animate Dead:Continual Light:Create Food And Water:' +
+        'Cure Blindness:Cure Disease:Dispel Magic:Feign Death:' +
+        'Glyph Of Warding:Locate Object:Prayer:Remove Curse:Speak With Dead',
+        'C4:Cure Serious Wounds:Detect Lie:Divination:Exorcise:Lower Water:' +
+        'Neutralize Poison:Protection From Evil 10\' Radius:' +
+        'Speak With Plants:Sticks To Snakes:Tongues',
+        'C5:Atonement:Commune:Cure Critical Wounds:Dispel Evil:Flame Strike:' +
+        'Insect Plague:Plane Shift:Quest:Raise Dead:True Seeing',
+        'C6:Aerial Servant:Animate Object:Blade Barrier:Conjure Animals:' +
+        'Find The Path:Heal:Part Water:Speak With Monsters:Stone Tell:' +
+        'Word Of Recall',
+        'C7:Astral Spell:Control Weather:Earthquake:Gate:Holy Word:' +
+        'Regenerate:Restoration:Resurrection:Symbol:Wind Walk'
+      ];
+    } else if(klass == 'Druid') {
+      spells = [
+        'D1:Animal Friendship:Detect Magic:Detect Pits And Snares:Entangle:' +
+        'Faerie Fire:Invisibility To Animals:Locate Animals:' +
+        'Pass Without Trace:Predict Weather:Purify Water:Shillelagh:' +
+        'Speak With Animals',
+        'D2:Barkskin:Charm Person Or Mammal:Create Water:Cure Light Wounds:' +
+        'Feign Death:Fire Trap:Heat Metal:Locate Plants:Obscurement:' +
+        'Produce Flame:Trip:Warp Wood',
+        'D3:Call Lightning:Cure Disease:Hold Animal:Neutralize Poison:' +
+        'Plant Growth:Protection From Fire:Pyrotechnics:Snare:Stone Shape:' +
+        'Summon Insects:Tree:Water Breathing',
+        'D4:Animal Summoning I:Call Woodland Beings:' +
+        'Control Temperature 100\':Cure Serious Wounds:Dispel Magic:' +
+        'Hallucinatory Forest:Hold Plant:Plant Door:Produce Fire:' +
+        'Protection From Lightning:Repel Insects:Speak With Plants',
+        'D5:Animal Growth:Animal Summoning II:Anti-Plant Shell:' +
+        'Commune With Nature:Control Winds:Insect Plague:Pass Plant:' +
+        'Sticks To Snakes:Transmute Rock To Mud:Wall Of Fire',
+        'D6:Animal Summoning III:Anti-Animal Shell:Conjure Fire Elemental:' +
+        'Cure Critical Wounds:Feeblemind:Fire Seeds:Transport Via Plants:' +
+        'Turn Wood:Wall Of Thorns:Weather Summoning',
+        'D7:Animate Rock:Chariot Of Fire:Confusion:Conjure Earth Elemental:' +
+        'Control Weather:Creeping Doom:Finger Of Death:Fire Storm:' +
+        'Reincarnate:Transmute Metal To Wood'
       ];
     } else
       continue;
