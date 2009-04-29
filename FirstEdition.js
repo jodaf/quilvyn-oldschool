@@ -1,4 +1,4 @@
-/* $Id: FirstEdition.js,v 1.2 2009/04/27 14:19:49 Jim Exp $ */
+/* $Id: FirstEdition.js,v 1.3 2009/04/29 03:31:14 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -17,7 +17,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-var FirstEdition_VERSION = '1.0beta-080714';
+var FirstEdition_VERSION = '0.1alpha';
 
 /*
  */
@@ -40,13 +40,14 @@ function FirstEdition() {
   FirstEdition.abilityRules(rules);
   FirstEdition.raceRules(rules, FirstEdition.LANGUAGES, FirstEdition.RACES);
   FirstEdition.classRules(rules, FirstEdition.CLASSES);
-  SRD35.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
+  FirstEdition.descriptionRules
+    (rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
   FirstEdition.equipmentRules
     (rules, FirstEdition.ARMORS, FirstEdition.GOODIES, FirstEdition.SHIELDS,
      FirstEdition.WEAPONS);
   FirstEdition.combatRules(rules);
   FirstEdition.movementRules(rules);
-  FirstEdition.magicRules(rules, FirstEdition.CLASSES);
+  FirstEdition.magicRules(rules, FirstEdition.CLASSES, SRD35.SCHOOLS);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
@@ -105,6 +106,177 @@ FirstEdition.armorsArmorClassBonuses = {
   'None' : null, 'Banded' : -6, 'Chain' : -5, 'Elfin Chain' : -5,
   'Leather' : -2, 'Padded' :-2, 'Plate' : -7, 'Ring' : -3, 'Scale' : -4,
   'Studded' : -3
+};
+FirstEdition.spellsSchools = {
+  'Aerial Servant':'Conjuration', 'Affect Normal Fires':'Transmutation',
+  'Airy Water':'Transmutation', 'Alter Reality':'Illusion',
+  'Animal Friendship':'Enchantment', 'Animal Growth':'Transmutation',
+  'Animal Summoning I':'Conjuration', 'Animal Summoning II':'Conjuration',
+  'Animal Summoning III':'Conjuration', 'Animate Dead':'Necromancy',
+  'Animate Object':'Transmutation', 'Animate Rock':'Transmutation',
+  'Anti-Animal Shell':'Abjuration', 'Anti-Magic Shell':'Abjuration',
+  'Anti-Plant Shell':'Abjuration', 'Antipathy/Sympathy':'Enchantment',
+  'Arcane Spells Level 1':'Various', 'Astral Spell':'Transmutation',
+  'Atonement':'Abjuration', 'Audible Glamer':'Illusion',
+  'Augury':'Divination', 'Barkskin':'Transmutation',
+  'Blade Barrier':'Evocation', 'Bless':'Conjuration', 'Blindness':'Illusion',
+  'Blink':'Transmutation', 'Blur':'Illusion', 'Burning Hands':'Transmutation',
+  'Cacodemon':'Conjuration', 'Call Lightning':'Transmutation',
+  'Call Woodland Beings':'Conjuration', 'Change Self':'Illusion',
+  'Chant':'Conjuration', 'Chaos':'Enchantment', 'Chariot Of Fire':'Evocation',
+  'Charm Monster':'Enchantment', 'Charm Person Or Mammal':'Enchantment',
+  'Charm Person':'Enchantment', 'Charm Plants':'Enchantment',
+  'Clairaudience':'Divination', 'Clairvoyance':'Divination',
+  'Clenched Fist':'Evocation', 'Clone':'Necromancy', 'Cloudkill':'Evocation',
+  'Color Spray':'Transmutation', 'Command':'Enchantment',
+  'Commune With Nature':'Divination', 'Commune':'Divination',
+  'Comprehend Languages':'Transmutation', 'Cone Of Cold':'Evocation',
+  'Confusion':'Enchantment', 'Conjure Animals':'Conjuration',
+  'Conjure Earth Elemental':'Conjuration', 'Conjure Elemental':'Conjuration',
+  'Conjure Fire Elemental':'Conjuration', 'Contact Other Plane':'Divination',
+  'Continual Darkness':'Transmutation', 'Continual Light':'Transmutation',
+  'Control Temperature 10\' Radius':'Transmutation',
+  'Control Weather':'Transmutation', 'Control Winds':'Transmutation',
+  'Create Food And Water':'Transmutation', 'Create Water':'Transmutation',
+  'Creeping Doom':'Conjuration', 'Crushing Hand':'Evocation',
+  'Cure Blindness':'Abjuration', 'Cure Critical Wounds':'Necromancy',
+  'Cure Disease':'Abjuration', 'Cure Light Wounds':'Necromancy',
+  'Cure Serious Wounds':'Necromancy', 'Dancing Lights':'Transmutation',
+  'Darkness':'Transmutation', 'Darkness 15\' Radius':'Transmutation',
+  'Deafness':'Illusion', 'Death Spell':'Necromancy',
+  'Delayed Blast Fireball':'Evocation', 'Demi-Shadow Magic':'Illusion',
+  'Demi-Shadow Monsters':'Illusion', 'Detect Charm':'Divination',
+  'Detect Evil':'Divination', 'Detect Illusion':'Divination',
+  'Detect Invisibility':'Divination', 'Detect Lie':'Divination',
+  'Detect Magic':'Divination', 'Detect Pits And Snares':'Divination',
+  'Dig':'Evocation', 'Dimension Door':'Transmutation',
+  'Disintegrate':'Transmutation', 'Dispel Exhaustion':'Illusion',
+  'Dispel Evil':'Abjuration', 'Dispel Illusion':'Abjuration',
+  'Dispel Magic':'Transmutation', 'Distance Distortion':'Transmutation',
+  'Divination':'Divination', 'Duo-Dimension':'Transmutation',
+  'ESP':'Divination', 'Earthquake':'Transmutation', 'Emotion':'Enchantment',
+  'Enchant An Item':'Conjuration', 'Enchanted Weapon':'Transmutation',
+  'Enlarge':'Transmutation', 'Entangle':'Transmutation',
+  'Erase':'Transmutation', 'Exorcise':'Abjuration',
+  'Explosive Runes':'Transmutation', 'Extension I':'Transmutation',
+  'Extension II':'Transmutation', 'Extension III':'Transmutation',
+  'Faerie Fire':'Transmutation', 'False Trap':'Illusion', 'Fear':'Illusion',
+  'Feather Fall':'Transmutation', 'Feeblemind':'Enchantment',
+  'Feign Death':'Necromancy', 'Find Familiar':'Conjuration',
+  'Find The Path':'Divination', 'Find Traps':'Divination',
+  'Finger Of Death':'Enchantment', 'Fire Charm':'Enchantment',
+  'Fire Seeds':'Conjuration', 'Fire Shield':'Evocation',
+  'Fire Storm':'Evocation', 'Fire Trap':'Evocation', 'Fireball':'Evocation',
+  'Flame Arrow':'Evocation', 'Flame Strike':'Evocation',
+  'Floating Disk':'Evocation', 'Fly':'Transmutation',
+  'Fog Cloud':'Transmutation', 'Fool\'s Gold':'Transmutation',
+  'Forceful Hand':'Evocation', 'Forget':'Enchantment',
+  'Freezing Sphere':'Transmutation', 'Friends':'Enchantment',
+  'Fumble':'Enchantment', 'Gate':'Conjuration',
+  'Gaze Reflection':'Transmutation', 'Geas':'Enchantment',
+  'Glass-Steel':'Transmutation', 'Glasseye':'Transmutation',
+  'Globe Of Invulnerability':'Abjuration', 'Glyph Of Warding':'Abjuration',
+  'Grasping Hand':'Evocation', 'Guards And Wards':'Abjuration',
+  'Gust Of Wind':'Transmutation', 'Hallucinatory Forest':'Illusion',
+  'Hallucinatory Terrain':'Illusion', 'Haste':'Transmutation',
+  'Heal':'Necromancy', 'Heat Metal':'Necromancy', 'Hold Animal':'Enchantment',
+  'Hold Monster':'Enchantment', 'Hold Person':'Enchantment',
+  'Hold Plant':'Enchantment', 'Hold Portal':'Transmutation',
+  'Holy Word':'Conjuration', 'Hypnotic Pattern':'Illusion',
+  'Hypnotism':'Enchantment', 'Ice Storm':'Evocation', 'Identify':'Divination',
+  'Illusionary Script':'Illusion', 'Imprisonment':'Abjuration',
+  'Improved Invisibility':'Illusion', 'Improved Phantasmal Force':'Illusion',
+  'Incendiary Cloud':'Evocation', 'Infravision':'Transmutation',
+  'Insect Plague':'Conjuration', 'Instant Summons':'Conjuration',
+  'Interposing Hand':'Evocation', 'Invisibility 10\' Radius':'Illusion',
+  'Invisibility To Animals':'Transmutation', 'Invisibility':'Illusion',
+  'Invisible Stalker':'Conjuration', 'Irresistible Dance':'Enchantment',
+  'Jump':'Transmutation', 'Knock':'Transmutation',
+  'Know Alignment':'Divination', 'Legend Lore':'Divination',
+  'Levitate':'Transmutation', 'Light':'Transmutation',
+  'Lightning Bolt':'Evocation', 'Limited Wish':'Conjuration',
+  'Locate Animals':'Divination', 'Locate Object':'Divination',
+  'Locate Plants':'Divination', 'Lower Water':'Transmutation',
+  'Mage\'s Faithful Hound':'Conjuration', 'Mage\'s Sword':'Evocation',
+  'Magic Aura':'Illusion', 'Magic Jar':'Necromancy',
+  'Magic Missle':'Evocation', 'Magic Mouth':'Transmutation',
+  'Major Creation':'Transmutation', 'Mass Charm':'Enchantment',
+  'Mass Invisibility':'Illusion', 'Mass Suggestion':'Enchantment',
+  'Massmorph':'Illusion', 'Maze':'Conjuration', 'Mending':'Transmutation',
+  'Message':'Transmutation', 'Meteor Swarm':'Evocation',
+  'Mind Blank':'Abjuration', 'Minor Creation':'Transmutation',
+  'Minor Globe Of Invulnerability':'Abjuration', 'Mirror Image':'Illusion',
+  'Misdirection':'Illusion', 'Mnemonic Enhancement':'Transmutation',
+  'Monster Summoning I':'Conjuration', 'Monster Summoning II':'Conjuration',
+  'Monster Summoning III':'Conjuration', 'Monster Summoning IV':'Conjuration',
+  'Monster Summoning V':'Conjuration', 'Monster Summoning VI':'Conjuration',
+  'Monster Summoning VII':'Conjuration', 'Move Earth':'Transmutation',
+  'Neutralize Poison':'Transmutation', 'Non-Detection':'Abjuration',
+  'Obscurement':'Transmutation', 'Paralyzation':'Illusion',
+  'Part Water':'Transmutation', 'Pass Plant':'Transmutation',
+  'Pass Without Trace':'Enchantment', 'Passwall':'Transmutation',
+  'Permanency':'Transmutation', 'Permanent Illusion':'Illusion',
+  'Phantasmal Force':'Illusion', 'Phantasmal Killer':'Illusion',
+  'Phase Door':'Transmutation', 'Plane Shift':'Transmutation',
+  'Plant Door':'Transmutation', 'Plant Growth':'Transmutation',
+  'Polymorph Object':'Transmutation', 'Polymorph Other':'Transmutation',
+  'Polymorph Self':'Transmutation', 'Power Word Blind':'Conjuration',
+  'Power Word Kill':'Conjuration', 'Power Word Stun':'Conjuration',
+  'Prayer':'Conjuration', 'Predict Weather':'Divination',
+  'Prismatic Sphere':'Conjuration', 'Prismatic Spray':'Abjuration',
+  'Prismatic Wall':'Abjuration', 'Produce Fire':'Transmutation',
+  'Produce Flame':'Transmutation', 'Programmed Illusion':'Illusion',
+  'Project Image':'Illusion', 'Protection From Evil 10\' Radius':'Abjuration',
+  'Protection From Evil':'Abjuration', 'Protection From Fire':'Abjuration',
+  'Protection From Lightning':'Abjuration',
+  'Protection From Normal Missles':'Abjuration',
+  'Purify Food And Drink':'Transmutation', 'Purify Water':'Transmutation',
+  'Push':'Conjuration', 'Pyrotechnics':'Transmutation', 'Quest':'Enchantment',
+  'Raise Dead':'Necromancy', 'Ray Of Enfeeblement':'Enchantment',
+  'Read Magic':'Divination', 'Regenerate':'Necromancy',
+  'Reincarnate':'Necromancy', 'Reincarnation':'Necromancy',
+  'Remove Curse':'Abjuration', 'Remove Fear':'Abjuration',
+  'Repel Insects':'Abjuration', 'Repulsion':'Abjuration',
+  'Resist Cold':'Transmutation', 'Resist Fire':'Transmutation',
+  'Restoration':'Necromancy', 'Resurrection':'Necromancy',
+  'Reverse Gravity':'Transmutation', 'Rope Trick':'Transmutation',
+  'Sanctuary':'Abjuration', 'Scare':'Enchantment',
+  'Secret Chest':'Transmutation', 'Shades':'Illusion', 'Shadow Door':'Illusion',
+  'Shadow Magic':'Illusion', 'Shadow Monsters':'Illusion',
+  'Shape Change':'Transmutation', 'Shatter':'Transmutation',
+  'Shield':'Evocation', 'Shillelagh':'Transmutation',
+  'Shocking Grasp':'Transmutation', 'Silence 15\' Radius':'Transmutation',
+  'Simulacrum':'Illusion', 'Sleep':'Enchantment', 'Slow Poison':'Necromancy',
+  'Slow':'Transmutation', 'Snake Charm':'Enchantment', 'Snare':'Enchantment',
+  'Speak With Animals':'Transmutation', 'Speak With Dead':'Necromancy',
+  'Speak With Monsters':'Transmutation', 'Speak With Plants':'Transmutation',
+  'Spectral Force':'Illusion', 'Spell Immunity':'Abjuration',
+  'Spider Climb':'Transmutation', 'Spirit-Rack':'Abjuration',
+  'Spiritual Weapon':'Evocation', 'Statue':'Transmutation',
+  'Sticks To Snakes':'Transmutation', 'Stinking Cloud':'Evocation',
+  'Stone Shape':'Transmutation', 'Stone Tell':'Divination',
+  'Stone To Flesh':'Transmutation', 'Strength':'Transmutation',
+  'Suggestion':'Enchantment', 'Summon Insects':'Conjuration',
+  'Summon Shadow':'Conjuration', 'Symbol':'Conjuration',
+  'Telekinesis':'Transmutation', 'Teleport':'Transmutation',
+  'Temporal Statis':'Transmutation', 'Time Stop':'Transmutation',
+  'Tiny Hut':'Transmutation', 'Tongues':'Transmutation',
+  'Transformation':'Transmutation', 'Transmute Metal To Wood':'Transmutation',
+  'Transmute Rock To Mud':'Transmutation',
+  'Transport Via Plants':'Transmutation', 'Trap The Soul':'Conjuration',
+  'Tree':'Transmutation', 'Trip':'Enchantment',
+  'True Seeing':'Divination', 'True Sight':'Divination',
+  'Turn Wood':'Transmutation', 'Unseen Servant':'Conjuration',
+  'Vanish':'Transmutation', 'Veil':'Illusion',
+  'Ventriloquism':'Illusion', 'Vision':'Divination', 'Wall Of Fire':'Evocation',
+  'Wall Of Fog':'Transmutation', 'Wall Of Force':'Evocation',
+  'Wall Of Ice':'Evocation', 'Wall Of Iron':'Evocation',
+  'Wall Of Stone':'Evocation', 'Wall Of Thorns':'Conjuration',
+  'Warp Wood':'Transmutation', 'Water Breathing':'Transmutation',
+  'Weather Summoning':'Conjuration', 'Web':'Evocation',
+  'Wind Walk':'Transmutation', 'Wish':'Conjuration',
+  'Wizard Eye':'Transmutation', 'Wizard Lock':'Transmutation',
+  'Word Of Recall':'Transmutation', 'Write':'Evocation'
 };
 FirstEdition.strengthDamageAdjustments = [
   -1, -1, null, null, null, null, null, 1, 1, 2, 3, 3, 4, 5, 6
@@ -283,10 +455,12 @@ FirstEdition.classRules = function(rules, classes) {
     } else if(klass == 'Cleric') {
       baseAttack = 'source < 19 ? Math.floor(source / 3) : 21';
       features = [
-        '9:Attract Followers', 'Turn Undead'
+        'Turn Undead', '9:Attract Followers'
       ];
       hitDie = 8;
       notes = [
+        'combatNotes.turnUndeadFeature:' +
+          'Turn 2d6/destroy(good) or control (evil) d6+6 undead creatures',
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
         'validationNotes.clericClassCharisma:Requires Charisma >= 6',
@@ -305,8 +479,7 @@ FirstEdition.classRules = function(rules, classes) {
         'C6:11:1/12:2/16:3/18:4/20:5/21:6/23:7/24:8/26:9',
         'C7:16:1/19:2/22:3/25:4/27:5/28:6/29:7'
       ];
-      rules.defineRule('turnUndead.level', 'levels.Cleric', '+=', null);
-      rules.defineRule('turningLevel', 'turnUndead.level', '^=', null);
+      rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
     } else if(klass == 'Druid') {
       baseAttack = '2 * Math.floor(source / 3)';
@@ -465,6 +638,8 @@ FirstEdition.classRules = function(rules, classes) {
       ];
       hitDie = 10;
       notes = [
+        'combatNotes.turnUndeadFeature:' +
+          'Turn 2d6/destroy(good) or control (evil) d6+6 undead creatures',
         'featureNotes.nonmaterialistFeature:' +
           'May not own > 10 magic items, including 1 armor suit and 1 shield',
         'featureNotes.philanthropistFeature:' +
@@ -508,10 +683,9 @@ FirstEdition.classRules = function(rules, classes) {
       );
       rules.defineRule
         ('magicNotes.layOnHandsFeature', 'levels.Paladin', '+=', '2 * source');
-      rules.defineRule('turnUndead.level',
+      rules.defineRule('turningLevel',
         'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
       );
-      rules.defineRule('turningLevel', 'turnUndead.level', '^=', null);
       rules.defineRule('warriorLevel', 'levels.Paladin', '+', null);
 
     } else if(klass == 'Ranger') {
@@ -634,8 +808,33 @@ FirstEdition.combatRules = function(rules) {
   rules.defineRule('baseAttack', '', '=', '0');
   rules.defineRule('meleeAttack', 'baseAttack', '=', null);
   rules.defineRule('rangedAttack', 'baseAttack', '=', null);
-  // TODO
+  var undeadTypes = [
+    '', 'skeleton', 'zombie', 'ghoul', 'shadow', 'wight', 'ghast', 'wraith',
+    'mummy', 'spectre', 'vampire', 'ghost', 'lich', 'demon'
+  ];
+  rules.defineRule('turnUndeadColumn',
+    'turningLevel', '=',
+    'source <= 3 ? source : source <= 8 ? source + 1 : ' +
+    'source <= 13 ? 10 : source <= 18 ? 12 : 13'
+  );
+  for(var i = 1; i < undeadTypes.length; i++) {
+    var automatic = i + 3;
+    var destroy = automatic + 2;
+    var capable = i - 4;
+    rules.defineRule('turnUndead.' + undeadTypes[i],
+      'turnUndeadColumn', '=',
+      'source < ' + capable + ' ? null : source == ' + capable + ' ? 20 : ' +
+      'source >= ' + destroy + ' ? "D" : source >= ' + automatic + ' ? "T" : ' +
+      '(22 - (source  - ' + capable + ') * 3)'
+    );
+  }
+};
 
+/* Defines the rules related to character description. */
+FirstEdition.descriptionRules = function(rules, alignments, deities, genders) {
+  rules.defineChoice('alignments', alignments);
+  rules.defineChoice('deities', deities);
+  rules.defineChoice('genders', genders);
 };
 
 /* Defines the rules related to equipment. */
@@ -653,7 +852,16 @@ FirstEdition.equipmentRules = function(rules, armors, goodies, shields, weapons)
 };
 
 /* Defines the rules related to spells. */
-FirstEdition.magicRules = function(rules, classes) {
+FirstEdition.magicRules = function(rules, classes, schools) {
+
+  rules.defineChoice('schools', schools);
+  schools = rules.getChoices('schools');
+
+  for(spell in FirstEdition.spellsSchools)
+    if(schools[FirstEdition.spellsSchools[spell]] == null)
+      alert('Unknown school "' + FirstEdition.spellsSchools[spell] + '"');
+
+  var spellsDefined = {};
 
   for(var i = 0; i < classes.length; i++) {
     var klass = classes[i];
@@ -693,7 +901,7 @@ FirstEdition.magicRules = function(rules, classes) {
         'Plant Growth:Protection From Fire:Pyrotechnics:Snare:Stone Shape:' +
         'Summon Insects:Tree:Water Breathing',
         'D4:Animal Summoning I:Call Woodland Beings:' +
-        'Control Temperature 100\':Cure Serious Wounds:Dispel Magic:' +
+        'Control Temperature 10\' Radius:Cure Serious Wounds:Dispel Magic:' +
         'Hallucinatory Forest:Hold Plant:Plant Door:Produce Fire:' +
         'Protection From Lightning:Repel Insects:Speak With Plants',
         'D5:Animal Growth:Animal Summoning II:Anti-Plant Shell:' +
@@ -706,6 +914,114 @@ FirstEdition.magicRules = function(rules, classes) {
         'Control Weather:Creeping Doom:Finger Of Death:Fire Storm:' +
         'Reincarnate:Transmute Metal To Wood'
       ];
+    } else if(klass == 'Illusionist') {
+      spells = [
+        'I1:Audible Glamer:Change Self:Color Spray:Dancing Lights:Darkness:' +
+        'Detect Illusion:Detect Invisibility:Gaze Reflection:Hypnotism:Light:' +
+        'Phantasmal Force:Wall Of Fog',
+        'I2:Blindness:Blur:Deafness:Detect Magic:Fog Cloud:Hypnotic Pattern:' +
+        'Improved Phantasmal Force:Invisibility:Magic Mouth:Mirror Image:' +
+        'Misdirection:Ventriloquism',
+        'I3:Continual Darkness:Continual Light:Dispel Illusion:Fear:' +
+        'Hallucinatory Terrain:Illusionary Script:Invisibility 10\' Radius:' +
+        'Non-Detection:Paralyzation:Rope Trick:Spectral Force:Suggestion',
+        'I4:Confusion:Dispel Exhaustion:Emotion:Improved Invisibility:' +
+        'Massmorph:Minor Creation:Phantasmal Killer:Shadow Monsters',
+        'I5:Chaos:Demi-Shadow Monsters:Major Creation:Maze:Project Image:' +
+        'Shadow Door:Shadow Magic:Summon Shadow',
+        'I6:Conjure Animals:Demi-Shadow Magic:Mass Suggestion:' +
+        'Permanent Illusion:Programmed Illusion:Shades:True Sight:Veil',
+        'I7:Alter Reality:Astral Spell:Prismatic Spray:Prismatic Wall:' +
+        'Vision:Arcane Spells Level 1'
+      ];
+    } else if(klass == 'Magic User') {
+      spells = [
+        'M1:Affect Normal Fires:Burning Hands:Charm Person:' +
+        'Comprehend Languages:Dancing Lights:Enlarge:Erase:Feather Fall:' +
+        'Find Familiar:Floating Disk:Friends:Hold Portal:Identify:Jump:Light:' +
+        'Magic Aura:Magic Missle:Mending:Message:Protection From Evil:Push:' +
+        'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
+        'Ventriloquism:Write',
+        'M2:Audible Glamer:Continual Light:Darkness 15\' Radius:Detect Evil:' +
+        'Detect Invisibility:ESP:Fool\'s Gold:Forget:Invisibility:Knock:' +
+        'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
+        'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
+        'Stinking Cloud:Strength:Web:Wizard Lock',
+        'M3:Blink:Clairaudience:Clairvoyance:Dispel Magic:Explosive Runes:' +
+        'Feign Death:Fireball:Flame Arrow:Fly:Gust Of Wind:Haste:Hold Person:' +
+        'Infravision:Invisibility 10\' Radius:Lightning Bolt:' +
+        'Monster Summoning I:Phantasmal Force:' +
+        'Protection From Evil 10\' Radius:Protection From Normal Missles:' +
+        'Slow:Suggestion:Tiny Hut:Tongues:Water Breathing',
+        'W4:Charm Monster:Confusion:Dig:Dimension Door:Enchanted Weapon:' +
+        'Extension I:Fear:Fire Charm:Fire Shield:Fire Trap:Fumble:' +
+        'Hallucinatory Terrain:Ice Storm:Massmorph:' +
+        'Minor Globe Of Invulnerability:Mnemonic Enhancement:' +
+        'Monster Summoning II:Plant Growth:Polymorph Other:Polymorph Self:' +
+        'Remove Curse:Wall Of Fire:Wall Of Ice:Wizard Eye',
+        'W5:Airy Water:Animal Growth:Animate Dead:Cloudkill:Cone Of Cold:' +
+        'Conjure Elemental:Contact Other Plane:Distance Distortion:' +
+        'Extension II:Feeblemind:Hold Monster:Interposing Hand:' +
+        'Mage\'s Faithful Hound:Magic Jar:Monster Summoning III:Passwall:' +
+        'Secret Chest:Stone Shape:Telekinesis:Teleport:' +
+        'Transmute Rock To Mud:Wall Of Force:Wall Of Iron:Wall Of Stone',
+        'W6:Anti-Magic Shell:Control Weather:Death Spell:Disintegrate:' +
+        'Enchant An Item:Extension III:Forceful Hand:Freezing Sphere:Geas:' +
+        'Glasseye:Globe Of Invulnerability:Guards And Wards:' +
+        'Invisible Stalker:Legend Lore:Lower Water:Monster Summoning IV:' +
+        'Move Earth:Part Water:Project Image:Reincarnation:Repulsion:' +
+        'Spirit-Rack:Stone To Flesh:Transformation',
+        'W7:Cacodemon:Charm Plants:Delayed Blast Fireball:Duo-Dimension:' +
+        'Grasping Hand:Instant Summons:Limited Wish:Mage\'s Sword:' +
+        'Mass Invisibility:Monster Summoning V:Phase Door:Power Word Stun:' +
+        'Reverse Gravity:Simulacrum:Statue:Vanish',
+        'W8:Antipathy/Sympathy:Clenched Fist:Clone:Glass-Steel:' +
+        'Incendiary Cloud:Irresistible Dance:Mass Charm:Maze:Mind Blank:' +
+        'Monster Summoning VI:Permanency:Polymorph Object:Power Word Blind:' +
+        'Spell Immunity:Symbol:Trap The Soul',
+        'W9:Astral Spell:Crushing Hand:Gate:Imprisonment:Meteor Swarm:' +
+        'Monster Summoning VII:Power Word Kill:Prismatic Sphere:Shape Change:' +
+        'Temporal Statis:Time Stop:Wish'
+      ];
+    } else if(klass == 'Paladin') {
+      spells = [
+        'C1:Bless:Command:Create Water:Cure Light Wounds:Detect Evil:' +
+        'Detect Magic:Light:Protection From Evil:Purify Food And Drink:' +
+        'Remove Fear:Resist Cold:Sanctuary',
+        'C2:Augury:Chant:Detect Charm:Find Traps:Hold Person:Know Alignment:' +
+        'Resist Fire:Silence 15\' Radius:Slow Poison:Snake Charm:' +
+        'Speak With Animals:Spiritual Weapon',
+        'C3:Animate Dead:Continual Light:Create Food And Water:' +
+        'Cure Blindness:Cure Disease:Dispel Magic:Feign Death:' +
+        'Glyph Of Warding:Locate Object:Prayer:Remove Curse:Speak With Dead',
+        'C4:Cure Serious Wounds:Detect Lie:Divination:Exorcise:Lower Water:' +
+        'Neutralize Poison:Protection From Evil 10\' Radius:' +
+        'Speak With Plants:Sticks To Snakes:Tongues'
+      ];
+    } else if(klass == 'Ranger') {
+      spells = [
+        'D1:Animal Friendship:Detect Magic:Detect Pits And Snares:Entangle:' +
+        'Faerie Fire:Invisibility To Animals:Locate Animals:' +
+        'Pass Without Trace:Predict Weather:Purify Water:Shillelagh:' +
+        'Speak With Animals',
+        'D2:Barkskin:Charm Person Or Mammal:Create Water:Cure Light Wounds:' +
+        'Feign Death:Fire Trap:Heat Metal:Locate Plants:Obscurement:' +
+        'Produce Flame:Trip:Warp Wood',
+        'D3:Call Lightning:Cure Disease:Hold Animal:Neutralize Poison:' +
+        'Plant Growth:Protection From Fire:Pyrotechnics:Snare:Stone Shape:' +
+        'Summon Insects:Tree:Water Breathing',
+        'M1:Affect Normal Fires:Burning Hands:Charm Person:' +
+        'Comprehend Languages:Dancing Lights:Enlarge:Erase:Feather Fall:' +
+        'Find Familiar:Floating Disk:Friends:Hold Portal:Identify:Jump:Light:' +
+        'Magic Aura:Magic Missle:Mending:Message:Protection From Evil:Push:' +
+        'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
+        'Ventriloquism:Write',
+        'M2:Audible Glamer:Continual Light:Darkness 15\' Radius:Detect Evil:' +
+        'Detect Invisibility:ESP:Fool\'s Gold:Forget:Invisibility:Knock:' +
+        'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
+        'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
+        'Stinking Cloud:Strength:Web:Wizard Lock'
+      ];
     } else
       continue;
     if(spells != null) {
@@ -713,12 +1029,23 @@ FirstEdition.magicRules = function(rules, classes) {
         var pieces = spells[j].split(':');
         for(var k = 1; k < pieces.length; k++) {
           var spell = pieces[k];
-          spell += '(' + pieces[0] + ')';
+          var school = FirstEdition.spellsSchools[spell];
+          if(school == null) {
+            alert('Unknown spell "' + spell + '"');
+            continue;
+          }
+          spellsDefined[spell] = '';
+          spell += '(' + pieces[0] + ' ' +
+                    (school == 'Universal' ? 'Univ' : schools[school]) + ')';
           rules.defineChoice('spells', spell);
         }
       }
     }
   }
+
+  for(spell in FirstEdition.spellsSchools)
+    if(spellsDefined[spell] == null)
+      alert('Unused spell "' + spell + '"');
 
   rules.defineRule('casterLevel',
     'casterLevelArcane', '+=', null,
@@ -964,4 +1291,14 @@ FirstEdition.raceRules = function(rules, languages, races) {
 
   }
 
+};
+
+
+/* Returns HTML body content for user notes associated with this rule set. */
+FirstEdition.ruleNotes = function() {
+  return '' +
+    '<h2>FirstEdition Scribe Module Notes</h2>\n' +
+    'FirstEdition Scribe Module Version ' + FirstEdition_VERSION + '\n' +
+    '\n' +
+    '<h3>Usage Notes</h3>\n';
 };
