@@ -1,4 +1,4 @@
-/* $Id: FirstEdition.js,v 1.5 2009/05/04 01:33:20 Jim Exp $ */
+/* $Id: FirstEdition.js,v 1.6 2009/05/05 04:34:37 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -143,21 +143,21 @@ FirstEdition.spellsSchools = {
   'Create Food And Water':'Transmutation', 'Create Water':'Transmutation',
   'Creeping Doom':'Conjuration', 'Crushing Hand':'Evocation',
   'Cure Blindness':'Abjuration', 'Cure Critical Wounds':'Necromancy',
-  'Cure Disease':'Abjuration', 'Cure Light Wounds':'Necromancy',
+  'Cure Disease':'Necromancy', 'Cure Light Wounds':'Necromancy',
   'Cure Serious Wounds':'Necromancy', 'Dancing Lights':'Transmutation',
-  'Darkness':'Transmutation', 'Darkness 15\' Radius':'Transmutation',
-  'Deafness':'Illusion', 'Death Spell':'Necromancy',
-  'Delayed Blast Fireball':'Evocation', 'Demi-Shadow Magic':'Illusion',
-  'Demi-Shadow Monsters':'Illusion', 'Detect Charm':'Divination',
-  'Detect Evil':'Divination', 'Detect Illusion':'Divination',
-  'Detect Invisibility':'Divination', 'Detect Lie':'Divination',
-  'Detect Magic':'Divination', 'Detect Pits And Snares':'Divination',
-  'Dig':'Evocation', 'Dimension Door':'Transmutation',
-  'Disintegrate':'Transmutation', 'Dispel Exhaustion':'Illusion',
-  'Dispel Evil':'Abjuration', 'Dispel Illusion':'Abjuration',
-  'Dispel Magic':'Transmutation', 'Distance Distortion':'Transmutation',
-  'Divination':'Divination', 'Duo-Dimension':'Transmutation',
-  'ESP':'Divination', 'Earthquake':'Transmutation', 'Emotion':'Enchantment',
+  'Darkness':'Transmutation', 'Deafness':'Illusion',
+  'Death Spell':'Necromancy', 'Delayed Blast Fireball':'Evocation',
+  'Demi-Shadow Magic':'Illusion', 'Demi-Shadow Monsters':'Illusion',
+  'Detect Charm':'Divination', 'Detect Evil':'Divination',
+  'Detect Illusion':'Divination', 'Detect Invisibility':'Divination',
+  'Detect Lie':'Divination', 'Detect Magic':'Divination',
+  'Detect Pits And Snares':'Divination', 'Dig':'Evocation',
+  'Dimension Door':'Transmutation', 'Disintegrate':'Transmutation',
+  'Dispel Exhaustion':'Illusion', 'Dispel Evil':'Abjuration',
+  'Dispel Illusion':'Abjuration', 'Dispel Magic':'Abjuration',
+  'Distance Distortion':'Transmutation', 'Divination':'Divination',
+  'Duo-Dimension':'Transmutation', 'ESP':'Divination',
+  'Earthquake':'Transmutation', 'Emotion':'Enchantment',
   'Enchant An Item':'Conjuration', 'Enchanted Weapon':'Transmutation',
   'Enlarge':'Transmutation', 'Entangle':'Transmutation',
   'Erase':'Transmutation', 'Exorcise':'Abjuration',
@@ -187,7 +187,7 @@ FirstEdition.spellsSchools = {
   'Hold Plant':'Enchantment', 'Hold Portal':'Transmutation',
   'Holy Word':'Conjuration', 'Hypnotic Pattern':'Illusion',
   'Hypnotism':'Enchantment', 'Ice Storm':'Evocation', 'Identify':'Divination',
-  'Illusionary Script':'Illusion', 'Imprisonment':'Abjuration',
+  'Illusory Script':'Illusion', 'Imprisonment':'Abjuration',
   'Improved Invisibility':'Illusion', 'Improved Phantasmal Force':'Illusion',
   'Incendiary Cloud':'Evocation', 'Infravision':'Transmutation',
   'Insect Plague':'Conjuration', 'Instant Summons':'Conjuration',
@@ -237,13 +237,12 @@ FirstEdition.spellsSchools = {
   'Push':'Conjuration', 'Pyrotechnics':'Transmutation', 'Quest':'Enchantment',
   'Raise Dead':'Necromancy', 'Ray Of Enfeeblement':'Enchantment',
   'Read Magic':'Divination', 'Regenerate':'Necromancy',
-  'Reincarnate':'Necromancy', 'Reincarnation':'Necromancy',
-  'Remove Curse':'Abjuration', 'Remove Fear':'Abjuration',
-  'Repel Insects':'Abjuration', 'Repulsion':'Abjuration',
-  'Resist Cold':'Transmutation', 'Resist Fire':'Transmutation',
-  'Restoration':'Necromancy', 'Resurrection':'Necromancy',
-  'Reverse Gravity':'Transmutation', 'Rope Trick':'Transmutation',
-  'Sanctuary':'Abjuration', 'Scare':'Enchantment',
+  'Reincarnate':'Necromancy', 'Remove Curse':'Abjuration',
+  'Remove Fear':'Abjuration', 'Repel Insects':'Abjuration',
+  'Repulsion':'Abjuration', 'Resist Cold':'Transmutation',
+  'Resist Fire':'Transmutation', 'Restoration':'Necromancy',
+  'Resurrection':'Necromancy', 'Reverse Gravity':'Transmutation',
+  'Rope Trick':'Transmutation', 'Sanctuary':'Abjuration', 'Scare':'Enchantment',
   'Secret Chest':'Transmutation', 'Shades':'Illusion', 'Shadow Door':'Illusion',
   'Shadow Magic':'Illusion', 'Shadow Monsters':'Illusion',
   'Shape Change':'Transmutation', 'Shatter':'Transmutation',
@@ -1120,7 +1119,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Improved Phantasmal Force:Invisibility:Magic Mouth:Mirror Image:' +
         'Misdirection:Ventriloquism',
         'I3:Continual Darkness:Continual Light:Dispel Illusion:Fear:' +
-        'Hallucinatory Terrain:Illusionary Script:Invisibility 10\' Radius:' +
+        'Hallucinatory Terrain:Illusory Script:Invisibility 10\' Radius:' +
         'Non-Detection:Paralyzation:Rope Trick:Spectral Force:Suggestion',
         'I4:Confusion:Dispel Exhaustion:Emotion:Improved Invisibility:' +
         'Massmorph:Minor Creation:Phantasmal Killer:Shadow Monsters',
@@ -1134,12 +1133,12 @@ FirstEdition.magicRules = function(rules, classes, schools) {
     } else if(klass == 'Magic User') {
       spells = [
         'M1:Affect Normal Fires:Burning Hands:Charm Person:' +
-        'Comprehend Languages:Dancing Lights:Enlarge:Erase:Feather Fall:' +
-        'Find Familiar:Floating Disk:Friends:Hold Portal:Identify:Jump:Light:' +
-        'Magic Aura:Magic Missle:Mending:Message:Protection From Evil:Push:' +
-        'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
-        'Ventriloquism:Write',
-        'M2:Audible Glamer:Continual Light:Darkness 15\' Radius:Detect Evil:' +
+        'Comprehend Languages:Dancing Lights:Detect Magic:Enlarge:Erase:' +
+        'Feather Fall:Find Familiar:Floating Disk:Friends:Hold Portal:' +
+        'Identify:Jump:Light:Magic Aura:Magic Missle:Mending:Message:' +
+        'Protection From Evil:Push:Read Magic:Shield:Shocking Grasp:Sleep:' +
+        'Spider Climb:Unseen Servant:Ventriloquism:Write',
+        'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
         'Detect Invisibility:ESP:Fool\'s Gold:Forget:Invisibility:Knock:' +
         'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
         'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
@@ -1166,7 +1165,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Enchant An Item:Extension III:Forceful Hand:Freezing Sphere:Geas:' +
         'Glasseye:Globe Of Invulnerability:Guards And Wards:' +
         'Invisible Stalker:Legend Lore:Lower Water:Monster Summoning IV:' +
-        'Move Earth:Part Water:Project Image:Reincarnation:Repulsion:' +
+        'Move Earth:Part Water:Project Image:Reincarnate:Repulsion:' +
         'Spirit-Rack:Stone To Flesh:Transformation',
         'W7:Cacodemon:Charm Plants:Delayed Blast Fireball:Duo-Dimension:' +
         'Grasping Hand:Instant Summons:Limited Wish:Mage\'s Sword:' +
@@ -1213,7 +1212,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Magic Aura:Magic Missle:Mending:Message:Protection From Evil:Push:' +
         'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
         'Ventriloquism:Write',
-        'M2:Audible Glamer:Continual Light:Darkness 15\' Radius:Detect Evil:' +
+        'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
         'Detect Invisibility:ESP:Fool\'s Gold:Forget:Invisibility:Knock:' +
         'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
         'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
