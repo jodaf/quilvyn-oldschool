@@ -1,4 +1,4 @@
-/* $Id: FirstEdition.js,v 1.6 2009/05/05 04:34:37 Jim Exp $ */
+/* $Id: FirstEdition.js,v 1.7 2009/05/29 03:52:32 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -28,7 +28,7 @@ function FirstEdition() {
     return;
   }
 
-  var rules = new ScribeRules('First Edition');
+  var rules = new ScribeRules('First Edition', FirstEdition_VERSION);
   SRD35.createViewers(rules, SRD35.VIEWERS);
   rules.editorElements = SRD35.initialEditorElements();
   // Remove some editor and character sheet elements that don't apply
