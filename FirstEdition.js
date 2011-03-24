@@ -1,7 +1,7 @@
-/* $Id: FirstEdition.js,v 1.7 2009/05/29 03:52:32 Jim Exp $ */
+/* $Id: FirstEdition.js,v 1.8 2011/03/24 23:04:20 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
