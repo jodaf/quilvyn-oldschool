@@ -1,4 +1,4 @@
-/* $Id: FirstEdition.js,v 1.9 2012/01/17 06:25:52 jhayes Exp $ */
+/* $Id: FirstEdition.js,v 1.10 2012/03/21 05:50:45 jhayes Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -645,7 +645,8 @@ FirstEdition.classRules = function(rules, classes) {
       notes = [
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
-        'magicNotes.eldritchCraftFeature:May create magical items',
+        'magicNotes.eldritchCraftFeature:' +
+          'May create magical potion/scroll and rechage rods/staves/wands',
         'validationNotes.illusionistClassCharisma:Requires Charisma >= 6',
         'validationNotes.illusionistClassDexterity:Requires Dexterity >= 16',
         'validationNotes.illusionistClassIntelligence:' +
