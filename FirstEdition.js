@@ -40,8 +40,7 @@ function FirstEdition() {
   FirstEdition.abilityRules(rules);
   FirstEdition.raceRules(rules, FirstEdition.LANGUAGES, FirstEdition.RACES);
   FirstEdition.classRules(rules, FirstEdition.CLASSES);
-  FirstEdition.descriptionRules
-    (rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
+  FirstEdition.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.GENDERS);
   FirstEdition.equipmentRules
     (rules, FirstEdition.ARMORS, FirstEdition.GOODIES, FirstEdition.SHIELDS,
      FirstEdition.WEAPONS);
@@ -60,7 +59,7 @@ function FirstEdition() {
 
 FirstEdition.ARMORS = [
   'None', 'Banded', 'Chain', 'Elfin Chain', 'Leather', 'Padded', 'Plate',
-  'Ring', 'Scale', 'Studded'
+  'Ring', 'Scale', 'Splint', 'Studded'
 ];
 FirstEdition.CLASSES = [
   'Assassin', 'Cleric', 'Druid', 'Fighter', 'Illusionist', 'Magic User',
@@ -82,7 +81,7 @@ FirstEdition.RACES =
 // random characters
 FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
-  'extraStrength', 'name', 'race', 'gender', 'alignment', 'deity', 'levels',
+  'extraStrength', 'name', 'race', 'gender', 'alignment', 'levels',
   'languages', 'hitPoints', 'armor', 'shield',
   'weapons', 'spells', 'goodies'
 ];
@@ -90,17 +89,17 @@ FirstEdition.SHIELDS = [
   'Large Shield', 'Medium Shield', 'None', 'Small Shield'
 ];
 FirstEdition.WEAPONS = [
-  'Bastard Sword:2d4x1', 'Battle Axe:d8x1', 'Broad Sword:2d4x1', 'Club:d4x1',
-  'Composite Long Bow:d6x1r60', 'Composite Short Bow:d6x1r50', 'Dagger:d4x1',
-  'Dart:d3x1r15', 'Halbert:d10x1', 'Hand Axe:d6x1', 'Heavy Crossbow:d6+1x1r60',
-  'Heavy Flail:d6+1x1', 'Heavy Mace:d6+1x1', 'Heavy Pick:d6+1x1',
-  'Heavy War Hammer:d6+1x1', 'Javelin:d6x1r20', 'Lance:2d4+1x1',
-  'Light Crossbow:d4+1x1r60', 'Light Flail:d4+1x1', 'Light Mace:d4+1x1',
-  'Light Pick:d4+1x1', 'Light War Hammer:d4+1x1', 'Long Bow:d6x1r70',
-  'Long Sword:d8x1', 'Morning Star:2d4x1', 'Pole Arm:d6x1',
-  'Scimitar Sword:d8x1', 'Short Bow:d6x1r50', 'Short Sword:d6x1',
-  'Sling:d4x1r35', 'Spear:d6x1r15', 'Staff:d6x1', 'Trident:d6+1x1',
-  'Two-Handed Sword:d10x1', 'War Hammer:d4+1'
+  'Bastard Sword:2d4', 'Battle Axe:d8', 'Broad Sword:2d4', 'Club:d4',
+  'Composite Long Bow:d6r60', 'Composite Short Bow:d6r50', 'Dagger:d4',
+  'Dart:d3r15', 'Halbert:d10', 'Hand Axe:d6', 'Heavy Crossbow:d6+1r60',
+  'Heavy Flail:d6+1', 'Heavy Mace:d6+1', 'Heavy Pick:d6+1',
+  'Heavy War Hammer:d6+1', 'Javelin:d6r20', 'Lance:2d4+1',
+  'Light Crossbow:d4+1r60', 'Light Flail:d4+1', 'Light Mace:d4+1',
+  'Light Pick:d4+1', 'Light War Hammer:d4+1', 'Long Bow:d6r70',
+  'Long Sword:d8', 'Morning Star:2d4', 'Pole Arm:d6',
+  'Scimitar Sword:d8', 'Short Bow:d6r50', 'Short Sword:d6',
+  'Sling:d4r35', 'Spear:d6r15', 'Staff:d6', 'Trident:d6+1',
+  'Two-Handed Sword:d10', 'War Hammer:d4+1'
 ];
 
 // Related information used internally by FirstEdition
@@ -626,7 +625,7 @@ FirstEdition.classRules = function(rules, classes) {
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
         'Math.floor((source - 5) / 2)';
       rules.defineRule('attacksPerRound',
-        'levels.Fighter', '+=', 'Math.floor(source / 6) * 0.5'
+        'levels.Fighter', '+', 'Math.floor(source / 6) * 0.5'
       );
       rules.defineRule('combatNotes.fightingTheUnskilledFeature',
         'levels.Fighter', '=', null
@@ -791,7 +790,7 @@ FirstEdition.classRules = function(rules, classes) {
         'C4:15:1/19:2/20:2/24:4'
       ];
       rules.defineRule('attacksPerRound',
-        'levels.Paladin', '+=', 'Math.floor(source / 7) * 0.5'
+        'levels.Paladin', '+', 'Math.floor(source / 7) * 0.5'
       );
       rules.defineRule('casterLevelDivine',
         'levels.Paladin', '+=', 'source<=8 ? null : source<=16 ? source - 8 : 8'
@@ -820,7 +819,7 @@ FirstEdition.classRules = function(rules, classes) {
       ];
       hitDie = 8;
       notes = [
-        'combatNotes.unsurprisedFeature:Surprised only 1in6/surprise 1in3',
+        'combatNotes.unsurprisedFeature:Surprised only 1in6/surprise 1in2',
         'combatNotes.rangerFavoredEnemyFeature:' +
           '+%V melee damage vs. evil humanoid/giantish foe',
         'featureNotes.bandOfFollowersFeature:Will attract followers',
@@ -863,7 +862,7 @@ FirstEdition.classRules = function(rules, classes) {
         'M2:13:1/15:2/21:3'
       ];
       rules.defineRule('attacksPerRound',
-        'levels.Ranger', '+=', 'Math.floor(source / 7) * 0.5'
+        'levels.Ranger', '+', 'Math.floor(source / 7) * 0.5'
       );
       rules.defineRule('casterLevelArcane',
         'levels.Ranger', '+=',
@@ -1032,9 +1031,8 @@ FirstEdition.combatRules = function(rules) {
 };
 
 /* Defines the rules related to character description. */
-FirstEdition.descriptionRules = function(rules, alignments, deities, genders) {
+FirstEdition.descriptionRules = function(rules, alignments, genders) {
   rules.defineChoice('alignments', alignments);
-  rules.defineChoice('deities', deities);
   rules.defineChoice('genders', genders);
 };
 
@@ -1045,10 +1043,56 @@ FirstEdition.equipmentRules = function(rules, armors, goodies, shields, weapons)
   rules.defineChoice('goodies', goodies);
   rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
-  // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
-  // Hack to get it to appear in italics
-  rules.defineRule
-    ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
+
+  for(var i = 0; i < weapons.length; i++) {
+
+    var pieces = weapons[i].split(':');
+    var matchInfo = pieces[1].match(/(\d?d\d+(\+(\d+))?)(r(\d+))?/);
+    if(! matchInfo)
+      continue;
+
+    var damage = matchInfo[1];
+    var damagePlus = matchInfo[3];
+    var name = pieces[0];
+    var range = matchInfo[5];
+    var weaponName = 'weapons.' + name;
+    var attackBase = !range ? 'meleeAttack' : 'rangedAttack';
+
+    var format = '%V (%1 %2%3';
+    if(range)
+      format += " R%4'";
+    format += ')';
+
+    rules.defineNote(weaponName + ':' + format);
+
+    rules.defineRule('attackBonus.' + name,
+      attackBase, '=', null,
+      'combatNotes.strengthAttackAdjustment', '=', null,
+      'weaponAttackAdjustment.' + name, '+', null
+    );
+    rules.defineRule('damageBonus.' + name,
+      '', '=', damagePlus || '0',
+      'combatNotes.strengthDamageAdjustment', '=', null,
+      'weaponDamageAdjustment.' + name, '+', null
+    );
+
+    rules.defineRule(weaponName + '.1',
+      'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
+    );
+    rules.defineRule(weaponName + '.2', '', '=', '"' + damage + '"');
+    rules.defineRule(weaponName + '.3',
+      'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+    );
+
+    if(range) {
+      rules.defineRule('range.' + name,
+        '', '=', range,
+        'weaponRangeAdjustment.' + name, '+', null
+      );
+      rules.defineRule(weaponName + '.4', 'range.' + name, '=', null);
+    }
+
+  }
 
 };
 
@@ -1253,12 +1297,8 @@ FirstEdition.movementRules = function(rules) {
     '', '=', '70',
     'abilityNotes.strengthEncumbranceAdjustment', '+', null
   );
-  rules.defineRule('loadHeavy',
-    '', '=', '105',
-    'abilityNotes.strengthEncumbranceAdjustment', '+', null
-  );
   rules.defineRule('loadMax',
-    '', '=', '150',
+    '', '=', '105',
     'abilityNotes.strengthEncumbranceAdjustment', '+', null
   );
   rules.defineRule('speed', '', '=', '120');
@@ -1268,10 +1308,6 @@ FirstEdition.movementRules = function(rules) {
 FirstEdition.raceRules = function(rules, languages, races) {
 
   rules.defineChoice('languages', languages);
-  for(var i = 0; i < languages.length; i++) {
-    if(languages[i] == 'Common')
-      rules.defineRule('languages.Common', '', '=', '1');
-  }
   rules.defineRule('languageBonus',
     'race', 'v',
     'source == "Human" ? null : ' +
@@ -1301,7 +1337,8 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Detect Secret Doors', 'Infravision', 'Resist Charm', 'Resist Sleep'
       ];
       languages = [
-        'Elven', 'Gnoll', 'Gnome', 'Goblin', 'Halfling', 'Hobgoblin', 'Orcish'
+        'Common', 'Elven', 'Gnoll', 'Gnome', 'Goblin', 'Halfling', 'Hobgoblin',
+        'Orcish'
       ];
       notes = [
         'featureNotes.detectSecretDoorsFeature:' +
@@ -1329,7 +1366,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
 
       adjustment = '+1 strength/+1 constitution/-2 charisma';
       features = ['Infravision'];
-      languages = ['Orcish'];
+      languages = ['Common', 'Orcish'];
       notes = [
         'featureNotes.infravisionFeature:%V ft vision in darkness',
         'validationNotes.halfOrcRaceCharisma:Requires Charisma <= 12',
@@ -1357,7 +1394,9 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Know Stone', 'Resist Magic', 'Resist Poison', 'Sense Construction',
         'Sense Slope', 'Slow'
       ];
-      languages = ['Dwarfish', 'Gnomish', 'Goblin', 'Kobold', 'Orcish'];
+      languages = [
+        'Common', 'Dwarfish', 'Gnomish', 'Goblin', 'Kobold', 'Orcish'
+      ];
       notes = [
         'combatNotes.dodgeGiantsFeature:-4 AC vs. giant creatures',
         'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
@@ -1409,7 +1448,8 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Resist Sleep', 'Stealthy', 'Sword Precision'
       ];
       languages = [
-        'Elven', 'Gnoll', 'Gnomish', 'Goblin', 'Halfling', 'Hobgoblin', 'Orcish'
+        'Common', 'Elven', 'Gnoll', 'Gnomish', 'Goblin', 'Halfling',
+        'Hobgoblin', 'Orcish'
       ];
       notes = [
         'combatNotes.bowPrecisionFeature:+1 attack w/bows',
@@ -1453,7 +1493,9 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Gnome Favored Enemy', 'Infravision', 'Know Depth', 'Resist Magic',
         'Resist Poison', 'Sense Hazard', 'Sense Slope', 'Slow'
       ];
-      languages = ['Dwarfish', 'Gnomish', 'Goblin', 'Halfling', 'Kobold'];
+      languages = [
+        'Common', 'Dwarfish', 'Gnomish', 'Goblin', 'Halfling', 'Kobold'
+      ];
       notes = [
         'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblins/kobolds',
         'combatNotes.dodgeGiantsFeature:-4 AC vs. giant creatures',
@@ -1501,7 +1543,9 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Accurate', 'Resist Magic', 'Infravision', 'Resist Poison', 'Slow',
         'Stealthy'
       ];
-      languages = ['Dwarfish', 'Gnome', 'Goblin', 'Halfling', 'Orcish'];
+      languages = [
+        'Common', 'Dwarfish', 'Gnome', 'Goblin', 'Halfling', 'Orcish'
+      ];
       notes = [
         'combatNotes.accurateFeature:+3 attack with sling/bow',
         'combatNotes.stealthyFeature:4in6 surprise when traveling quietly',
@@ -1539,7 +1583,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
       adjustment = null;
       features = null;
       notes = null;
-      languages = [];
+      languages = ['Common'];
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = 5;
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 5;
 
@@ -1547,10 +1591,16 @@ FirstEdition.raceRules = function(rules, languages, races) {
       continue;
 
     SRD35.defineRace(rules, race, adjustment, features);
-    if(notes != null) {
-      rules.defineNote(notes);
+
+    rules.defineRule
+      ('isRace.' + race, 'race', '=', 'source == "' + race + '" ? 1 : null');
+    rules.defineRule('languageCount', 'isRace.' + race, '=', languages.length);
+    for(var j = 0; j < languages.length; j++) {
+      rules.defineRule('languages.' + languages[j], 'isRace.' + race, '=', '1');
     }
-    // TODO: languages
+
+    if(notes != null)
+      rules.defineNote(notes);
 
   }
 
