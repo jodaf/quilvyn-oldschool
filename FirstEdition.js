@@ -541,7 +541,7 @@ FirstEdition.classRules = function(rules, classes) {
         'saveNotes.feyImmunityFeature:Immune to fey enchantment',
         'saveNotes.resistFireFeature:+2 vs. fire',
         'saveNotes.resistLightningFeature:+2 vs. lightning',
-        'validationNotes.druidClassAlignment:Requires Alignment == Neutral',
+        'validationNotes.druidClassAlignment:Requires Alignment == "Neutral"',
         'validationNotes.druidClassCharisma:Requires Charisma >= 15',
         'validationNotes.druidClassConstitution:Requires Constitution >= 6',
         'validationNotes.druidClassDexterity:Requires Dexterity >= 6',
@@ -762,7 +762,7 @@ FirstEdition.classRules = function(rules, classes) {
           'Continuous <i>Protection From Evil</i> 10\' radius',
         'saveNotes.divineHealthFeature:Immune to disease',
         'validationNotes.paladinClassAlignment:' +
-          'Requires Alignment == Lawful Good',
+          'Requires Alignment == "Lawful Good"',
         'validationNotes.paladinClassCharisma:Requires Charisma >= 17',
         'validationNotes.paladinClassConstitution:Requires Constitution >= 9',
         'validationNotes.paladinClassDexterity:Requires Dexterity >= 6',
