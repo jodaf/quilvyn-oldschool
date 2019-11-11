@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '0.1alpha';
+var FirstEdition_VERSION = '1.4.0.1alpha';
 
 /*
  */
