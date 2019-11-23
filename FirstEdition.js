@@ -42,11 +42,11 @@ function FirstEdition() {
   FirstEdition.classRules(rules, FirstEdition.CLASSES);
   FirstEdition.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.GENDERS);
   FirstEdition.equipmentRules
-    (rules, FirstEdition.ARMORS, FirstEdition.GOODIES, FirstEdition.SHIELDS,
-     FirstEdition.WEAPONS);
+    (rules, FirstEdition.ARMORS, FirstEdition.SHIELDS, FirstEdition.WEAPONS);
   FirstEdition.combatRules(rules);
   FirstEdition.movementRules(rules);
   FirstEdition.magicRules(rules, FirstEdition.CLASSES, SRD35.SCHOOLS);
+  FirstEdition.goodiesRules(rules, FirstEdition.GOODIES);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
@@ -66,10 +66,9 @@ FirstEdition.CLASSES = [
   'Paladin', 'Ranger', 'Thief'
 ];
 FirstEdition.GOODIES = [
-  'Ring Of Protection +1',
-  'Ring Of Protection +2',
-  'Ring Of Protection +3',
-  'Ring Of Protection +4'
+  'Chain +2',
+  'Chain +4',
+  'Ring Of Protection +1'
 ];
 FirstEdition.LANGUAGES = [
   'Common', 'Druids\' Cant', 'Dwarfish', 'Elven', 'Gnoll', 'Gnomish', 'Goblin',
@@ -279,14 +278,8 @@ FirstEdition.spellsSchools = {
   'Wizard Eye':'Transmutation', 'Wizard Lock':'Transmutation',
   'Word Of Recall':'Transmutation', 'Write':'Evocation'
 };
-FirstEdition.strengthDamageAdjustments = [
-  -1, -1, null, null, null, null, null, 1, 1, 2, 3, 3, 4, 5, 6
-];
 FirstEdition.strengthEncumbranceAdjustments = [
   -35, -25, -15, null, null, 10, 20, 35, 50, 75, 100, 125, 150, 200, 300
-];
-FirstEdition.strengthMajorTestPercentages = [
-  0, 0, 0, 1, 2, 4, 7, 10, 13, 16, 20, 25, 30, 35, 40
 ];
 
 /* Defines the rules related to character abilities. */
@@ -352,11 +345,12 @@ FirstEdition.abilityRules = function(rules) {
   );
 
   // Intelligence
-  rules.defineRule('languageBonus',
-    'intelligence', '+',
+  rules.defineRule('featureNotes.intelligenceLanguageBonus',
+    'intelligence', '=',
     'source<=7 ? null : source<=15 ? Math.floor((source-6) / 2) : (source-11)'
   );
-  rules.defineRule('languageCount', 'languageBonus', '+', null);
+  rules.defineRule
+    ('languageCount', 'featureNotes.intelligenceLanguageBonus', '+', null);
 
   // Strength
   rules.defineRule('abilityNotes.strengthEncumbranceAdjustment',
@@ -367,10 +361,14 @@ FirstEdition.abilityRules = function(rules) {
                         'source <= 7 ? null : Math.floor((source - 5) / 3)'
   );
   rules.defineRule('combatNotes.strengthDamageAdjustment',
-    'strengthRow', '=', 'FirstEdition.strengthDamageAdjustments[source]'
+    'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? null : ' +
+                        'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
   );
+  // TODO Extraordinary success 1/6 for row 13, 2/6 (OSRIC 1/6) for row 14
   rules.defineRule('strengthMajorTest',
-    'strengthRow', '=', 'FirstEdition.strengthMajorTestPercentages[source]'
+    'strengthRow', '=', 'source <= 2 ? 0 : ' +
+                        'source <= 5 ? Math.pow(2, source - 3) : ' +
+                        'source <= 9 ? source * 3 - 11 : (source * 5 - 30)'
   );
   rules.defineRule('strengthMinorTest',
     'strengthRow', '=', 'source == 14 ? 5 : Math.floor((source + 5) / 4)'
@@ -395,6 +393,8 @@ FirstEdition.abilityRules = function(rules) {
     'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : (source-14)'
   );
 
+  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
+
 };
 
 /* Defines the rules related to character classes. */
@@ -412,8 +412,8 @@ FirstEdition.classRules = function(rules, classes) {
 
   for(var i = 0; i < classes.length; i++) {
 
-    var baseAttack, features, hitDie, notes, saveAimed, saveBreath, saveDeath,
-        savePetrification, saveSpell, spellsKnown, thiefAbilityLevel;
+    var baseAttack, features, hitDie, notes, saveBreath, saveDeath,
+        savePetrification, saveSpell, saveWand, spellsKnown, thiefAbilityLevel;
     var klass = classes[i];
 
     spellsKnown = null;
@@ -430,24 +430,27 @@ FirstEdition.classRules = function(rules, classes) {
       hitDie = 6;
       notes = [
         'combatNotes.assassinationFeature:' +
-          '%V% - 5%/2 foe levels chance of killing surprised foe',
+          'Strike kills surprised target %V% - 5%/2 foe levels',
+        // TODO OSRIC "when unobserved"
         'combatNotes.backstabFeature:' +
-          '+4 melee attack/x%V damage when unobserved',
-        'featureNotes.disguiseFeature:92+% chance of successful disguise',
-        'featureNotes.extraLanguagesFeature:+%V languages of any type',
+          '+4 melee attack/x%V damage from behind',
+        'featureNotes.disguiseFeature:92%+ chance of successful disguise',
+        'featureNotes.extraLanguagesFeature:' +
+          "+%V alignment/druidic/thieves' languages",
         'magicNotes.readScrollsFeature:Cast arcane spells from scrolls',
         'validationNotes.assassinClassAlignment:Requires Alignment =~ Evil',
         'validationNotes.assassinClassConstitution:Requires Constitution >= 6',
         'validationNotes.assassinClassDexterity:Requires Dexterity >= 12',
         'validationNotes.assassinClassIntelligence:Requires Intelligence >= 11',
         'validationNotes.assassinClassStrength:Requires Strength >= 12',
+        // TODO wis requirement OSRIC only
         'validationNotes.assassinClassWisdom:Requires Wisdom >= 6'
       ];
-      saveAimed = '14 - Math.floor(source / 4) * 2'
       saveBreath = '16 - Math.floor(source / 4)'
       saveDeath = '13 - Math.floor(source / 4)'
       savePetrification = '12 - Math.floor(source / 4)'
       saveSpell = '15 - Math.floor(source / 4) * 2'
+      saveWand = '14 - Math.floor(source / 4) * 2'
       thiefAbilityLevel = 'source >= 4 ? source - 2 : 1';
       rules.defineRule('combatNotes.assassinationFeature',
         'levels.Assassin', '=', '50 + 5 * source'
@@ -456,7 +459,8 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Assassin', '+=', '2 + Math.floor((source - 1) / 4)'
       );
       rules.defineRule('featureNotes.extraLanguagesFeature',
-        'intelligence', '=', 'source < 15 ? null : (source - 15)'
+        'intelligence', '=', 'source < 15 ? null : (source - 14)',
+        'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0' 
       );
       rules.defineRule
         ('languageCount', 'featureNotes.extraLanguagesFeature', '+=', null);
@@ -478,12 +482,12 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.clericClassStrength:Requires Strength >= 6',
         'validationNotes.clericClassWisdom:Requires Wisdom >= 9'
       ];
-      saveAimed = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       savePetrification =
         '13 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveSpell = '15 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
+      saveWand = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       spellsKnown = [
         'C1:1:1/2:2/4:3/9:4/11:5/12:6/15:7/17:8/19:9',
         'C2:3:1/4:2/5:3/9:4/12:5/13:6/15:7/17:8/19:9',
@@ -549,12 +553,12 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.druidClassStrength:Requires Strength >= 6',
         'validationNotes.druidClassWisdom:Requires Wisdom >= 12'
       ];
-      saveAimed = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       savePetrification =
         '13 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveSpell = '15 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
+      saveWand = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       spellsKnown = [
         'D1:1:2/3:3/4:4/9:5/13:6',
         'D2:2:1/3:2/5:3/7:4/11:5/14:6',
@@ -609,9 +613,6 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.fighterClassStrength:Requires Strength >= 9',
         'validationNotes.fighterClassWisdom:Requires Wisdom >= 6'
       ];
-      saveAimed =
-        'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        ' Math.floor((source - 7) / 2)';
       saveBreath =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
         'Math.floor((source - 9) / 2)';
@@ -624,6 +625,9 @@ FirstEdition.classRules = function(rules, classes) {
       saveSpell =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
         'Math.floor((source - 5) / 2)';
+      saveWand =
+        'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+        ' Math.floor((source - 7) / 2)';
       rules.defineRule('attacksPerRound',
         'levels.Fighter', '+', 'Math.floor(source / 6) * 0.5'
       );
@@ -653,11 +657,11 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.illusionistClassStrength:Requires Strength >= 6',
         'validationNotes.illusionistClassWisdom:Requires Wisdom >= 6'
       ];
-      saveAimed = '11 - Math.floor((source-1) / 5) * 2';
       saveBreath = '15 - Math.floor((source-1) / 5) * 2';
       saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
       savePetrification = '13 - Math.floor((source-1) / 5) * 2';
       saveSpell = '12 - Math.floor((source-1) / 5) * 2';
+      saveWand = '11 - Math.floor((source-1) / 5) * 2';
       spellsKnown = [
         'I1:1:1/2:2/4:3/5:4/9:5/17:6',
         'I2:3:1/4:2/5:3/10:4/12:5/18:6',
@@ -688,11 +692,11 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.magicUserClassIntelligence:Requires Intelligence >= 9',
         'validationNotes.magicUserClassWisdom:Requires Wisdom >= 6'
       ];
-      saveAimed = '11 - Math.floor((source-1) / 5) * 2';
       saveBreath = '15 - Math.floor((source-1) / 5) * 2';
       saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
       savePetrification = '13 - Math.floor((source-1) / 5) * 2';
       saveSpell = '12 - Math.floor((source-1) / 5) * 2';
+      saveWand = '11 - Math.floor((source-1) / 5) * 2';
       spellsKnown = [
         'M1:1:1/2:2/4:3/5:4/12:5/21:6',
         'M2:3:1/4:2/6:3/9:4/13:5/21:6',
@@ -770,9 +774,6 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.paladinClassStrength:Requires Strength >= 12',
         'validationNotes.paladinClassWisdom:Requires Wisdom >= 13'
       ];
-      saveAimed =
-        'source<=16 ? 14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        ' source<=18 ? 3 : 2';
       saveBreath =
         'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
         '2';
@@ -783,6 +784,9 @@ FirstEdition.classRules = function(rules, classes) {
       saveSpell =
         'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
         'source <= 18 ? 4 : 3';
+      saveWand =
+        'source<=16 ? 14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+        ' source<=18 ? 3 : 2';
       spellsKnown = [
         'C1:9:1/10:2/14:3/21:4',
         'C2:11:1/12:2/16:3/22:4',
@@ -839,9 +843,6 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.rangerClassStrength:Requires Strength >= 13',
         'validationNotes.rangerClassWisdom:Requires Wisdom >= 14'
       ];
-      saveAimed =
-        'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source<=18 ? 5 : 4';
       saveBreath =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
         'source<=18 ? 4 : 3';
@@ -854,6 +855,9 @@ FirstEdition.classRules = function(rules, classes) {
       saveSpell =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
         'source<=18 ? 6 : 5';
+      saveWand =
+        'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+        'source<=18 ? 5 : 4';
       spellsKnown = [
         'D1:8:1/10:2/18:3/23:4',
         'D2:12:1/14:2/20:3',
@@ -888,8 +892,9 @@ FirstEdition.classRules = function(rules, classes) {
       features = ['10:Read Scrolls'];
       hitDie = 6;
       notes = [
+        // TODO OSRIC "when unobserved"
         'combatNotes.backstabFeature:' +
-          '+4 melee attack/x%V damage when unobserved',
+          '+4 melee attack/x%V damage from behind',
         'featureNotes.bonusThiefExperience:Bonus to awarded experience',
         'magicNotes.readScrollsFeature:Cast arcane spells from scrolls',
         'validationNotes.thiefClassAlignment:' +
@@ -900,11 +905,11 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.thiefClassIntelligence:Requires Intelligence >= 6',
         'validationNotes.thiefClassStrength:Requires Strength >= 6'
       ];
-      saveAimed = '14 - Math.floor((source - 1) / 4) * 2';
       saveBreath = '16 - Math.floor((source - 1) / 4)';
       saveDeath = '13 - Math.floor((source - 1) / 4)';
       savePetrification = '12 - Math.floor((source - 1) / 4)';
       saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
+      saveWand = '14 - Math.floor((source - 1) / 4) * 2';
       thiefAbilityLevel = 'source';
       rules.defineRule('combatNotes.backstabFeature',
         'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
@@ -925,8 +930,6 @@ FirstEdition.classRules = function(rules, classes) {
        spellsKnown, null, null);
     if(notes != null)
       rules.defineNote(notes);
-    if(saveAimed != null)
-      rules.defineRule('save.Aimed', 'levels.' + klass, '+=', saveAimed);
     if(saveBreath != null)
       rules.defineRule('save.Breath', 'levels.' + klass, '+=', saveBreath);
     if(saveDeath != null)
@@ -936,6 +939,8 @@ FirstEdition.classRules = function(rules, classes) {
         ('save.Petrification', 'levels.' + klass, '+=', savePetrification);
     if(saveSpell != null)
       rules.defineRule('save.Spell', 'levels.' + klass, '+=', saveSpell);
+    if(saveWand != null)
+      rules.defineRule('save.Wand', 'levels.' + klass, '+=', saveWand);
     if(thiefAbilityLevel != null) {
       rules.defineRule
         ('thiefAbilityLevel', 'levels.' + klass, '+=', thiefAbilityLevel);
@@ -1037,10 +1042,9 @@ FirstEdition.descriptionRules = function(rules, alignments, genders) {
 };
 
 /* Defines the rules related to equipment. */
-FirstEdition.equipmentRules = function(rules, armors, goodies, shields, weapons) {
+FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
 
   rules.defineChoice('armors', armors);
-  rules.defineChoice('goodies', goodies);
   rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
 
@@ -1094,6 +1098,22 @@ FirstEdition.equipmentRules = function(rules, armors, goodies, shields, weapons)
 
   }
 
+};
+
+/*
+ * Defines rules for a specified set of goodies (generally magic items). The
+ * method knows how to define rules for "* Of <skill> [+-]<amount>", "* Of
+ * <ability> [+-]<amount>", "* Of Protection [+-]]<amount>" (improves * AC),
+ * "<weapon> [+-]<amount>", "Masterwork <weapon>", "<armor> [+-]<amount>",
+ * "Masterwork <armor>", and "Healer's Kit".
+ */
+FirstEdition.goodiesRules = function(rules, goodies) {
+  rules.choices['skills'] = {};
+  SRD35.goodiesRules(rules, goodies);
+  delete rules.choices['skills'];
+  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+    '', '*', '-1'
+  );
 };
 
 /* Defines the rules related to spells. */
@@ -1308,7 +1328,7 @@ FirstEdition.movementRules = function(rules) {
 FirstEdition.raceRules = function(rules, languages, races) {
 
   rules.defineChoice('languages', languages);
-  rules.defineRule('languageBonus',
+  rules.defineRule('featureNotes.intelligenceLanguageBonus',
     'race', 'v',
     'source == "Human" ? null : ' +
     'source.indexOf("Elf") >= 0 && source != "Half Elf" ? 3 : 2'
@@ -1343,11 +1363,11 @@ FirstEdition.raceRules = function(rules, languages, races) {
       notes = [
         'featureNotes.detectSecretDoorsFeature:' +
           '1in6 passing, 2in6 searching, 3in6 concealed',
-        'featureNotes.infravisionFeature:%V ft vision in darkness',
+        "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistCharmFeature:%V% vs. charm',
         'saveNotes.resistSleepFeature:%V% vs. sleep',
-        'validationNotes.halfElfRaceDexterity:Requires Dexterity >= 6',
         'validationNotes.halfElfRaceConstitution:Requires Constitution >= 6',
+        'validationNotes.halfElfRaceDexterity:Requires Dexterity >= 6',
         'validationNotes.halfElfRaceIntelligence:Requires Intelligence >= 4'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
@@ -1368,13 +1388,13 @@ FirstEdition.raceRules = function(rules, languages, races) {
       features = ['Infravision'];
       languages = ['Common', 'Orcish'];
       notes = [
-        'featureNotes.infravisionFeature:%V ft vision in darkness',
+        "featureNotes.infravisionFeature:%V' vision in darkness",
         'validationNotes.halfOrcRaceCharisma:Requires Charisma <= 12',
         'validationNotes.halfOrcRaceConstitution:Requires Constitution >= 13',
         'validationNotes.halfOrcRaceDexterity:Requires Dexterity <= 17',
         'validationNotes.halfOrcRaceIntelligence:Requires Intelligence <= 17',
-        'validationNotes.halfOrcRaceWisdom:Requires Wisdom <= 14',
-        'validationNotes.halfOrcRaceStrength:Requires Strength >= 6'
+        'validationNotes.halfOrcRaceStrength:Requires Strength >= 6',
+        'validationNotes.halfOrcRaceWisdom:Requires Wisdom <= 14'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         'halfOrcFeatures.Infravision', '+=', '60'
@@ -1389,25 +1409,27 @@ FirstEdition.raceRules = function(rules, languages, races) {
     } else if(race.match(/Dwarf/)) {
 
       adjustment = '+1 constitution/-1 charisma';
+      // TODO Slow not in PHB?
       features = [
-        'Dodge Giants', 'Dwarf Favored Enemy', 'Infravision', 'Know Depth',
-        'Know Stone', 'Resist Magic', 'Resist Poison', 'Sense Construction',
-        'Sense Slope', 'Slow'
+        'Dwarf Dodge', 'Dwarf Favored Enemy', 'Infravision', 'Know Depth',
+        'Resist Magic', 'Resist Poison', 'Sense Construction', 'Sense Slope',
+        'Slow', 'Trap Sense'
       ];
       languages = [
         'Common', 'Dwarfish', 'Gnomish', 'Goblin', 'Kobold', 'Orcish'
       ];
       notes = [
-        'combatNotes.dodgeGiantsFeature:-4 AC vs. giant creatures',
+        'abilityNotes.slowFeature:-30 speed',
+        'combatNotes.dwarfDodgeFeature:-4 AC vs. giant/ogre/titan/troll',
         'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
-        'featureNotes.infravisionFeature:%V ft vision in darkness',
+        "featureNotes.infravisionFeature:%V' vision in darkness",
         'featureNotes.knowDepthFeature:' +
           'Determine approximate depth underground %V%',
-        'featureNotes.knowStoneFeature:Detect stonework traps 50% w/in 10 ft',
         'featureNotes.senseConstructionFeature:' +
-          'Detect new construction 75%/sliding walls 66% w/in 10 ft',
-        'featureNotes.senseSlopeFeature:Detect slope/grade %V% w/in 10 ft',
-        'saveNotes.resistMagicFeature:+%V vs. aimed/spells',
+          "Detect new construction 75%/sliding walls 66% w/in 10'",
+        "featureNotes.senseSlopeFeature:Detect slope/grade %V% w/in 10'",
+        "featureNotes.trapSenseFeature:Detect stonework traps 50% w/in 10'",
+        'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
         'validationNotes.'+raceNoSpace+'RaceCharisma:Requires Charisma <= 16',
         'validationNotes.'+raceNoSpace+'RaceConstitution:' +
@@ -1415,12 +1437,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity <= 17',
         'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 8'
       ];
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -10;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Find Traps'] = 15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Move Quietly'] = -5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Read Languages'] = -5;
-
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
       );
@@ -1430,15 +1446,20 @@ FirstEdition.raceRules = function(rules, languages, races) {
       rules.defineRule('featureNotes.senseSlopeFeature',
         raceNoSpace + 'Features.Sense Slope', '+=', '75'
       );
-      rules.defineRule('save.Aimed', 'saveNotes.resistMagicFeature', '+', null);
       rules.defineRule('save.Spell', 'saveNotes.resistMagicFeature', '+', null);
+      rules.defineRule('save.Wand', 'saveNotes.resistMagicFeature', '+', null);
       rules.defineRule('saveNotes.resistMagicFeature',
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
       rules.defineRule('saveNotes.resistPoisonFeature',
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
-      rules.defineRule('speed', 'features.Slow', '+', '-30');
+      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-30');
+      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -10;
+      FirstEdition.thiefSkillsRacialAdjustments[race + '.Find Traps'] = 15;
+      FirstEdition.thiefSkillsRacialAdjustments[race + '.Move Quietly'] = -5;
+      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 15;
+      FirstEdition.thiefSkillsRacialAdjustments[race + '.Read Languages'] = -5;
 
     } else if(race.match(/Elf/)) {
 
@@ -1453,14 +1474,15 @@ FirstEdition.raceRules = function(rules, languages, races) {
       ];
       notes = [
         'combatNotes.bowPrecisionFeature:+1 attack w/bows',
-        'combatNotes.swordPrecisionFeature:+1 attack w/longsword/short sword',
         'combatNotes.stealthyFeature:4in6 surprise when traveling quietly',
+        'combatNotes.swordPrecisionFeature:+1 attack w/longsword/short sword',
         'featureNotes.detectSecretDoorsFeature:' +
           '1in6 passing, 2in6 searching, 3in6 concealed',
-        'featureNotes.infravisionFeature:%V ft vision in darkness',
+        "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistCharmFeature:%V% vs. charm',
         'saveNotes.resistSleepFeature:%V% vs. sleep',
         'validationNotes.'+raceNoSpace+'RaceCharisma:Requires Charisma >= 8',
+        // TODO OSRIC max con 17
         'validationNotes.'+raceNoSpace+'RaceConstitution:' +
           'Requires Constitution >= 8',
         'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity >= 7',
@@ -1489,7 +1511,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
 
       adjustment = null;
       features = [
-        'Burrow Friend', 'Direction Sense', 'Dodge Giants',
+        'Burrow Tongue', 'Direction Sense', 'Gnome Dodge',
         'Gnome Favored Enemy', 'Infravision', 'Know Depth', 'Resist Magic',
         'Resist Poison', 'Sense Hazard', 'Sense Slope', 'Slow'
       ];
@@ -1497,23 +1519,24 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Common', 'Dwarfish', 'Gnomish', 'Goblin', 'Halfling', 'Kobold'
       ];
       notes = [
+        'abilityNotes.slowFeature:-30 speed',
+        'combatNotes.gnomeDodgeFeature:-4 AC vs. bugbear/giant/gnoll/ogre/titan/troll',
         'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblins/kobolds',
-        'combatNotes.dodgeGiantsFeature:-4 AC vs. giant creatures',
-        'featureNotes.burrowFriendFeature:Speak w/burrowing animals',
+        'featureNotes.burrowTongueFeature:Speak w/burrowing animals',
         'featureNotes.directionSenseFeature:Determine N underground 50%',
-        'featureNotes.infravisionFeature:%V ft vision in darkness',
         'featureNotes.knowDepthFeature:' +
           'Determine approximate depth underground %V%',
         'featureNotes.senseHazardFeature:' +
-          'Detect unsafe wall/ceiling/floor 70% w/in 10 ft',
-        'featureNotes.senseSlopeFeature:Detect slope/grade %V% w/in 10 ft',
-        'saveNotes.resistMagicFeature:+%V vs. aimed/spells',
+          "Detect unsafe wall/ceiling/floor 70% w/in 10'",
+        "featureNotes.senseSlopeFeature:Detect slope/grade %V% w/in 10'",
+        "featureNotes.infravisionFeature:%V' vision in darkness",
+        'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
-        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 6',
         'validationNotes.'+raceNoSpace+'RaceConstitution:' +
           'Requires Constitution >= 8',
         'validationNotes.'+raceNoSpace+'RaceIntelligence:' +
-          'Requires Intelligence >= 7'
+          'Requires Intelligence >= 7',
+        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 6'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
@@ -1524,14 +1547,15 @@ FirstEdition.raceRules = function(rules, languages, races) {
       rules.defineRule('featureNotes.senseSlopeFeature',
         raceNoSpace + 'Features.Sense Slope', '+=', '80'
       );
-      rules.defineRule('save.Aimed', 'saveNotes.resistMagicFeature', '+', null);
       rules.defineRule('save.Spell', 'saveNotes.resistMagicFeature', '+', null);
+      rules.defineRule('save.Wand', 'saveNotes.resistMagicFeature', '+', null);
       rules.defineRule('saveNotes.resistMagicFeature',
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
       rules.defineRule('saveNotes.resistPoisonFeature',
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
+      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-30');
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -15;
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Hear Noise'] = 5;
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 10;
@@ -1547,30 +1571,33 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'Common', 'Dwarfish', 'Gnome', 'Goblin', 'Halfling', 'Orcish'
       ];
       notes = [
+        'abilityNotes.slowFeature:-30 speed',
         'combatNotes.accurateFeature:+3 attack with sling/bow',
         'combatNotes.stealthyFeature:4in6 surprise when traveling quietly',
-        'featureNotes.infravisionFeature:%V ft vision in darkness',
-        'saveNotes.resistMagicFeature:+%V vs. aimed/spells',
+        "featureNotes.infravisionFeature:%V' vision in darkness",
+        'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
-        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 6',
-        'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity >= 8',
+        // TODO max str 17
         'validationNotes.'+raceNoSpace+'RaceConstitution:' +
           'Requires Constitution >= 10',
+        'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity >= 8',
         'validationNotes.'+raceNoSpace+'RaceIntelligence:' +
           'Requires Intelligence >= 6',
+        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 6',
         'validationNotes.'+raceNoSpace+'RaceWisdom:Requires Wisdom <= 17'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
       );
-      rules.defineRule('save.Aimed', 'saveNotes.resistMagicFeature', '+', null);
       rules.defineRule('save.Spell', 'saveNotes.resistMagicFeature', '+', null);
+      rules.defineRule('save.Wand', 'saveNotes.resistMagicFeature', '+', null);
       rules.defineRule('saveNotes.resistMagicFeature',
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
       rules.defineRule('saveNotes.resistPoisonFeature',
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
+      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-30');
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -15;
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Hear Noise'] = 5;
       FirstEdition.thiefSkillsRacialAdjustments[race + '.Hide In Shadows'] = 15;
