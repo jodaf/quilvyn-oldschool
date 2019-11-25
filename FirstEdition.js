@@ -71,7 +71,7 @@ FirstEdition.GOODIES = [
   'Ring Of Protection +1'
 ];
 FirstEdition.LANGUAGES = [
-  'Common', 'Druids\' Cant', 'Dwarfish', 'Elven', 'Gnoll', 'Gnomish', 'Goblin',
+  'Common', "Druids' Cant", 'Dwarfish', 'Elven', 'Gnoll', 'Gnomish', 'Goblin',
   'Halfling', 'Hobgoblin', 'Kobold', 'Orcish'
 ];
 FirstEdition.RACES =
@@ -136,7 +136,7 @@ FirstEdition.spellsSchools = {
   'Conjure Earth Elemental':'Conjuration', 'Conjure Elemental':'Conjuration',
   'Conjure Fire Elemental':'Conjuration', 'Contact Other Plane':'Divination',
   'Continual Darkness':'Transmutation', 'Continual Light':'Transmutation',
-  'Control Temperature 10\' Radius':'Transmutation',
+  "Control Temperature 10' Radius":'Transmutation',
   'Control Weather':'Transmutation', 'Control Winds':'Transmutation',
   'Create Food And Water':'Transmutation', 'Create Water':'Transmutation',
   'Creeping Doom':'Conjuration', 'Crushing Hand':'Evocation',
@@ -170,7 +170,7 @@ FirstEdition.spellsSchools = {
   'Fire Storm':'Evocation', 'Fire Trap':'Evocation', 'Fireball':'Evocation',
   'Flame Arrow':'Evocation', 'Flame Strike':'Evocation',
   'Floating Disk':'Evocation', 'Fly':'Transmutation',
-  'Fog Cloud':'Transmutation', 'Fool\'s Gold':'Transmutation',
+  'Fog Cloud':'Transmutation', "Fool's Gold":'Transmutation',
   'Forceful Hand':'Evocation', 'Forget':'Enchantment',
   'Freezing Sphere':'Transmutation', 'Friends':'Enchantment',
   'Fumble':'Enchantment', 'Gate':'Conjuration',
@@ -189,7 +189,7 @@ FirstEdition.spellsSchools = {
   'Improved Invisibility':'Illusion', 'Improved Phantasmal Force':'Illusion',
   'Incendiary Cloud':'Evocation', 'Infravision':'Transmutation',
   'Insect Plague':'Conjuration', 'Instant Summons':'Conjuration',
-  'Interposing Hand':'Evocation', 'Invisibility 10\' Radius':'Illusion',
+  'Interposing Hand':'Evocation', "Invisibility 10' Radius":'Illusion',
   'Invisibility To Animals':'Transmutation', 'Invisibility':'Illusion',
   'Invisible Stalker':'Conjuration', 'Irresistible Dance':'Enchantment',
   'Jump':'Transmutation', 'Knock':'Transmutation',
@@ -198,7 +198,7 @@ FirstEdition.spellsSchools = {
   'Lightning Bolt':'Evocation', 'Limited Wish':'Conjuration',
   'Locate Animals':'Divination', 'Locate Object':'Divination',
   'Locate Plants':'Divination', 'Lower Water':'Transmutation',
-  'Mage\'s Faithful Hound':'Conjuration', 'Mage\'s Sword':'Evocation',
+  "Mage's Faithful Hound":'Conjuration', "Mage's Sword":'Evocation',
   'Magic Aura':'Illusion', 'Magic Jar':'Necromancy',
   'Magic Missle':'Evocation', 'Magic Mouth':'Transmutation',
   'Major Creation':'Transmutation', 'Mass Charm':'Enchantment',
@@ -227,7 +227,7 @@ FirstEdition.spellsSchools = {
   'Prismatic Sphere':'Conjuration', 'Prismatic Spray':'Abjuration',
   'Prismatic Wall':'Abjuration', 'Produce Fire':'Transmutation',
   'Produce Flame':'Transmutation', 'Programmed Illusion':'Illusion',
-  'Project Image':'Illusion', 'Protection From Evil 10\' Radius':'Abjuration',
+  'Project Image':'Illusion', "Protection From Evil 10' Radius":'Abjuration',
   'Protection From Evil':'Abjuration', 'Protection From Fire':'Abjuration',
   'Protection From Lightning':'Abjuration',
   'Protection From Normal Missles':'Abjuration',
@@ -245,7 +245,7 @@ FirstEdition.spellsSchools = {
   'Shadow Magic':'Illusion', 'Shadow Monsters':'Illusion',
   'Shape Change':'Transmutation', 'Shatter':'Transmutation',
   'Shield':'Evocation', 'Shillelagh':'Transmutation',
-  'Shocking Grasp':'Transmutation', 'Silence 15\' Radius':'Transmutation',
+  'Shocking Grasp':'Transmutation', "Silence 15' Radius":'Transmutation',
   'Simulacrum':'Illusion', 'Sleep':'Enchantment', 'Slow Poison':'Necromancy',
   'Slow':'Transmutation', 'Snake Charm':'Enchantment', 'Snare':'Enchantment',
   'Speak With Animals':'Transmutation', 'Speak With Dead':'Necromancy',
@@ -443,7 +443,7 @@ FirstEdition.classRules = function(rules, classes) {
         'validationNotes.assassinClassDexterity:Requires Dexterity >= 12',
         'validationNotes.assassinClassIntelligence:Requires Intelligence >= 11',
         'validationNotes.assassinClassStrength:Requires Strength >= 12',
-        // TODO wis requirement OSRIC only
+        // TODO PHB has no wis minimum
         'validationNotes.assassinClassWisdom:Requires Wisdom >= 6'
       ];
       saveBreath = '16 - Math.floor(source / 4)'
@@ -466,7 +466,7 @@ FirstEdition.classRules = function(rules, classes) {
         ('languageCount', 'featureNotes.extraLanguagesFeature', '+=', null);
 
     } else if(klass == 'Cleric') {
-      baseAttack = 'source < 19 ? Math.floor(source / 3) * 2 : 21';
+      baseAttack = 'source < 19 ? Math.floor(source / 3) * 2 : 11';
       features = ['Turn Undead', '9:Attract Followers'];
       hitDie = 8;
       notes = [
@@ -476,6 +476,7 @@ FirstEdition.classRules = function(rules, classes) {
           'May build stronghold and attract followers',
         'featureNotes.bonusClericExperience:Bonus to awarded experience',
         'magicNotes.clericSpellFailure:%V%',
+        // TODO PHB has no cha, con, int, or str minimum
         'validationNotes.clericClassCharisma:Requires Charisma >= 6',
         'validationNotes.clericClassConstitution:Requires Constitution >= 6',
         'validationNotes.clericClassIntelligence:Requires Intelligence >= 6',
@@ -494,14 +495,15 @@ FirstEdition.classRules = function(rules, classes) {
         'C3:5:1/6:2/8:3/11:4/12:5/13:6/15:7/17:8/19:9',
         'C4:7:1/8:2/10:3/13:4/14:5/16:6/18:7/20:8/21:9',
         'C5:9:1/10:2/14:3/15:4/16:5/18:6/20:7/21:8/22:9',
-        'C6:11:1/12:2/16:3/18:4/20:5/21:6/23:7/24:8',
-        'C7:16:1/19:2/22:3'
+        'C6:11:1/12:2/16:3/18:4/20:5/21:6/23:7/24:8/26:9',
+        'C7:16:1/19:2/22:3/25:4/27:5/28:6/29:7'
       ];
       rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
       rules.defineRule('featureNotes.bonusClericExperience',
         'levels.Cleric', '=', '1',
         'wisdom', '?', 'source >= 16'
       );
+      // TODO OSRIC (below) 15/10/5/1; PHB 20/15/10/5
       rules.defineRule('magicNotes.clericSpellFailure',
         'levels.Cleric', '?', null,
         'wisdom', '=', 'source<=11 ? (12 - source) * 5 : source==12 ? 1 : null'
@@ -509,7 +511,7 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
       rules.defineRule('spellBonus.C1',
         'levels.Cleric', '?', null,
-        'wisdom', '=', 'source<=12 ? null : source==12 ? 1 : source<=18 ? 2 : 3'
+        'wisdom', '=', 'source<=12 ? null : source==13 ? 1 : source<=18 ? 2 : 3'
       );
       rules.defineRule('spellBonus.C2',
         'levels.Cleric', '?', null,
@@ -529,22 +531,24 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('spellsKnown.C4', 'spellBonus.C4', '+', null);
 
     } else if(klass == 'Druid') {
-      baseAttack = '2 * Math.floor(source / 3)';
+      baseAttack = 'Math.floor(source / 3) * 2';
       features = [
-        'Resist Fire', 'Resist Lightning', '3:Druid\'s Knowledge',
+        'Resist Fire', 'Resist Lightning', "3:Druid's Knowledge",
         '3:Wilderness Movement', '7:Fey Immunity', '7:Shapeshift'
       ];
       hitDie = 8;
       notes = [
         'featureNotes.bonusDruidExperience:Bonus to awarded experience',
-        'featureNotes.druid\'sKnowledgeFeature:' +
+        "featureNotes.druid'sKnowledgeFeature:" +
           'Identify plant/animal types/water purity',
         'featureNotes.wildernessMovementFeature:' +
-          'Normal, untrackable movement through undergrowth',
-        'magicNotes.shapeshiftFeature:Change into natural animal 3/day',
+          'Normal, untrackable move through undergrowth',
+        'magicNotes.shapeshiftFeature:' +
+          'Change into natural animal 3/day, curing d6x10 HP',
         'saveNotes.feyImmunityFeature:Immune to fey enchantment',
         'saveNotes.resistFireFeature:+2 vs. fire',
         'saveNotes.resistLightningFeature:+2 vs. lightning',
+        // TODO PHB has no con, dex, int, or str minimum
         'validationNotes.druidClassAlignment:Requires Alignment == "Neutral"',
         'validationNotes.druidClassCharisma:Requires Charisma >= 15',
         'validationNotes.druidClassConstitution:Requires Constitution >= 6',
@@ -575,10 +579,10 @@ FirstEdition.classRules = function(rules, classes) {
         'wisdom', '?', 'source >= 16'
       );
       rules.defineRule('languageCount', 'levels.Druid', '+=', '1');
-      rules.defineRule('languages.Druids\' Cant', 'levels.Druid', '=', '1');
+      rules.defineRule("languages.Druids' Cant", 'levels.Druid', '=', '1');
       rules.defineRule('spellBonus.D1',
         'levels.Druid', '?', null,
-        'wisdom', '=', 'source<=12 ? null : source==12 ? 1 : source<=18 ? 2 : 3'
+        'wisdom', '=', 'source<=12 ? null : source==13 ? 1 : source<=18 ? 2 : 3'
       );
       rules.defineRule('spellBonus.D2',
         'levels.Druid', '?', null,
@@ -599,7 +603,7 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Fighter') {
       baseAttack = 'source - 1';
-      features = ['Fighting the Unskilled', '9:Attract Followers'];
+      features = ['Fighting The Unskilled', '9:Attract Followers'];
       hitDie = 10;
       notes = [
         'combatNotes.fightingTheUnskilledFeature:' +
@@ -760,10 +764,10 @@ FirstEdition.classRules = function(rules, classes) {
           'Must not associate w/non-good characters',
         'featureNotes.summonWarhorseFeature:Call warhorse w/enhanced features',
         'magicNotes.cureDiseaseFeature:<i>Cure Disease</i> %V/week',
-        'magicNotes.detectEvilFeature:<i>Detect Evil</i> 60\' at will',
+        "magicNotes.detectEvilFeature:<i>Detect Evil</i> 60' at will",
         'magicNotes.layOnHandsFeature:Heal %V HP/day',
         'magicNotes.protectionFromEvilFeature:' +
-          'Continuous <i>Protection From Evil</i> 10\' radius',
+          "Continuous <i>Protection From Evil</i> 10' radius",
         'saveNotes.divineHealthFeature:Immune to disease',
         'validationNotes.paladinClassAlignment:' +
           'Requires Alignment == "Lawful Good"',
@@ -919,7 +923,7 @@ FirstEdition.classRules = function(rules, classes) {
         'dexterity', '?', 'source >= 16'
       );
       rules.defineRule('languageCount', 'levels.Thief', '+=', '1');
-      rules.defineRule('languages.Thieves\' Cant', 'levels.Thief', '=', '1');
+      rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
 
     } else
       continue;
@@ -1133,13 +1137,13 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Detect Magic:Light:Protection From Evil:Purify Food And Drink:' +
         'Remove Fear:Resist Cold:Sanctuary',
         'C2:Augury:Chant:Detect Charm:Find Traps:Hold Person:Know Alignment:' +
-        'Resist Fire:Silence 15\' Radius:Slow Poison:Snake Charm:' +
+        "Resist Fire:Silence 15' Radius:Slow Poison:Snake Charm:" +
         'Speak With Animals:Spiritual Weapon',
         'C3:Animate Dead:Continual Light:Create Food And Water:' +
         'Cure Blindness:Cure Disease:Dispel Magic:Feign Death:' +
         'Glyph Of Warding:Locate Object:Prayer:Remove Curse:Speak With Dead',
         'C4:Cure Serious Wounds:Detect Lie:Divination:Exorcise:Lower Water:' +
-        'Neutralize Poison:Protection From Evil 10\' Radius:' +
+        "Neutralize Poison:Protection From Evil 10' Radius:" +
         'Speak With Plants:Sticks To Snakes:Tongues',
         'C5:Atonement:Commune:Cure Critical Wounds:Dispel Evil:Flame Strike:' +
         'Insect Plague:Plane Shift:Quest:Raise Dead:True Seeing',
@@ -1162,7 +1166,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Plant Growth:Protection From Fire:Pyrotechnics:Snare:Stone Shape:' +
         'Summon Insects:Tree:Water Breathing',
         'D4:Animal Summoning I:Call Woodland Beings:' +
-        'Control Temperature 10\' Radius:Cure Serious Wounds:Dispel Magic:' +
+        "Control Temperature 10' Radius:Cure Serious Wounds:Dispel Magic:" +
         'Hallucinatory Forest:Hold Plant:Plant Door:Produce Fire:' +
         'Protection From Lightning:Repel Insects:Speak With Plants',
         'D5:Animal Growth:Animal Summoning II:Anti-Plant Shell:' +
@@ -1184,7 +1188,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Improved Phantasmal Force:Invisibility:Magic Mouth:Mirror Image:' +
         'Misdirection:Ventriloquism',
         'I3:Continual Darkness:Continual Light:Dispel Illusion:Fear:' +
-        'Hallucinatory Terrain:Illusory Script:Invisibility 10\' Radius:' +
+        "Hallucinatory Terrain:Illusory Script:Invisibility 10' Radius:" +
         'Non-Detection:Paralyzation:Rope Trick:Spectral Force:Suggestion',
         'I4:Confusion:Dispel Exhaustion:Emotion:Improved Invisibility:' +
         'Massmorph:Minor Creation:Phantasmal Killer:Shadow Monsters',
@@ -1204,15 +1208,15 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Protection From Evil:Push:Read Magic:Shield:Shocking Grasp:Sleep:' +
         'Spider Climb:Unseen Servant:Ventriloquism:Write',
         'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
-        'Detect Invisibility:ESP:Fool\'s Gold:Forget:Invisibility:Knock:' +
+        "Detect Invisibility:ESP:Fool's Gold:Forget:Invisibility:Knock:" +
         'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
         'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
         'Stinking Cloud:Strength:Web:Wizard Lock',
         'M3:Blink:Clairaudience:Clairvoyance:Dispel Magic:Explosive Runes:' +
         'Feign Death:Fireball:Flame Arrow:Fly:Gust Of Wind:Haste:Hold Person:' +
-        'Infravision:Invisibility 10\' Radius:Lightning Bolt:' +
+        "Infravision:Invisibility 10' Radius:Lightning Bolt:" +
         'Monster Summoning I:Phantasmal Force:' +
-        'Protection From Evil 10\' Radius:Protection From Normal Missles:' +
+        "Protection From Evil 10' Radius:Protection From Normal Missles:" +
         'Slow:Suggestion:Tiny Hut:Tongues:Water Breathing',
         'W4:Charm Monster:Confusion:Dig:Dimension Door:Enchanted Weapon:' +
         'Extension I:Fear:Fire Charm:Fire Shield:Fire Trap:Fumble:' +
@@ -1223,7 +1227,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'W5:Airy Water:Animal Growth:Animate Dead:Cloudkill:Cone Of Cold:' +
         'Conjure Elemental:Contact Other Plane:Distance Distortion:' +
         'Extension II:Feeblemind:Hold Monster:Interposing Hand:' +
-        'Mage\'s Faithful Hound:Magic Jar:Monster Summoning III:Passwall:' +
+        "Mage's Faithful Hound:Magic Jar:Monster Summoning III:Passwall:" +
         'Secret Chest:Stone Shape:Telekinesis:Teleport:' +
         'Transmute Rock To Mud:Wall Of Force:Wall Of Iron:Wall Of Stone',
         'W6:Anti-Magic Shell:Control Weather:Death Spell:Disintegrate:' +
@@ -1233,7 +1237,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Move Earth:Part Water:Project Image:Reincarnate:Repulsion:' +
         'Spirit-Rack:Stone To Flesh:Transformation',
         'W7:Cacodemon:Charm Plants:Delayed Blast Fireball:Duo-Dimension:' +
-        'Grasping Hand:Instant Summons:Limited Wish:Mage\'s Sword:' +
+        "Grasping Hand:Instant Summons:Limited Wish:Mage's Sword:" +
         'Mass Invisibility:Monster Summoning V:Phase Door:Power Word Stun:' +
         'Reverse Gravity:Simulacrum:Statue:Vanish',
         'W8:Antipathy/Sympathy:Clenched Fist:Clone:Glass-Steel:' +
@@ -1250,13 +1254,13 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Detect Magic:Light:Protection From Evil:Purify Food And Drink:' +
         'Remove Fear:Resist Cold:Sanctuary',
         'C2:Augury:Chant:Detect Charm:Find Traps:Hold Person:Know Alignment:' +
-        'Resist Fire:Silence 15\' Radius:Slow Poison:Snake Charm:' +
+        "Resist Fire:Silence 15' Radius:Slow Poison:Snake Charm:" +
         'Speak With Animals:Spiritual Weapon',
         'C3:Animate Dead:Continual Light:Create Food And Water:' +
         'Cure Blindness:Cure Disease:Dispel Magic:Feign Death:' +
         'Glyph Of Warding:Locate Object:Prayer:Remove Curse:Speak With Dead',
         'C4:Cure Serious Wounds:Detect Lie:Divination:Exorcise:Lower Water:' +
-        'Neutralize Poison:Protection From Evil 10\' Radius:' +
+        "Neutralize Poison:Protection From Evil 10' Radius:" +
         'Speak With Plants:Sticks To Snakes:Tongues'
       ];
     } else if(klass == 'Ranger') {
@@ -1278,7 +1282,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
         'Ventriloquism:Write',
         'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
-        'Detect Invisibility:ESP:Fool\'s Gold:Forget:Invisibility:Knock:' +
+        "Detect Invisibility:ESP:Fool's Gold:Forget:Invisibility:Knock:" +
         'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
         'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
         'Stinking Cloud:Strength:Web:Wizard Lock'
