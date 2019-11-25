@@ -87,6 +87,10 @@ FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
 FirstEdition.SHIELDS = [
   'Large Shield', 'Medium Shield', 'None', 'Small Shield'
 ];
+// OSRIC varies slightly from the classic 1E rules. If USE_OSRIC_RULES is true,
+// FirstEdition incorporates these modifications into its rule set; otherwise,
+// it sticks to the 1E PHB.
+FirstEdition.USE_OSRIC_RULES = true;
 FirstEdition.WEAPONS = [
   'Bastard Sword:2d4', 'Battle Axe:d8', 'Broad Sword:2d4', 'Club:d4',
   'Composite Long Bow:d6r60', 'Composite Short Bow:d6r50', 'Dagger:d4',
@@ -438,14 +442,21 @@ FirstEdition.classRules = function(rules, classes) {
         'featureNotes.extraLanguagesFeature:' +
           "+%V alignment/druidic/thieves' languages",
         'magicNotes.readScrollsFeature:Cast arcane spells from scrolls',
-        'validationNotes.assassinClassAlignment:Requires Alignment =~ Evil',
-        'validationNotes.assassinClassConstitution:Requires Constitution >= 6',
-        'validationNotes.assassinClassDexterity:Requires Dexterity >= 12',
-        'validationNotes.assassinClassIntelligence:Requires Intelligence >= 11',
-        'validationNotes.assassinClassStrength:Requires Strength >= 12',
-        // TODO PHB has no wis minimum
-        'validationNotes.assassinClassWisdom:Requires Wisdom >= 6'
+        'validationNotes.assassinClassAlignment:Requires Alignment =~ Evil'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.assassinClassAbility:' +
+            'Requires Constitution >= 6/Dexterity >= 12/Intelligence >= 11/' +
+            'Strength >= 12/Wisdom >= 6'
+        );
+      } else {
+        notes.push(
+          'validationNotes.assassinClassAbility:' +
+            'Requires Constitution >= 6/Dexterity >= 12/Intelligence >= 11/' +
+            'Strength >= 12'
+        );
+      }
       saveBreath = '16 - Math.floor(source / 4)'
       saveDeath = '13 - Math.floor(source / 4)'
       savePetrification = '12 - Math.floor(source / 4)'
@@ -475,14 +486,19 @@ FirstEdition.classRules = function(rules, classes) {
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
         'featureNotes.bonusClericExperience:Bonus to awarded experience',
-        'magicNotes.clericSpellFailure:%V%',
-        // TODO PHB has no cha, con, int, or str minimum
-        'validationNotes.clericClassCharisma:Requires Charisma >= 6',
-        'validationNotes.clericClassConstitution:Requires Constitution >= 6',
-        'validationNotes.clericClassIntelligence:Requires Intelligence >= 6',
-        'validationNotes.clericClassStrength:Requires Strength >= 6',
-        'validationNotes.clericClassWisdom:Requires Wisdom >= 9'
+        'magicNotes.clericSpellFailure:%V%'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.clericClassAbility:' +
+            'Requires Charisma >= 6/Constitution >= 6/Intelligence >= 6/' +
+            'Strength >= 6/Wisdom >= 9'
+        );
+      } else {
+        notes.push(
+          'validationNotes.clericClassAbility:Requires Wisdom >= 9'
+        );
+      }
       saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       savePetrification =
@@ -503,11 +519,17 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Cleric', '=', '1',
         'wisdom', '?', 'source >= 16'
       );
-      // TODO OSRIC (below) 15/10/5/1; PHB 20/15/10/5
-      rules.defineRule('magicNotes.clericSpellFailure',
-        'levels.Cleric', '?', null,
-        'wisdom', '=', 'source<=11 ? (12 - source) * 5 : source==12 ? 1 : null'
-      );
+      if(FirstEdition.USE_OSRIC_RULES) {
+        rules.defineRule('magicNotes.clericSpellFailure',
+          'levels.Cleric', '?', null,
+          'wisdom', '=', 'source<=11 ? (12-source) * 5 : source==12 ? 1 : null'
+        );
+      } else {
+        rules.defineRule('magicNotes.clericSpellFailure',
+          'levels.Cleric', '?', null,
+          'wisdom', '=', 'source<=12 ? (13-source) * 5 : null'
+        );
+      }
       rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
       rules.defineRule('spellBonus.C1',
         'levels.Cleric', '?', null,
@@ -548,15 +570,20 @@ FirstEdition.classRules = function(rules, classes) {
         'saveNotes.feyImmunityFeature:Immune to fey enchantment',
         'saveNotes.resistFireFeature:+2 vs. fire',
         'saveNotes.resistLightningFeature:+2 vs. lightning',
-        // TODO PHB has no con, dex, int, or str minimum
-        'validationNotes.druidClassAlignment:Requires Alignment == "Neutral"',
-        'validationNotes.druidClassCharisma:Requires Charisma >= 15',
-        'validationNotes.druidClassConstitution:Requires Constitution >= 6',
-        'validationNotes.druidClassDexterity:Requires Dexterity >= 6',
-        'validationNotes.druidClassIntelligence:Requires Intelligence >= 6',
-        'validationNotes.druidClassStrength:Requires Strength >= 6',
-        'validationNotes.druidClassWisdom:Requires Wisdom >= 12'
+        'validationNotes.druidClassAlignment:Requires Alignment == "Neutral"'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.druidClassAbility:' +
+            'Requires Constitution >= 6/Dexterity >= 6/Intelligence >= 6/' +
+            'Strength >= 6/Wisdom >= 12'
+        );
+      } else {
+        notes.push(
+          'validationNotes.druidClassAbility:' +
+            'Requires Charisma >= 15/Wisdom >= 12'
+        );
+      }
       saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       savePetrification =
@@ -602,21 +629,32 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('spellsKnown.D4', 'spellBonus.D4', '+', null);
 
     } else if(klass == 'Fighter') {
-      baseAttack = 'source - 1';
-      features = ['Fighting The Unskilled', '9:Attract Followers'];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        baseAttack = 'source - 1';
+      } else {
+        baseAttack = 'Math.floor((source-1) / 2) * 2';
+      }
+      features = ['2:Fighting The Unskilled', '9:Attract Followers'];
       hitDie = 10;
       notes = [
         'combatNotes.fightingTheUnskilledFeature:' +
           '%V attacks/round vs. creatures with < 1d8 hit die',
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
-        'featureNotes.bonusFighterExperience:Bonus to awarded experience',
-        'validationNotes.fighterClassCharisma:Requires Charisma >= 6',
-        'validationNotes.fighterClassConstitution:Requires Constitution >= 7',
-        'validationNotes.fighterClassDexterity:Requires Dexterity >= 6',
-        'validationNotes.fighterClassStrength:Requires Strength >= 9',
-        'validationNotes.fighterClassWisdom:Requires Wisdom >= 6'
+        'featureNotes.bonusFighterExperience:Bonus to awarded experience'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+        'validationNotes.fighterClassAbility:' +
+          'Requires Charisma >= 6/Constitution >= 7/Dexterity >= 6/' +
+          'Strength >= 9/Wisdom >= 6'
+        );
+      } else {
+        notes.push(
+        'validationNotes.fighterClassAbility:' +
+          'Requires Constitution >= 7/Strength >= 9'
+        );
+      }
       saveBreath =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
         'Math.floor((source - 9) / 2)';
@@ -642,43 +680,74 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Fighter', '=', '1',
         'strength', '?', 'source >= 16'
       );
-      rules.defineRule('warriorLevel', 'levels.Fighter', '+', null);
+      rules.defineRule('warriorLevel', 'levels.Fighter', '+=', null);
       // TODO weapon specialization
 
     } else if(klass == 'Illusionist') {
-      baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
-      features = ['10:Attract Followers'];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
+      } else {
+        baseAttack = '(source<6 ? -1 : -2) + Math.floor((source - 1) / 5) * 3';
+      }
+      features = ['10:Eldritch Craft'];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        features.push('10:Attract Followers');
+      } else {
+        features.push('12:Attract Followers');
+      }
       hitDie = 4;
       notes = [
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
         'magicNotes.eldritchCraftFeature:' +
-          'May create magical potion/scroll and rechage rods/staves/wands',
-        'validationNotes.illusionistClassCharisma:Requires Charisma >= 6',
-        'validationNotes.illusionistClassDexterity:Requires Dexterity >= 16',
-        'validationNotes.illusionistClassIntelligence:' +
-          'Requires Intelligence >= 15',
-        'validationNotes.illusionistClassStrength:Requires Strength >= 6',
-        'validationNotes.illusionistClassWisdom:Requires Wisdom >= 6'
+          'May create magical potion/scroll and rechage rods/staves/wands'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.illusionistClassAbility:' +
+            'Requires Charisma >= 6/Dexterity >= 16/Intelligence >= 15/' +
+            'Strength >= 6/Wisdom >= 6'
+        );
+      } else {
+        notes.push(
+          'validationNotes.illusionistClassAbility:' +
+            'Requires Dexterity >= 16/Intelligence >= 15'
+        );
+      }
       saveBreath = '15 - Math.floor((source-1) / 5) * 2';
       saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
       savePetrification = '13 - Math.floor((source-1) / 5) * 2';
       saveSpell = '12 - Math.floor((source-1) / 5) * 2';
       saveWand = '11 - Math.floor((source-1) / 5) * 2';
-      spellsKnown = [
-        'I1:1:1/2:2/4:3/5:4/9:5/17:6',
-        'I2:3:1/4:2/5:3/10:4/12:5/18:6',
-        'I3:5:1/6:2/9:3/12:4/16:5/20:6',
-        'I4:7:1/8:2/11:3/15:4/19:5/21:6',
-        'I5:10:1/11:2/16:3/18:4/19:5/23:6',
-        'I6:12:1/13:2/17:3/20:4/22:5/24:6',
-        'I7:14:1/15:2/21:3/23:4/24:5'
-      ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        spellsKnown = [
+          'I1:1:1/2:2/4:3/5:4/9:5/17:6',
+          'I2:3:1/4:2/5:3/10:4/12:5/18:6',
+          'I3:5:1/6:2/9:3/12:4/16:5/20:6',
+          'I4:7:1/8:2/11:3/15:4/19:5/21:6',
+          'I5:10:1/11:2/16:3/18:4/19:5/23:6',
+          'I6:12:1/13:2/17:3/20:4/22:5/24:6',
+          'I7:14:1/15:2/21:3/23:4/24:5'
+        ];
+      } else {
+        spellsKnown = [
+          'I1:1:1/2:2/4:3/5:4/9:5/24:6/26:7',
+          'I2:3:1/4:2/6:3/10:4/12:5/24:6/26:7',
+          'I3:5:1/7:2/9:3/12:4/16:5/24:6/26:7',
+          'I4:8:1/9:2/11:3/15:4/17:5/24:6/26:7',
+          'I5:10:1/11:2/16:3/19:4/21:5/25:6',
+          'I6:12:1/13:2/18:3/21:4/22:5/25:6',
+          'I7:14:1/15:2/20:3/22:4/23:5/25:6'
+        ];
+      }
       rules.defineRule('casterLevelArcane', 'levels.Illusionist', '+=', null);
 
     } else if(klass == 'Magic User') {
-      baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
+      if(FirstEdition.USE_OSRIC_RULES) {
+        baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
+      } else {
+        baseAttack = '(source<6 ? -1 : -2) + Math.floor((source - 1) / 5) * 3';
+      }
       features = [
         '7:Eldritch Craft', '11:Attract Followers', '12:Eldritch Power'
       ];
@@ -689,51 +758,67 @@ FirstEdition.classRules = function(rules, classes) {
         'featureNotes.bonusMagicUserExperience:Bonus to awarded experience',
         'magicNotes.eldritchCraftFeature:' +
           'May create magical potion/scroll and rechage rods/staves/wands',
-        'magicNotes.eldritchPowerFeature:May use <i>Enchant an Item</i> spell',
-        'validationNotes.magicUserClassCharisma:Requires Charisma >= 6',
-        'validationNotes.magicUserClassConstitution:Requires Constitution >= 6',
-        'validationNotes.magicUserClassDexterity:Requires Dexterity >= 6',
-        'validationNotes.magicUserClassIntelligence:Requires Intelligence >= 9',
-        'validationNotes.magicUserClassWisdom:Requires Wisdom >= 6'
+        'magicNotes.eldritchPowerFeature:May use <i>Enchant An Item</i> spell'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.magicUserClassAbility:' +
+            'Requires Charisma >= 6/Constitution >= 6/Dexterity >= 6/' +
+            'Intelligence >= 9/Wisdom >= 6'
+        );
+      } else {
+        notes.push(
+          'validationNotes.magicUserClassAbility:' +
+            'Requires Dexterity >= 6/Intelligence >= 9'
+        )
+      }
       saveBreath = '15 - Math.floor((source-1) / 5) * 2';
       saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
       savePetrification = '13 - Math.floor((source-1) / 5) * 2';
       saveSpell = '12 - Math.floor((source-1) / 5) * 2';
       saveWand = '11 - Math.floor((source-1) / 5) * 2';
-      spellsKnown = [
-        'M1:1:1/2:2/4:3/5:4/12:5/21:6',
-        'M2:3:1/4:2/6:3/9:4/13:5/21:6',
-        'M3:5:1/6:2/8:3/11:4/14:5/22:6',
-        'M4:7:1/8:2/11:3/14:4/17:5/22:6',
-        'M5:9:1/10:2/11:3/14:4/17:5/23:6',
-        'M6:12:1/13:2/15:3/17:4/19:5/23:6',
-        'M7:14:1/15:2/17:3/19:4/22:5/24:6',
-        'M8:16:1/17:2/19:3/21:4/24:5',
-        'M9:18:1/20:2/23:3'
-      ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        spellsKnown = [
+          'M1:1:1/2:2/4:3/5:4/12:5/21:6',
+          'M2:3:1/4:2/6:3/9:4/13:5/21:6',
+          'M3:5:1/6:2/8:3/11:4/14:5/22:6',
+          'M4:7:1/8:2/11:3/14:4/17:5/22:6',
+          'M5:9:1/10:2/11:3/14:4/17:5/23:6',
+          'M6:12:1/13:2/15:3/17:4/19:5/23:6',
+          'M7:14:1/15:2/17:3/19:4/22:5/24:6',
+          'M8:16:1/17:2/19:3/21:4/24:5',
+          'M9:18:1/20:2/23:3'
+        ];
+      } else {
+        spellsKnown = [
+          'M1:1:1/2:2/4:3/5:4/13:5/26:6/29:7',
+          'M2:3:1/4:2/7:3/10:4/13:5/26:6/29:7',
+          'M3:5:1/6:2/8:3/11:4/13:5/26:6/29:7',
+          'M4:7:1/8:2/11:3/12:4/15:5/26:6/29:7',
+          'M5:9:1/10:2/11:3/12:4/15:5/27:6',
+          'M6:12:1/13:2/16:3/20:4/22:5/27:6',
+          'M7:14:1/16:2/17:3/21:4/23:5/27:6',
+          'M8:16:1/17:2/19:3/21:4/23:5/28:6',
+          'M9:18:1/20:2/22:3/24:4/25:5/28:6'
+        ];
+      }
       rules.defineRule('casterLevelArcane', 'levels.Magic User', '+=', null);
+      rules.defineRule('intelligenceRow',
+        'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 14 ? 3 : source <= 16 ? 4 : (source - 13)',
+        'levels.Magic User', '?', null
+      );
       rules.defineRule('featureNotes.bonusMagicUserExperience',
         'levels.Magic User', '=', '1',
         'intelligence', '?', 'source >= 16'
       );
       rules.defineRule('understandSpell',
-        'levels.Magic User', '?', null,
-        'intelligence', '=',
-        'source<=9 ? 35 : source<=12 ? 45 : source<=14 ? 55 : ' +
-        'source<=16 ? 65 : source==17 ? 75 : source==18 ? 85 : 90'
+        'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
       );
       rules.defineRule('maximumSpellsPerLevel',
-        'levels.Magic User', '?', null,
-        'intelligence', '=',
-        'source<=9 ? 6 : source<=12 ? 7 : source<=14 ? 9 : ' +
-        'source<=16 ? 11 : source==17 ? 14 : source==18 ? 18 : 22'
+        'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? -1 : source <= 3 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
       );
       rules.defineRule('minimumSpellsPerLevel',
-        'levels.Magic User', '?', null,
-        'intelligence', '=',
-        'source<=9 ? 4 : source<=12 ? 5 : source<=14 ? 6 : ' +
-        'source<=16 ? 7 : source==17 ? 8 : source==18 ? 9 : 10'
+        'intelligenceRow', '=', 'source + 4'
       );
       rules.defineSheetElement
         ('Understand Spell', 'Spells Known', '<b>%N</b>: %V%');
@@ -1644,5 +1729,31 @@ FirstEdition.ruleNotes = function() {
     '<h2>FirstEdition Scribe Module Notes</h2>\n' +
     'FirstEdition Scribe Module Version ' + FirstEdition_VERSION + '\n' +
     '\n' +
-    '<h3>Usage Notes</h3>\n';
+    '<h3>Usage Notes</h3>\n' +
+    '<p>\n' +
+    '<ul>\n' +
+    '  <li>\n' +
+    '    Although the 1E PHB doesn\'t discuss strongholds for illusionists,\n' +
+    '    the description notes that the class mostly conforms to the\n' +
+    '    characteristics of magic-users. The latter may build strongholds\n' +
+    '    at level 12, and Scribe treats illusionists similarly.\n' +
+    '  </li>\n' +
+    '  <li>\n' +
+    '    The OSRIC rules discuss illusionist scrolls, but does not give\n' +
+    '    the minimum level required to create them. Scribe uses the 1E PHB\n' +
+    '    limit of level 10.' +
+    '  </li>\n' +
+    '</ul>\n' +
+    '</p>\n' +
+    '\n' +
+    '<h3>Limitations</h3>\n' +
+    '<p>\n' +
+    '<ul>\n' +
+    '</ul>\n' +
+    '</p>\n' +
+    '\n' +
+    '<h3>Known Bugs</h3>\n' +
+    '<ul>\n' +
+    '</ul>\n' +
+    '</p>\n';
 };
