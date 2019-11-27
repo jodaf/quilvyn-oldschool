@@ -111,7 +111,41 @@ FirstEdition.armorsArmorClassBonuses = {
   'Leather' : -2, 'Padded' :-2, 'Plate' : -7, 'Ring' : -3, 'Scale' : -4,
   'Splint' : -6, 'Studded' : -3
 };
-FirstEdition.thiefSkillsRacialAdjustments = {}; // Filled by raceRules
+if(FirstEdition.USE_OSRIC_RULES) {
+  FirstEdition.thiefSkillsRacialAdjustments = {
+    'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Move Quietly':-5,
+    'Dwarf Open Locks':15, 'Dwarf Read Languages:':-5,
+    'Elf Climb Walls':-5, 'Elf Find Traps':5, 'Elf Hear Noise':5,
+    'Elf Hide In Shadows':10, 'Elf Move Quietly':5, 'Elf Open Locks':-5,
+    'Elf Pick Pockets':5, 'Elf Read Languages':10,
+    'Gnome Climb Walls':-15, 'Gnome Hear Noise':5, 'Gnome Open Locks':10,
+    'Half-Elf Hide In Shadows':5, 'Half-Elf Pick Pockets':10,
+    'Halfling Climb Walls':-15, 'Halfling Hear Noise':5,
+    'Halfling Hide In Shadows':15, 'Halfling Move Quietly':15,
+    'Halfling Pick Pockets':5, 'Halfling Read Languages':-5,
+    'Half-Orc Climb Walls':5, 'Half-Orc Find Traps':5, 'Half-Orc Hear Noise':5,
+    'Half-Orc Open Locks':5, 'Half-Orc Pick Pockets':-5,
+    'Half-Orc Read Languages':-10,
+    'Human Climb Walls':5, 'Human Open Locks':5
+  };
+} else {
+  FirstEdition.thiefSkillsRacialAdjustments = {
+    'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Open Locks':10,
+    'Dwarf Read Languages:':-5,
+    'Elf Hear Noise':5, 'Elf Hide In Shadows':10, 'Elf Move Quietly':5,
+    'Elf Open Locks':-5, 'Elf Pick Pockets':5,
+    'Gnome Climb Walls':-15, 'Gnome Find Traps':10, 'Gnome Hear Noise':10,
+    'Gnome Hide In Shadows':5, 'Gnome Move Quietly':5, 'Gnome Open Locks':5,
+    'Half-Elf Hide In Shadows':5, 'Half-Elf Pick Pockets':10,
+    'Halfling Climb Walls':-15, 'Halfling Find Traps':5,
+    'Halfling Hear Noise':5, 'Halfling Hide In Shadows':15,
+    'Halfling Move Quietly':10, 'Halfling Open Locks':5,
+    'Halfling Pick Pockets':5, 'Halfling Read Languages':-5,
+    'Half-Orc Climb Walls':5, 'Half-Orc Find Traps':5, 'Half-Orc Hear Noise':5,
+    'Half-Orc Open Locks':5, 'Half-Orc Pick Pockets':-5,
+    'Half-Orc Read Languages':-10
+  };
+}
 FirstEdition.spellsSchools = {
   'Aerial Servant':'Conjuration', 'Affect Normal Fires':'Transmutation',
   'Airy Water':'Transmutation', 'Alter Reality':'Illusion',
@@ -289,6 +323,11 @@ FirstEdition.strengthEncumbranceAdjustments = [
 /* Defines the rules related to character abilities. */
 FirstEdition.abilityRules = function(rules) {
 
+  for(var ability in {'charisma':'', 'constitution':'', 'dexterity':'',
+                      'intelligence':'', 'strength':'', 'wisdom':''}) {
+    rules.defineRule(ability, ability + 'Adjust', '+', null);
+  }
+
   // Charisma
   rules.defineRule('abilityNotes.charismaLoyaltyAjustment',
     'charisma', '=',
@@ -417,11 +456,11 @@ FirstEdition.classRules = function(rules, classes) {
   for(var i = 0; i < classes.length; i++) {
 
     var baseAttack, features, hitDie, notes, saveBreath, saveDeath,
-        savePetrification, saveSpell, saveWand, spellsKnown, thiefAbilityLevel;
+        savePetrification, saveSpell, saveWand, spellsKnown, thiefSkillLevel;
     var klass = classes[i];
 
     spellsKnown = null;
-    thiefAbilityLevel = null;
+    thiefSkillLevel = null;
     //TODO armor/shield/weapon proficiency
     //TODO level experience points
 
@@ -463,7 +502,7 @@ FirstEdition.classRules = function(rules, classes) {
       savePetrification = '12 - Math.floor((source - 1) / 4)';
       saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
       saveWand = '14 - Math.floor((source - 1) / 4) * 2';
-      thiefAbilityLevel = 'source >= 4 ? source - 2 : 1';
+      thiefSkillLevel = 'source >= 4 ? source - 2 : 1';
       rules.defineRule('combatNotes.assassinationFeature',
         'levels.Assassin', '=', '50 + 5 * source'
       );
@@ -700,12 +739,10 @@ FirstEdition.classRules = function(rules, classes) {
       } else {
         baseAttack = '(source<6 ? -1 : -2) + Math.floor((source - 1) / 5) * 3';
       }
-      features = ['10:Eldritch Craft'];
-      if(FirstEdition.USE_OSRIC_RULES) {
-        features.push('10:Attract Followers');
-      } else {
-        features.push('12:Attract Followers');
-      }
+      features = [
+        '10:Eldritch Craft',
+        (FirstEdition.USE_OSRIC_RULES ? '10' : '12') + ':Attract Followers'
+      ];
       hitDie = 4;
       notes = [
         'featureNotes.attractFollowersFeature:' +
@@ -1083,7 +1120,7 @@ FirstEdition.classRules = function(rules, classes) {
       savePetrification = '12 - Math.floor((source - 1) / 4)';
       saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
       saveWand = '14 - Math.floor((source - 1) / 4) * 2';
-      thiefAbilityLevel = 'source';
+      thiefSkillLevel = 'source';
       rules.defineRule('combatNotes.backstabFeature',
         'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
       );
@@ -1108,50 +1145,96 @@ FirstEdition.classRules = function(rules, classes) {
     rules.defineRule('save.Spell', 'levels.' + klass, '+=', saveSpell);
     rules.defineRule('save.Wand', 'levels.' + klass, '+=', saveWand);
 
-    if(thiefAbilityLevel != null) {
+    if(thiefSkillLevel != null) {
+      if(FirstEdition.USE_OSRIC_RULES) {
+        rules.defineRule('thiefSkills.Climb Walls',
+          'thiefSkillLevel', '=',
+          'source <= 6 ? source*2+78 : Math.min(source+84, 99)'
+        );
+        rules.defineRule('thiefSkills.Find Traps',
+          'thiefSkillLevel', '=',
+          'source <= 17 ? source*4+21 : Math.min(source*2+55, 99)',
+          'dexterity', '+',
+          'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null'
+        );
+        rules.defineRule
+          ('thiefSkills.Hear Noise', 'thiefSkillLevel', '=', 'source*3+7');
+        rules.defineRule('thiefSkills.Hide In Shadows',
+          'thiefSkillLevel', '=',
+          'source <= 15 ? source*5+15 : (source+75)',
+          'dexterity', '+',
+          'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Move Quietly',
+          'thiefSkillLevel', '=',
+          'source <= 15 ? 15 + source * 5 : (75 + source)',
+          'dexterity', '+',
+          'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Open Locks',
+          'thiefSkillLevel', '=',
+          'source <= 16 ? 26 + source * 4 : (75 + source)',
+          'dexterity', '+',
+          'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Pick Pockets',
+          'thiefSkillLevel', '=',
+          'source <= 14 ? 31 + source * 4 : (75 + source)',
+          'dexterity', '+',
+          'source<=11 ? (source-12)*5 : source>=18 ? (source-17)*10-5 : null'
+        );
+        rules.defineRule('thiefSkills.Read Languages',
+          'thiefSkillLevel', '=',
+          'source <= 19 ? Math.max(-5+source*5, 1) : Math.min(52+source*2, 99)'
+        );
+      } else {
+        rules.defineRule('thiefSkills.Climb Walls',
+          'thiefSkillLevel', '=',
+          'source <= 4 ? 84 + source : Math.min(80 + source * 2, 99)'
+        );
+        rules.defineRule('thiefSkills.Find Traps',
+          'thiefSkillLevel', '=',
+          'Math.min(15 + source * 5, 99)',
+          'dexterity', '+',
+          'source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Hear Noise',
+          'thiefSkillLevel', '=', '10 + Math.floor((source-1)/2) * 5'
+        );
+        rules.defineRule('thiefSkills.Hide In Shadows',
+          'thiefSkillLevel', '=',
+          'source <= 4 ? (source+1) * 5 : source <= 8 ? source * 6 + 1 : ' +
+          'source <= 12 ? (source-1) * 7 : Math.min(source * 8 - 19, 99)',
+          'dexterity', '+',
+          'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Move Quietly',
+          'thiefSkillLevel', '=',
+          'source <= 4 ? source*6+9 : source <= 7 ? source*7+5 : ' +
+          'Math.min(source*8-2, 99)',
+          'dexterity', '+',
+          'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Open Locks',
+          'thiefSkillLevel', '=',
+          'source <= 4 ? source*4+21 : Math.min(source*5+17, 99)',
+          'dexterity', '+',
+          'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Pick Pockets',
+          'thiefSkillLevel', '=',
+          'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
+          'Math.min(source*5+40, 125)',
+          'dexterity', '+',
+          'source <= 11 ? (source-12)*5 : source >= 17 ? (source-17)*5 : null'
+        );
+        rules.defineRule('thiefSkills.Read Languages',
+          'thiefSkillLevel', '=',
+          'source >= 4 ? Math.min(source*5, 80) : null'
+        );
+      }
       rules.defineRule
-        ('thiefAbilityLevel', 'levels.' + klass, '+=', thiefAbilityLevel);
-      rules.defineRule('thiefSkills.Climb Walls',
-        'thiefAbilityLevel', '=',
-        'source <= 6 ? 78 + source * 2 : source <= 15 ? 84 + source : 99'
-      );
-      rules.defineRule('thiefSkills.Find Traps',
-        'thiefAbilityLevel', '=',
-        'source <= 17 ? 21 + source * 4 : source <= 22 ? 55 + source * 2 : 99',
-        'dexterity', '+',
-        'source<=11 ? 5 * source - 60 : source<=16 ? null : (5 * source - 80)'
-      );
-      rules.defineRule
-        ('thiefSkills.Hear Noise', 'thiefAbilityLevel', '=', '7 + source * 3');
-      rules.defineRule('thiefSkills.Hide In Shadows',
-        'thiefAbilityLevel', '=',
-        'source <= 15 ? 15 + source * 5 : (75 + source)',
-        'dexterity', '+',
-        'source<=10 ? 5 * source - 55 : source<=16 ? null : (5 * source - 80)'
-      );
-      rules.defineRule('thiefSkills.Move Quietly',
-        'thiefAbilityLevel', '=',
-        'source <= 15 ? 15 + source * 5 : (75 + source)',
-        'dexterity', '+',
-        'source<=12 ? 5 * source - 65 : source<=16 ? null : (5 * source - 80)'
-      );
-      rules.defineRule('thiefSkills.Open Locks',
-        'thiefAbilityLevel', '=',
-        'source <= 16 ? 26 + source * 4 : (75 + source)',
-        'dexterity', '+',
-        'source<=10 ? 5 * source - 55 : source<=15 ? null : (5 * source - 80)'
-      );
-      rules.defineRule('thiefSkills.Pick Pockets',
-        'thiefAbilityLevel', '=',
-        'source <= 14 ? 31 + source * 4 : (75 + source)',
-        'dexterity', '+',
-        'source<=11 ? 5 * source - 60 : source<=17 ? null : (5 * source - 85)'
-      );
-      rules.defineRule('thiefSkills.Read Languages',
-        'thiefAbilityLevel', '=',
-        'source == 1 ? 1 : source <= 19 ? -5 + source * 5 : ' +
-        'source <= 23 ? 52 + source * 2 : 99'
-      );
+        ('thiefSkillLevel', 'levels.' + klass, '+=', thiefSkillLevel);
       rules.defineSheetElement('Thief Skills', 'Skills', null, ' * ');
       for(var skill in {'Climb Walls':'', 'Find Traps':'', 'Hear Noise':'',
                         'Hide In Shadows':'', 'Move Quietly':'',
@@ -1159,7 +1242,7 @@ FirstEdition.classRules = function(rules, classes) {
                         'Read Languages':''}) {
         rules.defineRule('thiefSkills.' + skill,
           'race', '+',
-          'FirstEdition.thiefSkillsRacialAdjustments[source + ".' + skill + '"]'
+          'FirstEdition.thiefSkillsRacialAdjustments[source + " ' + skill + '"]'
         );
       }
     }
@@ -1548,8 +1631,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
       rules.defineRule('saveNotes.resistSleepFeature',
         'halfElfFeatures.Resist Sleep', '+=', '30'
       );
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hide In Shadows'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Pick Pockets'] = 10;
 
     } else if(race == 'Half Orc') {
 
@@ -1568,12 +1649,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
       rules.defineRule('featureNotes.infravisionFeature',
         'halfOrcFeatures.Infravision', '+=', '60'
       );
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Find Traps'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hear Noise'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Pick Pockets'] = -5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Read Languages'] = -10;
 
     } else if(race.match(/Dwarf/)) {
 
@@ -1624,11 +1699,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
       rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-30');
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -10;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Find Traps'] = 15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Move Quietly'] = -5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Read Languages'] = -5;
 
     } else if(race.match(/Elf/)) {
 
@@ -1667,14 +1737,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
       rules.defineRule('saveNotes.resistSleepFeature',
         raceNoSpace + 'Features.Resist Sleep', '+=', '90'
       );
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Find Traps'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hear Noise'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hide In Shadows'] = 10;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Move Quietly'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = -5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Pick Pockets'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Read Languages'] = 10;
 
     } else if(race.match(/Gnome/)) {
 
@@ -1725,9 +1787,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
       rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-30');
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hear Noise'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 10;
 
     } else if(race.match(/Halfling/)) {
 
@@ -1767,12 +1826,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'constitution', '=', 'Math.floor(source / 3.5)'
       );
       rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-30');
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = -15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hear Noise'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Hide In Shadows'] = 15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Move Quietly'] = 15;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Pick Pockets'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Read Languages'] = -5;
 
     } else if(race.match(/Human/)) {
 
@@ -1780,8 +1833,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
       features = null;
       notes = null;
       languages = ['Common'];
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Climb Walls'] = 5;
-      FirstEdition.thiefSkillsRacialAdjustments[race + '.Open Locks'] = 5;
 
     } else
       continue;
