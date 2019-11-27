@@ -426,6 +426,7 @@ FirstEdition.classRules = function(rules, classes) {
     //TODO level experience points
 
     if(klass == 'Assassin') {
+
       baseAttack = 'source <= 4 ? -1 : source <= 8 ? 1 : source <= 12 ? 4 : 6';
       features = [
         'Assassination', 'Backstab', 'Disguise', '9:Extra Languages',
@@ -457,11 +458,11 @@ FirstEdition.classRules = function(rules, classes) {
             'Strength >= 12'
         );
       }
-      saveBreath = '16 - Math.floor(source / 4)'
-      saveDeath = '13 - Math.floor(source / 4)'
-      savePetrification = '12 - Math.floor(source / 4)'
-      saveSpell = '15 - Math.floor(source / 4) * 2'
-      saveWand = '14 - Math.floor(source / 4) * 2'
+      saveBreath = '16 - Math.floor((source - 1) / 4)';
+      saveDeath = '13 - Math.floor((source - 1) / 4)';
+      savePetrification = '12 - Math.floor((source - 1) / 4)';
+      saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
+      saveWand = '14 - Math.floor((source - 1) / 4) * 2';
       thiefAbilityLevel = 'source >= 4 ? source - 2 : 1';
       rules.defineRule('combatNotes.assassinationFeature',
         'levels.Assassin', '=', '50 + 5 * source'
@@ -477,15 +478,19 @@ FirstEdition.classRules = function(rules, classes) {
         ('languageCount', 'featureNotes.extraLanguagesFeature', '+=', null);
 
     } else if(klass == 'Cleric') {
+
       baseAttack = 'source < 19 ? Math.floor(source / 3) * 2 : 11';
-      features = ['Turn Undead', '9:Attract Followers'];
+      features = [
+        'Bonus Cleric Experience', 'Turn Undead', '9:Attract Followers'
+      ];
       hitDie = 8;
       notes = [
         'combatNotes.turnUndeadFeature:' +
           'Turn 2d6/destroy(good) or control (evil) d6+6 undead creatures',
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
-        'featureNotes.bonusClericExperience:Bonus to awarded experience',
+        'featureNotes.bonusClericExperienceFeature:' +
+          '10% added to awarded experience',
         'magicNotes.clericSpellFailure:%V%'
       ];
       if(FirstEdition.USE_OSRIC_RULES) {
@@ -515,8 +520,7 @@ FirstEdition.classRules = function(rules, classes) {
         'C7:16:1/19:2/22:3/25:4/27:5/28:6/29:7'
       ];
       rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
-      rules.defineRule('featureNotes.bonusClericExperience',
-        'levels.Cleric', '=', '1',
+      rules.defineRule('clericFeatures.Bonus Cleric Experience',
         'wisdom', '?', 'source >= 16'
       );
       if(FirstEdition.USE_OSRIC_RULES) {
@@ -553,14 +557,17 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('spellsKnown.C4', 'spellBonus.C4', '+', null);
 
     } else if(klass == 'Druid') {
+
       baseAttack = 'Math.floor(source / 3) * 2';
       features = [
-        'Resist Fire', 'Resist Lightning', "3:Druid's Knowledge",
-        '3:Wilderness Movement', '7:Fey Immunity', '7:Shapeshift'
+        'Bonus Druid Experience', 'Resist Fire', 'Resist Lightning',
+        "3:Druid's Knowledge", '3:Wilderness Movement', '7:Fey Immunity',
+        '7:Shapeshift'
       ];
       hitDie = 8;
       notes = [
-        'featureNotes.bonusDruidExperience:Bonus to awarded experience',
+        'featureNotes.bonusDruidExperienceFeature:' +
+          '10% added to awarded experience',
         "featureNotes.druid'sKnowledgeFeature:" +
           'Identify plant/animal types/water purity',
         'featureNotes.wildernessMovementFeature:' +
@@ -600,8 +607,7 @@ FirstEdition.classRules = function(rules, classes) {
         'D7:12:1/13:2/14:3'
       ];
       rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
-      rules.defineRule('featureNotes.bonusDruidExperience',
-        'levels.Druid', '=', '1',
+      rules.defineRule('druidFeatures.Bonus Druid Experience',
         'charisma', '?', 'source >= 16',
         'wisdom', '?', 'source >= 16'
       );
@@ -629,19 +635,24 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('spellsKnown.D4', 'spellBonus.D4', '+', null);
 
     } else if(klass == 'Fighter') {
+
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = 'source - 1';
       } else {
         baseAttack = 'Math.floor((source-1) / 2) * 2';
       }
-      features = ['2:Fighting The Unskilled', '9:Attract Followers'];
+      features = [
+        'Bonus Fighter Experience', '2:Fighting The Unskilled',
+        '9:Attract Followers'
+      ];
       hitDie = 10;
       notes = [
         'combatNotes.fightingTheUnskilledFeature:' +
           '%V attacks/round vs. creatures with < 1d8 hit die',
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
-        'featureNotes.bonusFighterExperience:Bonus to awarded experience'
+        'featureNotes.bonusFighterExperienceFeature:' +
+          '10% added to awarded experience'
       ];
       if(FirstEdition.USE_OSRIC_RULES) {
         notes.push(
@@ -669,21 +680,21 @@ FirstEdition.classRules = function(rules, classes) {
         'Math.floor((source - 5) / 2)';
       saveWand =
         'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        ' Math.floor((source - 7) / 2)';
+        'Math.floor((source - 7) / 2)';
       rules.defineRule('attacksPerRound',
         'levels.Fighter', '+', 'Math.floor(source / 6) * 0.5'
       );
       rules.defineRule('combatNotes.fightingTheUnskilledFeature',
-        'levels.Fighter', '=', null
+        'levels.Fighter', '+=', null
       );
-      rules.defineRule('featureNotes.bonusFighterExperience',
-        'levels.Fighter', '=', '1',
+      rules.defineRule('fighterFeatures.Bonus Fighter Experience',
         'strength', '?', 'source >= 16'
       );
       rules.defineRule('warriorLevel', 'levels.Fighter', '+=', null);
       // TODO weapon specialization
 
     } else if(klass == 'Illusionist') {
+
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
       } else {
@@ -743,19 +754,22 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('casterLevelArcane', 'levels.Illusionist', '+=', null);
 
     } else if(klass == 'Magic User') {
+
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
       } else {
         baseAttack = '(source<6 ? -1 : -2) + Math.floor((source - 1) / 5) * 3';
       }
       features = [
-        '7:Eldritch Craft', '11:Attract Followers', '12:Eldritch Power'
+        'Bonus Magic User Experience', '7:Eldritch Craft',
+        '11:Attract Followers', '12:Eldritch Power'
       ];
       hitDie = 4;
       notes = [
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
-        'featureNotes.bonusMagicUserExperience:Bonus to awarded experience',
+        'featureNotes.bonusMagicUserExperienceFeature:' +
+          '10% added to awarded experience',
         'magicNotes.eldritchCraftFeature:' +
           'May create magical potion/scroll and rechage rods/staves/wands',
         'magicNotes.eldritchPowerFeature:May use <i>Enchant An Item</i> spell'
@@ -807,8 +821,7 @@ FirstEdition.classRules = function(rules, classes) {
         'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 14 ? 3 : source <= 16 ? 4 : (source - 13)',
         'levels.Magic User', '?', null
       );
-      rules.defineRule('featureNotes.bonusMagicUserExperience',
-        'levels.Magic User', '=', '1',
+      rules.defineRule('magicUserFeatures.Bonus Magic User Experience',
         'intelligence', '?', 'source >= 16'
       );
       rules.defineRule('understandSpell',
@@ -830,66 +843,107 @@ FirstEdition.classRules = function(rules, classes) {
         ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
 
     } else if(klass == 'Paladin') {
-      baseAttack = 'source - 1';
+
+      if(FirstEdition.USE_OSRIC_RULES) {
+        baseAttack = 'source - 1';
+      } else {
+        baseAttack = 'Math.floor((source-1) / 2) * 2';
+      }
       features = [
-        'Cure Disease', 'Detect Evil', 'Discriminating', 'Divine Health',
+        'Bonus Paladin Experience', 'Cure Disease', 'Detect Evil',
+        'Discriminating', 'Divine Health', 'Fighting The Unskilled',
         'Lay On Hands', 'Nonmaterialist', 'Philanthropist',
         'Protection From Evil', '3:Turn Undead', '4:Summon Warhorse'
       ];
       hitDie = 10;
       notes = [
+        'combatNotes.fightingTheUnskilledFeature:' +
+          '%V attacks/round vs. creatures with < 1d8 hit die',
         'combatNotes.turnUndeadFeature:' +
           'Turn 2d6/destroy(good) or control (evil) d6+6 undead creatures',
-        'featureNotes.bonusPaladinExperience:Bonus to awarded experience',
+        'featureNotes.bonusPaladinExperienceFeature:' +
+          '10% added to awarded experience',
+        'featureNotes.discriminatingFeature:' +
+          'Must not associate w/non-good characters',
         'featureNotes.nonmaterialistFeature:' +
           'May not own > 10 magic items, including 1 armor suit and 1 shield',
         'featureNotes.philanthropistFeature:' +
           'Must donate 10% of gross income/100% net to lawful good causes',
-        'featureNotes.discriminatingFeature:' +
-          'Must not associate w/non-good characters',
         'featureNotes.summonWarhorseFeature:Call warhorse w/enhanced features',
         'magicNotes.cureDiseaseFeature:<i>Cure Disease</i> %V/week',
         "magicNotes.detectEvilFeature:<i>Detect Evil</i> 60' at will",
-        'magicNotes.layOnHandsFeature:Heal %V HP/day',
+        'magicNotes.layOnHandsFeature:Heal %V HP 1/day',
         'magicNotes.protectionFromEvilFeature:' +
           "Continuous <i>Protection From Evil</i> 10' radius",
         'saveNotes.divineHealthFeature:Immune to disease',
         'validationNotes.paladinClassAlignment:' +
-          'Requires Alignment == "Lawful Good"',
-        'validationNotes.paladinClassCharisma:Requires Charisma >= 17',
-        'validationNotes.paladinClassConstitution:Requires Constitution >= 9',
-        'validationNotes.paladinClassDexterity:Requires Dexterity >= 6',
-        'validationNotes.paladinClassIntelligence:Requires Intelligence >= 9',
-        'validationNotes.paladinClassStrength:Requires Strength >= 12',
-        'validationNotes.paladinClassWisdom:Requires Wisdom >= 13'
+          'Requires Alignment == "Lawful Good"'
       ];
-      saveBreath =
-        'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
-        '2';
-      saveDeath =
-        'source<=16 ? 12-Math.floor((source-1)/2)-Math.floor((source-1)/4) : 2';
-      savePetrification =
-        'source<=16 ? 13-Math.floor((source-1)/2)-Math.floor((source-1)/4) : 2';
-      saveSpell =
-        'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source <= 18 ? 4 : 3';
-      saveWand =
-        'source<=16 ? 14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        ' source<=18 ? 3 : 2';
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.paladinClassAbility:' +
+            'Requires Charisma >= 17/Constitution >= 9/Dexterity >= 6/' +
+            'Intelligence >= 9/Strength >= 12/Wisdom >= 13'
+        );
+        saveBreath =
+          'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
+          '2';
+        saveDeath =
+          'source<=16?12-Math.floor((source-1)/2)-Math.floor((source-1)/4) : 2';
+        savePetrification =
+          'source<=16?13-Math.floor((source-1)/2)-Math.floor((source-1)/4) : 2';
+        saveSpell =
+          'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+          'source <= 18 ? 4 : 3';
+        saveWand =
+          'source<=16?14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+          'source<=18 ? 3 : 2';
+      } else {
+        notes.push(
+          'validationNotes.paladinClassAbility:' +
+            'Requires Charisma >= 17/Constitution >= 9/Intelligence >= 9/' +
+            'Strength >= 12/Wisdom >= 13'
+        );
+        saveBreath =
+          'source<=16?17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
+          'Math.floor((source - 9) / 2)';
+        saveDeath =
+          'source<=16?14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+          'Math.floor((source - 11) / 2)';
+        savePetrification =
+          'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+          'Math.floor((source - 9) / 2)';
+        saveSpell =
+          'source<=16?17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+          'Math.floor((source - 5) / 2)';
+        saveWand =
+          'source<=16?16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
+          'Math.floor((source - 7) / 2)';
+      }
       spellsKnown = [
         'C1:9:1/10:2/14:3/21:4',
         'C2:11:1/12:2/16:3/22:4',
         'C3:13:1/17:2/18:3/23:4',
-        'C4:15:1/19:2/20:2/24:4'
+        'C4:15:1/19:2/20:3/24:4'
       ];
-      rules.defineRule('attacksPerRound',
-        'levels.Paladin', '+', 'Math.floor(source / 7) * 0.5'
-      );
+      if(FirstEdition.USE_OSRIC_RULES) {
+        rules.defineRule('attacksPerRound',
+          'levels.Paladin', '+', 'Math.floor(source / 7) * 0.5'
+        );
+      } else {
+        rules.defineRule('attacksPerRound',
+          'levels.Paladin', '+', 'Math.floor(source / 6) * 0.5'
+        );
+      }
       rules.defineRule('casterLevelDivine',
-        'levels.Paladin', '+=', 'source<=8 ? null : source<=16 ? source - 8 : 8'
+        'levels.Paladin', '+=', 'source<=8 ? null : Math.min(source - 8, 8)'
       );
-      rules.defineRule('featureNotes.bonusPaladinExperience',
-        'levels.Paladin', '=', '1',
+      if(! FirstEdition.USE_OSRIC_RULES) {
+        rules.defineRule('combatNotes.fightingTheUnskilledFeature',
+          'levels.Paladin', '+=', null
+        );
+      }
+      rules.defineRule('paladinFeatures.Bonus Paladin Experience',
         'strength', '?', 'source >= 16',
         'wisdom', '?', 'source >= 16'
       );
@@ -897,56 +951,75 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Paladin', '=', 'Math.floor(source / 5) + 1'
       );
       rules.defineRule
-        ('magicNotes.layOnHandsFeature', 'levels.Paladin', '+=', '2 * source');
+        ('magicNotes.layOnHandsFeature', 'levels.Paladin', '=', '2 * source');
       rules.defineRule('turningLevel',
         'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
       );
-      rules.defineRule('warriorLevel', 'levels.Paladin', '+', null);
+      rules.defineRule('warriorLevel', 'levels.Paladin', '+=', null);
       // TODO weapon specialization
+      // TODO PHB only Holy Sword
 
     } else if(klass == 'Ranger') {
-      baseAttack = 'source - 1';
+
+      if(FirstEdition.USE_OSRIC_RULES) {
+        baseAttack = 'source - 1';
+      } else {
+        baseAttack = 'Math.floor((source-1) / 2) * 2';
+      }
       features = [
-        'Loner', 'Selective', 'Ranger Favored Enemy', 'Tracking',
-        'Travel Light', 'Unsurprised', '10:Scrying', '10:Band of Followers'
+        'Alert', 'Bonus Ranger Experience', 'Fighting The Unskilled', 'Loner',
+        'Selective', 'Ranger Favored Enemy', 'Track', 'Travel Light',
+        '10:Scrying', '10:Band of Followers'
       ];
       hitDie = 8;
       notes = [
-        'combatNotes.unsurprisedFeature:Surprised only 1in6/surprise 1in2',
-        'combatNotes.rangerFavoredEnemyFeature:' +
-          '+%V melee damage vs. evil humanoid/giantish foe',
+        'combatNotes.fightingTheUnskilledFeature:' +
+          '%V attacks/round vs. creatures with < 1d8 hit die',
+        'combatNotes.alertFeature:Surprised 1/6, surprise 1/2',
         'featureNotes.bandOfFollowersFeature:Will attract followers',
-        'featureNotes.bonusRangerExperience:Bonus to awarded experience',
+        'featureNotes.bonusRangerExperienceFeature:' +
+          '10% added to awarded experience',
         'featureNotes.lonerFeature:Will not work with > 2 other rangers',
         'featureNotes.selectiveFeature:Must employ only good henchmen',
-        'featureNotes.trackingFeature:' +
+        'featureNotes.trackFeature:' +
           '90% rural/65% urban/dungeon base chance creature tracking',
         'featureNotes.travelLightFeature:' +
           'Will not possess more than can be carried',
-        'magicNotes.scryingFeature:May use crystal balls and simiar devices',
-        'validationNotes.rangerClassAlignment:Requires Alignment =~ Good',
-        'validationNotes.rangerClassCharisma:Requires Charisma >= 6',
-        'validationNotes.rangerClassConstitution:Requires Constitution >= 14',
-        'validationNotes.rangerClassDexterity:Requires Dexterity >= 6',
-        'validationNotes.rangerClassIntelligence:Requires Intelligence >= 13',
-        'validationNotes.rangerClassStrength:Requires Strength >= 13',
-        'validationNotes.rangerClassWisdom:Requires Wisdom >= 14'
+        'magicNotes.scryingFeature:May scrying magic items',
+        'validationNotes.rangerClassAlignment:Requires Alignment =~ Good'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'combatNotes.rangerFavoredEnemyFeature:' +
+            '+%V melee damage vs. evil humanoid/giantish foe',
+          'validationNotes.rangerClassAbility:' +
+            'Requires Charisma >= 6/Constitution >= 14/Dexterity >= 6/' +
+            'Intelligence >= 13/Strength >= 13/Wisdom >= 14'
+        );
+      } else {
+        notes.push(
+          'combatNotes.rangerFavoredEnemyFeature:' +
+            '+%V melee damage vs. giantish foe',
+          'validationNotes.rangerClassAbility:' +
+            'Requires Constitution >= 14/Dexterity >= 6/Intelligence >= 13/' +
+            'Strength >= 13/Wisdom >= 14'
+        );
+      }
       saveBreath =
-        'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
-        'source<=18 ? 4 : 3';
+        'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
+        'Math.floor((source - 9) / 2)';
       saveDeath =
         'source<=16 ? 14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source<=18 ? 3 : 2'
+        'Math.floor((source - 11) / 2)';
       savePetrification =
         'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source<=18 ? 4 : 3';
+        'Math.floor((source - 9) / 2)';
       saveSpell =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source<=18 ? 6 : 5';
+        'Math.floor((source - 5) / 2)';
       saveWand =
         'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source<=18 ? 5 : 4';
+        'Math.floor((source - 7) / 2)';
       spellsKnown = [
         'D1:8:1/10:2/18:3/23:4',
         'D2:12:1/14:2/20:3',
@@ -959,41 +1032,52 @@ FirstEdition.classRules = function(rules, classes) {
       );
       rules.defineRule('casterLevelArcane',
         'levels.Ranger', '+=',
-        'source <= 9 ? null : source <= 13 ? 1 : source <= 17 ? 2 : 3'
+        'source <= 7 ? null : Math.min(Math.floor((source-6)/2), 6)'
       );
       rules.defineRule('casterLevelDivine',
         'levels.Ranger', '+=',
-        'source <= 7 ? null : source <= 11 ? 1 : source <= 15 ? 2 : 3'
+        'source <= 7 ? null : Math.min(Math.floor((source-6)/2), 6)'
       );
+      if(! FirstEdition.USE_OSRIC_RULES) {
+        rules.defineRule('combatNotes.fightingTheUnskilledFeature',
+          'levels.Ranger', '+=', null
+        );
+      }
       rules.defineRule
         ('combatNotes.rangerFavoredEnemyFeature', 'levels.Ranger', '=', null);
-      rules.defineRule('featureNotes.bonusRangerExperience',
-        'levels.Ranger', '=', '1',
+      rules.defineRule('rangerFeatures.Bonus Ranger Experience',
         'strength', '?', 'source >= 16',
         'intelligence', '?', 'source >= 16',
         'wisdom', '?', 'source >= 16'
       );
-      rules.defineRule('warriorLevel', 'levels.Ranger', '+', null);
+      rules.defineRule('warriorLevel', 'levels.Ranger', '+=', null);
       // TODO weapon specialization
 
     } else if(klass == 'Thief') {
+
       baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2'
-      features = ['10:Read Scrolls'];
+      features = ['Bonus Thief Experience', '10:Read Scrolls'];
       hitDie = 6;
       notes = [
         // TODO OSRIC "when unobserved"
         'combatNotes.backstabFeature:' +
           '+4 melee attack/x%V damage from behind',
-        'featureNotes.bonusThiefExperience:Bonus to awarded experience',
+        'featureNotes.bonusThiefExperienceFeature:' +
+          '10% added to awarded experience',
         'magicNotes.readScrollsFeature:Cast arcane spells from scrolls',
-        'validationNotes.thiefClassAlignment:' +
-          'Requires Alignment =~ Neutral|Evil',
-        'validationNotes.thiefClassCharisma:Requires Charisma >= 6',
-        'validationNotes.thiefClassConstitution:Requires Constitution >= 6',
-        'validationNotes.thiefClassDexterity:Requires Dexterity >= 9',
-        'validationNotes.thiefClassIntelligence:Requires Intelligence >= 6',
-        'validationNotes.thiefClassStrength:Requires Strength >= 6'
+        'validationNotes.thiefClassAlignment:Requires Alignment =~ Neutral|Evil'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        notes.push(
+          'validationNotes.thiefClassAbility:' +
+            'Requires Charisma >= 6/Constitution >= 6/Dexterity >= 9/' +
+            'Intelligence >= 6/Strength >= 6',
+        );
+      } else {
+        notes.push(
+          'validationNotes.thiefClassAbility:Requires Dexterity >= 9',
+        );
+      }
       saveBreath = '16 - Math.floor((source - 1) / 4)';
       saveDeath = '13 - Math.floor((source - 1) / 4)';
       savePetrification = '12 - Math.floor((source - 1) / 4)';
@@ -1003,12 +1087,11 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('combatNotes.backstabFeature',
         'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
       );
-      rules.defineRule('featureNotes.bonusThiefExperience',
-        'levels.Thief', '=', '1',
-        'dexterity', '?', 'source >= 16'
-      );
       rules.defineRule('languageCount', 'levels.Thief', '+=', '1');
       rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
+      rules.defineRule('thiefFeatures.Bonus Thief Experience',
+        'dexterity', '?', 'source >= 16'
+      );
 
     } else
       continue;
@@ -1017,19 +1100,14 @@ FirstEdition.classRules = function(rules, classes) {
       (rules, klass, hitDie, null, baseAttack, null, null,
        null, null, null, null, null, features,
        spellsKnown, null, null);
-    if(notes != null)
-      rules.defineNote(notes);
-    if(saveBreath != null)
-      rules.defineRule('save.Breath', 'levels.' + klass, '+=', saveBreath);
-    if(saveDeath != null)
-      rules.defineRule('save.Death', 'levels.' + klass, '+=', saveDeath);
-    if(savePetrification != null)
-      rules.defineRule
-        ('save.Petrification', 'levels.' + klass, '+=', savePetrification);
-    if(saveSpell != null)
-      rules.defineRule('save.Spell', 'levels.' + klass, '+=', saveSpell);
-    if(saveWand != null)
-      rules.defineRule('save.Wand', 'levels.' + klass, '+=', saveWand);
+
+    rules.defineRule('save.Breath', 'levels.' + klass, '+=', saveBreath);
+    rules.defineRule('save.Death', 'levels.' + klass, '+=', saveDeath);
+    rules.defineRule
+      ('save.Petrification', 'levels.' + klass, '+=', savePetrification);
+    rules.defineRule('save.Spell', 'levels.' + klass, '+=', saveSpell);
+    rules.defineRule('save.Wand', 'levels.' + klass, '+=', saveWand);
+
     if(thiefAbilityLevel != null) {
       rules.defineRule
         ('thiefAbilityLevel', 'levels.' + klass, '+=', thiefAbilityLevel);
@@ -1085,6 +1163,9 @@ FirstEdition.classRules = function(rules, classes) {
         );
       }
     }
+
+    if(notes != null)
+      rules.defineNote(notes);
 
   }
 
@@ -1200,9 +1281,8 @@ FirstEdition.goodiesRules = function(rules, goodies) {
   rules.choices['skills'] = {};
   SRD35.goodiesRules(rules, goodies);
   delete rules.choices['skills'];
-  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-    '', '*', '-1'
-  );
+  rules.defineRule('combatNotes.goodiesArmorClassAdjustment', '', '*', '-1');
+  rules.defineRule('skillNotes.goodiesSkillCheckAdjustment', '', 'v', '0');
 };
 
 /* Defines the rules related to spells. */
@@ -1749,6 +1829,9 @@ FirstEdition.ruleNotes = function() {
     '<h3>Limitations</h3>\n' +
     '<p>\n' +
     '<ul>\n' +
+    '  <li>\n' +
+    '    The bard and monk classes from the 1E PHB are not included.\n' +
+    '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
     '\n' +
