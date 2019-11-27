@@ -75,7 +75,7 @@ FirstEdition.LANGUAGES = [
   'Halfling', 'Hobgoblin', 'Kobold', 'Orcish'
 ];
 FirstEdition.RACES =
-  ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
+  ['Dwarf', 'Elf', 'Gnome', 'Half-Elf', 'Half-Orc', 'Halfling', 'Human'];
 // Note: the order here handles dependencies among attributes when generating
 // random characters
 FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
@@ -114,7 +114,7 @@ FirstEdition.armorsArmorClassBonuses = {
 if(FirstEdition.USE_OSRIC_RULES) {
   FirstEdition.thiefSkillsRacialAdjustments = {
     'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Move Quietly':-5,
-    'Dwarf Open Locks':15, 'Dwarf Read Languages:':-5,
+    'Dwarf Open Locks':15, 'Dwarf Read Languages':-5,
     'Elf Climb Walls':-5, 'Elf Find Traps':5, 'Elf Hear Noise':5,
     'Elf Hide In Shadows':10, 'Elf Move Quietly':5, 'Elf Open Locks':-5,
     'Elf Pick Pockets':5, 'Elf Read Languages':10,
@@ -131,7 +131,7 @@ if(FirstEdition.USE_OSRIC_RULES) {
 } else {
   FirstEdition.thiefSkillsRacialAdjustments = {
     'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Open Locks':10,
-    'Dwarf Read Languages:':-5,
+    'Dwarf Read Languages':-5,
     'Elf Hear Noise':5, 'Elf Hide In Shadows':10, 'Elf Move Quietly':5,
     'Elf Open Locks':-5, 'Elf Pick Pockets':5,
     'Gnome Climb Walls':-15, 'Gnome Find Traps':10, 'Gnome Hear Noise':10,
@@ -1167,25 +1167,25 @@ FirstEdition.classRules = function(rules, classes) {
         );
         rules.defineRule('thiefSkills.Move Quietly',
           'thiefSkillLevel', '=',
-          'source <= 15 ? 15 + source * 5 : (75 + source)',
+          'source <= 15 ? source * 5 + 15 : (source + 75)',
           'dexterity', '+',
           'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
         );
         rules.defineRule('thiefSkills.Open Locks',
           'thiefSkillLevel', '=',
-          'source <= 16 ? 26 + source * 4 : (75 + source)',
+          'source <= 16 ? source * 4 + 26 : (source + 75)',
           'dexterity', '+',
           'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
         );
         rules.defineRule('thiefSkills.Pick Pockets',
           'thiefSkillLevel', '=',
-          'source <= 14 ? 31 + source * 4 : (75 + source)',
+          'source <= 14 ? source * 4 + 31 : (source + 75)',
           'dexterity', '+',
           'source<=11 ? (source-12)*5 : source>=18 ? (source-17)*10-5 : null'
         );
         rules.defineRule('thiefSkills.Read Languages',
           'thiefSkillLevel', '=',
-          'source <= 19 ? Math.max(-5+source*5, 1) : Math.min(52+source*2, 99)'
+          'source <= 19 ? Math.max(source*5-5, 1) : Math.min(source*2+52, 99)'
         );
       } else {
         rules.defineRule('thiefSkills.Climb Walls',
@@ -1193,13 +1193,12 @@ FirstEdition.classRules = function(rules, classes) {
           'source <= 4 ? 84 + source : Math.min(80 + source * 2, 99)'
         );
         rules.defineRule('thiefSkills.Find Traps',
-          'thiefSkillLevel', '=',
-          'Math.min(15 + source * 5, 99)',
+          'thiefSkillLevel', '=', 'Math.min(source * 5 + 15, 99)',
           'dexterity', '+',
           'source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
         );
         rules.defineRule('thiefSkills.Hear Noise',
-          'thiefSkillLevel', '=', '10 + Math.floor((source-1)/2) * 5'
+          'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + 10'
         );
         rules.defineRule('thiefSkills.Hide In Shadows',
           'thiefSkillLevel', '=',
@@ -1583,7 +1582,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
   rules.defineRule('featureNotes.intelligenceLanguageBonus',
     'race', 'v',
     'source == "Human" ? null : ' +
-    'source.indexOf("Elf") >= 0 && source != "Half Elf" ? 3 : 2'
+    'source.indexOf("Elf") >= 0 && source != "Half-Elf" ? 3 : 2'
   );
 
   rules.defineNote
@@ -1602,7 +1601,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
     var raceNoSpace =
       race.substring(0,1).toLowerCase() + race.substring(1).replace(/ /g, '');
 
-    if(race == 'Half Elf') {
+    if(race == 'Half-Elf') {
 
       adjustment = null;
       features = [
@@ -1632,7 +1631,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'halfElfFeatures.Resist Sleep', '+=', '30'
       );
 
-    } else if(race == 'Half Orc') {
+    } else if(race == 'Half-Orc') {
 
       adjustment = '+1 strength/+1 constitution/-2 charisma';
       features = ['Infravision'];
