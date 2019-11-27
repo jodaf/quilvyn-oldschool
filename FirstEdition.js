@@ -75,7 +75,7 @@ FirstEdition.LANGUAGES = [
   'Halfling', 'Hobgoblin', 'Kobold', 'Orcish'
 ];
 FirstEdition.RACES =
-  ['Dwarf', 'Elf', 'Gnome', 'Half-Elf', 'Half-Orc', 'Halfling', 'Human'];
+  ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
 // Note: the order here handles dependencies among attributes when generating
 // random characters
 FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
@@ -119,13 +119,13 @@ if(FirstEdition.USE_OSRIC_RULES) {
     'Elf Hide In Shadows':10, 'Elf Move Quietly':5, 'Elf Open Locks':-5,
     'Elf Pick Pockets':5, 'Elf Read Languages':10,
     'Gnome Climb Walls':-15, 'Gnome Hear Noise':5, 'Gnome Open Locks':10,
-    'Half-Elf Hide In Shadows':5, 'Half-Elf Pick Pockets':10,
+    'Half Elf Hide In Shadows':5, 'Half Elf Pick Pockets':10,
     'Halfling Climb Walls':-15, 'Halfling Hear Noise':5,
     'Halfling Hide In Shadows':15, 'Halfling Move Quietly':15,
     'Halfling Pick Pockets':5, 'Halfling Read Languages':-5,
-    'Half-Orc Climb Walls':5, 'Half-Orc Find Traps':5, 'Half-Orc Hear Noise':5,
-    'Half-Orc Open Locks':5, 'Half-Orc Pick Pockets':-5,
-    'Half-Orc Read Languages':-10,
+    'Half Orc Climb Walls':5, 'Half Orc Find Traps':5, 'Half Orc Hear Noise':5,
+    'Half Orc Open Locks':5, 'Half Orc Pick Pockets':-5,
+    'Half Orc Read Languages':-10,
     'Human Climb Walls':5, 'Human Open Locks':5
   };
 } else {
@@ -136,14 +136,14 @@ if(FirstEdition.USE_OSRIC_RULES) {
     'Elf Open Locks':-5, 'Elf Pick Pockets':5,
     'Gnome Climb Walls':-15, 'Gnome Find Traps':10, 'Gnome Hear Noise':10,
     'Gnome Hide In Shadows':5, 'Gnome Move Quietly':5, 'Gnome Open Locks':5,
-    'Half-Elf Hide In Shadows':5, 'Half-Elf Pick Pockets':10,
+    'Half Elf Hide In Shadows':5, 'Half Elf Pick Pockets':10,
     'Halfling Climb Walls':-15, 'Halfling Find Traps':5,
     'Halfling Hear Noise':5, 'Halfling Hide In Shadows':15,
     'Halfling Move Quietly':10, 'Halfling Open Locks':5,
     'Halfling Pick Pockets':5, 'Halfling Read Languages':-5,
-    'Half-Orc Climb Walls':5, 'Half-Orc Find Traps':5, 'Half-Orc Hear Noise':5,
-    'Half-Orc Open Locks':5, 'Half-Orc Pick Pockets':-5,
-    'Half-Orc Read Languages':-10
+    'Half Orc Climb Walls':5, 'Half Orc Find Traps':5, 'Half Orc Hear Noise':5,
+    'Half Orc Open Locks':5, 'Half Orc Pick Pockets':-5,
+    'Half Orc Read Languages':-10
   };
 }
 FirstEdition.spellsSchools = {
@@ -1582,7 +1582,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
   rules.defineRule('featureNotes.intelligenceLanguageBonus',
     'race', 'v',
     'source == "Human" ? null : ' +
-    'source.indexOf("Elf") >= 0 && source != "Half-Elf" ? 3 : 2'
+    'source.indexOf("Elf") >= 0 && source != "Half Elf" ? 3 : 2'
   );
 
   rules.defineNote
@@ -1601,7 +1601,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
     var raceNoSpace =
       race.substring(0,1).toLowerCase() + race.substring(1).replace(/ /g, '');
 
-    if(race == 'Half-Elf') {
+    if(race == 'Half Elf') {
 
       adjustment = null;
       features = [
@@ -1631,7 +1631,7 @@ FirstEdition.raceRules = function(rules, languages, races) {
         'halfElfFeatures.Resist Sleep', '+=', '30'
       );
 
-    } else if(race == 'Half-Orc') {
+    } else if(race == 'Half Orc') {
 
       adjustment = '+1 strength/+1 constitution/-2 charisma';
       features = ['Infravision'];
