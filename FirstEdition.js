@@ -47,6 +47,8 @@ function FirstEdition() {
   FirstEdition.movementRules(rules);
   FirstEdition.magicRules(rules, FirstEdition.CLASSES, SRD35.SCHOOLS);
   FirstEdition.goodiesRules(rules, FirstEdition.GOODIES);
+  FirstEdition.spellDescriptionRules
+    (rules, null, FirstEdition.spellsDescriptions);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
@@ -146,6 +148,382 @@ if(FirstEdition.USE_OSRIC_RULES) {
     'Half Orc Read Languages':-10
   };
 }
+FirstEdition.spellsAbbreviations = {
+  "L": "lvl",
+  "L2": "lvl * 2",
+  "L3": "lvl * 3",
+  "L4": "lvl * 4",
+  "L5": "lvl * 5",
+  "L10": "lvl * 10",
+  "L15": "lvl * 15",
+  "L20": "lvl * 20",
+  "L40": "lvl * 40",
+  "L100": "lvl * 100",
+  "L200": "lvl * 200",
+  "Ldiv2": "Math.floor(lvl/2)",
+  "Ldiv3": "Math.floor(lvl/3)",
+  "Ldiv4": "Math.floor(lvl/4)",
+  "Lmin5": "Math.min(source, 5)",
+  "Lmin10": "Math.min(source, 10)",
+  "Lmin15": "Math.min(source, 15)",
+  "Lmin20": "Math.min(source, 20)",
+  "Lmin25": "Math.min(source, 25)",
+  "Lmin30": "Math.min(source, 30)",
+  "Lmin35": "Math.min(source, 35)",
+  "Lmin40": "Math.min(source, 40)",
+  "RL": "400 + 40 * source",
+  "RM": "100 + 10 * source",
+  "RS": "25 + 5 * Math.floor(source / 2)"
+};
+FirstEdition.spellsDescriptions = {
+  'Aerial Servant':'TODO',
+  'Affect Normal Fires':'TODO',
+  'Airy Water':'TODO',
+  'Alter Reality':'TODO',
+  'Animal Friendship':'TODO',
+  'Animal Growth':'TODO',
+  'Animal Summoning I':'TODO',
+  'Animal Summoning II':'TODO',
+  'Animal Summoning III':'TODO',
+  'Animate Dead':'TODO',
+  'Animate Object':'TODO',
+  'Animate Rock':'TODO',
+  'Anti-Animal Shell':'TODO',
+  'Anti-Magic Shell':'TODO',
+  'Anti-Plant Shell':'TODO',
+  'Antipathy/Sympathy':'TODO',
+  'Arcane Spells Level 1':'TODO',
+  'Astral Spell':'TODO',
+  'Atonement':'TODO',
+  'Audible Glamer':'TODO',
+  'Augury':'TODO',
+  'Barkskin':'TODO',
+  'Blade Barrier':'TODO',
+  'Bless':"R60' Unengaged allies in 25' radius circle +1 attack/morale (reversable for foes) for 6 rds",
+  'Blindness':'TODO',
+  'Blink':'TODO',
+  'Blur':'TODO',
+  'Burning Hands':'TODO',
+  'Cacodemon':'TODO',
+  'Call Lightning':'TODO',
+  'Call Woodland Beings':'TODO',
+  'Change Self':'TODO',
+  'Chant':'TODO',
+  'Chaos':'TODO',
+  'Chariot Of Fire':'TODO',
+  'Charm Monster':'TODO',
+  'Charm Person Or Mammal':'TODO',
+  'Charm Person':'TODO',
+  'Charm Plants':'TODO',
+  'Clairaudience':'TODO',
+  'Clairvoyance':'TODO',
+  'Clenched Fist':'TODO',
+  'Clone':'TODO',
+  'Cloudkill':'TODO',
+  'Color Spray':'TODO',
+  'Command':'TODO',
+  'Commune With Nature':'TODO',
+  'Commune':'TODO',
+  'Comprehend Languages':'TODO',
+  'Cone Of Cold':'TODO',
+  'Confusion':'TODO',
+  'Conjure Animals':'TODO',
+  'Conjure Earth Elemental':'TODO',
+  'Conjure Elemental':'TODO',
+  'Conjure Fire Elemental':'TODO',
+  'Contact Other Plane':'TODO',
+  'Continual Darkness':'TODO',
+  'Continual Light':'TODO',
+  "Control Temperature 10' Radius":'TODO',
+  'Control Weather':'TODO',
+  'Control Winds':'TODO',
+  'Create Food And Water':'TODO',
+  'Create Water':"R10' Creates $L4 gallons potable water in 30' cube",
+  'Creeping Doom':'TODO',
+  'Crushing Hand':'TODO',
+  'Cure Blindness':'TODO',
+  'Cure Critical Wounds':'TODO',
+  'Cure Disease':'TODO',
+  'Cure Light Wounds':"Touched heals d8 HP (reverse inflicts)",
+  'Cure Serious Wounds':'TODO',
+  'Dancing Lights':'TODO',
+  'Darkness':'TODO',
+  'Deafness':'TODO',
+  'Death Spell':'TODO',
+  'Delayed Blast Fireball':'TODO',
+  'Demi-Shadow Magic':'TODO',
+  'Demi-Shadow Monsters':'TODO',
+  'Detect Charm':'TODO',
+  'Detect Evil':'TODO',
+  'Detect Illusion':'TODO',
+  'Detect Invisibility':'TODO',
+  'Detect Lie':'TODO',
+  'Detect Magic':'TODO',
+  'Detect Pits And Snares':'TODO',
+  'Dig':'TODO',
+  'Dimension Door':'TODO',
+  'Disintegrate':'TODO',
+  'Dispel Exhaustion':'TODO',
+  'Dispel Evil':'TODO',
+  'Dispel Illusion':'TODO',
+  'Dispel Magic':"R60' 50% (+5%/-2% per caster level delta) magic in 30' radius sphere extinguished",
+  'Distance Distortion':'TODO',
+  'Divination':'TODO',
+  'Duo-Dimension':'TODO',
+  'ESP':'TODO',
+  'Earthquake':'TODO',
+  'Emotion':'TODO',
+  'Enchant An Item':'TODO',
+  'Enchanted Weapon':'TODO',
+  'Enlarge':'TODO',
+  'Entangle':'TODO',
+  'Erase':'TODO',
+  'Exorcise':'TODO',
+  'Explosive Runes':'TODO',
+  'Extension I':'TODO',
+  'Extension II':'TODO',
+  'Extension III':'TODO',
+  'Faerie Fire':'TODO',
+  'False Trap':'TODO',
+  'Fear':'TODO',
+  'Feather Fall':'TODO',
+  'Feeblemind':'TODO',
+  'Feign Death':'TODO',
+  'Find Familiar':'TODO',
+  'Find The Path':'TODO',
+  'Find Traps':"Detect traps in 30'x10' area for 3 turns",
+  'Finger Of Death':'TODO',
+  'Fire Charm':'TODO',
+  'Fire Seeds':'TODO',
+  'Fire Shield':'TODO',
+  'Fire Storm':'TODO',
+  'Fire Trap':'TODO',
+  'Fireball':'TODO',
+  'Flame Arrow':'TODO',
+  'Flame Strike':'TODO',
+  'Floating Disk':'TODO',
+  'Fly':'TODO',
+  'Fog Cloud':'TODO',
+  "Fool's Gold":'TODO',
+  'Forceful Hand':'TODO',
+  'Forget':'TODO',
+  'Freezing Sphere':'TODO',
+  'Friends':'TODO',
+  'Fumble':'TODO',
+  'Gate':'TODO',
+  'Gaze Reflection':'TODO',
+  'Geas':'TODO',
+  'Glass-Steel':'TODO',
+  'Glasseye':'TODO',
+  'Globe Of Invulnerability':'TODO',
+  'Glyph Of Warding':'TODO',
+  'Grasping Hand':'TODO',
+  'Guards And Wards':'TODO',
+  'Gust Of Wind':'TODO',
+  'Hallucinatory Forest':'TODO',
+  'Hallucinatory Terrain':'TODO',
+  'Haste':'TODO',
+  'Heal':'TODO',
+  'Heat Metal':'TODO',
+  'Hold Animal':'TODO',
+  'Hold Monster':'TODO',
+  'Hold Person':"R60' 1-3 medium targets immobilized (save neg) for ${lvl + 4} rd",
+  'Hold Plant':'TODO',
+  'Hold Portal':'TODO',
+  'Holy Word':'TODO',
+  'Hypnotic Pattern':'TODO',
+  'Hypnotism':'TODO',
+  'Ice Storm':'TODO',
+  'Identify':'TODO',
+  'Illusory Script':'TODO',
+  'Imprisonment':'TODO',
+  'Improved Invisibility':'TODO',
+  'Improved Phantasmal Force':'TODO',
+  'Incendiary Cloud':'TODO',
+  'Infravision':'TODO',
+  'Insect Plague':'TODO',
+  'Instant Summons':'TODO',
+  'Interposing Hand':'TODO',
+  "Invisibility 10' Radius":'TODO',
+  'Invisibility To Animals':'TODO',
+  'Invisibility':'TODO',
+  'Invisible Stalker':'TODO',
+  'Irresistible Dance':'TODO',
+  'Jump':'TODO',
+  'Knock':'TODO',
+  'Know Alignment':'TODO',
+  'Legend Lore':'TODO',
+  'Levitate':'TODO',
+  'Light':'TODO',
+  'Lightning Bolt':'TODO',
+  'Limited Wish':'TODO',
+  'Locate Animals':'TODO',
+  'Locate Object':'TODO',
+  'Locate Plants':'TODO',
+  'Lower Water':'TODO',
+  "Mage's Faithful Hound":'TODO',
+  "Mage's Sword":'TODO',
+  'Magic Aura':'TODO',
+  'Magic Jar':'TODO',
+  'Magic Missle':'TODO',
+  'Magic Mouth':'TODO',
+  'Major Creation':'TODO',
+  'Mass Charm':'TODO',
+  'Mass Invisibility':'TODO',
+  'Mass Suggestion':'TODO',
+  'Massmorph':'TODO',
+  'Maze':'TODO',
+  'Mending':'TODO',
+  'Message':'TODO',
+  'Meteor Swarm':'TODO',
+  'Mind Blank':'TODO',
+  'Minor Creation':'TODO',
+  'Minor Globe Of Invulnerability':'TODO',
+  'Mirror Image':'TODO',
+  'Misdirection':'TODO',
+  'Mnemonic Enhancement':'TODO',
+  'Monster Summoning I':'TODO',
+  'Monster Summoning II':'TODO',
+  'Monster Summoning III':'TODO',
+  'Monster Summoning IV':'TODO',
+  'Monster Summoning V':'TODO',
+  'Monster Summoning VI':'TODO',
+  'Monster Summoning VII':'TODO',
+  'Move Earth':'TODO',
+  'Neutralize Poison':'TODO',
+  'Non-Detection':'TODO',
+  'Obscurement':'TODO',
+  'Paralyzation':'TODO',
+  'Part Water':'TODO',
+  'Pass Plant':'TODO',
+  'Pass Without Trace':'TODO',
+  'Passwall':'TODO',
+  'Permanency':'TODO',
+  'Permanent Illusion':'TODO',
+  'Phantasmal Force':'TODO',
+  'Phantasmal Killer':'TODO',
+  'Phase Door':'TODO',
+  'Plane Shift':'TODO',
+  'Plant Door':'TODO',
+  'Plant Growth':'TODO',
+  'Polymorph Object':'TODO',
+  'Polymorph Other':'TODO',
+  'Polymorph Self':'TODO',
+  'Power Word Blind':'TODO',
+  'Power Word Kill':'TODO',
+  'Power Word Stun':'TODO',
+  'Prayer':'TODO',
+  'Predict Weather':'TODO',
+  'Prismatic Sphere':'TODO',
+  'Prismatic Spray':'TODO',
+  'Prismatic Wall':'TODO',
+  'Produce Fire':'TODO',
+  'Produce Flame':'TODO',
+  'Programmed Illusion':'TODO',
+  'Project Image':'TODO',
+  "Protection From Evil 10' Radius":'TODO',
+  'Protection From Evil':'TODO',
+  'Protection From Fire':'TODO',
+  'Protection From Lightning':'TODO',
+  'Protection From Normal Missles':'TODO',
+  'Purify Food And Drink':'TODO',
+  'Purify Water':'TODO',
+  'Push':'TODO',
+  'Pyrotechnics':'TODO',
+  'Quest':'TODO',
+  'Raise Dead':'TODO',
+  'Ray Of Enfeeblement':'TODO',
+  'Read Magic':'TODO',
+  'Regenerate':'TODO',
+  'Reincarnation':'TODO',
+  'Remove Curse':'TODO',
+  'Remove Fear':'TODO',
+  'Repel Insects':'TODO',
+  'Repulsion':'TODO',
+  'Resist Cold':'TODO',
+  'Resist Fire':'TODO',
+  'Restoration':'TODO',
+  'Resurrection':'TODO',
+  'Reverse Gravity':'TODO',
+  'Rope Trick':'TODO',
+  'Sanctuary':'TODO',
+  'Scare':'TODO',
+  'Secret Chest':'TODO',
+  'Shades':'TODO',
+  'Shadow Door':'TODO',
+  'Shadow Magic':'TODO',
+  'Shadow Monsters':'TODO',
+  'Shape Change':'TODO',
+  'Shatter':'TODO',
+  'Shield':'TODO',
+  'Shillelagh':'TODO',
+  'Shocking Grasp':'TODO',
+  "Silence 15' Radius":'TODO',
+  'Simulacrum':'TODO',
+  'Sleep':'TODO',
+  'Slow Poison':'TODO',
+  'Slow':'TODO',
+  'Snake Charm':'TODO',
+  'Snare':'TODO',
+  'Speak With Animals':'TODO',
+  'Speak With Dead':'TODO',
+  'Speak With Monsters':'TODO',
+  'Speak With Plants':'TODO',
+  'Spectral Force':'TODO',
+  'Spell Immunity':'TODO',
+  'Spider Climb':'TODO',
+  'Spirit-Wrack':'TODO',
+  'Spiritual Weapon':'TODO',
+  'Statue':'TODO',
+  'Sticks To Snakes':'TODO',
+  'Stinking Cloud':'TODO',
+  'Stone Shape':'TODO',
+  'Stone Tell':'TODO',
+  'Stone To Flesh':'TODO',
+  'Strength':'TODO',
+  'Suggestion':'TODO',
+  'Summon Insects':'TODO',
+  'Summon Shadow':'TODO',
+  'Symbol':'TODO',
+  'Telekinesis':'TODO',
+  'Teleport':'TODO',
+  'Temporal Statis':'TODO',
+  'Time Stop':'TODO',
+  'Tiny Hut':'TODO',
+  'Tongues':'TODO',
+  'Transformation':'TODO',
+  'Transmute Metal To Wood':'TODO',
+  'Transmute Rock To Mud':'TODO',
+  'Transport Via Plants':'TODO',
+  'Trap The Soul':'TODO',
+  'Tree':'TODO',
+  'Trip':'TODO',
+  'True Seeing':'TODO',
+  'True Sight':'TODO',
+  'Turn Wood':'TODO',
+  'Unseen Servant':'TODO',
+  'Vanish':'TODO',
+  'Veil':'TODO',
+  'Ventriloquism':'TODO',
+  'Vision':'TODO',
+  'Wall Of Fire':'TODO',
+  'Wall Of Fog':'TODO',
+  'Wall Of Force':'TODO',
+  'Wall Of Ice':'TODO',
+  'Wall Of Iron':'TODO',
+  'Wall Of Stone':'TODO',
+  'Wall Of Thorns':'TODO',
+  'Warp Wood':'TODO',
+  'Water Breathing':'TODO',
+  'Weather Summoning':'TODO',
+  'Web':'TODO',
+  'Wind Walk':'TODO',
+  'Wish':'TODO',
+  'Wizard Eye':'TODO',
+  'Wizard Lock':'TODO',
+  'Word Of Recall':'TODO',
+  'Write':'TODO'
+};
 FirstEdition.spellsSchools = {
   'Aerial Servant':'Conjuration', 'Affect Normal Fires':'Transmutation',
   'Airy Water':'Transmutation', 'Alter Reality':'Illusion',
@@ -273,7 +651,7 @@ FirstEdition.spellsSchools = {
   'Push':'Conjuration', 'Pyrotechnics':'Transmutation', 'Quest':'Enchantment',
   'Raise Dead':'Necromancy', 'Ray Of Enfeeblement':'Enchantment',
   'Read Magic':'Divination', 'Regenerate':'Necromancy',
-  'Reincarnate':'Necromancy', 'Remove Curse':'Abjuration',
+  'Reincarnation':'Necromancy', 'Remove Curse':'Abjuration',
   'Remove Fear':'Abjuration', 'Repel Insects':'Abjuration',
   'Repulsion':'Abjuration', 'Resist Cold':'Transmutation',
   'Resist Fire':'Transmutation', 'Restoration':'Necromancy',
@@ -289,7 +667,7 @@ FirstEdition.spellsSchools = {
   'Speak With Animals':'Transmutation', 'Speak With Dead':'Necromancy',
   'Speak With Monsters':'Transmutation', 'Speak With Plants':'Transmutation',
   'Spectral Force':'Illusion', 'Spell Immunity':'Abjuration',
-  'Spider Climb':'Transmutation', 'Spirit-Rack':'Abjuration',
+  'Spider Climb':'Transmutation', 'Spirit-Wrack':'Abjuration',
   'Spiritual Weapon':'Evocation', 'Statue':'Transmutation',
   'Sticks To Snakes':'Transmutation', 'Stinking Cloud':'Evocation',
   'Stone Shape':'Transmutation', 'Stone Tell':'Divination',
@@ -1424,7 +1802,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Turn Wood:Wall Of Thorns:Weather Summoning',
         'D7:Animate Rock:Chariot Of Fire:Confusion:Conjure Earth Elemental:' +
         'Control Weather:Creeping Doom:Finger Of Death:Fire Storm:' +
-        'Reincarnate:Transmute Metal To Wood'
+        'Reincarnation:Transmute Metal To Wood'
       ];
     } else if(klass == 'Illusionist') {
       spells = [
@@ -1454,9 +1832,9 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Identify:Jump:Light:Magic Aura:Magic Missle:Mending:Message:' +
         'Protection From Evil:Push:Read Magic:Shield:Shocking Grasp:Sleep:' +
         'Spider Climb:Unseen Servant:Ventriloquism:Write',
-        'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
-        "Detect Invisibility:ESP:Fool's Gold:Forget:Invisibility:Knock:" +
-        'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
+        "M2:Audible Glamer:Continual Light:Darkness:Detect Evil:" +
+        "Detect Invisibility:ESP:False Trap:Fool's Gold:Forget:Invisibility:" +
+        'Levitate:Locate Object:Magic Mouth:Mirror Image:' +
         'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
         'Stinking Cloud:Strength:Web:Wizard Lock',
         'M3:Blink:Clairaudience:Clairvoyance:Dispel Magic:Explosive Runes:' +
@@ -1481,8 +1859,8 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Enchant An Item:Extension III:Forceful Hand:Freezing Sphere:Geas:' +
         'Glasseye:Globe Of Invulnerability:Guards And Wards:' +
         'Invisible Stalker:Legend Lore:Lower Water:Monster Summoning IV:' +
-        'Move Earth:Part Water:Project Image:Reincarnate:Repulsion:' +
-        'Spirit-Rack:Stone To Flesh:Transformation',
+        'Move Earth:Part Water:Project Image:Reincarnation:Repulsion:' +
+        'Spirit-Wrack:Stone To Flesh:Transformation',
         'W7:Cacodemon:Charm Plants:Delayed Blast Fireball:Duo-Dimension:' +
         "Grasping Hand:Instant Summons:Limited Wish:Mage's Sword:" +
         'Mass Invisibility:Monster Summoning V:Phase Door:Power Word Stun:' +
@@ -1617,9 +1995,8 @@ FirstEdition.raceRules = function(rules, languages, races) {
         "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistCharmFeature:%V% vs. charm',
         'saveNotes.resistSleepFeature:%V% vs. sleep',
-        'validationNotes.halfElfRaceConstitution:Requires Constitution >= 6',
-        'validationNotes.halfElfRaceDexterity:Requires Dexterity >= 6',
-        'validationNotes.halfElfRaceIntelligence:Requires Intelligence >= 4'
+        'validationNotes.halfElfRaceAbility:' +
+          'Requires Constitution >= 6/Dexterity >= 6/Intelligence >= 4'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         'halfElfFeatures.Infravision', '+=', '60'
@@ -1638,12 +2015,9 @@ FirstEdition.raceRules = function(rules, languages, races) {
       languages = ['Common', 'Orcish'];
       notes = [
         "featureNotes.infravisionFeature:%V' vision in darkness",
-        'validationNotes.halfOrcRaceCharisma:Requires Charisma <= 12',
-        'validationNotes.halfOrcRaceConstitution:Requires Constitution >= 13',
-        'validationNotes.halfOrcRaceDexterity:Requires Dexterity <= 17',
-        'validationNotes.halfOrcRaceIntelligence:Requires Intelligence <= 17',
-        'validationNotes.halfOrcRaceStrength:Requires Strength >= 6',
-        'validationNotes.halfOrcRaceWisdom:Requires Wisdom <= 14'
+        'validationNotes.halfOrcRaceAbility:' +
+          'Requires Charisma <= 12/Constitution >= 13/Dexterity <= 17/' +
+          'Intelligence <= 17/Strength >= 6/Wisdom <= 14'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         'halfOrcFeatures.Infravision', '+=', '60'
@@ -1674,11 +2048,9 @@ FirstEdition.raceRules = function(rules, languages, races) {
         "featureNotes.trapSenseFeature:Detect stonework traps 50% w/in 10'",
         'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
-        'validationNotes.'+raceNoSpace+'RaceCharisma:Requires Charisma <= 16',
-        'validationNotes.'+raceNoSpace+'RaceConstitution:' +
-          'Requires Constitution >= 12',
-        'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity <= 17',
-        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 8'
+        'validationNotes.'+raceNoSpace+'RaceAbility:' +
+          'Requires Charisma <= 16/Constitution >= 12/Dexterity <= 17/' +
+          'Strength >= 8'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
@@ -1719,14 +2091,14 @@ FirstEdition.raceRules = function(rules, languages, races) {
         "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistCharmFeature:%V% vs. charm',
         'saveNotes.resistSleepFeature:%V% vs. sleep',
-        'validationNotes.'+raceNoSpace+'RaceCharisma:Requires Charisma >= 8',
-        // TODO OSRIC max con 17
-        'validationNotes.'+raceNoSpace+'RaceConstitution:' +
-          'Requires Constitution >= 8',
-        'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity >= 7',
-        'validationNotes.'+raceNoSpace+'RaceIntelligence:' +
-          'Requires Intelligence >= 8'
+        'validationNotes.'+raceNoSpace+'RaceAbility:' +
+          'Requires Charisma >= 8/Constitution >= 8/Dexterity >= 7/' +
+          'Intelligence >= 8'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        // TODO This doesn't work because of how rules are generated.
+        // notes[notes.length - 1] += '/Constitution <= 17';
+      }
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
       );
@@ -1762,11 +2134,8 @@ FirstEdition.raceRules = function(rules, languages, races) {
         "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
-        'validationNotes.'+raceNoSpace+'RaceConstitution:' +
-          'Requires Constitution >= 8',
-        'validationNotes.'+raceNoSpace+'RaceIntelligence:' +
-          'Requires Intelligence >= 7',
-        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 6'
+        'validationNotes.'+raceNoSpace+'RaceAbility:' +
+          'Requires Constitution >= 8/Intelligence >= 7/Strength >= 6'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
@@ -1804,14 +2173,11 @@ FirstEdition.raceRules = function(rules, languages, races) {
         "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
-        // TODO max str 17
-        'validationNotes.'+raceNoSpace+'RaceConstitution:' +
-          'Requires Constitution >= 10',
-        'validationNotes.'+raceNoSpace+'RaceDexterity:Requires Dexterity >= 8',
-        'validationNotes.'+raceNoSpace+'RaceIntelligence:' +
-          'Requires Intelligence >= 6',
-        'validationNotes.'+raceNoSpace+'RaceStrength:Requires Strength >= 6',
-        'validationNotes.'+raceNoSpace+'RaceWisdom:Requires Wisdom <= 17'
+        // TODO also, Strength <= 17. Can't use Strength twice in this note
+        // because of how rules are generated from it.
+        'validationNotes.'+raceNoSpace+'RaceAbility:' +
+          'Requires Constitution >= 10/Dexterity >= 8/Intelligence >= 6/' +
+          'Strength >= 6/Wisdom <= 17'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
@@ -1873,6 +2239,11 @@ FirstEdition.ruleNotes = function() {
     '    the minimum level required to create them. Scribe uses the 1E PHB\n' +
     '    limit of level 10.' +
     '  </li>\n' +
+    '  <li>\n' +
+    '    In general, Scribe uses the OSRIC names for spells, rather than\n' +
+    '    those found in the 1E PHB. "Darkness" is used instead of "Darkness\n' +
+    '    15\' Radius" and "Spirit-Wrack" instead of "Spirit-Rack".\n' +
+    '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
     '\n' +
@@ -1889,4 +2260,64 @@ FirstEdition.ruleNotes = function() {
     '<ul>\n' +
     '</ul>\n' +
     '</p>\n';
+};
+
+/* Replaces spell names with longer descriptions on the character sheet. */
+FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
+
+  if(spells == null) {
+    spells = ScribeUtils.getKeys(rules.choices.spells);
+  }
+  if(descriptions == null) {
+    descriptions = FiveE.spellsDescriptions;
+  }
+
+  rules.defineRule('casterLevels.B', 'levels.Bard', '=', null);
+  rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
+  rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
+  rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
+  rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
+  rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
+  rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
+
+  for(var i = 0; i < spells.length; i++) {
+
+    var spell = spells[i];
+    var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z]+)(\d+)\s*\w*\)$/);
+    if(matchInfo == null) {
+      console.log("Bad format for spell " + spell);
+      continue;
+    }
+
+    var abbr = matchInfo[2];
+    var level = matchInfo[3];
+    var name = matchInfo[1];
+    var description = descriptions[name];
+
+    if(description == null) {
+      console.log("No description for spell " + name);
+      continue;
+    }
+
+    var inserts = description.match(/\$(\w+|{[^}]+})/g);
+
+    if(inserts != null) {
+      for(var index = 1; index <= inserts.length; index++) {
+        var insert = inserts[index - 1];
+        var expr = insert[1] == "{" ?
+            insert.substring(2, insert.length - 1) : insert.substring(1);
+        if(FiveE.spellsAbbreviations[expr] != null) {
+          expr = FiveE.spellsAbbreviations[expr];
+        }
+        expr = expr.replace(/lvl/g, "source");
+        rules.defineRule
+          ("spells." + spell + "." + index, "casterLevels." + abbr, "=", expr);
+        description = description.replace(insert, "%" + index);
+      }
+    }
+
+    rules.defineChoice("notes", "spells." + spell + ":" + description);
+
+  }
+
 };
