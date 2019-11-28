@@ -903,7 +903,7 @@ FirstEdition.classRules = function(rules, classes) {
       hitDie = 8;
       notes = [
         'combatNotes.turnUndeadFeature:' +
-          'Turn 2d6/destroy(good) or control (evil) d6+6 undead creatures',
+          'Turn 2d6, destroy (good) or control (evil) d6+6 undead creatures',
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
         'featureNotes.bonusClericExperienceFeature:' +
@@ -1275,7 +1275,7 @@ FirstEdition.classRules = function(rules, classes) {
         'combatNotes.fightingTheUnskilledFeature:' +
           '%V attacks/round vs. creatures with < 1d8 hit die',
         'combatNotes.turnUndeadFeature:' +
-          'Turn 2d6/destroy(good) or control (evil) d6+6 undead creatures',
+          'Turn 2d6, destroy (good) or control (evil) d6+6 undead creatures',
         'featureNotes.bonusPaladinExperienceFeature:' +
           '10% added to awarded experience',
         'featureNotes.discriminatingFeature:' +
@@ -1643,26 +1643,50 @@ FirstEdition.combatRules = function(rules) {
   rules.defineRule('baseAttack', '', '=', '0');
   rules.defineRule('meleeAttack', 'baseAttack', '=', null);
   rules.defineRule('rangedAttack', 'baseAttack', '=', null);
-  var undeadTypes = [
-    '', 'skeleton', 'zombie', 'ghoul', 'shadow', 'wight', 'ghast', 'wraith',
-    'mummy', 'spectre', 'vampire', 'ghost', 'lich', 'demon'
-  ];
   rules.defineRule('turnUndeadColumn',
     'turningLevel', '=',
-    'source <= 3 ? source : source <= 8 ? source + 1 : ' +
-    'source <= 13 ? 10 : source <= 18 ? 12 : 13'
+    'source <= 8 ? source : source <= 13 ? 9 : source <= 18 ? 10 : 11'
   );
-  for(var i = 1; i < undeadTypes.length; i++) {
-    var automatic = i + 3;
-    var destroy = automatic + 2;
-    var capable = i - 4;
-    rules.defineRule('turnUndead.' + undeadTypes[i],
-      'turnUndeadColumn', '=',
-      'source < ' + capable + ' ? null : source == ' + capable + ' ? 20 : ' +
-      'source >= ' + destroy + ' ? "D" : source >= ' + automatic + ' ? "T" : ' +
-      '(22 - (source  - ' + capable + ') * 3)'
+  var turningTable = null;
+  if(FirstEdition.USE_OSRIC_RULES) {
+    turningTable = [
+      'skeleton:10:7 :4 :T :T :D :D :D :D :D :D',
+      'zombie  :13:10:7 :T :T :D :D :D :D :D :D',
+      'ghoul   :16:13:10:4 :T :T :D :D :D :D :D',
+      'shadow  :19:16:13:7 :4 :T :T :D :D :D :D',
+      'wight   :20:19:16:10:7 :4 :T :T :D :D :D',
+      'ghast   :- :20:19:13:10:7 :4 :T :T :D :D',
+      'wraith  :- :- :20:16:13:10:7 :4 :T :T :D',
+      'mummy   :- :- :- :19:16:13:10:7 :4 :T :D',
+      'spectre :- :- :- :20:19:16:13:10:7 :T :T',
+      'vampire :- :- :- :- :20:19:16:13:10:7 :4',
+      'ghost   :- :- :- :- :- :20:19:16:13:10:7',
+      'lich    :- :- :- :- :- :- :20:19:16:13:10',
+      'fiend   :- :- :- :- :- :- :- :20:19:16:13'
+    ];
+  } else {
+    turningTable = [
+      'skeleton:10:7 :4 :T :T :D :D :D :D :D :D',
+      'zombie  :13:10:7 :T :T :D :D :D :D :D :D',
+      'ghoul   :16:13:10:4 :T :T :D :D :D :D :D',
+      'shadow  :19:16:13:7 :4 :T :T :D :D :D :D',
+      'wight   :20:19:16:10:7 :4 :T :T :D :D :D',
+      'ghast   :- :20:19:13:10:7 :4 :T :T :D :D',
+      'wraith  :- :- :20:16:13:10:7 :4 :T :D :D',
+      'mummy   :- :- :- :20:16:13:10:7 :4 :T :T',
+      'spectre :- :- :- :- :20:16:13:10:7 :T :T',
+      'vampire :- :- :- :- :- :20:16:13:10:4 :4',
+      'ghost   :- :- :- :- :- :- :20:16:13:7 :7',
+      'lich    :- :- :- :- :- :- :- :19:16:10:10',
+      'fiend   :- :- :- :- :- :- :- :20:19:13:13'
+    ];
+  }
+  for(var i = 0; i < turningTable.length; i++) {
+    rules.defineRule('turnUndead.' + turningTable[i].split(':')[0].trim(),
+      'turnUndeadColumn', '=', '"' + turningTable[i] +'".split(":")[source].trim()'
     );
   }
+
 };
 
 /* Defines the rules related to character description. */
