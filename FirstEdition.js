@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.4.0.1alpha';
+var FirstEdition_VERSION = '1.4.0.2alpha';
 
 /*
  */
@@ -28,7 +28,8 @@ function FirstEdition() {
     return;
   }
 
-  var rules = new ScribeRules('First Edition', FirstEdition_VERSION);
+  var name = FirstEdition.USE_OSRIC_RULES ? 'OSRIC' : 'First Edition';
+  var rules = new ScribeRules(name, FirstEdition_VERSION);
   SRD35.createViewers(rules, SRD35.VIEWERS);
   rules.editorElements = SRD35.initialEditorElements();
   // Remove some editor and character sheet elements that don't apply
@@ -36,6 +37,10 @@ function FirstEdition() {
   rules.defineEditorElement('feats');
   rules.defineEditorElement('specialize');
   rules.defineEditorElement('prohibit');
+  rules.defineEditorElement('experience', 'Experience', 'text', [8], 'levels');
+  rules.defineSheetElement('ExperienceInfo', 'Level', null, '');
+  rules.defineSheetElement('Experience', 'ExperienceInfo/');
+  rules.defineSheetElement('Experience Needed', 'ExperienceInfo/', '/%V');
 
   FirstEdition.abilityRules(rules);
   FirstEdition.raceRules(rules, FirstEdition.LANGUAGES, FirstEdition.RACES);
@@ -55,7 +60,6 @@ function FirstEdition() {
   rules.makeValid = SRD35.makeValid;
   rules.ruleNotes = FirstEdition.ruleNotes;
   Scribe.addRuleSet(rules);
-  FirstEdition.rules = rules;
 
 }
 
@@ -94,18 +98,33 @@ FirstEdition.SHIELDS = [
 // it sticks to the 1E PHB.
 FirstEdition.USE_OSRIC_RULES = true;
 FirstEdition.WEAPONS = [
-  'Bastard Sword:2d4', 'Battle Axe:d8', 'Broad Sword:2d4', 'Club:d4',
-  'Composite Long Bow:d6r60', 'Composite Short Bow:d6r50', 'Dagger:d4',
-  'Dart:d3r15', 'Halbert:d10', 'Hand Axe:d6', 'Heavy Crossbow:d6+1r60',
-  'Heavy Flail:d6+1', 'Heavy Mace:d6+1', 'Heavy Pick:d6+1',
-  'Heavy War Hammer:d6+1', 'Javelin:d6r20', 'Lance:2d4+1',
-  'Light Crossbow:d4+1r60', 'Light Flail:d4+1', 'Light Mace:d4+1',
-  'Light Pick:d4+1', 'Light War Hammer:d4+1', 'Long Bow:d6r70',
-  'Long Sword:d8', 'Morning Star:2d4', 'Pole Arm:d6',
-  'Scimitar Sword:d8', 'Short Bow:d6r50', 'Short Sword:d6',
-  'Sling:d4r35', 'Spear:d6r15', 'Staff:d6', 'Trident:d6+1',
-  'Two-Handed Sword:d10', 'War Hammer:d4+1'
+  'Bastard Sword:2d4', 'Battle Axe:d8', 'Broad Sword:2d4',
+  'Composite Long Bow:d6r60', 'Composite Short Bow:d6r50', 'Dagger:d4r10',
+  'Dart:d3r15', 'Halberd:d10', 'Hammer:d4+1r10', 'Hand Axe:d6r10',
+  'Heavy Flail:d6+1', 'Heavy Mace:d6+1', 'Heavy Pick:d6+1', 'Javelin:d6r20',
+  'Light Flail:d4+1', 'Light Pick:d4+1', 'Long Bow:d6r70', 'Long Sword:d8',
+  'Morning Star:2d4', 'Quarterstaff:d6', 'Scimitar Sword:d8', 'Short Bow:d6r50',
+  'Short Sword:d6', 'Trident:d6+1', 'Two-Handed Sword:d10'
 ];
+if(FirstEdition.USE_OSRIC_RULES) {
+  FirstEdition.WEAPONS.push(
+    'Club:d4r10', 'Heavy Crossbow:d6+1r60', 'Light Crossbow:d4+1r60',
+    'Light Mace:d4+1', 'Sling:d4r35', 'Spear:d6r15',
+    'Heavy War Hammer:d6+1', 'Lance:2d4+1', 'Light War Hammer:d4+1',
+    'Pole Arm:d6+1'
+  );
+} else {
+  FirstEdition.WEAPONS.push(
+    'Club:d6r10', 'Heavy Crossbow:d4+1r80', 'Light Crossbow:d4r60',
+    'Light Mace:d6', 'Sling:d4r40', 'Spear:d6r10',
+    'Bardiche:2d4', 'Bec De Corbin:d8', 'Bill-Guisarme:2d4', 'Bo Stick:d6',
+    'Fauchard:d6', 'Fauchard-Fork:d8', 'Glaive:d6', 'Glaive-Guisarme:2d4',
+    'Guisarme:2d4', 'Guisarme-Voulge:2d4', 'Heavy Lance:d6+3', 'Jo Stick:d6',
+    'Light Lance:d6', 'Lucern Hammer:2d4', 'Medium Lance:d6+1',
+    'Military Fork:d8', 'Partisan:d6', 'Pike:d6', 'Ranseur:2d4', 'Spetum:d6+1',
+    'Voulge:2d4'
+  );
+}
 
 // Related information used internally by FirstEdition
 FirstEdition.armorsArmorClassBonuses = {
@@ -351,7 +370,7 @@ FirstEdition.spellsDescriptions = {
   'Irresistible Dance':'TODO',
   'Jump':'TODO',
   'Knock':'TODO',
-  'Know Alignment':'TODO',
+  'Know Alignment':"Discern aura of 10 touched creatures in 1 turn",
   'Legend Lore':'TODO',
   'Levitate':'TODO',
   'Light':'TODO',
@@ -421,7 +440,7 @@ FirstEdition.spellsDescriptions = {
   'Produce Flame':'TODO',
   'Programmed Illusion':'TODO',
   'Project Image':'TODO',
-  "Protection From Evil 10' Radius":'TODO',
+  "Protection From Evil 10' Radius":"All in 10' radius of touched untouchable by evil outsiders, -2 evil attacks, +2 saves for $L rd",
   'Protection From Evil':'TODO',
   'Protection From Fire':'TODO',
   'Protection From Lightning':'TODO',
@@ -446,7 +465,7 @@ FirstEdition.spellsDescriptions = {
   'Resurrection':'TODO',
   'Reverse Gravity':'TODO',
   'Rope Trick':'TODO',
-  'Sanctuary':'TODO',
+  'Sanctuary':"Foes save vs. magic to attack self for ${lvl + 2} rd",
   'Scare':'TODO',
   'Secret Chest':'TODO',
   'Shades':'TODO',
@@ -461,11 +480,11 @@ FirstEdition.spellsDescriptions = {
   "Silence 15' Radius":'TODO',
   'Simulacrum':'TODO',
   'Sleep':'TODO',
-  'Slow Poison':'TODO',
+  'Slow Poison':"Touched takes only 1 HP/turn from poison, protected from death for ${lvl * 6} turns",
   'Slow':'TODO',
-  'Snake Charm':'TODO',
+  'Snake Charm':"Charm angry snakes up to self HP 1d4+4 rd",
   'Snare':'TODO',
-  'Speak With Animals':'TODO',
+  'Speak With Animals':"Self converse w/animals for $L2 rd",
   'Speak With Dead':'TODO',
   'Speak With Monsters':'TODO',
   'Speak With Plants':'TODO',
@@ -2054,8 +2073,11 @@ FirstEdition.raceRules = function(rules, languages, races) {
       features = [
         'Dwarf Dodge', 'Dwarf Favored Enemy', 'Infravision', 'Know Depth',
         'Resist Magic', 'Resist Poison', 'Sense Construction', 'Sense Slope',
-        'Slow', 'Trap Sense'
+        'Trap Sense'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        features.push('Slow');
+      }
       languages = [
         'Common', 'Dwarfish', 'Gnomish', 'Goblin', 'Kobold', 'Orcish'
       ];
@@ -2139,8 +2161,11 @@ FirstEdition.raceRules = function(rules, languages, races) {
       features = [
         'Burrow Tongue', 'Direction Sense', 'Gnome Dodge',
         'Gnome Favored Enemy', 'Infravision', 'Know Depth', 'Resist Magic',
-        'Resist Poison', 'Sense Hazard', 'Sense Slope', 'Slow'
+        'Resist Poison', 'Sense Hazard', 'Sense Slope'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        features.push('Slow');
+      }
       languages = [
         'Common', 'Dwarfish', 'Gnomish', 'Goblin', 'Halfling', 'Kobold'
       ];
@@ -2184,9 +2209,11 @@ FirstEdition.raceRules = function(rules, languages, races) {
 
       adjustment = '+1 dexterity/-1 strength';
       features = [
-        'Accurate', 'Resist Magic', 'Infravision', 'Resist Poison', 'Slow',
-        'Stealthy'
+        'Accurate', 'Resist Magic', 'Infravision', 'Resist Poison', 'Stealthy'
       ];
+      if(FirstEdition.USE_OSRIC_RULES) {
+        features.push('Slow');
+      }
       languages = [
         'Common', 'Dwarfish', 'Gnome', 'Goblin', 'Halfling', 'Orcish'
       ];
