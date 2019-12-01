@@ -38,8 +38,6 @@ function FirstEdition() {
   rules.defineEditorElement('specialize');
   rules.defineEditorElement('prohibit');
   rules.defineEditorElement('experience', 'Experience', 'text', [8], 'levels');
-  rules.defineEditorElement
-    ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
   rules.defineSheetElement('ExperienceInfo', 'Level', null, '');
   rules.defineSheetElement('Experience', 'ExperienceInfo/');
   rules.defineSheetElement('Experience Needed', 'ExperienceInfo/', '/%V');
@@ -63,6 +61,18 @@ function FirstEdition() {
   rules.randomizeOneAttribute = FirstEdition.randomizeOneAttribute;
   rules.makeValid = SRD35.makeValid;
   rules.ruleNotes = FirstEdition.ruleNotes;
+
+  rules.defineEditorElement
+    ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
+  if(FirstEdition.USE_OSIRIC_RULES) {
+    rules.defineEditorElement
+      ('weaponSpecialization', 'Specialization', 'select-one',
+       ['None'].concat(ScribeUtils.getKeys(rules.getChoices('weapons'))),
+       'spells');
+    rules.defineEditorElement
+      ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
+  }
+
   Scribe.addRuleSet(rules);
 
 }
@@ -108,7 +118,7 @@ FirstEdition.WEAPONS = [
   'Heavy Flail:d6+1', 'Heavy Mace:d6+1', 'Heavy Pick:d6+1', 'Javelin:d6r20',
   'Light Flail:d4+1', 'Light Pick:d4+1', 'Long Bow:d6r70', 'Long Sword:d8',
   'Morning Star:2d4', 'Quarterstaff:d6', 'Scimitar Sword:d8', 'Short Bow:d6r50',
-  'Short Sword:d6', 'Trident:d6+1', 'Two-Handed Sword:d10'
+  'Short Sword:d6', 'Trident:d6+1', 'Two-Handed Sword:d10', 'Unarmed:d2'
 ];
 if(FirstEdition.USE_OSRIC_RULES) {
   FirstEdition.WEAPONS.push(
@@ -1143,7 +1153,6 @@ FirstEdition.classRules = function(rules, classes) {
         'strength', '?', 'source >= 16'
       );
       rules.defineRule('warriorLevel', 'levels.Fighter', '+=', null);
-      // TODO weapon specialization
 
     } else if(klass == 'Illusionist') {
 
@@ -1415,7 +1424,6 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
       );
       rules.defineRule('warriorLevel', 'levels.Paladin', '+=', null);
-      // TODO weapon specialization
       // TODO PHB only Holy Sword
 
     } else if(klass == 'Ranger') {
@@ -1513,7 +1521,6 @@ FirstEdition.classRules = function(rules, classes) {
         'wisdom', '?', 'source >= 16'
       );
       rules.defineRule('warriorLevel', 'levels.Ranger', '+=', null);
-      // TODO weapon specialization
 
     } else if(klass == 'Thief') {
 
@@ -1690,7 +1697,9 @@ FirstEdition.classRules = function(rules, classes) {
   );
   rules.defineRule('validationNotes.weaponProficiencyAllocation.2',
     '', '=', '0',
-    /^weaponProficiency\./, '+=', null
+    /^weaponProficiency\./, '+=', null,
+    'weaponSpecialization', '+', 'source == "None" ? null : 1',
+    'doubleSpecialization', '+', 'source ? 1 : null'
   );
   rules.defineRule('validationNotes.weaponProficiencyAllocation',
     'validationNotes.weaponProficiencyAllocation.1', '=', '-source',
@@ -1773,11 +1782,11 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
   for(var i = 0; i < weapons.length; i++) {
 
     var pieces = weapons[i].split(':');
-    var matchInfo = pieces[1].match(/(\d?d\d+(\+(\d+))?)(r(\d+))?/);
+    var matchInfo = pieces[1].match(/(\d?d\d+)(\+(\d+))?(r(\d+))?/);
     if(! matchInfo)
       continue;
 
-    var damage = matchInfo[1];
+    var damageDie = matchInfo[1];
     var damagePlus = matchInfo[3];
     var name = pieces[0];
     var range = matchInfo[5];
@@ -1796,18 +1805,20 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
       attackBase, '=', null,
       'combatNotes.strengthAttackAdjustment', '=', null,
       'weaponAttackAdjustment.' + name, '+', null,
+      'weaponSpecialization', '+', 'source == "' + name + '" ? 1 : null',
       sanityNote, '+', null
     );
     rules.defineRule('damageBonus.' + name,
       '', '=', damagePlus || '0',
-      'combatNotes.strengthDamageAdjustment', '=', null,
-      'weaponDamageAdjustment.' + name, '+', null
+      'combatNotes.strengthDamageAdjustment', '+', null,
+      'weaponDamageAdjustment.' + name, '+', null,
+      'weaponSpecialization', '+', 'source == "' + name + '" ? 2 : null'
     );
 
     rules.defineRule(weaponName + '.1',
       'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
     );
-    rules.defineRule(weaponName + '.2', '', '=', '"' + damage + '"');
+    rules.defineRule(weaponName + '.2', '', '=', '"' + damageDie + '"');
     rules.defineRule(weaponName + '.3',
       'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
     );
@@ -1828,6 +1839,10 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
     );
 
   }
+
+  rules.defineRule('weapons.Unarmed', '', '=', '1');
+  rules.defineRule('weaponProficiency.Unarmed', '', '=', '1');
+  rules.defineRule('weaponProficiencyCount', 'weapons.Unarmed', '+', '1');
 
 };
 
