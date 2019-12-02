@@ -41,8 +41,11 @@ function FirstEdition() {
   rules.defineSheetElement('ExperienceInfo', 'Level', null, '');
   rules.defineSheetElement('Experience', 'ExperienceInfo/');
   rules.defineSheetElement('Experience Needed', 'ExperienceInfo/', '/%V');
-  rules.defineSheetElement('Weapon Proficiency Count', 'Combat Notes');
-  rules.defineSheetElement('Weapon Proficiency', 'Combat Notes', null, '; ');
+  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
+  rules.defineSheetElement('Allowed Armors', 'EquipmentInfo/', null, '; ');
+  rules.defineSheetElement('Allowed Shields', 'EquipmentInfo/', null, '; ');
+  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
+  rules.defineSheetElement('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
 
   FirstEdition.abilityRules(rules);
   FirstEdition.raceRules(rules, FirstEdition.LANGUAGES, FirstEdition.RACES);
@@ -866,9 +869,9 @@ FirstEdition.classRules = function(rules, classes) {
 
   for(var i = 0; i < classes.length; i++) {
 
-    var baseAttack, features, hitDie, nonProfPenalty, notes, profCount,
-        saveBreath, saveDeath, savePetrification, saveSpell, saveWand,
-        spellsKnown, thiefSkillLevel;
+    var allowedArmors, allowedShields, baseAttack, features, hitDie, notes,
+        profWeaponPenalty, profWeaponCount, saveBreath, saveDeath,
+        savePetrification, saveSpell, saveWand, spellsKnown, thiefSkillLevel;
     var klass = classes[i];
 
     spellsKnown = null;
@@ -877,6 +880,8 @@ FirstEdition.classRules = function(rules, classes) {
 
     if(klass == 'Assassin') {
 
+      allowedArmors = ['Leather', 'Studded'];
+      allowedShields = ['All'];
       baseAttack = 'source <= 4 ? -1 : source <= 8 ? 1 : source <= 12 ? 4 : 6';
       features = [
         'Assassination', 'Backstab', 'Disguise', '9:Extra Languages',
@@ -901,16 +906,16 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Constitution >= 6/Dexterity >= 12/Intelligence >= 11/' +
             'Strength >= 12/Wisdom >= 6'
         );
-        nonProfPenalty = -3;
+        profWeaponPenalty = -3;
       } else {
         notes.push(
           'validationNotes.assassinClassAbility:' +
             'Requires Constitution >= 6/Dexterity >= 12/Intelligence >= 11/' +
             'Strength >= 12'
         );
-        nonProfPenalty = -2;
+        profWeaponPenalty = -2;
       }
-      profCount = '3 + Math.floor(source / 4)';
+      profWeaponCount = '3 + Math.floor(source / 4)';
       saveBreath = '16 - Math.floor((source - 1) / 4)';
       saveDeath = '13 - Math.floor((source - 1) / 4)';
       savePetrification = '12 - Math.floor((source - 1) / 4)';
@@ -925,19 +930,20 @@ FirstEdition.classRules = function(rules, classes) {
       );
       rules.defineRule('featureNotes.extraLanguagesFeature',
         'intelligence', '=', 'source < 15 ? null : (source - 14)',
-        'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0' 
+        'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0'
       );
       rules.defineRule
         ('languageCount', 'featureNotes.extraLanguagesFeature', '+=', null);
 
     } else if(klass == 'Cleric') {
 
+      allowedArmors = ['All'];
+      allowedShields = ['All'];
       baseAttack = 'source < 19 ? Math.floor(source / 3) * 2 : 11';
       features = [
         'Bonus Cleric Experience', 'Turn Undead', '9:Attract Followers'
       ];
       hitDie = 8;
-      nonProfPenalty = -3;
       notes = [
         'combatNotes.turnUndeadFeature:' +
           'Turn 2d6, destroy (good) or control (evil) d6+6 undead creatures',
@@ -953,12 +959,12 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Charisma >= 6/Constitution >= 6/Intelligence >= 6/' +
             'Strength >= 6/Wisdom >= 9'
         );
-        profCount = '2 + Math.floor(source / 3)';
+        profWeaponCount = '2 + Math.floor(source / 3)';
       } else {
         notes.push(
           'validationNotes.clericClassAbility:Requires Wisdom >= 9'
         );
-        profCount = '2 + Math.floor(source / 4)';
+        profWeaponCount = '2 + Math.floor(source / 4)';
       }
       saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
@@ -975,6 +981,7 @@ FirstEdition.classRules = function(rules, classes) {
         'C6:11:1/12:2/16:3/18:4/20:5/21:6/23:7/24:8/26:9',
         'C7:16:1/19:2/22:3/25:4/27:5/28:6/29:7'
       ];
+      profWeaponPenalty = -3;
       rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
       rules.defineRule('clericFeatures.Bonus Cleric Experience',
         'wisdom', '?', 'source >= 16'
@@ -1014,6 +1021,8 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Druid') {
 
+      allowedArmors = ['Leather'];
+      allowedShields = ['Small Shield'];
       baseAttack = 'Math.floor(source / 3) * 2';
       features = [
         'Bonus Druid Experience', 'Resist Fire', 'Resist Lightning',
@@ -1021,7 +1030,6 @@ FirstEdition.classRules = function(rules, classes) {
         '7:Shapeshift'
       ];
       hitDie = 8;
-      nonProfPenalty = -4;
       notes = [
         'featureNotes.bonusDruidExperienceFeature:' +
           '10% added to awarded experience',
@@ -1042,13 +1050,13 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Constitution >= 6/Dexterity >= 6/Intelligence >= 6/' +
             'Strength >= 6/Wisdom >= 12'
         );
-        profCount = '2 + Math.floor(source / 3)';
+        profWeaponCount = '2 + Math.floor(source / 3)';
       } else {
         notes.push(
           'validationNotes.druidClassAbility:' +
             'Requires Charisma >= 15/Wisdom >= 12'
         );
-        profCount = '2 + Math.floor(source / 5)';
+        profWeaponCount = '2 + Math.floor(source / 5)';
       }
       saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
@@ -1065,6 +1073,7 @@ FirstEdition.classRules = function(rules, classes) {
         'D6:11:1/12:2/13:3/14:4',
         'D7:12:1/13:2/14:3'
       ];
+      profWeaponPenalty = -4;
       rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
       rules.defineRule('druidFeatures.Bonus Druid Experience',
         'charisma', '?', 'source >= 16',
@@ -1095,6 +1104,8 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Fighter') {
 
+      allowedArmors = ['All'];
+      allowedShields = ['All'];
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = 'source - 1';
       } else {
@@ -1105,7 +1116,6 @@ FirstEdition.classRules = function(rules, classes) {
         '9:Attract Followers'
       ];
       hitDie = 10;
-      nonProfPenalty = -2;
       notes = [
         'combatNotes.fightingTheUnskilledFeature:' +
           '%V attacks/round vs. creatures with lt 1d8 hit die',
@@ -1120,13 +1130,13 @@ FirstEdition.classRules = function(rules, classes) {
           'Requires Charisma >= 6/Constitution >= 7/Dexterity >= 6/' +
           'Strength >= 9/Wisdom >= 6'
         );
-        profCount = '4 + Math.floor(source / 2)';
+        profWeaponCount = '4 + Math.floor(source / 2)';
       } else {
         notes.push(
         'validationNotes.fighterClassAbility:' +
           'Requires Constitution >= 7/Strength >= 9'
         );
-        profCount = '4 + Math.floor(source / 3)';
+        profWeaponCount = '4 + Math.floor(source / 3)';
       }
       saveBreath =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
@@ -1143,6 +1153,7 @@ FirstEdition.classRules = function(rules, classes) {
       saveWand =
         'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
         'Math.floor((source - 7) / 2)';
+      profWeaponPenalty = -2;
       rules.defineRule('attacksPerRound',
         'levels.Fighter', '+', 'Math.floor(source / 6) * 0.5'
       );
@@ -1156,6 +1167,8 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Illusionist') {
 
+      allowedArmors = [];
+      allowedShields = [];
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
       } else {
@@ -1166,7 +1179,6 @@ FirstEdition.classRules = function(rules, classes) {
         (FirstEdition.USE_OSRIC_RULES ? '10' : '12') + ':Attract Followers'
       ];
       hitDie = 4;
-      nonProfPenalty = -5;
       notes = [
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
@@ -1179,13 +1191,13 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Charisma >= 6/Dexterity >= 16/Intelligence >= 15/' +
             'Strength >= 6/Wisdom >= 6'
         );
-        profCount = '1 + Math.floor(source / 5)';
+        profWeaponCount = '1 + Math.floor(source / 5)';
       } else {
         notes.push(
           'validationNotes.illusionistClassAbility:' +
             'Requires Dexterity >= 16/Intelligence >= 15'
         );
-        profCount = '1 + Math.floor(source / 6)';
+        profWeaponCount = '1 + Math.floor(source / 6)';
       }
       saveBreath = '15 - Math.floor((source-1) / 5) * 2';
       saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
@@ -1213,10 +1225,13 @@ FirstEdition.classRules = function(rules, classes) {
           'I7:14:1/15:2/20:3/22:4/23:5/25:6'
         ];
       }
+      profWeaponPenalty = -5;
       rules.defineRule('casterLevelArcane', 'levels.Illusionist', '+=', null);
 
     } else if(klass == 'Magic User') {
 
+      allowedArmors = [];
+      allowedShields = [];
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = '-1 + Math.floor((source - 1) / 5) * 2';
       } else {
@@ -1227,7 +1242,6 @@ FirstEdition.classRules = function(rules, classes) {
         '11:Attract Followers', '12:Eldritch Power'
       ];
       hitDie = 4;
-      nonProfPenalty = -5;
       notes = [
         'featureNotes.attractFollowersFeature:' +
           'May build stronghold and attract followers',
@@ -1243,13 +1257,13 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Charisma >= 6/Constitution >= 6/Dexterity >= 6/' +
             'Intelligence >= 9/Wisdom >= 6'
         );
-        profCount = '1 + Math.floor(source / 5)';
+        profWeaponCount = '1 + Math.floor(source / 5)';
       } else {
         notes.push(
           'validationNotes.magicUserClassAbility:' +
             'Requires Dexterity >= 6/Intelligence >= 9'
         )
-        profCount = '1 + Math.floor(source / 6)';
+        profWeaponCount = '1 + Math.floor(source / 6)';
       }
       saveBreath = '15 - Math.floor((source-1) / 5) * 2';
       saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
@@ -1281,6 +1295,7 @@ FirstEdition.classRules = function(rules, classes) {
           'M9:18:1/20:2/22:3/24:4/25:5/28:6'
         ];
       }
+      profWeaponPenalty = -5;
       rules.defineRule('casterLevelArcane', 'levels.Magic User', '+=', null);
       rules.defineRule('intelligenceRow',
         'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 14 ? 3 : source <= 16 ? 4 : (source - 13)',
@@ -1309,6 +1324,8 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Paladin') {
 
+      allowedArmors = ['All'];
+      allowedShields = ['All'];
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = 'source - 1';
       } else {
@@ -1321,7 +1338,6 @@ FirstEdition.classRules = function(rules, classes) {
         'Protection From Evil', '3:Turn Undead', '4:Summon Warhorse'
       ];
       hitDie = 10;
-      nonProfPenalty = -2;
       notes = [
         'combatNotes.fightingTheUnskilledFeature:' +
           '%V attacks/round vs. creatures with lt 1d8 hit die',
@@ -1351,7 +1367,6 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Charisma >= 17/Constitution >= 9/Dexterity >= 6/' +
             'Intelligence >= 9/Strength >= 12/Wisdom >= 13'
         );
-        profCount = '3 + Math.floor(source / 2)';
         saveBreath =
           'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
           '2';
@@ -1365,13 +1380,13 @@ FirstEdition.classRules = function(rules, classes) {
         saveWand =
           'source<=16?14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
           'source<=18 ? 3 : 2';
+        profWeaponCount = '3 + Math.floor(source / 2)';
       } else {
         notes.push(
           'validationNotes.paladinClassAbility:' +
             'Requires Charisma >= 17/Constitution >= 9/Intelligence >= 9/' +
             'Strength >= 12/Wisdom >= 13'
         );
-        profCount = '3 + Math.floor(source / 3)';
         saveBreath =
           'source<=16?17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
           'Math.floor((source - 9) / 2)';
@@ -1387,6 +1402,7 @@ FirstEdition.classRules = function(rules, classes) {
         saveWand =
           'source<=16?16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
           'Math.floor((source - 7) / 2)';
+        profWeaponCount = '3 + Math.floor(source / 3)';
       }
       spellsKnown = [
         'C1:9:1/10:2/14:3/21:4',
@@ -1394,6 +1410,7 @@ FirstEdition.classRules = function(rules, classes) {
         'C3:13:1/17:2/18:3/23:4',
         'C4:15:1/19:2/20:3/24:4'
       ];
+      profWeaponPenalty = -2;
       if(FirstEdition.USE_OSRIC_RULES) {
         rules.defineRule('attacksPerRound',
           'levels.Paladin', '+', 'Math.floor(source / 7) * 0.5'
@@ -1428,6 +1445,8 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Ranger') {
 
+      allowedArmors = ['All'];
+      allowedShields = ['All'];
       if(FirstEdition.USE_OSRIC_RULES) {
         baseAttack = 'source - 1';
       } else {
@@ -1439,7 +1458,6 @@ FirstEdition.classRules = function(rules, classes) {
         '10:Scrying', '10:Band of Followers'
       ];
       hitDie = 8;
-      nonProfPenalty = -2;
       notes = [
         'combatNotes.fightingTheUnskilledFeature:' +
           '%V attacks/round vs. creatures with lt 1d8 hit die',
@@ -1464,7 +1482,7 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Charisma >= 6/Constitution >= 14/Dexterity >= 6/' +
             'Intelligence >= 13/Strength >= 13/Wisdom >= 14'
         );
-        profCount = '3 + Math.floor(source / 2)';
+        profWeaponCount = '3 + Math.floor(source / 2)';
       } else {
         notes.push(
           'combatNotes.rangerFavoredEnemyFeature:' +
@@ -1473,7 +1491,7 @@ FirstEdition.classRules = function(rules, classes) {
             'Requires Constitution >= 14/Dexterity >= 6/Intelligence >= 13/' +
             'Strength >= 13/Wisdom >= 14'
         );
-        profCount = '3 + Math.floor(source / 3)';
+        profWeaponCount = '3 + Math.floor(source / 3)';
       }
       saveBreath =
         'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
@@ -1497,6 +1515,7 @@ FirstEdition.classRules = function(rules, classes) {
         'M1:9:1/11:2/19:3/24:4',
         'M2:13:1/15:2/21:3'
       ];
+      profWeaponPenalty = -2;
       rules.defineRule('attacksPerRound',
         'levels.Ranger', '+', 'Math.floor(source / 7) * 0.5'
       );
@@ -1524,10 +1543,11 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Thief') {
 
+      allowedArmors = ['Leather', 'Studded'];
+      allowedShields = [];
       baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2'
       features = ['Bonus Thief Experience', '10:Read Scrolls'];
       hitDie = 6;
-      nonProfPenalty = -3;
       notes = [
         // TODO OSRIC "when unobserved"
         'combatNotes.backstabFeature:' +
@@ -1548,13 +1568,14 @@ FirstEdition.classRules = function(rules, classes) {
           'validationNotes.thiefClassAbility:Requires Dexterity >= 9',
         );
       }
-      profCount = '2 + Math.floor(source / 4)';
       saveBreath = '16 - Math.floor((source - 1) / 4)';
       saveDeath = '13 - Math.floor((source - 1) / 4)';
       savePetrification = '12 - Math.floor((source - 1) / 4)';
       saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
       saveWand = '14 - Math.floor((source - 1) / 4) * 2';
       thiefSkillLevel = 'source';
+      profWeaponPenalty = -3;
+      profWeaponCount = '2 + Math.floor(source / 4)';
       rules.defineRule('combatNotes.backstabFeature',
         'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
       );
@@ -1579,9 +1600,19 @@ FirstEdition.classRules = function(rules, classes) {
     rules.defineRule('save.Spell', 'levels.' + klass, '+=', saveSpell);
     rules.defineRule('save.Wand', 'levels.' + klass, '+=', saveWand);
     rules.defineRule
-      ('weaponProficiencyCount', 'levels.' + klass, '+=', profCount);
-    rules.defineRule
-      ('weaponNonProficiencyPenalty', 'levels.' + klass, '^=', nonProfPenalty);
+      ('weaponProficiencyCount', 'levels.' + klass, '+=', profWeaponCount);
+    rules.defineRule('weaponNonProficiencyPenalty',
+      'levels.' + klass, '^=', profWeaponPenalty
+    );
+
+    for(var j = 0; j < allowedArmors.length; j++) {
+      rules.defineRule
+        ('allowedArmors.' + allowedArmors[j], 'levels.' + klass, '=', '1');
+    }
+    for(var j = 0; j < allowedShields.length; j++) {
+      rules.defineRule
+        ('allowedShields.' + allowedShields[j], 'levels.' + klass, '=', '1');
+    }
 
     if(thiefSkillLevel != null) {
       if(FirstEdition.USE_OSRIC_RULES) {
@@ -1710,7 +1741,7 @@ FirstEdition.classRules = function(rules, classes) {
 
 /* Defines the rules related to combat. */
 FirstEdition.combatRules = function(rules) {
-  
+
   rules.defineRule('armorClass',
     '', '=', '10',
     'armor', '+', 'FirstEdition.armorsArmorClassBonuses[source]',
@@ -2345,12 +2376,22 @@ FirstEdition.raceRules = function(rules, languages, races) {
 /* Sets #attributes#'s #attribute# attribute to a random value. */
 FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
   var attr;
+  var attrs;
   var choices;
   if(attribute == 'armor') {
-    choices = ScribeUtils.getKeys(this.getChoices('armors'));
-    attributes['armor'] = choices[ScribeUtils.random(0, choices.length - 1)];
+    attrs = this.applyRules(attributes);
+    choices = [];
+    for(attr in this.getChoices('armors')) {
+      if(attr == 'None' ||
+         attrs['allowedArmors.All'] != null ||
+         attrs['allowedArmors.' + attr] != null) {
+        choices[choices.length] = attr;
+      }
+    }
+    attributes['armor'] = choices.length == 0 ? 'None' :
+      choices[ScribeUtils.random(0, choices.length - 1)];
   } else if(attribute == 'proficiencies') {
-    var attrs = this.applyRules(attributes);
+    attrs = this.applyRules(attributes);
     choices = [];
     var howMany = attrs.weaponProficiencyCount;
     for(attr in this.getChoices('weapons')) {
@@ -2366,8 +2407,17 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
       choices = choices.slice(0, which).concat(choices.slice(which + 1));
     }
   } else if(attribute == 'shield') {
-    choices = ScribeUtils.getKeys(this.getChoices('shields'));
-    attributes['shield'] = choices[ScribeUtils.random(0, choices.length - 1)];
+    attrs = this.applyRules(attributes);
+    choices = [];
+    for(attr in this.getChoices('shields')) {
+      if(attr == 'None' ||
+         attrs['allowedShields.All'] != null ||
+         attrs['allowedShields.' + attr] != null) {
+        choices[choices.length] = attr;
+      }
+    }
+    attributes['shield'] = choices.length == 0 ? 'None' :
+      choices[ScribeUtils.random(0, choices.length - 1)];
   } else {
     SRD35.randomizeOneAttribute.apply(this, [attributes, attribute]);
   }
