@@ -88,6 +88,9 @@ FirstEdition.CLASSES = [
   'Assassin', 'Cleric', 'Druid', 'Fighter', 'Illusionist', 'Magic User',
   'Paladin', 'Ranger', 'Thief'
 ];
+if(! FirstEdition.USE_OSRIC_RULES) {
+  FirstEdition.CLASSES.push('Monk');
+}
 FirstEdition.GOODIES = [
   'Chain +2',
   'Chain +4',
@@ -149,6 +152,10 @@ FirstEdition.armorsArmorClassBonuses = {
   'Leather' : -2, 'Padded' :-2, 'Plate' : -7, 'Ring' : -3, 'Scale' : -4,
   'Splint' : -6, 'Studded' : -3
 };
+FirstEdition.monkUnarmedDamage = [
+  "0", "1d3", "1d4", "1d6", "1d6", "1d6+1", "2d4", "2d4+1", "2d6", "3d4",
+  "2d6+1", "3d4+1", "4d4", "4d4+1", "5d4", "6d4", "5d6", "8d4"
+];
 if(FirstEdition.USE_OSRIC_RULES) {
   FirstEdition.thiefSkillsRacialAdjustments = {
     'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Move Quietly':-5,
@@ -1322,6 +1329,107 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineSheetElement
         ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
 
+    } else if(klass == 'Monk') {
+
+      allowedArmors = [];
+      allowedShields = [];
+      baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2';
+      features = [
+        'Dodge Missiles', 'Evasion', 'Killing Blow', 'Spiritual',
+        'Stunning Blow', 'Unburdened', '2:Aware', '3:Speak With Animals',
+        '4:Flurry Of Blows', '4:Masked Mind', '4:Slow Fall',
+        '5:Controlled Movement', '5:Purity Of Body', '6:Feign Death',
+        '7:Wholeness Of Body', '8:Speak With Plants', '9:Clear Mind',
+        '9:Improved Evasion', '10:Steel Mind', '11:Diamond Body',
+        '12:Free Will', '13:Quivering Palm'
+        // TODO
+      ];
+      hitDie = 4;
+      notes = [
+        // TODO
+        'combatNotes.awareFeature:Surprised %V%',
+        'combatNotes.dodgeMissilesFeature:' +
+          'Petrification save to dodge non-magical missiles',
+        'combatNotes.flurryOfBlowsFeature:%1 unarmed attacks per rd',
+        'combatNotes.killingBlowFeature:' +
+          '%1+foe AC % chance of killing w/unarmed strike',
+        'combatNotes.monkDamageAdjustment:+%V damage',
+        'combatNotes.stunningBlowFeature:' +
+          'Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5',
+        'featureNotes.feignDeathFeature:Appear dead for %V turns',
+        'featureNotes.spiritualFeature:' +
+          'Must donate net income to religious institution',
+        'featureNotes.unburdenedFeature:May not own gt 5 magic items',
+        'magicNotes.speakWithAnimalsFeature:<i>Speak With Animals</i> at will',
+        'magicNotes.speakWithPlantsFeature:<i>Speak With Plants</i> at will',
+        'magicNotes.wholenessOfBodyFeature:Heal 1d4+%V damage to self 1/day',
+        'saveNotes.clearMindFeature:' +
+          '%V% resistance to beguiling, charm, hypnosis and suggestion spells',
+        'saveNotes.controlledMovementFeature:' +
+          'Immune <i>Haste</i> and <i>Slow</i>',
+        'saveNotes.diamondBodyFeature:Immune to poison',
+        'saveNotes.evasionFeature:' +
+          'Successful save yields no damage instead of 1/2',
+        'saveNotes.freeWillFeature:Immune <i>Geas</i> and <i>Quest</i> spells',
+        'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
+        'saveNotes.maskedMindFeature:%V% resistance to ESP',
+        'saveNotes.purityOfBodyFeature:Immune to normal disease',
+        "saveNotes.slowFallFeature:No damage from fall of %1 w/in %2' of wall",
+        'saveNotes.steelMindFeature:Resist telepathy and mind blast as int 18',
+        'validationNotes.monkClassAbility:' +
+          'Requires Constitution >= 11/Dexterity >= 15/Strength >= 15/' +
+          'Wisdom >= 15',
+        'validationNotes.monkClassAlignment:Requires Alignment =~ Lawful'
+      ];
+      saveBreath = '16 - Math.floor((source - 1) / 4)';
+      saveDeath = '13 - Math.floor((source - 1) / 4)';
+      savePetrification = '12 - Math.floor((source - 1) / 4)';
+      saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
+      saveWand = '14 - Math.floor((source - 1) / 4) * 2';
+      thiefSkillLevel = 'source';
+      profWeaponPenalty = -3;
+      profWeaponCount = '1 + Math.floor(source / 2)';
+      rules.defineRule('armorClass',
+        'levels.Monk', 'v', '11 - source + Math.floor(source / 5)',
+        'monkDexterityACNegation', '+', null
+      );
+      rules.defineRule
+        ('combatNotes.awareFeature', 'levels.Monk', '=', '34 - source * 2');
+      rules.defineRule('combatNotes.flurryOfBlowsFeature.1',
+        'levels.Monk', '=', 'source <= 5 ? 1.25 : source <= 8 ? 1.5 : source <= 10 ? 2 : source <= 13 ? 2.5 : source <= 15 ? 3 : 4'
+      );
+      rules.defineRule
+        ('combatNotes.killingBlowFeature.1', 'levels.Monk', '=', 'source - 7');
+      rules.defineRule('combatNotes.monkDamageAdjustment',
+        'levels.Monk', '=', 'Math.floor(source / 2)'
+      );
+      rules.defineRule
+        ('featureNotes.feignDeathFeature', 'levels.Monk', '=', 'source * 2');
+      rules.defineRule
+        ('magicNotes.wholenessOfBodyFeature', 'levels.Monk', '=', 'source - 7');
+      rules.defineRule
+        ('maximumHenchmen', 'levels.Monk', 'v', 'source < 6 ? 0 : source - 4');
+      rules.defineRule('monkDexterityACNegation',
+        'levels.Monk', '?', null,
+        'dexterityArmorClassAdjustment', '=', '-source'
+      );
+      rules.defineRule
+        ('saveNotes.clearMindFeature', 'levels.Monk', '=', '95 - source * 5');
+      rules.defineRule
+        ('saveNotes.maskedMindFeature', 'levels.Monk', '=', '38 - source * 2');
+      rules.defineRule('saveNotes.slowFallFeature.1',
+        'levels.Monk', '=', 'source < 6 ? "20\'" : source < 13 ? "30\'" : "any distance"'
+      );
+      rules.defineRule('saveNotes.slowFallFeature.2',
+        'levels.Monk', '=', 'source < 6 ? 1 : source < 13 ? 4 : 8'
+      );
+      rules.defineRule('speed', 'levels.Monk', '+', 'source * 10 + 20');
+      rules.defineRule('strengthAttackAdjustment', 'levels.Monk', '=', '0');
+      rules.defineRule('strengthDamageAdjustment', 'levels.Monk', '=', '0');
+      rules.defineRule('weapons.Unarmed.2',
+        'levels.Monk', '=', 'FirstEdition.monkUnarmedDamage[source]'
+      );
+
     } else if(klass == 'Paladin') {
 
       allowedArmors = ['All'];
@@ -1545,7 +1653,7 @@ FirstEdition.classRules = function(rules, classes) {
 
       allowedArmors = ['Leather', 'Studded'];
       allowedShields = [];
-      baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2'
+      baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2';
       features = ['Bonus Thief Experience', '10:Read Scrolls'];
       hitDie = 6;
       notes = [
@@ -1694,11 +1802,12 @@ FirstEdition.classRules = function(rules, classes) {
           'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
           'Math.min(source*5+40, 125)',
           'dexterity', '+',
-          'source <= 11 ? (source-12)*5 : source >= 17 ? (source-17)*5 : null'
+          'source <= 11 ? (source-12)*5 : source >= 17 ? (source-17)*5 : null',
+          'levels.Monk', '+', '-source'
         );
         rules.defineRule('thiefSkills.Read Languages',
-          'thiefSkillLevel', '=',
-          'source >= 4 ? Math.min(source*5, 80) : null'
+          'thiefSkillLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
+          'levels.Monk', '+', '-source'
         );
       }
       rules.defineRule
@@ -1841,6 +1950,7 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
     );
     rules.defineRule('damageBonus.' + name,
       '', '=', damagePlus || '0',
+      'combatNotes.monkDamageAdjustment', '+', null,
       'combatNotes.strengthDamageAdjustment', '+', null,
       'weaponDamageAdjustment.' + name, '+', null,
       'weaponSpecialization', '+', 'source == "' + name + '" ? 2 : null'
@@ -2455,7 +2565,7 @@ FirstEdition.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    The bard and monk classes from the 1E PHB are not included.\n' +
+    '    The bard class from the 1E PHB is not supported.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
@@ -2476,7 +2586,6 @@ FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
     descriptions = FiveE.spellsDescriptions;
   }
 
-  rules.defineRule('casterLevels.B', 'levels.Bard', '=', null);
   rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
   rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
   rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
