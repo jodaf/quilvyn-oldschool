@@ -92,6 +92,7 @@ FirstEdition.CLASSES = [
 FirstEdition.GOODIES = [
   'Chain +2',
   'Chain +4',
+  'Long Sword +1',
   'Ring Of Protection +1'
 ];
 FirstEdition.LANGUAGES = [
@@ -285,7 +286,7 @@ FirstEdition.spellsDescriptions = {
   'Enchanted Weapon':'TODO',
   'Enlarge':'TODO',
   'Entangle':'TODO',
-  'Erase':'TODO',
+  'Erase':"R30' Erase magical (${lvl*2+50}% chance) or normal (${lvl*4+50}% from 2-page area",
   'Exorcise':'TODO',
   'Explosive Runes':'TODO',
   'Extension I':'TODO',
@@ -294,7 +295,7 @@ FirstEdition.spellsDescriptions = {
   'Faerie Fire':'TODO',
   'False Trap':'TODO',
   'Fear':'TODO',
-  'Feather Fall':'TODO',
+  'Feather Fall':"R$L10' Objects in 10' cu fall 1.5'/sec for $L6 secs",
   'Feeblemind':'TODO',
   'Feign Death':'TODO',
   'Find Familiar':"Call beast to serve as familiar (1d3+1 HP, AC 7, Int 6)",
@@ -371,7 +372,7 @@ FirstEdition.spellsDescriptions = {
   'Lower Water':'TODO',
   "Mage's Faithful Hound":'TODO',
   "Mage's Sword":'TODO',
-  'Magic Aura':'TODO',
+  'Magic Aura':"Touched responds to <i>Detect Magic</i> for $L days",
   'Magic Jar':'TODO',
   'Magic Missle':"R${lvl*10 + 60}' ${Math.floor((lvl+1)/2)} energy darts hit targets in 10' cu for 1d4+1 ea",
   'Magic Mouth':'TODO',
@@ -404,7 +405,7 @@ FirstEdition.spellsDescriptions = {
   'Paralyzation':'TODO',
   'Part Water':'TODO',
   'Pass Plant':'TODO',
-  'Pass Without Trace':'TODO',
+  'Pass Without Trace':"Touched leaves no sign of passage for $L turns",
   'Passwall':'TODO',
   'Permanency':'TODO',
   'Permanent Illusion':'TODO',
