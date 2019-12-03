@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.4.0.2alpha';
+var FirstEdition_VERSION = '1.4.0.3alpha';
 
 /*
  */
@@ -52,7 +52,8 @@ function FirstEdition() {
   FirstEdition.classRules(rules, FirstEdition.CLASSES);
   FirstEdition.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.GENDERS);
   FirstEdition.equipmentRules
-    (rules, FirstEdition.ARMORS, FirstEdition.SHIELDS, FirstEdition.WEAPONS);
+    (rules, FirstEdition.ARMORS, FirstEdition.SHIELDS,
+     FirstEdition.WEAPONS.concat(FirstEdition.USE_OSRIC_RULES ? FirstEdition.OSRIC_ADDITIONAL_WEAPONS : FirstEdition.PHB1E_ADDITIONAL_WEAPONS));
   FirstEdition.combatRules(rules);
   FirstEdition.movementRules(rules);
   FirstEdition.magicRules(rules, FirstEdition.CLASSES, SRD35.SCHOOLS);
@@ -86,11 +87,8 @@ FirstEdition.ARMORS = [
 ];
 FirstEdition.CLASSES = [
   'Assassin', 'Cleric', 'Druid', 'Fighter', 'Illusionist', 'Magic User',
-  'Paladin', 'Ranger', 'Thief'
+  'Monk', 'Paladin', 'Ranger', 'Thief'
 ];
-if(! FirstEdition.USE_OSRIC_RULES) {
-  FirstEdition.CLASSES.push('Monk');
-}
 FirstEdition.GOODIES = [
   'Chain +2',
   'Chain +4',
@@ -113,7 +111,7 @@ FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
 FirstEdition.SHIELDS = [
   'Large Shield', 'Medium Shield', 'None', 'Small Shield'
 ];
-// OSRIC varies slightly from the classic 1E rules. If USE_OSRIC_RULES is true,
+// OSRIC varies somewhat from the classic 1E rules. If USE_OSRIC_RULES is true,
 // FirstEdition incorporates these modifications into its rule set; otherwise,
 // it sticks to the 1E PHB.
 FirstEdition.USE_OSRIC_RULES = true;
@@ -126,25 +124,22 @@ FirstEdition.WEAPONS = [
   'Morning Star:2d4', 'Quarterstaff:d6', 'Scimitar Sword:d8', 'Short Bow:d6r50',
   'Short Sword:d6', 'Trident:d6+1', 'Two-Handed Sword:d10', 'Unarmed:d2'
 ];
-if(FirstEdition.USE_OSRIC_RULES) {
-  FirstEdition.WEAPONS.push(
-    'Club:d4r10', 'Heavy Crossbow:d6+1r60', 'Light Crossbow:d4+1r60',
-    'Light Mace:d4+1', 'Sling:d4r35', 'Spear:d6r15',
-    'Heavy War Hammer:d6+1', 'Lance:2d4+1', 'Light War Hammer:d4+1',
-    'Pole Arm:d6+1'
-  );
-} else {
-  FirstEdition.WEAPONS.push(
-    'Club:d6r10', 'Heavy Crossbow:d4+1r80', 'Light Crossbow:d4r60',
-    'Light Mace:d6', 'Sling:d4r40', 'Spear:d6r10',
-    'Bardiche:2d4', 'Bec De Corbin:d8', 'Bill-Guisarme:2d4', 'Bo Stick:d6',
-    'Fauchard:d6', 'Fauchard-Fork:d8', 'Glaive:d6', 'Glaive-Guisarme:2d4',
-    'Guisarme:2d4', 'Guisarme-Voulge:2d4', 'Heavy Lance:d6+3', 'Jo Stick:d6',
-    'Light Lance:d6', 'Lucern Hammer:2d4', 'Medium Lance:d6+1',
-    'Military Fork:d8', 'Partisan:d6', 'Pike:d6', 'Ranseur:2d4', 'Spetum:d6+1',
-    'Voulge:2d4'
-  );
-}
+FirstEdition.OSRIC_ADDITIONAL_WEAPONS = [
+  'Club:d4r10', 'Heavy Crossbow:d6+1r60', 'Light Crossbow:d4+1r60',
+  'Light Mace:d4+1', 'Sling:d4r35', 'Spear:d6r15',
+  'Heavy War Hammer:d6+1', 'Lance:2d4+1', 'Light War Hammer:d4+1',
+  'Pole Arm:d6+1'
+];
+FirstEdition.PHB1E_ADDITIONAL_WEAPONS = [
+  'Club:d6r10', 'Heavy Crossbow:d4+1r80', 'Light Crossbow:d4r60',
+  'Light Mace:d6', 'Sling:d4r40', 'Spear:d6r10',
+  'Bardiche:2d4', 'Bec De Corbin:d8', 'Bill-Guisarme:2d4', 'Bo Stick:d6',
+  'Fauchard:d6', 'Fauchard-Fork:d8', 'Glaive:d6', 'Glaive-Guisarme:2d4',
+  'Guisarme:2d4', 'Guisarme-Voulge:2d4', 'Heavy Lance:d6+3', 'Jo Stick:d6',
+  'Light Lance:d6', 'Lucern Hammer:2d4', 'Medium Lance:d6+1',
+  'Military Fork:d8', 'Partisan:d6', 'Pike:d6', 'Ranseur:2d4', 'Spetum:d6+1',
+  'Voulge:2d4'
+];
 
 // Related information used internally by FirstEdition
 FirstEdition.armorsArmorClassBonuses = {
@@ -156,71 +151,40 @@ FirstEdition.monkUnarmedDamage = [
   "0", "1d3", "1d4", "1d6", "1d6", "1d6+1", "2d4", "2d4+1", "2d6", "3d4",
   "2d6+1", "3d4+1", "4d4", "4d4+1", "5d4", "6d4", "5d6", "8d4"
 ];
-if(FirstEdition.USE_OSRIC_RULES) {
-  FirstEdition.thiefSkillsRacialAdjustments = {
-    'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Move Quietly':-5,
-    'Dwarf Open Locks':15, 'Dwarf Read Languages':-5,
-    'Elf Climb Walls':-5, 'Elf Find Traps':5, 'Elf Hear Noise':5,
-    'Elf Hide In Shadows':10, 'Elf Move Quietly':5, 'Elf Open Locks':-5,
-    'Elf Pick Pockets':5, 'Elf Read Languages':10,
-    'Gnome Climb Walls':-15, 'Gnome Hear Noise':5, 'Gnome Open Locks':10,
-    'Half Elf Hide In Shadows':5, 'Half Elf Pick Pockets':10,
-    'Halfling Climb Walls':-15, 'Halfling Hear Noise':5,
-    'Halfling Hide In Shadows':15, 'Halfling Move Quietly':15,
-    'Halfling Pick Pockets':5, 'Halfling Read Languages':-5,
-    'Half Orc Climb Walls':5, 'Half Orc Find Traps':5, 'Half Orc Hear Noise':5,
-    'Half Orc Open Locks':5, 'Half Orc Pick Pockets':-5,
-    'Half Orc Read Languages':-10,
-    'Human Climb Walls':5, 'Human Open Locks':5
-  };
-} else {
-  FirstEdition.thiefSkillsRacialAdjustments = {
-    'Dwarf Climb Walls':-10, 'Dwarf Find Traps':15, 'Dwarf Open Locks':10,
-    'Dwarf Read Languages':-5,
-    'Elf Hear Noise':5, 'Elf Hide In Shadows':10, 'Elf Move Quietly':5,
-    'Elf Open Locks':-5, 'Elf Pick Pockets':5,
-    'Gnome Climb Walls':-15, 'Gnome Find Traps':10, 'Gnome Hear Noise':10,
-    'Gnome Hide In Shadows':5, 'Gnome Move Quietly':5, 'Gnome Open Locks':5,
-    'Half Elf Hide In Shadows':5, 'Half Elf Pick Pockets':10,
-    'Halfling Climb Walls':-15, 'Halfling Find Traps':5,
-    'Halfling Hear Noise':5, 'Halfling Hide In Shadows':15,
-    'Halfling Move Quietly':10, 'Halfling Open Locks':5,
-    'Halfling Pick Pockets':5, 'Halfling Read Languages':-5,
-    'Half Orc Climb Walls':5, 'Half Orc Find Traps':5, 'Half Orc Hear Noise':5,
-    'Half Orc Open Locks':5, 'Half Orc Pick Pockets':-5,
-    'Half Orc Read Languages':-10
-  };
-}
 FirstEdition.spellsAbbreviations = {
   "L": "lvl",
   "L2": "lvl * 2",
   "L3": "lvl * 3",
   "L4": "lvl * 4",
   "L5": "lvl * 5",
+  "L6": "lvl * 6",
   "L10": "lvl * 10",
   "L15": "lvl * 15",
   "L20": "lvl * 20",
-  "L40": "lvl * 40",
+  "L25": "lvl * 25",
   "L100": "lvl * 100",
   "L200": "lvl * 200",
+  "Lplus1":"lvl + 1",
+  "Lplus2":"lvl + 2",
+  "Lplus3":"lvl + 3",
+  "Lplus4":"lvl + 4",
+  "Lplus5":"lvl + 5",
+  "Lplus6":"lvl + 6",
   "Ldiv2": "Math.floor(lvl/2)",
   "Ldiv3": "Math.floor(lvl/3)",
   "Ldiv4": "Math.floor(lvl/4)",
-  "Lmin5": "Math.min(source, 5)",
-  "Lmin10": "Math.min(source, 10)",
-  "Lmin15": "Math.min(source, 15)",
-  "Lmin20": "Math.min(source, 20)",
-  "Lmin25": "Math.min(source, 25)",
-  "Lmin30": "Math.min(source, 30)",
-  "Lmin35": "Math.min(source, 35)",
-  "Lmin40": "Math.min(source, 40)",
-  "RL": "400 + 40 * source",
-  "RM": "100 + 10 * source",
-  "RS": "25 + 5 * Math.floor(source / 2)"
+  "Lmin5": "Math.min(lvl, 5)",
+  "Lmin10": "Math.min(lvl, 10)",
+  "Lmin15": "Math.min(lvl, 15)",
+  "Lmin20": "Math.min(lvl, 20)",
+  "Lmin25": "Math.min(lvl, 25)",
+  "Lmin30": "Math.min(lvl, 30)",
+  "Lmin35": "Math.min(lvl, 35)",
+  "Lmin40": "Math.min(lvl, 40)"
 };
 FirstEdition.spellsDescriptions = {
   'Aerial Servant':'TODO',
-  'Affect Normal Fires':'TODO',
+  'Affect Normal Fires':"R$L5' Change size of up to 1.5' radius fire from candle flame to 1.5' radius for $L rd",
   'Airy Water':'TODO',
   'Alter Reality':'TODO',
   'Animal Friendship':'TODO',
@@ -238,20 +202,21 @@ FirstEdition.spellsDescriptions = {
   'Arcane Spells Level 1':'TODO',
   'Astral Spell':'TODO',
   'Atonement':'TODO',
-  'Audible Glamer':'TODO',
-  'Augury':"${70+lvl}% chance of determining weal/woe of action in next 3 turns",
+  'Audible Glamer':"R${lvl*10 + 60}' Sounds of ${Math.max((lvl-2)*4,4)} shouting for $L2 rd",
+  'Augury':"${lvl+70}% chance of determining weal/woe of action in next 3 turns",
   'Barkskin':'TODO',
   'Blade Barrier':'TODO',
-  'Bless':"R60' Unengaged allies in 25' radius circle +1 attack/morale (reversable for foes) for 6 rds",
+  'Bless':"R60' Unengaged allies in 25' radius circle +1 attack/morale (rev for foes) for 6 rds",
   'Blindness':'TODO',
   'Blink':'TODO',
   'Blur':'TODO',
-  'Burning Hands':'TODO',
+  'Burning Hands':"3' cone of flame $L HP",
   'Cacodemon':'TODO',
   'Call Lightning':'TODO',
   'Call Woodland Beings':'TODO',
   'Change Self':'TODO',
-  'Chant':'TODO',
+  'Chant':"",
+  'Chant':"Allies w/in 30' +1 attack, damage, saves (foes -1) as long as chant lasts",
   'Chaos':'TODO',
   'Chariot Of Fire':'TODO',
   'Charm Monster':'TODO',
@@ -290,18 +255,18 @@ FirstEdition.spellsDescriptions = {
   'Cure Light Wounds':"Touched heals d8 HP (rev inflicts)",
   'Cure Serious Wounds':"Touched heals 2d8+1 HP (rev inflicts)",
   'Dancing Lights':'TODO',
-  'Darkness':'TODO',
+  'Darkness':"R$L10' 15' lightless sphere for 1 turn + $L rd",
   'Deafness':'TODO',
   'Death Spell':'TODO',
   'Delayed Blast Fireball':'TODO',
   'Demi-Shadow Magic':'TODO',
   'Demi-Shadow Monsters':'TODO',
-  'Detect Charm':'TODO',
-  'Detect Evil':"Self dicerns evil (rev good) in 10'x120' path for 1 turn + $L5 rd",
-  'Detect Illusion':'TODO',
+  'Detect Charm':"Discern up to 10 charmed creatures in 30' for 1 turn",
+  'Detect Evil':"Self discerns evil (rev good) in 10'x120' path for 1 turn + $L5 rd",
+  'Detect Illusion':"Self discern illusions in 10'x10' path, touching reveals to others for ${lvl*2+3} rd",
   'Detect Invisibility':'TODO',
   'Detect Lie':"R30' Target dicerns lies for $L rd (rev makes lies believable)",
-  'Detect Magic':'TODO',
+  'Detect Magic':"Discern magical auras in 10'x30' path for 1 turn",
   'Detect Pits And Snares':'TODO',
   'Dig':'TODO',
   'Dimension Door':'TODO',
@@ -332,9 +297,9 @@ FirstEdition.spellsDescriptions = {
   'Feather Fall':'TODO',
   'Feeblemind':'TODO',
   'Feign Death':'TODO',
-  'Find Familiar':'TODO',
+  'Find Familiar':"Call beast to serve as familiar (1d3+1 HP, AC 7, Int 6)",
   'Find The Path':'TODO',
-  'Find Traps':"Detect traps in 30'x10' area for 3 turns",
+  'Find Traps':"Detect traps in 10'x30' area for 3 turns",
   'Finger Of Death':'TODO',
   'Fire Charm':'TODO',
   'Fire Seeds':'TODO',
@@ -344,22 +309,22 @@ FirstEdition.spellsDescriptions = {
   'Fireball':'TODO',
   'Flame Arrow':'TODO',
   'Flame Strike':'TODO',
-  'Floating Disk':'TODO',
+  'Floating Disk':"3' diameter disk holds $L100 lbs, follows self at 20' for $Lplus3 turns",
   'Fly':'TODO',
   'Fog Cloud':'TODO',
   "Fool's Gold":'TODO',
   'Forceful Hand':'TODO',
   'Forget':'TODO',
   'Freezing Sphere':'TODO',
-  'Friends':'TODO',
+  'Friends':"Self Charisma +2d4 to all within ${lvl*10 + 10}' (save Cha -1d4) for $L rd",
   'Fumble':'TODO',
   'Gate':'TODO',
-  'Gaze Reflection':'TODO',
+  'Gaze Reflection':"Gaze attacks reflected back for 1 rd",
   'Geas':'TODO',
   'Glass-Steel':'TODO',
   'Glasseye':'TODO',
   'Globe Of Invulnerability':'TODO',
-  'Glyph Of Warding':"Touching ${lvl*25}' sq causes $L2 HP energy",
+  'Glyph Of Warding':"Touching $L25' sq causes $L2 HP energy",
   'Grasping Hand':'TODO',
   'Guards And Wards':'TODO',
   'Gust Of Wind':'TODO',
@@ -370,7 +335,7 @@ FirstEdition.spellsDescriptions = {
   'Heat Metal':'TODO',
   'Hold Animal':'TODO',
   'Hold Monster':'TODO',
-  'Hold Person':"R60' 1-3 medium targets immobilized (save neg) for ${lvl + 4} rd",
+  'Hold Person':"R60' 1-3 medium targets immobilized (save neg) for $Lplus4 rd",
   'Hold Plant':'TODO',
   'Hold Portal':'TODO',
   'Holy Word':'TODO',
@@ -397,7 +362,7 @@ FirstEdition.spellsDescriptions = {
   'Know Alignment':"Discern aura of 10 touched creatures in 1 turn",
   'Legend Lore':'TODO',
   'Levitate':'TODO',
-  'Light':'TODO',
+  'Light':"Target object/spot radiates light 20' for $Lplus6 turns (rev darkness half duration)",
   'Lightning Bolt':'TODO',
   'Limited Wish':'TODO',
   'Locate Animals':'TODO',
@@ -408,7 +373,7 @@ FirstEdition.spellsDescriptions = {
   "Mage's Sword":'TODO',
   'Magic Aura':'TODO',
   'Magic Jar':'TODO',
-  'Magic Missle':'TODO',
+  'Magic Missle':"R${lvl*10 + 60}' ${Math.floor((lvl+1)/2)} energy darts hit targets in 10' cu for 1d4+1 ea",
   'Magic Mouth':'TODO',
   'Major Creation':'TODO',
   'Mass Charm':'TODO',
@@ -443,7 +408,7 @@ FirstEdition.spellsDescriptions = {
   'Passwall':'TODO',
   'Permanency':'TODO',
   'Permanent Illusion':'TODO',
-  'Phantasmal Force':'TODO',
+  'Phantasmal Force':"R${lvl*10 + 60}' ${lvl*10 + 40}' sq illusionary object for conc/until struck",
   'Phantasmal Killer':'TODO',
   'Phase Door':'TODO',
   'Plane Shift':'TODO',
@@ -469,27 +434,27 @@ FirstEdition.spellsDescriptions = {
   'Protection From Fire':'TODO',
   'Protection From Lightning':'TODO',
   'Protection From Normal Missles':'TODO',
-  'Purify Food And Drink':'TODO',
+  'Purify Food And Drink':"R30' Consumables in $L' cu uncontaminated (rev contaminates)",
   'Purify Water':'TODO',
   'Push':'TODO',
   'Pyrotechnics':'TODO',
   'Quest':'TODO',
   'Raise Dead':'TODO',
   'Ray Of Enfeeblement':'TODO',
-  'Read Magic':'TODO',
+  'Read Magic':"Self understand magical writing for $L2 rd (rev obscures)",
   'Regenerate':'TODO',
   'Reincarnation':'TODO',
   'Remove Curse':"Touched uncursed (rev cursed for $L turns)",
   'Remove Fear':"Touched +4 vs. fear for 1 turn, new +$L save if already afraid",
   'Repel Insects':'TODO',
   'Repulsion':'TODO',
-  'Resist Cold':'TODO',
+  'Resist Cold':"Touched comfortable to 0F, +3 save vs. cold and 1/4 or 1/2 damage for $L turns",
   'Resist Fire':"Touched immune normal fire, +3 vs. magical for $L turns",
   'Restoration':'TODO',
   'Resurrection':'TODO',
   'Reverse Gravity':'TODO',
   'Rope Trick':'TODO',
-  'Sanctuary':"Foes save vs. magic to attack self for ${lvl + 2} rd",
+  'Sanctuary':"Foes save vs. magic to attack self for $Lplus2 rd",
   'Scare':'TODO',
   'Secret Chest':'TODO',
   'Shades':'TODO',
@@ -500,12 +465,12 @@ FirstEdition.spellsDescriptions = {
   'Shatter':'TODO',
   'Shield':'TODO',
   'Shillelagh':'TODO',
-  'Shocking Grasp':'TODO',
+  'Shocking Grasp':"Touch does 1d8+$L HP within 1 rd",
   "Silence 15' Radius":"R120' No sound in 30' radius sphere for $L2 rd",
   'Simulacrum':'TODO',
-  'Sleep':'TODO',
-  'Slow Poison':"Touched takes only 1 HP/turn from poison, protected from death for ${lvl * 6} turns",
+  'Sleep':"R${30+lvl*10}' Creatures up to 4+4 HD in 15' radius sleep for $L5 rd",
   'Slow':'TODO',
+  'Slow Poison':"Touched takes only 1 HP/turn from poison, protected from death for $L6 turns",
   'Snake Charm':"Charm angry snakes up to self HP 1d4+4 rd",
   'Snare':'TODO',
   'Speak With Animals':"Self converse w/animals for $L2 rd",
@@ -518,7 +483,7 @@ FirstEdition.spellsDescriptions = {
   'Spirit-Wrack':'TODO',
   'Spiritual Weapon':"R30' magical force attacks for conc/$L rd",
   'Statue':'TODO',
-  'Sticks To Snakes':"R30' $L sticks in 10' cu become snakes ($L5% venonous) (reversable) for $L2 rd",
+  'Sticks To Snakes':"R30' $L sticks in 10' cu become snakes ($L5% venonous) (rev) for $L2 rd",
   'Stinking Cloud':'TODO',
   'Stone Shape':'TODO',
   'Stone Tell':'TODO',
@@ -533,7 +498,7 @@ FirstEdition.spellsDescriptions = {
   'Temporal Statis':'TODO',
   'Time Stop':'TODO',
   'Tiny Hut':'TODO',
-  'Tongues':"Self understand any speach (reversable) in 30' radius for 1 turn",
+  'Tongues':"Self understand any speach (rev muddle) in 30' radius for 1 turn",
   'Transformation':'TODO',
   'Transmute Metal To Wood':'TODO',
   'Transmute Rock To Mud':'TODO',
@@ -547,7 +512,7 @@ FirstEdition.spellsDescriptions = {
   'Unseen Servant':'TODO',
   'Vanish':'TODO',
   'Veil':'TODO',
-  'Ventriloquism':'TODO',
+  'Ventriloquism':"R$L10' Self throw voice for $Lplus2 rd ((Int - 12) * 10 % disbelieve)",
   'Vision':'TODO',
   'Wall Of Fire':'TODO',
   'Wall Of Fog':'TODO',
@@ -705,8 +670,8 @@ FirstEdition.spellsSchools = {
   'Shape Change':'Transmutation', 'Shatter':'Transmutation',
   'Shield':'Evocation', 'Shillelagh':'Transmutation',
   'Shocking Grasp':'Transmutation', "Silence 15' Radius":'Transmutation',
-  'Simulacrum':'Illusion', 'Sleep':'Enchantment', 'Slow Poison':'Necromancy',
-  'Slow':'Transmutation', 'Snake Charm':'Enchantment', 'Snare':'Enchantment',
+  'Simulacrum':'Illusion', 'Sleep':'Enchantment', 'Slow':'Transmutation',
+  'Slow Poison':'Necromancy', 'Snake Charm':'Enchantment','Snare':'Enchantment',
   'Speak With Animals':'Transmutation', 'Speak With Dead':'Necromancy',
   'Speak With Monsters':'Transmutation', 'Speak With Plants':'Transmutation',
   'Spectral Force':'Illusion', 'Spell Immunity':'Abjuration',
@@ -828,7 +793,6 @@ FirstEdition.abilityRules = function(rules) {
     'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? null : ' +
                         'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
   );
-  // TODO Extraordinary success 1/6 for row 13, 2/6 (OSRIC 1/6) for row 14
   rules.defineRule('strengthMajorTest',
     'strengthRow', '=', 'source <= 2 ? 0 : ' +
                         'source <= 5 ? Math.pow(2, source - 3) : ' +
@@ -864,6 +828,45 @@ FirstEdition.abilityRules = function(rules) {
 /* Defines the rules related to character classes. */
 FirstEdition.classRules = function(rules, classes) {
 
+  var thiefSkillsRacialAdjustments =
+    FirstEdition.USE_OSRIC_RULES ?
+    {
+      'Climb Walls':
+        "{'Dwarf':-10, 'Elf':-5, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5, 'Human':5}",
+      'Find Traps':
+        "{'Dwarf':15, 'Elf':5, 'Half Orc':5}",
+      'Hear Noise':
+        "{'Elf':5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
+      'Hide In Shadows':
+        "{'Elf':10, 'Half Elf':5, 'Halfling':15}",
+      'Move Quietly':
+        "{'Dwarf':-5, 'Elf':5, 'Halfling':15}",
+      'Open Locks':
+        "{'Dwarf':15, 'Elf':-5, 'Gnome':10, 'Half Orc':5, 'Human':5}",
+      'Pick Pockets':
+        "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
+      'Read Languages':
+        "{'Dwarf':-5, 'Elf':10, 'Halfling':-5, 'Half Orc':-10}"
+    } :
+    {
+      'Climb Walls':
+        "{'Dwarf':-10, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5}",
+      'Find Traps':
+        "{'Dwarf':15, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
+      'Hear Noise':
+        "{'Elf':5, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
+      'Hide In Shadows':
+        "{'Elf':10, 'Gnome':5, 'Half Elf':5, 'Halfling':15}",
+      'Move Quietly':
+        "{'Elf':5, 'Gnome':5, 'Halfling':10}",
+      'Open Locks':
+        "{'Dwarf':10, 'Elf':-5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
+      'Pick Pockets':
+        "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
+      'Read Languages':
+        "{'Dwarf':-5, 'Halfling':-5, 'Half Orc':-10}"
+    };
+
   rules.defineNote
     ('validationNotes.levelsTotal:' +
      'Allocated levels differ from level total by %V');
@@ -883,7 +886,6 @@ FirstEdition.classRules = function(rules, classes) {
 
     spellsKnown = null;
     thiefSkillLevel = null;
-    //TODO level experience points
 
     if(klass == 'Assassin') {
 
@@ -898,9 +900,8 @@ FirstEdition.classRules = function(rules, classes) {
       notes = [
         'combatNotes.assassinationFeature:' +
           'Strike kills surprised target %V% - 5%/2 foe levels',
-        // TODO OSRIC "when unobserved"
         'combatNotes.backstabFeature:' +
-          '+4 melee attack/x%V damage from behind',
+          '+4 melee attack/x%V damage when surprising',
         'featureNotes.disguiseFeature:92%+ chance of successful disguise',
         'featureNotes.extraLanguagesFeature:' +
           "+%V alignment/druidic/thieves' languages",
@@ -1331,6 +1332,9 @@ FirstEdition.classRules = function(rules, classes) {
 
     } else if(klass == 'Monk') {
 
+      if(FirstEdition.USE_OSRIC_RULES) {
+        continue;
+      }
       allowedArmors = [];
       allowedShields = [];
       baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2';
@@ -1342,11 +1346,9 @@ FirstEdition.classRules = function(rules, classes) {
         '7:Wholeness Of Body', '8:Speak With Plants', '9:Clear Mind',
         '9:Improved Evasion', '10:Steel Mind', '11:Diamond Body',
         '12:Free Will', '13:Quivering Palm'
-        // TODO
       ];
       hitDie = 4;
       notes = [
-        // TODO
         'combatNotes.awareFeature:Surprised %V%',
         'combatNotes.dodgeMissilesFeature:' +
           'Petrification save to dodge non-magical missiles',
@@ -1424,8 +1426,12 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Monk', '=', 'source < 6 ? 1 : source < 13 ? 4 : 8'
       );
       rules.defineRule('speed', 'levels.Monk', '+', 'source * 10 + 20');
-      rules.defineRule('strengthAttackAdjustment', 'levels.Monk', '=', '0');
-      rules.defineRule('strengthDamageAdjustment', 'levels.Monk', '=', '0');
+      rules.defineRule
+        ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '=', '0');
+      rules.defineRule
+        ('combatNotes.strengthAttackAdjustment', 'levels.Monk', '=', '0');
+      rules.defineRule
+        ('combatNotes.strengthDamageAdjustment', 'levels.Monk', '=', '0');
       rules.defineRule('weapons.Unarmed.2',
         'levels.Monk', '=', 'FirstEdition.monkUnarmedDamage[source]'
       );
@@ -1549,7 +1555,6 @@ FirstEdition.classRules = function(rules, classes) {
         'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
       );
       rules.defineRule('warriorLevel', 'levels.Paladin', '+=', null);
-      // TODO PHB only Holy Sword
 
     } else if(klass == 'Ranger') {
 
@@ -1654,12 +1659,11 @@ FirstEdition.classRules = function(rules, classes) {
       allowedArmors = ['Leather', 'Studded'];
       allowedShields = [];
       baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2';
-      features = ['Bonus Thief Experience', '10:Read Scrolls'];
+      features = ['Backstab', 'Bonus Thief Experience', '10:Read Scrolls'];
       hitDie = 6;
       notes = [
-        // TODO OSRIC "when unobserved"
         'combatNotes.backstabFeature:' +
-          '+4 melee attack/x%V damage from behind',
+          '+4 melee attack/x%V damage when surprising',
         'featureNotes.bonusThiefExperienceFeature:' +
           '10% added to awarded experience',
         'magicNotes.readScrollsFeature:Cast arcane spells from scrolls',
@@ -1802,12 +1806,12 @@ FirstEdition.classRules = function(rules, classes) {
           'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
           'Math.min(source*5+40, 125)',
           'dexterity', '+',
-          'source <= 11 ? (source-12)*5 : source >= 17 ? (source-17)*5 : null',
-          'levels.Monk', '+', '-source'
+          'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null',
+          'levels.Monk', '*', '0'
         );
         rules.defineRule('thiefSkills.Read Languages',
           'thiefSkillLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
-          'levels.Monk', '+', '-source'
+          'levels.Monk', '*', '0'
         );
       }
       rules.defineRule
@@ -1818,8 +1822,7 @@ FirstEdition.classRules = function(rules, classes) {
                         'Open Locks':'', 'Pick Pockets':'',
                         'Read Languages':''}) {
         rules.defineRule('thiefSkills.' + skill,
-          'race', '+',
-          'FirstEdition.thiefSkillsRacialAdjustments[source + " ' + skill + '"]'
+          'race', '+', thiefSkillsRacialAdjustments[skill] + '[source]'
         );
       }
     }
@@ -2230,7 +2233,6 @@ FirstEdition.raceRules = function(rules, languages, races) {
 
   for(var i = 0; i < races.length; i++) {
 
-    // TODO: level limits
     var adjustment, features, languages, notes;
     var race = races[i];
     var raceNoSpace =
@@ -2355,8 +2357,8 @@ FirstEdition.raceRules = function(rules, languages, races) {
           'Intelligence >= 8'
       ];
       if(FirstEdition.USE_OSRIC_RULES) {
-        // TODO This doesn't work because of how rules are generated.
-        // notes[notes.length - 1] += '/Constitution <= 17';
+        notes.push('validationNotes.'+raceNoSpace+'RaceConMax:' +
+                   'Requires Constitution <= 17');
       }
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
@@ -2437,11 +2439,12 @@ FirstEdition.raceRules = function(rules, languages, races) {
         "featureNotes.infravisionFeature:%V' vision in darkness",
         'saveNotes.resistMagicFeature:+%V vs. spell/wand',
         'saveNotes.resistPoisonFeature:+%V vs. poison',
-        // TODO also, Strength <= 17. Can't use Strength twice in this note
-        // because of how rules are generated from it.
+        // Can't specify both min and max Strength in a single note because of
+        // how rules are generated from it.
         'validationNotes.'+raceNoSpace+'RaceAbility:' +
           'Requires Constitution >= 10/Dexterity >= 8/Intelligence >= 6/' +
-          'Strength >= 6/Wisdom <= 17'
+          'Strength >= 6/Wisdom <= 17',
+        'validationNotes.'+raceNoSpace+'RaceStrMax:Requires Strength <= 17'
       ];
       rules.defineRule('featureNotes.infravisionFeature',
         raceNoSpace + 'Features.Infravision', '+=', '60'
@@ -2554,9 +2557,9 @@ FirstEdition.ruleNotes = function() {
     '    limit of level 10.' +
     '  </li>\n' +
     '  <li>\n' +
-    '    In general, Scribe uses the OSRIC names for spells, rather than\n' +
-    '    those found in the 1E PHB. "Darkness" is used instead of "Darkness\n' +
-    '    15\' Radius" and "Spirit-Wrack" instead of "Spirit-Rack".\n' +
+    '    Scribe generally uses the OSRIC names and rules for spells, rather\n' +
+    '    than those found in the 1E PHB. "Darkness" is used instead of\n' +
+    '    "Darkness 15\' Radius", "Spirit-Wrack" instead of "Spirit-Rack".\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
@@ -2566,6 +2569,16 @@ FirstEdition.ruleNotes = function() {
     '<ul>\n' +
     '  <li>\n' +
     '    The bard class from the 1E PHB is not supported.\n' +
+    '  </li>\n' +
+    '  <li>\n' +
+    '    Scribe does not note racial restrictions on class and level.\n' +
+    '  </li>\n' +
+    '  <li>\n' +
+    '    Scribe does not compute class level from experience points.\n' +
+    '  </li>\n' +
+    '  <li>\n' +
+    '    Scribe does not report the chance of extraordinary success on\n' +
+    '    strength tests for characters with strength 18/91 and higher.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
@@ -2583,15 +2596,15 @@ FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
     spells = ScribeUtils.getKeys(rules.choices.spells);
   }
   if(descriptions == null) {
-    descriptions = FiveE.spellsDescriptions;
+    descriptions = FirstEdition.spellsDescriptions;
   }
 
   rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
   rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
+  rules.defineRule('casterLevels.I', 'levels.Illusionist', '=', null);
+  rules.defineRule('casterLevels.M', 'levels.Magic User', '=', null);
   rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
   rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
-  rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
-  rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
 
   for(var i = 0; i < spells.length; i++) {
 
@@ -2619,8 +2632,8 @@ FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
         var insert = inserts[index - 1];
         var expr = insert[1] == "{" ?
             insert.substring(2, insert.length - 1) : insert.substring(1);
-        if(FiveE.spellsAbbreviations[expr] != null) {
-          expr = FiveE.spellsAbbreviations[expr];
+        if(FirstEdition.spellsAbbreviations[expr] != null) {
+          expr = FirstEdition.spellsAbbreviations[expr];
         }
         expr = expr.replace(/lvl/g, "source");
         rules.defineRule
