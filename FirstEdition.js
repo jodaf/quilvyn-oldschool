@@ -90,9 +90,12 @@ FirstEdition.CLASSES = [
   'Monk', 'Paladin', 'Ranger', 'Thief'
 ];
 FirstEdition.GOODIES = [
+  'Bracers Of Protection +5',
   'Chain +2',
   'Chain +4',
+  'Light Pick +1',
   'Long Sword +1',
+  'Plate +2',
   'Ring Of Protection +1'
 ];
 FirstEdition.LANGUAGES = [
@@ -232,7 +235,7 @@ FirstEdition.spellsDescriptions = {
   'Command':"R10' Target obeys single-word command (save neg for Int 13+/HD 6+)",
   'Commune With Nature':'TODO',
   'Commune':"Self deity answers $L yes/no questions",
-  'Comprehend Languages':'TODO',
+  'Comprehend Languages':"Self understand unknown writing/speech for $L5 rd (rev obscures)",
   'Cone Of Cold':'TODO',
   'Confusion':'TODO',
   'Conjure Animals':"R30' $L HD of animals appear and fight for $L2 rd",
@@ -250,11 +253,11 @@ FirstEdition.spellsDescriptions = {
   'Creeping Doom':'TODO',
   'Crushing Hand':'TODO',
   'Cure Blindness':"Touched cured of blindness (rev blinds, save neg)",
-  'Cure Light Wounds':"Touched heals 3d8+1 HP (rev inflicts, save neg)",
+  'Cure Critical Wounds':"Touched heals 3d8+1 HP (rev inflicts, save neg)",
   'Cure Disease':"Touched cured of disease (rev infects, save neg)",
   'Cure Light Wounds':"Touched heals d8 HP (rev inflicts, save neg)",
   'Cure Serious Wounds':"Touched heals 2d8+1 HP (rev inflicts, save neg)",
-  'Dancing Lights':'TODO',
+  'Dancing Lights':"R${lvl*10+40}' Up to 4 movable lights for $L2 rd",
   'Darkness':"R$L10' 15' lightless sphere for 1 turn + $L rd",
   'Deafness':'TODO',
   'Death Spell':'TODO',
@@ -283,15 +286,15 @@ FirstEdition.spellsDescriptions = {
   'Emotion':'TODO',
   'Enchant An Item':'TODO',
   'Enchanted Weapon':'TODO',
-  'Enlarge':'TODO',
-  'Entangle':'TODO',
+  'Enlarge':"R$L5' Creature grows ${Math.min(lvl*20,200)}% or object ${Math.min(lvl*10,100)} for $L turns (save neg, rev shrinks)",
+  'Entangle':"R80' Plants in 20' radius hold passers (save half move) for 1 turn",
   'Erase':"R30' Erase magical (${lvl*2+50}% chance) or normal (${lvl*4+50}% from 2-page area",
   'Exorcise':"R10' Target relieved of supernatural inhabitant/influence",
   'Explosive Runes':'TODO',
   'Extension I':'TODO',
   'Extension II':'TODO',
   'Extension III':'TODO',
-  'Faerie Fire':'TODO',
+  'Faerie Fire':"R80' Outlines creature, allowing +2 attack, for $L4 rd",
   'False Trap':'TODO',
   'Fear':'TODO',
   'Feather Fall':"R$L10' Objects in 10' cu fall 1.5'/sec for $L6 secs",
@@ -342,7 +345,7 @@ FirstEdition.spellsDescriptions = {
   'Hypnotic Pattern':'TODO',
   'Hypnotism':'TODO',
   'Ice Storm':'TODO',
-  'Identify':'TODO',
+  'Identify':"${lvl*5+15}% chance of determining magical properties of touched if used w/in $L hr, requires rest afterward",
   'Illusory Script':'TODO',
   'Imprisonment':'TODO',
   'Improved Invisibility':'TODO',
@@ -357,7 +360,7 @@ FirstEdition.spellsDescriptions = {
   'Invisibility':'TODO',
   'Invisible Stalker':'TODO',
   'Irresistible Dance':'TODO',
-  'Jump':'TODO',
+  'Jump':"Touched can jump 30' forward, 10' back/up ${Math.floor((lvl-1)/3) + 1} times",
   'Knock':'TODO',
   'Know Alignment':"Discern aura of 10 touched creatures in 1 turn (rev obscures)",
   'Legend Lore':'TODO',
@@ -435,7 +438,7 @@ FirstEdition.spellsDescriptions = {
   'Protection From Lightning':'TODO',
   'Protection From Normal Missles':'TODO',
   'Purify Food And Drink':"R30' Consumables in $L' cu uncontaminated (rev contaminates)",
-  'Purify Water':'TODO',
+  'Purify Water':"R40' Decontaminates (rev contaminates) $L' cu water",
   'Push':'TODO',
   'Pyrotechnics':'TODO',
   'Quest':"Target fulfill quest or -1 saves/day (save neg)",
@@ -462,9 +465,9 @@ FirstEdition.spellsDescriptions = {
   'Shadow Magic':'TODO',
   'Shadow Monsters':'TODO',
   'Shape Change':'TODO',
-  'Shatter':'TODO',
+  'Shatter':"R60' $L10 lbs brittle material shatters (save neg)",
   'Shield':'TODO',
-  'Shillelagh':'TODO',
+  'Shillelagh':"Touched club +1 attack, 2d4 damage for $L rd",
   'Shocking Grasp':"Touch does 1d8+$L HP within 1 rd",
   "Silence 15' Radius":"R120' No sound in 30' radius sphere for $L2 rd",
   'Simulacrum':'TODO',
@@ -484,7 +487,7 @@ FirstEdition.spellsDescriptions = {
   'Spiritual Weapon':"R30' magical force attacks for conc/$L rd",
   'Statue':'TODO',
   'Sticks To Snakes':"R30' $L sticks in 10' cu become snakes ($L5% venonous) (rev) for $L2 rd",
-  'Stinking Cloud':'TODO',
+  'Stinking Cloud':"R30' Creatures w/in 20' radius retch for d4+1 rd (save neg) for $L rd",
   'Stone Shape':'TODO',
   'Stone Tell':"Self converse w/3' cu rock for 1 turn",
   'Stone To Flesh':'TODO',
@@ -509,7 +512,7 @@ FirstEdition.spellsDescriptions = {
   'True Seeing':"Touced sees past deceptions, alignment auras w/in 120' for $L rd (rev obscures)",
   'True Sight':'TODO',
   'Turn Wood':'TODO',
-  'Unseen Servant':'TODO',
+  'Unseen Servant':"Invisible force does simple tasks w/in 30' for ${lvl+6} turns",
   'Vanish':'TODO',
   'Veil':'TODO',
   'Ventriloquism':"R$L10' Self throw voice for $Lplus2 rd ((Int - 12) * 10 % disbelieve)",
@@ -1392,14 +1395,15 @@ FirstEdition.classRules = function(rules, classes) {
       profWeaponPenalty = -3;
       profWeaponCount = '1 + Math.floor(source / 2)';
       rules.defineRule('armorClass',
-        'levels.Monk', 'v', '11 - source + Math.floor(source / 5)',
-        'monkDexterityACNegation', '+', null
+        'levels.Monk', '=', '11 - source + Math.floor(source / 5)'
       );
       rules.defineRule
         ('combatNotes.awareFeature', 'levels.Monk', '=', '34 - source * 2');
       rules.defineRule('combatNotes.flurryOfBlowsFeature.1',
         'levels.Monk', '=', 'source <= 5 ? 1.25 : source <= 8 ? 1.5 : source <= 10 ? 2 : source <= 13 ? 2.5 : source <= 15 ? 3 : 4'
       );
+      rules.defineRule
+        ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
       rules.defineRule
         ('combatNotes.killingBlowFeature.1', 'levels.Monk', '=', 'source - 7');
       rules.defineRule('combatNotes.monkDamageAdjustment',
@@ -1411,10 +1415,6 @@ FirstEdition.classRules = function(rules, classes) {
         ('magicNotes.wholenessOfBodyFeature', 'levels.Monk', '=', 'source - 7');
       rules.defineRule
         ('maximumHenchmen', 'levels.Monk', 'v', 'source < 6 ? 0 : source - 4');
-      rules.defineRule('monkDexterityACNegation',
-        'levels.Monk', '?', null,
-        'dexterityArmorClassAdjustment', '=', '-source'
-      );
       rules.defineRule
         ('saveNotes.clearMindFeature', 'levels.Monk', '=', '95 - source * 5');
       rules.defineRule
