@@ -1,5 +1,5 @@
 /*
-Copyright 2015, James J. Hayes
+Copyright 2019, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -86,7 +86,7 @@ FirstEdition.ARMORS = [
   'Ring', 'Scale', 'Splint', 'Studded'
 ];
 FirstEdition.CLASSES = [
-  'Assassin', 'Cleric', 'Druid', 'Fighter', 'Illusionist', 'Magic User',
+  'Assassin', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Illusionist', 'Magic User',
   'Monk', 'Paladin', 'Ranger', 'Thief'
 ];
 FirstEdition.GOODIES = [
@@ -823,6 +823,22 @@ FirstEdition.abilityRules = function(rules) {
     'wisdom', '=',
     'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : (source-14)'
   );
+  rules.defineRule('divineSpellBonus.1',
+    'casterLevelDivine', '?', null,
+    'wisdom', '=', 'source<=12 ? null : source==13 ? 1 : source<=18 ? 2 : 3'
+  );
+  rules.defineRule('divineSpellBonus.2',
+    'casterLevelDivine', '?', null,
+    'wisdom', '=', 'source <= 14 ? null : source == 15 ? 1 : 2'
+  );
+  rules.defineRule('divineSpellBonus.3',
+    'casterLevelDivine', '?', null,
+    'wisdom', '=', 'source <= 16 ? null : 1'
+  );
+  rules.defineRule('divineSpellBonus.4',
+    'casterLevelDivine', '?', null,
+    'wisdom', '=', 'source <= 17 ? null : 1'
+  );
 
   rules.defineSheetElement('Maximum Henchmen', 'Alignment');
 
@@ -1009,42 +1025,24 @@ FirstEdition.classRules = function(rules, classes) {
         );
       }
       rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
-      rules.defineRule('spellBonus.C1',
-        'levels.Cleric', '?', null,
-        'wisdom', '=', 'source<=12 ? null : source==13 ? 1 : source<=18 ? 2 : 3'
-      );
-      rules.defineRule('spellBonus.C2',
-        'levels.Cleric', '?', null,
-        'wisdom', '=', 'source <= 14 ? null : source == 15 ? 1 : 2'
-      );
-      rules.defineRule('spellBonus.C3',
-        'levels.Cleric', '?', null,
-        'wisdom', '=', 'source <= 16 ? null : 1'
-      );
-      rules.defineRule('spellBonus.C4',
-        'levels.Cleric', '?', null,
-        'wisdom', '=', 'source <= 17 ? null : 1'
-      );
-      rules.defineRule('spellsKnown.C1', 'spellBonus.C1', '+', null);
-      rules.defineRule('spellsKnown.C2', 'spellBonus.C2', '+', null);
-      rules.defineRule('spellsKnown.C3', 'spellBonus.C3', '+', null);
-      rules.defineRule('spellsKnown.C4', 'spellBonus.C4', '+', null);
+      rules.defineRule('spellsKnown.C1', 'divineSpellBonus.1', '+', null);
+      rules.defineRule('spellsKnown.C2', 'divineSpellBonus.2', '+', null);
+      rules.defineRule('spellsKnown.C3', 'divineSpellBonus.3', '+', null);
+      rules.defineRule('spellsKnown.C4', 'divineSpellBonus.4', '+', null);
 
-    } else if(klass == 'Druid') {
+    } else if(klass == 'Druid' ||
+              (klass == 'Bard' && !FirstEdition.USE_OSRIC_RULES)) {
 
       allowedArmors = ['Leather'];
-      allowedShields = ['Small Shield'];
+      allowedShields = klass == 'Druid' ? ['Small Shield'] : [];
       baseAttack = 'Math.floor(source / 3) * 2';
       features = [
-        'Bonus Druid Experience', 'Resist Fire', 'Resist Lightning',
-        "3:Druid's Knowledge", '3:Wilderness Movement', '7:Fey Immunity',
-        '7:Shapeshift'
+        'Resist Fire', 'Resist Lightning', '3:Nature Knowledge',
+        '3:Wilderness Movement', '7:Fey Immunity', '7:Shapeshift'
       ];
-      hitDie = 8;
+      hitDie = klass == 'Druid' ? 8 : 6;
       notes = [
-        'featureNotes.bonusDruidExperienceFeature:' +
-          '10% added to awarded experience',
-        "featureNotes.druid'sKnowledgeFeature:" +
+        'featureNotes.natureKnowledgeFeature:' +
           'Identify plant/animal types/water purity',
         'featureNotes.wildernessMovementFeature:' +
           'Normal, untrackable move through undergrowth',
@@ -1055,6 +1053,25 @@ FirstEdition.classRules = function(rules, classes) {
         'saveNotes.resistLightningFeature:+2 vs. lightning',
         'validationNotes.druidClassAlignment:Requires Alignment == "Neutral"'
       ];
+      if(klass == 'Druid') {
+        features.push('Bonus Druid Experience');
+        notes.push(
+          'featureNotes.bonusDruidExperienceFeature:' +
+            '10% added to awarded experience',
+        );
+      } else {
+        features.push('Charming Music', 'Defensive Song', 'Legend Lore', 'Poetic Inspiration');
+        notes.push(
+          'featureNotes.legendLoreFeature:' +
+            '%V% chance of info about legendary item/person/place',
+          'magicNotes.charmingMusicFeature:' +
+            "%V% chance of charming creatures within 40' while playing (save 1 rd)",
+          'magicNotes.defensiveSongFeature:' +
+            'Counteract song attacks, soothe shriekers',
+          'magicNotes.poeticInspirationFeature:' +
+            'Performance gives allies +1 attack, +10% morale for 1 turn after 2 rd'
+        );
+      }
       if(FirstEdition.USE_OSRIC_RULES) {
         notes.push(
           'validationNotes.druidClassAbility:' +
@@ -1062,6 +1079,16 @@ FirstEdition.classRules = function(rules, classes) {
             'Strength >= 6/Wisdom >= 12'
         );
         profWeaponCount = '2 + Math.floor(source / 3)';
+      } else if(klass == 'Bard') {
+        notes.push(
+          'validationNotes.bardClassAbility:' +
+            'Requires Charisma >= 15/Constitution >= 10/Dexterity >= 15/' +
+            'Intelligence >= 12/Strength >= 15/Wisdom >= 15',
+          'validationNotes.bardClassAlignment:Requires Alignment =~ Neutral',
+          'validationNotes.bardClassLevels:Requires Fighter >= 5/Thief >= 5',
+          'validationNotes.bardClassRace:Requires Race =~ Human|Half Elf'
+        );
+        profWeaponCount = '2 + Math.floor(source / 5)';
       } else {
         notes.push(
           'validationNotes.druidClassAbility:' +
@@ -1075,43 +1102,58 @@ FirstEdition.classRules = function(rules, classes) {
         '13 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveSpell = '15 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveWand = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
-      spellsKnown = [
-        'D1:1:2/3:3/4:4/9:5/13:6',
-        'D2:2:1/3:2/5:3/7:4/11:5/14:6',
-        'D3:3:1/4:2/7:3/12:4/13:5/14:6',
-        'D4:6:1/8:2/10:3/12:4/13:5/14:6',
-        'D5:9:1/10:2/12:3/13:4/14:5',
-        'D6:11:1/12:2/13:3/14:4',
-        'D7:12:1/13:2/14:3'
-      ];
+      if(klass == 'Druid') {
+        spellsKnown = [
+          'D1:1:2/3:3/4:4/9:5/13:6',
+          'D2:2:1/3:2/5:3/7:4/11:5/14:6',
+          'D3:3:1/4:2/7:3/12:4/13:5/14:6',
+          'D4:6:1/8:2/10:3/12:4/13:5/14:6',
+          'D5:9:1/10:2/12:3/13:4/14:5',
+          'D6:11:1/12:2/13:3/14:4',
+          'D7:12:1/13:2/14:3'
+        ];
+      } else {
+        spellsKnown = [
+          'D1:1:1/2:2/3:3/16:4/19:5',
+          'D2:4:1/5:2/6:3/17:4/21:5',
+          'D3:7:1/8:2/9:3/18:4/22:5',
+          'D4:9:1/10:2/11:3/19:4/23:5',
+          'D5:9:1/10:2/12:3/13:4/14:5',
+          'D6:13:1/14:2/15:3/20:4/23:5'
+        ];
+      }
       profWeaponPenalty = -4;
-      rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
-      rules.defineRule('druidFeatures.Bonus Druid Experience',
-        'charisma', '?', 'source >= 16',
-        'wisdom', '?', 'source >= 16'
-      );
-      rules.defineRule('languageCount', 'levels.Druid', '+=', '1');
-      rules.defineRule("languages.Druids' Cant", 'levels.Druid', '=', '1');
-      rules.defineRule('spellBonus.D1',
-        'levels.Druid', '?', null,
-        'wisdom', '=', 'source<=12 ? null : source==13 ? 1 : source<=18 ? 2 : 3'
-      );
-      rules.defineRule('spellBonus.D2',
-        'levels.Druid', '?', null,
-        'wisdom', '=', 'source <= 14 ? null : source == 15 ? 1 : 2'
-      );
-      rules.defineRule('spellBonus.D3',
-        'levels.Druid', '?', null,
-        'wisdom', '=', 'source <= 16 ? null : 1'
-      );
-      rules.defineRule('spellBonus.D4',
-        'levels.Druid', '?', null,
-        'wisdom', '=', 'source <= 17 ? null : 1'
-      );
-      rules.defineRule('spellsKnown.D1', 'spellBonus.D1', '+', null);
-      rules.defineRule('spellsKnown.D2', 'spellBonus.D2', '+', null);
-      rules.defineRule('spellsKnown.D3', 'spellBonus.D3', '+', null);
-      rules.defineRule('spellsKnown.D4', 'spellBonus.D4', '+', null);
+      rules.defineRule('casterLevelDivine', 'levels.' + klass, '+=', null);
+      if(klass == 'Druid') {
+        rules.defineRule('druidFeatures.Bonus Druid Experience',
+          'charisma', '?', 'source >= 16',
+          'wisdom', '?', 'source >= 16'
+        );
+      }
+      if(klass == 'Druid') {
+        rules.defineRule('languageCount', 'levels.' + klass, '+=', '1');
+      } else {
+        rules.defineRule('languageCount',
+          'levels.' + klass, '+=', 'source >= 18 ? source - 7 : source >= 4 ? source - 2 - Math.floor((source-3) / 3) : 1'
+        );
+      }
+      rules.defineRule("languages.Druids' Cant", 'levels.' + klass, '=', '1');
+      rules.defineRule('spellsKnown.D1', 'divineSpellBonus.1', '+', null);
+      rules.defineRule('spellsKnown.D2', 'divineSpellBonus.2', '+', null);
+      rules.defineRule('spellsKnown.D3', 'divineSpellBonus.3', '+', null);
+      rules.defineRule('spellsKnown.D4', 'divineSpellBonus.4', '+', null);
+
+      if(klass == 'Bard') {
+        rules.defineRule('featureNotes.legendLoreFeature',
+          'levels.Bard', '=', 'source == 23 ? 99 : source >= 7 ? source * 5 - 15 : source >= 3 ? source * 3 - 2 : (source * 5 - 5)'
+        );
+        rules.defineRule('magicNotes.charmingMusicFeature',
+          'levels.Bard', '=', 'source == 23 ? 95 : source >= 21 ? source * 4 : source >= 2 ? 20 + Math.floor((source-2) * 10 / 3) : 15'
+        );
+        rules.defineRule('maximumHenchmen',
+          'levels.Bard', 'v', 'source < 23 ? Math.floor((source-2) / 3) : null'
+        );
+      }
 
     } else if(klass == 'Fighter') {
 
@@ -1333,11 +1375,8 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineSheetElement
         ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
 
-    } else if(klass == 'Monk') {
+    } else if(klass == 'Monk' && !FirstEdition.USE_OSRIC_RULES) {
 
-      if(FirstEdition.USE_OSRIC_RULES) {
-        continue;
-      }
       allowedArmors = [];
       allowedShields = [];
       baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2';
@@ -2568,9 +2607,6 @@ FirstEdition.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    The bard class from the 1E PHB is not supported.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
     '    Scribe does not note racial restrictions on class and level.\n' +
     '  </li>\n' +
     '  <li>\n' +
@@ -2585,6 +2621,10 @@ FirstEdition.ruleNotes = function() {
     '\n' +
     '<h3>Known Bugs</h3>\n' +
     '<ul>\n' +
+    '  <li>\n' +
+    '    Percentage calculations for the bard Charming Music effect differ\n' +
+    '    slightly from the 1E PHB table for some bard levels.\n' +
+    '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
 };
@@ -2600,7 +2640,10 @@ FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
   }
 
   rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
-  rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
+  rules.defineRule('casterLevels.D',
+    'levels.Bard', '=', null,
+    'levels.Druid', '=', null
+  );
   rules.defineRule('casterLevels.I', 'levels.Illusionist', '=', null);
   rules.defineRule('casterLevels.M', 'levels.Magic User', '=', null);
   rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
