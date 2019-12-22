@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.4.0.3alpha';
+var FirstEdition_VERSION = '1.4.0.5alpha';
 
 /*
  */
@@ -168,6 +168,7 @@ FirstEdition.spellsAbbreviations = {
   "L15": "lvl * 15",
   "L20": "lvl * 20",
   "L25": "lvl * 25",
+  "L40": "lvl * 40",
   "L100": "lvl * 100",
   "Lplus1":"lvl + 1",
   "Lplus2":"lvl + 2",
@@ -180,7 +181,7 @@ FirstEdition.spellsDescriptions = {
   'Aerial Servant':"R10' Summoned servent fetches request within $L days",
   'Affect Normal Fires':"R$L5' Change size of up to 1.5' radius fire from candle flame to 1.5' radius for $L rd",
   'Airy Water':'TODO',
-  'Alter Reality':'TODO',
+  'Alter Reality':"Use <i>Phantasmal Force</i> to fulfil limited wish",
   'Animal Friendship':"R10' Recruit animal companion (save neg)",
   'Animal Growth':"R80' Double (rev halve) size/HD/damage of 8 animals for $L2 rd",
   'Animal Summoning I':"R${lvl*120}' Draw 8 4 HD animals to assist",
@@ -254,8 +255,8 @@ FirstEdition.spellsDescriptions = {
   'Deafness':"R60' Target deafened (save neg)",
   'Death Spell':'TODO',
   'Delayed Blast Fireball':'TODO',
-  'Demi-Shadow Magic':"R{lvl*10+60}' Mimics <i>Cloudkill<i> (kill 1 HD creatures), <i>Cone Of Cold</i>, <i>Magic Missile</i>, <i>Fireball<i>, <i>Lightning Bolt</i> (ea $L2 HP), <i>Wall Of Fire</i>, or <i>Wall Of Ice</i> (ea ${lvl}d4 HP) (save half)",
-  'Demi-Shadow Monsters':'TODO',
+  'Demi-Shadow Magic':"R${lvl*10+60}' Mimics <i>Cloudkill</i> (die, save neg), <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (ea save $L2 HP), <i>Wall Of Fire</i> (2d6+$L HP, save ${lvl}d4), or <i>Wall Of Ice</i>",
+  'Demi-Shadow Monsters':"R30' Create monsters $L HD total, 40% HP (save AC 8, 40% damage) for $L rd",
   'Detect Charm':"Self discern up to 10 charmed creatures in 30' for 1 turn (rev obscures)",
   'Detect Evil':"Self discern evil (rev good) in 10'x120' path for 1 turn + $L5 rd",
   'Detect Illusion':"Self discern illusions in 10'x10' path, touching reveals to others for ${lvl*2+3} rd",
@@ -340,7 +341,7 @@ FirstEdition.spellsDescriptions = {
   'Identify':"${lvl*5+15}% chance of determining magical properties of touched if used w/in $L hr, requires rest afterward",
   'Illusory Script':"Obscured writing causes 5d4 rd confusion (save neg) for readers other than specified",
   'Imprisonment':'TODO',
-  'Improved Invisibility':'TODO',
+  'Improved Invisibility':"Touched invisible for $Lplus4 rd",
   'Improved Phantasmal Force':"R${lvl*10+60}' ${lvl*10+1600}' sight/sound illusion for conc + 2 rd",
   'Incendiary Cloud':'TODO',
   'Infravision':'TODO',
@@ -368,13 +369,13 @@ FirstEdition.spellsDescriptions = {
   "Mage's Sword":'TODO',
   'Magic Aura':"Touched responds to <i>Detect Magic</i> for $L days",
   'Magic Jar':'TODO',
-  'Magic Missle':"R${lvl*10 + 60}' ${Math.floor((lvl+1)/2)} energy darts hit targets in 10' cu for 1d4+1 ea",
+  'Magic Missile':"R${lvl*10 + 60}' ${Math.floor((lvl+1)/2)} energy darts hit targets in 10' cu for 1d4+1 ea",
   'Magic Mouth':"Touched object responds to trigger by reciting 25 words",
   'Major Creation':"R10' Create $L' cu object from component plant/mineral material for $L6 turns",
   'Mass Charm':'TODO',
   'Mass Invisibility':'TODO',
-  'Mass Suggestion':'TODO',
-  'Massmorph':"R$L10' 10 humanoids in $L100' sq appear as trees",
+  'Mass Suggestion':"R$L10' $L targets carry out reasonable suggestion for ${lvl*4+4} turns",
+  'Massmorph':"R$L10' 10 humanoids in $L100' sq look like trees",
   'Maze':"R$L5' Target sent to interdimentional maze for amount of time based on Int",
   'Mending':'TODO',
   'Message':'TODO',
@@ -396,15 +397,15 @@ FirstEdition.spellsDescriptions = {
   'Neutralize Poison':"Touched detoxed (rev lethally poisoned, save neg)",
   'Non-Detection':"Self invisible to divination for $L turns",
   'Obscurement':"Mist limits vision in ${lvl*100}' sq for $L4 rd",
-  'Paralyzation':'TODO',
+  'Paralyzation':"R$L10' Immobilize $L2 HD creatures in 400' sq",
   'Part Water':"R$L20' Form trench from ${lvl*600}' sq water for $L turn",
   'Pass Plant':"Self teleport between trees w/in 300'",
   'Pass Without Trace':"Touched leaves no sign of passage for $L turns",
   'Passwall':'TODO',
   'Permanency':'TODO',
-  'Permanent Illusion':'TODO',
+  'Permanent Illusion':"R30' ${lvl*100+1600}' sq sight/sound/smell/temperature illusion",
   'Phantasmal Force':"R${lvl*10 + 60}' ${lvl*10 + 40}' sq illusionary object for conc/until struck",
-  'Phantasmal Killer':'TODO',
+  'Phantasmal Killer':"R$L5' Nightmare illusion attacks target as HD 4, kills on hit for $L rd (save neg)",
   'Phase Door':'TODO',
   'Plane Shift':"Self and seven others travel to another plane (save neg)",
   'Plant Door':"Self move effortlessly through vegetation for $L turns",
@@ -418,17 +419,17 @@ FirstEdition.spellsDescriptions = {
   'Prayer':"Allies w/in 60' +1 attack, damage, saves (foes -1) for $L rd",
   'Predict Weather':"Discern local weather for next $L2 hr",
   'Prismatic Sphere':'TODO',
-  'Prismatic Spray':'TODO',
-  'Prismatic Wall':'TODO',
+  'Prismatic Spray':"Targets in 70'x15'x5' one of 20, 40, 80 HP (save half), fatal poison, stone, insane, planar teleport (save neg)",
+  'Prismatic Wall':"$L40'x$L20' multicolored wall blinds viewers 2d4 rd, blocks attacks for $L turns",
   'Produce Fire':"R40' Fire in 60' radius does 1d4 HP for 1 rd",
   'Produce Flame':"Flame from burning hand can be thrown 40' for $L2 rd",
-  'Programmed Illusion':'TODO',
-  'Project Image':'TODO',
+  'Programmed Illusion':"R$L10' Target responds to trigger, shows ${lvl*100+1600}' sq scene for $L rd",
+  'Project Image':"R$L5' Self duplicate immune attacks, can cast spells for $L rd",
   "Protection From Evil":"Touched untouchable by evil outsiders, -2 evil attacks, +2 saves for $L3 rd (rev good)",
   "Protection From Evil 10' Radius":"All in 10' radius of touched untouchable by evil outsiders, -2 evil attacks, +2 saves for $L rd (rev good)",
   'Protection From Fire':"Touched immune normal, +4 save and half damage vs magic fire",
   'Protection From Lightning':"Touched immune normal, +4 save and half damage vs magic electricity",
-  'Protection From Normal Missles':'TODO',
+  'Protection From Normal Missiles':'TODO',
   'Purify Food And Drink':"R30' Consumables in $L' cu uncontaminated (rev contaminates)",
   'Purify Water':"R40' Decontaminates (rev contaminates) $L' cu water",
   'Push':'TODO',
@@ -448,14 +449,16 @@ FirstEdition.spellsDescriptions = {
   'Restoration':"Touched regains level and abilities lost w/in $L dy (rev drains)",
   'Resurrection':"R30' Touched restored to life w/in $L10 yr (rev slays)",
   'Reverse Gravity':'TODO',
-  'Rope Trick':'TODO',
+  'Rope Trick':"Touched rope leads to interdimensional space that holds 6 for $L2 turns",
   'Sanctuary':"Foes save vs. magic to attack self for $Lplus2 rd",
   'Scare':'TODO',
   'Secret Chest':'TODO',
   'Shades':'TODO',
-  'Shadow Door':'TODO',
-  'Shadow Magic':'TODO',
-  'Shadow Monsters':'TODO',
+  'Shades':"R30' Create monsters $L HD total, 60% HP (save AC 6, 60% damage) for $L rd",
+  'Shadow Door':"R10' Illusory door makes self invisible for $L rd",
+  'Shadow Magic':"R${lvl*10+50}' Mimics <i>Cone Of Cold</i>, <i>Fireball</i>, <i>Lightning Bolt</i>, <i>Magic Missile</i> (ea $L2 HP) (save  1 HP)",
+  'Shadow Magic':"R${lvl*10+50}' Mimics <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (save 1 HP)",
+  'Shadow Monsters':"R30' Create monsters $L HD total, 20% HP (save AC 10, 20% damage) for $L rd",
   'Shape Change':'TODO',
   'Shatter':"R60' $L10 lbs brittle material shatters (save neg)",
   'Shield':'TODO',
@@ -472,7 +475,7 @@ FirstEdition.spellsDescriptions = {
   'Speak With Dead':"R10' Self question corpse",
   'Speak With Monsters':"Self converse w/intelligent creatures w/in 30' for $L2 rd",
   'Speak With Plants':"Self converse w/plants w/in 30' for $L2 rd",
-  'Spectral Force':'TODO',
+  'Spectral Force':"R${lvl*10+60}' ${lvl*10+1600}' sq sight/sound/smell/temperature illusion for conc + 3 rd",
   'Spell Immunity':'TODO',
   'Spider Climb':'TODO',
   'Spirit-Wrack':'TODO',
@@ -484,9 +487,9 @@ FirstEdition.spellsDescriptions = {
   'Stone Tell':"Self converse w/3' cu rock for 1 turn",
   'Stone To Flesh':'TODO',
   'Strength':'TODO',
-  'Suggestion':'TODO',
+  'Suggestion':"R30' Target carries out reasonable suggestion for ${lvl*4+4} turns",
   'Summon Insects':"R30' Target covered w/insects, 2 HP/rd for $L rd",
-  'Summon Shadow':'TODO',
+  'Summon Shadow':"R10' $L shadows obey commands for $Lplus1 rd",
   'Symbol':"Glowing symbol causes hoplessness, pain, or persuasion for $L turns",
   'Telekinesis':'TODO',
   'Teleport':'TODO',
@@ -502,15 +505,15 @@ FirstEdition.spellsDescriptions = {
   'Tree':"Self polymorph into tree for $Lplus6 turns",
   'Trip':"Touched trips passers (save neg), 1d6 damage, stunned 1d4+1 rd for $L turns",
   'True Seeing':"Touched sees past deceptions, alignment auras w/in 120' for $L rd (rev obscures)",
-  'True Sight':'TODO',
+  'True Sight':"Touched sees past deceptions w/in 60' for $L rd",
   'Turn Wood':"Wood in 120'x$L20' forced away for $L4 rd",
   'Unseen Servant':"Invisible force does simple tasks w/in 30' for $Lplus6 turns",
   'Vanish':'TODO',
-  'Veil':'TODO',
+  'Veil':"R$L10' ${lvl*400}' sq area mimics other terrain for $L turns",
   'Ventriloquism':"R$L10' Self throw voice for $Lplus2 rd ((Int - 12) * 10 % disbelieve)",
-  'Vision':'TODO',
+  'Vision':"Self seek answer to question, may cause geas",
   'Wall Of Fire':"R80' $L20' sq wall or $L5' radius circle does 4d4+1 HP to passers, 2d4 w/in 10', 1d4 w/in 20' for conc/$L rd",
-  'Wall Of Fog':'TODO',
+  'Wall Of Fog':"R30' $L20' cu fog obscures for 2d4+$L rd",
   'Wall Of Force':'TODO',
   'Wall Of Ice':'TODO',
   'Wall Of Iron':'TODO',
@@ -619,7 +622,7 @@ FirstEdition.spellsSchools = {
   'Locate Plants':'Divination', 'Lower Water':'Transmutation',
   "Mage's Faithful Hound":'Conjuration', "Mage's Sword":'Evocation',
   'Magic Aura':'Illusion', 'Magic Jar':'Necromancy',
-  'Magic Missle':'Evocation', 'Magic Mouth':'Transmutation',
+  'Magic Missile':'Evocation', 'Magic Mouth':'Transmutation',
   'Major Creation':'Transmutation', 'Mass Charm':'Enchantment',
   'Mass Invisibility':'Illusion', 'Mass Suggestion':'Enchantment',
   'Massmorph':'Illusion', 'Maze':'Conjuration', 'Mending':'Transmutation',
@@ -649,7 +652,7 @@ FirstEdition.spellsSchools = {
   'Project Image':'Illusion', "Protection From Evil 10' Radius":'Abjuration',
   'Protection From Evil':'Abjuration', 'Protection From Fire':'Abjuration',
   'Protection From Lightning':'Abjuration',
-  'Protection From Normal Missles':'Abjuration',
+  'Protection From Normal Missiles':'Abjuration',
   'Purify Food And Drink':'Transmutation', 'Purify Water':'Transmutation',
   'Push':'Conjuration', 'Pyrotechnics':'Transmutation', 'Quest':'Enchantment',
   'Raise Dead':'Necromancy', 'Ray Of Enfeeblement':'Enchantment',
@@ -757,7 +760,7 @@ FirstEdition.abilityRules = function(rules) {
     'source <= 6 ? (7 - source) : source <= 14 ? null : ' +
     'source <= 18 ? 14 - source : -4'
   );
-  rules.defineRule('combatNotes.dexterityMissleAttackAdjustment',
+  rules.defineRule('combatNotes.dexterityMissileAttackAdjustment',
     'dexterity', '=',
     'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
     'source <= 18 ? source - 15 : 3'
@@ -2116,7 +2119,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'M1:Affect Normal Fires:Burning Hands:Charm Person:' +
         'Comprehend Languages:Dancing Lights:Detect Magic:Enlarge:Erase:' +
         'Feather Fall:Find Familiar:Floating Disk:Friends:Hold Portal:' +
-        'Identify:Jump:Light:Magic Aura:Magic Missle:Mending:Message:' +
+        'Identify:Jump:Light:Magic Aura:Magic Missile:Mending:Message:' +
         'Protection From Evil:Push:Read Magic:Shield:Shocking Grasp:Sleep:' +
         'Spider Climb:Unseen Servant:Ventriloquism:Write',
         "M2:Audible Glamer:Continual Light:Darkness:Detect Evil:" +
@@ -2128,7 +2131,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Feign Death:Fireball:Flame Arrow:Fly:Gust Of Wind:Haste:Hold Person:' +
         "Infravision:Invisibility 10' Radius:Lightning Bolt:" +
         'Monster Summoning I:Phantasmal Force:' +
-        "Protection From Evil 10' Radius:Protection From Normal Missles:" +
+        "Protection From Evil 10' Radius:Protection From Normal Missiles:" +
         'Slow:Suggestion:Tiny Hut:Tongues:Water Breathing',
         'W4:Charm Monster:Confusion:Dig:Dimension Door:Enchanted Weapon:' +
         'Extension I:Fear:Fire Charm:Fire Shield:Fire Trap:Fumble:' +
@@ -2190,7 +2193,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'M1:Affect Normal Fires:Burning Hands:Charm Person:' +
         'Comprehend Languages:Dancing Lights:Enlarge:Erase:Feather Fall:' +
         'Find Familiar:Floating Disk:Friends:Hold Portal:Identify:Jump:Light:' +
-        'Magic Aura:Magic Missle:Mending:Message:Protection From Evil:Push:' +
+        'Magic Aura:Magic Missile:Mending:Message:Protection From Evil:Push:' +
         'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
         'Ventriloquism:Write',
         'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
