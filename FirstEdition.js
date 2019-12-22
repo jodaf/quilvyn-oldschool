@@ -2133,29 +2133,29 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Monster Summoning I:Phantasmal Force:' +
         "Protection From Evil 10' Radius:Protection From Normal Missiles:" +
         'Slow:Suggestion:Tiny Hut:Tongues:Water Breathing',
-        'W4:Charm Monster:Confusion:Dig:Dimension Door:Enchanted Weapon:' +
+        'M4:Charm Monster:Confusion:Dig:Dimension Door:Enchanted Weapon:' +
         'Extension I:Fear:Fire Charm:Fire Shield:Fire Trap:Fumble:' +
         'Hallucinatory Terrain:Ice Storm:Massmorph:' +
         'Minor Globe Of Invulnerability:Mnemonic Enhancement:' +
         'Monster Summoning II:Plant Growth:Polymorph Other:Polymorph Self:' +
         'Remove Curse:Wall Of Fire:Wall Of Ice:Wizard Eye',
-        'W5:Airy Water:Animal Growth:Animate Dead:Cloudkill:Cone Of Cold:' +
+        'M5:Airy Water:Animal Growth:Animate Dead:Cloudkill:Cone Of Cold:' +
         'Conjure Elemental:Contact Other Plane:Distance Distortion:' +
         'Extension II:Feeblemind:Hold Monster:Interposing Hand:' +
         "Mage's Faithful Hound:Magic Jar:Monster Summoning III:Passwall:" +
         'Secret Chest:Stone Shape:Telekinesis:Teleport:' +
         'Transmute Rock To Mud:Wall Of Force:Wall Of Iron:Wall Of Stone',
-        'W6:Anti-Magic Shell:Control Weather:Death Spell:Disintegrate:' +
+        'M6:Anti-Magic Shell:Control Weather:Death Spell:Disintegrate:' +
         'Enchant An Item:Extension III:Forceful Hand:Freezing Sphere:Geas:' +
         'Glasseye:Globe Of Invulnerability:Guards And Wards:' +
         'Invisible Stalker:Legend Lore:Lower Water:Monster Summoning IV:' +
         'Move Earth:Part Water:Project Image:Reincarnation:Repulsion:' +
         'Spirit-Wrack:Stone To Flesh:Transformation',
-        'W7:Cacodemon:Charm Plants:Delayed Blast Fireball:Duo-Dimension:' +
+        'M7:Cacodemon:Charm Plants:Delayed Blast Fireball:Duo-Dimension:' +
         "Grasping Hand:Instant Summons:Limited Wish:Mage's Sword:" +
         'Mass Invisibility:Monster Summoning V:Phase Door:Power Word Stun:' +
         'Reverse Gravity:Simulacrum:Statue:Vanish',
-        'W8:Antipathy/Sympathy:Clenched Fist:Clone:Glass-Steel:' +
+        'M8:Antipathy/Sympathy:Clenched Fist:Clone:Glass-Steel:' +
         'Incendiary Cloud:Irresistible Dance:Mass Charm:Maze:Mind Blank:' +
         'Monster Summoning VI:Permanency:Polymorph Object:Power Word Blind:' +
         'Spell Immunity:Symbol:Trap The Soul',
@@ -2634,15 +2634,20 @@ FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
     descriptions = FirstEdition.spellsDescriptions;
   }
 
-  rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
+  rules.defineRule('casterLevels.C',
+    'levels.Cleric', '+=', null,
+    'levels.Paladin', '+=', 'source<=8 ? null : Math.min(source - 8, 8)'
+  );
   rules.defineRule('casterLevels.D',
-    'levels.Bard', '=', null,
-    'levels.Druid', '=', null
+    'levels.Bard', '+=', null,
+    'levels.Druid', '+=', null,
+    'levels.Ranger', '+=', 'source<=7 ? null : Math.min(Math.floor((source-6)/2), 6)'
   );
   rules.defineRule('casterLevels.I', 'levels.Illusionist', '=', null);
-  rules.defineRule('casterLevels.M', 'levels.Magic User', '=', null);
-  rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
-  rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
+  rules.defineRule('casterLevels.M',
+    'levels.Magic User', '+=', null,
+    'levels.Ranger', '+=', 'source<=7 ? null : Math.min(Math.floor((source-6)/2), 6)'
+  );
 
   for(var i = 0; i < spells.length; i++) {
 
