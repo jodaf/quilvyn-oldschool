@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.4.0.5alpha';
+var FirstEdition_VERSION = '1.4.0.9beta';
 
 /*
  */
@@ -216,7 +216,6 @@ FirstEdition.spellsDescriptions = {
   'Call Woodland Beings':"R${lvl*30+360}' Draw forest denizens to assist (save neg)",
   'Change Self':"Self take any humanoid appearance for 2d6+$L2 rd",
   'Chant':"Allies w/in 30' +1 attack, damage, saves (foes -1) as long as chant lasts",
-  'Chaos':'TODO',
   'Chaos':"R$L5' Creatures in 40' sq unpredictable for $L rd (save neg)",
   'Chariot Of Fire':"R10' Flaming chariot and horse pair (ea AC 2, HP 30) drive self and 8 others 240'/rd, fly 480'/rd for $Lplus6 turns",
   'Charm Monster':"R60' Target creature(s) treats self as trusted friend (save neg)",
@@ -248,7 +247,7 @@ FirstEdition.spellsDescriptions = {
   'Create Food And Water':"R10' Creates $L person/days food and drink",
   'Create Water':"R10' Creates (rev destroys) $L4 gallons potable water in 30' cube",
   'Creeping Doom':"R10' Bugs erupt, attack w/in 80' for $L4 rd",
-  'Crushing Hand':'TODO',
+  'Crushing Hand':"R$L5' Force absorbs attacks, squeezes 1d10-4d10 HP for $L rd",
   'Cure Blindness':"Touched cured of blindness (rev blinds, save neg)",
   'Cure Critical Wounds':"Touched heals 3d8+1 HP (rev inflicts, save neg)",
   'Cure Disease':"Touched cured of disease (rev infects, save neg)",
@@ -273,7 +272,7 @@ FirstEdition.spellsDescriptions = {
   'Dimension Door':"Self teleport ${lvl*30}'",
   'Disintegrate':"R$L5' Obliterates matter in $L100' sq (save neg)",
   'Dispel Exhaustion':"Target regains 50% HP, double speed for $L3 turns",
-  'Dispel Evil':"Return evil creatures to home plane (save neg, -7 to hit caster for $L rd)",
+  'Dispel Evil':"Return evil (rev good) creatures to home plane (save neg, -7 to hit caster for $L rd)",
   'Dispel Illusion':"R$L10' Dispel one illusion, ${lvl*2+50}% dispel one magic",
   'Dispel Magic':"R60' 50% (+5%/-2% per caster level delta) magic in 30' radius sphere extinguished",
   'Distance Distortion':"R$L10' Travel through $L100' sq area halved or doubled for $L turns",
@@ -284,7 +283,7 @@ FirstEdition.spellsDescriptions = {
   'Emotion':"R$L10' Targets in 40' sq experience fear (flee), hate (+2 save/attack/damage), hopelessness (walk away or surrender), or rage (+1 attack, +3 damage, +5 HP) for conc",
   'Enchant An Item':"Touched item becomes magical",
   'Enchanted Weapon':"Touched weapon magical (no bonus) for $L5 rd",
-  'Enlarge':"R$L5' Creature grows ${Math.min(lvl*20,200)}% or object ${Math.min(lvl*10,100)}% for $L turns (save neg, rev shrinks)",
+  'Enlarge':"R$L5' Creature grows ${Math.min(lvl*20,200)}% or object ${Math.min(lvl*10,100)}% for $L turns (rev shrinks, save neg)",
   'Entangle':"R80' Plants in 20' radius hold passers (save half move) for 1 turn",
   'Erase':"R30' Erase magical (${lvl*2+50}% chance) or normal (${lvl*4+50}%) from 2-page area",
   'Exorcise':"R10' Target relieved of supernatural inhabitant/influence",
@@ -333,7 +332,7 @@ FirstEdition.spellsDescriptions = {
   'Hallucinatory Terrain':"R${lvl*20+20}' ${lvl*10+1600}' sq area mimics other terrain until touched",
   'Haste':"R60' $L targets in 40' sq double speed for $Lplus3 rd",
   'Heal':"Touched healed of all but 1d4 HP, cured of blindness, disease, feeblemind (rev drains all but 1d4 HP, save neg)",
-  'Heat Metal':"R40' Metal dangerously hot (cold) for 7 rd",
+  'Heat Metal':"R40' Metal dangerously hot (rev cold) for 7 rd",
   'Hold Animal':"R80' Immobilize 4 animals for $L2 rd",
   'Hold Monster':"R$L5' Immobilize 4 creatures (save neg) for $L rd",
   'Hold Person':"R60' Immobilize 1-3 medium targets (save neg) for $Lplus4 rd",
@@ -345,7 +344,7 @@ FirstEdition.spellsDescriptions = {
   'Ice Storm':"R$L10' Hail in 40'x40' 3d10 HP or sleet in 80'x80' blinds, slows, causes falls for 1 rd",
   'Identify':"${lvl*5+15}% chance of determining magical properties of touched if used w/in $L hr, requires rest afterward",
   'Illusory Script':"Obscured writing causes 5d4 rd confusion (save neg) for readers other than specified",
-  'Imprisonment':'TODO',
+  'Imprisonment':"Touched safely trapped underground permanently (rev frees)",
   'Improved Invisibility':"Touched invisible for $Lplus4 rd",
   'Improved Phantasmal Force':"R${lvl*10+60}' ${lvl*10+1600}' sight/sound illusion for conc + 2 rd",
   'Incendiary Cloud':"R30' 20' radius smoke cloud for 1d6+4 rd, ${Math.floor(lvl/2)}, $L, ${Math.floor(lvl/2)} HP rd 3, 4, 5",
@@ -384,7 +383,7 @@ FirstEdition.spellsDescriptions = {
   'Maze':"R$L5' Target sent to interdimensional maze for amount of time based on Int",
   'Mending':"R30' Repair small break",
   'Message':"R${lvl*10+60}' whispered remote conversation for $Lplus5 segments",
-  'Meteor Swarm':'TODO',
+  'Meteor Swarm':"R${lvl*10+40}' 4 meteors 10d4 HP in 15' radius or 8 meteors 5d4 HP in 7.5' radius",
   'Mind Blank':"R30' Target immune divination for 1 dy",
   'Minor Creation':"Create $L' cu object from component plant material for $L6 turns",
   'Minor Globe Of Invulnerability':"$L5' radius sphere around self blocks spells level 1-3 for $L rd",
@@ -419,14 +418,14 @@ FirstEdition.spellsDescriptions = {
   'Polymorph Other':"R$L5' Target form and identity becomes named creature (save neg)",
   'Polymorph Self':"Self form becomes named creature for $L2 turns",
   'Power Word Blind':"R$L5' Creatures in 15' radius blinded for 1d4 rd or 1d4 turns",
-  'Power Word Kill':'TODO',
+  'Power Word Kill':"R${lvl*2.5}' 1 60 HP target or 12 10 HP targets in 10' radius die",
   'Power Word Stun':"R$L5' Target stunned for 1d4-4d4 rd",
   'Prayer':"Allies w/in 60' +1 attack, damage, saves (foes -1) for $L rd",
   'Predict Weather':"Discern local weather for next $L2 hr",
-  'Prismatic Sphere':'TODO',
+  'Prismatic Sphere':"Impenetrable 10' radius sphere for $L turns",
   'Prismatic Spray':"Targets in 70'x15'x5' one of 20, 40, 80 HP (save half), fatal poison, stone, insane, planar teleport (save neg)",
   'Prismatic Wall':"$L40'x$L20' multicolored wall blinds viewers 2d4 rd, blocks attacks for $L turns",
-  'Produce Fire':"R40' Fire in 60' radius 1d4 HP for 1 rd",
+  'Produce Fire':"R40' Fire in 60' radius 1d4 HP for 1 rd (rev extinguishes)",
   'Produce Flame':"Flame from burning hand can be thrown 40' for $L2 rd",
   'Programmed Illusion':"R$L10' Target responds to trigger, shows ${lvl*100+1600}' sq scene for $L rd",
   'Project Image':"R$L5' Self duplicate immune to attacks, can cast spells for $L rd",
@@ -458,13 +457,12 @@ FirstEdition.spellsDescriptions = {
   'Sanctuary':"Foes save vs. magic to attack self for $Lplus2 rd",
   'Scare':"R10' Target lt 6 HD frozen in terror (save neg) for 3d4 rd",
   'Secret Chest':"Create 12' cu ethereal chest for 60 dy",
-  'Shades':'TODO',
   'Shades':"R30' Create monsters $L HD total, 60% HP (save AC 6, 60% damage) for $L rd",
   'Shadow Door':"R10' Illusory door makes self invisible for $L rd",
   'Shadow Magic':"R${lvl*10+50}' Mimics <i>Cone Of Cold</i>, <i>Fireball</i>, <i>Lightning Bolt</i>, <i>Magic Missile</i> (ea $L2 HP) (save  1 HP)",
   'Shadow Magic':"R${lvl*10+50}' Mimics <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (save 1 HP)",
   'Shadow Monsters':"R30' Create monsters $L HD total, 20% HP (save AC 10, 20% damage) for $L rd",
-  'Shape Change':'TODO',
+  'Shape Change':"Self polymorph freely for $L turns",
   'Shatter':"R60' $L10 lbs brittle material shatters (save neg)",
   'Shield':"Self frontal AC 2 vs hurled, AC 3 vs arrow/bolt, +1 AC vs melee for $L5 rd",
   'Shillelagh':"Touched club +1 attack, 2d4 damage for $L rd",
@@ -498,13 +496,13 @@ FirstEdition.spellsDescriptions = {
   'Symbol':"Glowing symbol causes hopelessness, pain, or persuasion for $L turns",
   'Telekinesis':"R$L10' Move $L25 lb for $Lplus2 rd",
   'Teleport':"Instantly transport self + ${Math.max(lvl-10,0)*150+250} lb to known location",
-  'Temporal Statis':'TODO',
-  'Time Stop':'TODO',
+  'Temporal Statis':"R10' Target suspended animation permanently (rev wakens)",
+  'Time Stop':"R10' 15' radius gains 1d8+${Math.floor(lvl/2)} x 6 secs",
   'Tiny Hut':"5' radius sphere protects against view, elements for $L6 turns",
   'Tongues':"Self understand any speech (rev muddle) in 30' radius for 1 turn",
   'Transformation':"Change to warrior (HP x2, AC +4, 2/rd dagger +2 damage) for $L rd",
   'Transmute Metal To Wood':"R80' $L8 lb object becomes wood",
-  'Transmute Rock To Mud':"R160' $L20' cu rock becomes mud",
+  'Transmute Rock To Mud':"R160' $L20' cu rock becomes mud (rev)",
   'Transport Via Plants':"Self teleport between plants",
   'Trap The Soul':"R10' Target soul trapped in gem (save neg)",
   'Tree':"Self polymorph into tree for $Lplus6 turns",
@@ -529,7 +527,7 @@ FirstEdition.spellsDescriptions = {
   'Weather Summoning':"Self directs precipitation, temp, and wind within 4d4 mi for 4d12 hr",
   'Web':"R$L5' 80' cu webbing for $L2 turns",
   'Wind Walk':"Self and ${Math.floor(lvl/8)} others insubstantial, travel 600'/turn for $L6 turns",
-  'Wish':'TODO',
+  'Wish':"Major reshaping of reality",
   'Wizard Eye':"Self see through invisible eye w/600' vision, 100' infravision, moves 30'/rd for $L rd",
   'Wizard Lock':"Touched ${lvl*900}' sq item held closed",
   'Word Of Recall':"Self instant teleport to prepared sanctuary",
@@ -2164,7 +2162,7 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Incendiary Cloud:Irresistible Dance:Mass Charm:Maze:Mind Blank:' +
         'Monster Summoning VI:Permanency:Polymorph Object:Power Word Blind:' +
         'Spell Immunity:Symbol:Trap The Soul',
-        'W9:Astral Spell:Crushing Hand:Gate:Imprisonment:Meteor Swarm:' +
+        'M9:Astral Spell:Crushing Hand:Gate:Imprisonment:Meteor Swarm:' +
         'Monster Summoning VII:Power Word Kill:Prismatic Sphere:Shape Change:' +
         'Temporal Statis:Time Stop:Wish'
       ];
