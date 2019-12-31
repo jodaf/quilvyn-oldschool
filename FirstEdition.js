@@ -2214,45 +2214,6 @@ FirstEdition.magicRules = function(rules, classes, schools) {
         'Monster Summoning VII:Power Word Kill:Prismatic Sphere:Shape Change:' +
         'Temporal Statis:Time Stop:Wish'
       ];
-    } else if(klass == 'Paladin') {
-      spells = [
-        'C1:Bless:Command:Create Water:Cure Light Wounds:Detect Evil:' +
-        'Detect Magic:Light:Protection From Evil:Purify Food And Drink:' +
-        'Remove Fear:Resist Cold:Sanctuary',
-        'C2:Augury:Chant:Detect Charm:Find Traps:Hold Person:Know Alignment:' +
-        "Resist Fire:Silence 15' Radius:Slow Poison:Snake Charm:" +
-        'Speak With Animals:Spiritual Weapon',
-        'C3:Animate Dead:Continual Light:Create Food And Water:' +
-        'Cure Blindness:Cure Disease:Dispel Magic:Feign Death:' +
-        'Glyph Of Warding:Locate Object:Prayer:Remove Curse:Speak With Dead',
-        'C4:Cure Serious Wounds:Detect Lie:Divination:Exorcise:Lower Water:' +
-        "Neutralize Poison:Protection From Evil 10' Radius:" +
-        'Speak With Plants:Sticks To Snakes:Tongues'
-      ];
-    } else if(klass == 'Ranger') {
-      spells = [
-        'D1:Animal Friendship:Detect Magic:Detect Pits And Snares:Entangle:' +
-        'Faerie Fire:Invisibility To Animals:Locate Animals:' +
-        'Pass Without Trace:Predict Weather:Purify Water:Shillelagh:' +
-        'Speak With Animals',
-        'D2:Barkskin:Charm Person Or Mammal:Create Water:Cure Light Wounds:' +
-        'Feign Death:Fire Trap:Heat Metal:Locate Plants:Obscurement:' +
-        'Produce Flame:Trip:Warp Wood',
-        'D3:Call Lightning:Cure Disease:Hold Animal:Neutralize Poison:' +
-        'Plant Growth:Protection From Fire:Pyrotechnics:Snare:Stone Shape:' +
-        'Summon Insects:Tree:Water Breathing',
-        'M1:Affect Normal Fires:Burning Hands:Charm Person:' +
-        'Comprehend Languages:Dancing Lights:Enlarge:Erase:Feather Fall:' +
-        'Find Familiar:Floating Disk:Friends:Hold Portal:Identify:Jump:Light:' +
-        'Magic Aura:Magic Missile:Mending:Message:Protection From Evil:Push:' +
-        'Read Magic:Shield:Shocking Grasp:Sleep:Spider Climb:Unseen Servant:' +
-        'Ventriloquism:Write',
-        'M2:Audible Glamer:Continual Light:Darkness:Detect Evil:' +
-        "Detect Invisibility:ESP:Fool's Gold:Forget:Invisibility:Knock:" +
-        'False Trap:Levitate:Locate Object:Magic Mouth:Mirror Image:' +
-        'Pyrotechnics:Ray Of Enfeeblement:Rope Trick:Scare:Shatter:' +
-        'Stinking Cloud:Strength:Web:Wizard Lock'
-      ];
     } else
       continue;
     if(spells != null) {
