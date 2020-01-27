@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.4.1.0';
+var FirstEdition_VERSION = '1.5.1.0alpha';
 
 /*
  */
@@ -57,7 +57,6 @@ function FirstEdition() {
   FirstEdition.combatRules(rules);
   FirstEdition.movementRules(rules);
   FirstEdition.magicRules(rules, FirstEdition.CLASSES, SRD35.SCHOOLS);
-  FirstEdition.goodiesRules(rules, FirstEdition.GOODIES);
   FirstEdition.spellDescriptionRules
     (rules, null, FirstEdition.spellsDescriptions);
   rules.defineChoice('preset', 'race', 'level', 'levels');
@@ -89,16 +88,6 @@ FirstEdition.CLASSES = [
   'Assassin', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Illusionist', 'Magic User',
   'Monk', 'Paladin', 'Ranger', 'Thief'
 ];
-FirstEdition.GOODIES = [
-  'Bracers Of Protection +5',
-  'Chain +2',
-  'Chain +4',
-  'Light Pick +1',
-  'Long Sword +1',
-  'Plate +2',
-  'Ring Of Protection +1',
-  'Small Shield Of Protection +4'
-];
 FirstEdition.LANGUAGES = [
   'Common', "Druids' Cant", 'Dwarfish', 'Elven', 'Gnoll', 'Gnomish', 'Goblin',
   'Halfling', 'Hobgoblin', 'Kobold', 'Orcish'
@@ -111,7 +100,7 @@ FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'extraStrength', 'name', 'race', 'gender', 'alignment', 'levels',
   'languages', 'hitPoints', 'proficiencies', 'armor', 'shield', 'weapons',
-  'spells', 'goodies'
+  'spells'
 ];
 FirstEdition.SHIELDS = [
   'Large Shield', 'Medium Shield', 'None', 'Small Shield'
@@ -2101,21 +2090,6 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
   rules.defineRule('weaponProficiency.Unarmed', '', '=', '1');
   rules.defineRule('weaponProficiencyCount', 'weapons.Unarmed', '+', '1');
 
-};
-
-/*
- * Defines rules for a specified set of goodies (generally magic items). The
- * method knows how to define rules for "* Of <skill> [+-]<amount>", "* Of
- * <ability> [+-]<amount>", "* Of Protection [+-]]<amount>" (improves * AC),
- * "<weapon> [+-]<amount>", "Masterwork <weapon>", "<armor> [+-]<amount>",
- * "Masterwork <armor>", and "Healer's Kit".
- */
-FirstEdition.goodiesRules = function(rules, goodies) {
-  rules.choices['skills'] = {};
-  SRD35.goodiesRules(rules, goodies);
-  delete rules.choices['skills'];
-  rules.defineRule('combatNotes.goodiesArmorClassAdjustment', '', '*', '-1');
-  rules.defineRule('skillNotes.goodiesSkillCheckAdjustment', '', 'v', '0');
 };
 
 /* Defines the rules related to spells. */
