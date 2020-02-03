@@ -2090,6 +2090,89 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
   rules.defineRule('weaponProficiency.Unarmed', '', '=', '1');
   rules.defineRule('weaponProficiencyCount', 'weapons.Unarmed', '+', '1');
 
+  rules.defineRule('goodiesList', 'notes', '=',
+    'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
+  );
+
+  for(var ability in {Charisma:'', Constitution:'', Dexterity:'', Intelligence:'', Strength:'', Wisdom:''}) {
+    rules.defineRule('abilityNotes.goodies' + ability + 'Adjustment',
+      'goodiesList', '=',
+        '!source.join(";").match(/\\b' + ability + '\\b/i) ? null : ' +
+        'source.filter(item => item.match(/\\b' + ability + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule(ability.toLowerCase(),
+      'abilityNotes.goodies' + ability + 'Adjustment', '+', null
+    );
+  }
+
+  rules.defineRule('goodiesAffectingAC',
+    'goodiesList', '=',
+      '!source.join(";").match(/\\b(armor|protection|shield)\\b/i) ? null : ' +
+      'source.filter(item => item.match(/\\b(armor|protection|shield)\\b/i))'
+  );
+  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+    'goodiesAffectingAC', '=',
+      'source.reduce(' +
+        'function(total, item) {' +
+          'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+        '}' +
+      ', 0) * -1'
+  );
+  rules.defineRule
+    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
+
+  rules.defineNote('sanityNotes.inertGoodies:No effect from goodie(s) "%V"');
+  var abilitiesArmorAndWeapons = [
+    'strength','intelligence','wisdom','dexterity','constitution','charisma',
+    'armor', 'protection', 'shield']
+   .concat(ScribeUtils.getKeys(rules.getChoices('weapons')))
+   .join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+  rules.defineRule('inertGoodies',
+    'goodiesList', '=',
+    'source.filter(item => ' +
+      '!item.match(/\\b(' + abilitiesArmorAndWeapons + ')\\b/i) || ' +
+      '!item.match(/\\bmasterwork\\b|[-+][1-9]/i)' +
+    ')'
+  );
+  rules.defineRule('sanityNotes.inertGoodies',
+    'inertGoodies', '=', 'source.length > 0 ? source.join(",") : null'
+  );
+
+  // NOTE: weapon Attack/Damage bonus rules affect all weapons of a particular
+  // type that the character owns. If the character has, e.g., two longswords,
+  // both get the bonus. Ignoring this bug for now.
+  for(var weapon in rules.getChoices('weapons')) {
+    var weaponNoSpace = weapon.replace(/\s+/g, '');
+    rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
+      'goodiesList', '=',
+        '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
+        'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + (item.match(/masterwork/i)?"+1":"+0")).match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule('weaponAttackAdjustment.' + weapon,
+      'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+=', null
+    );
+    rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment',
+      'goodiesList', '=',
+        '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
+        'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule('weaponDamageAdjustment.' + weapon,
+      'combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment', '+=', null
+    );
+  }
+
 };
 
 /* Defines the rules related to spells. */
