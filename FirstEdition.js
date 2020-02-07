@@ -29,7 +29,7 @@ function FirstEdition() {
   }
 
   var name = FirstEdition.USE_OSRIC_RULES ? 'OSRIC' : 'First Edition';
-  var rules = new ScribeRules(name, FirstEdition_VERSION);
+  var rules = new QuilvynRules(name, FirstEdition_VERSION);
   SRD35.createViewers(rules, SRD35.VIEWERS);
   rules.editorElements = SRD35.initialEditorElements();
   // Remove some editor and character sheet elements that don't apply
@@ -70,13 +70,13 @@ function FirstEdition() {
   if(FirstEdition.USE_OSIRIC_RULES) {
     rules.defineEditorElement
       ('weaponSpecialization', 'Specialization', 'select-one',
-       ['None'].concat(ScribeUtils.getKeys(rules.getChoices('weapons'))),
+       ['None'].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))),
        'spells');
     rules.defineEditorElement
       ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
   }
 
-  Scribe.addRuleSet(rules);
+  Quilvyn.addRuleSet(rules);
 
 }
 
@@ -2129,7 +2129,7 @@ FirstEdition.equipmentRules = function(rules, armors, shields, weapons) {
   var abilitiesArmorAndWeapons = [
     'strength','intelligence','wisdom','dexterity','constitution','charisma',
     'armor', 'protection', 'shield']
-   .concat(ScribeUtils.getKeys(rules.getChoices('weapons')))
+   .concat(QuilvynUtils.getKeys(rules.getChoices('weapons')))
    .join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
   rules.defineRule('inertGoodies',
     'goodiesList', '=',
@@ -2633,7 +2633,7 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     attributes['armor'] = choices.length == 0 ? 'None' :
-      choices[ScribeUtils.random(0, choices.length - 1)];
+      choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'proficiencies') {
     attrs = this.applyRules(attributes);
     choices = [];
@@ -2646,7 +2646,7 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     for( ; howMany > 0; howMany--) {
-      var which = ScribeUtils.random(0, choices.length - 1);
+      var which = QuilvynUtils.random(0, choices.length - 1);
       attributes['weaponProficiency.' + choices[which]] = 1;
       choices = choices.slice(0, which).concat(choices.slice(which + 1));
     }
@@ -2661,7 +2661,7 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     attributes['shield'] = choices.length == 0 ? 'None' :
-      choices[ScribeUtils.random(0, choices.length - 1)];
+      choices[QuilvynUtils.random(0, choices.length - 1)];
   } else {
     SRD35.randomizeOneAttribute.apply(this, [attributes, attribute]);
   }
@@ -2670,8 +2670,8 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
 /* Returns HTML body content for user notes associated with this rule set. */
 FirstEdition.ruleNotes = function() {
   return '' +
-    '<h2>FirstEdition Scribe Module Notes</h2>\n' +
-    'FirstEdition Scribe Module Version ' + FirstEdition_VERSION + '\n' +
+    '<h2>FirstEdition Quilvyn Module Notes</h2>\n' +
+    'FirstEdition Quilvyn Module Version ' + FirstEdition_VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +
@@ -2680,20 +2680,20 @@ FirstEdition.ruleNotes = function() {
     '    Although the 1E PHB doesn\'t discuss strongholds for illusionists,\n' +
     '    the description notes that the class mostly conforms to the\n' +
     '    characteristics of magic-users. The latter may build strongholds\n' +
-    '    at level 12, and Scribe treats illusionists similarly.\n' +
+    '    at level 12, and Quilvyn treats illusionists similarly.\n' +
     '  </li>\n' +
     '  <li>\n' +
     '    The OSRIC rules discuss illusionist scrolls, but does not give\n' +
-    '    the minimum level required to create them. Scribe uses the 1E PHB\n' +
+    '    the minimum level required to create them. Quilvyn uses the 1E PHB\n' +
     '    limit of level 10.\n' +
     '  </li>\n' +
     '  <li>\n' +
-    '    Scribe generally uses the OSRIC names and effects for spells, rather\n' +
+    '    Quilvyn generally uses the OSRIC names and effects for spells, rather\n' +
     '    than those found in the 1E PHB.\n',
     '  </li>\n' +
     '  <li>\n' +
     '    The OSRIC rules are unclear as to whether or not the Fighting the\n' +
-    '    Unskilled feature applies to Paladins and Rangers. Scribe assumes\n' +
+    '    Unskilled feature applies to Paladins and Rangers. Quilvyn assumes\n' +
     '    that it does.\n' +
     '  </li>\n' +
     '</ul>\n' +
@@ -2703,13 +2703,13 @@ FirstEdition.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    Scribe does not note racial restrictions on class and level.\n' +
+    '    Quilvyn does not note racial restrictions on class and level.\n' +
     '  </li>\n' +
     '  <li>\n' +
-    '    Scribe does not compute class level from experience points.\n' +
+    '    Quilvyn does not compute class level from experience points.\n' +
     '  </li>\n' +
     '  <li>\n' +
-    '    Scribe does not report the chance of extraordinary success on\n' +
+    '    Quilvyn does not report the chance of extraordinary success on\n' +
     '    strength tests for characters with strength 18/91 and higher.\n' +
     '  </li>\n' +
     '</ul>\n' +
@@ -2729,7 +2729,7 @@ FirstEdition.ruleNotes = function() {
 FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
 
   if(spells == null) {
-    spells = ScribeUtils.getKeys(rules.choices.spells);
+    spells = QuilvynUtils.getKeys(rules.choices.spells);
   }
   if(descriptions == null) {
     descriptions = FirstEdition.spellsDescriptions;
