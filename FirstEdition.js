@@ -17,9 +17,15 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.7.1.0';
+var FirstEdition_VERSION = '1.7.1.1';
 
 /*
+ * This module loads the rules from the 1st edition core rules.  The FirstEdition
+ * function contains methods that load rules for particular parts/chapters
+ * of the rule book; raceRules for character races, magicRules for spells, etc.
+ * These member methods can be called independently in order to use a subset of
+ * the FirstEdition rules.  Similarly, the constant fields of FirstEdition (LANGUAGES,
+ * RACES, etc.) can be thinned to limit the user's choices.
  */
 function FirstEdition() {
 
@@ -953,23 +959,18 @@ FirstEdition.classRules = function(rules, classes) {
         "{'Dwarf':-5, 'Halfling':-5, 'Half Orc':-10}"
     };
 
-  rules.defineNote
-    ('validationNotes.levelsTotal:' +
-     'Allocated levels differ from level total by %V');
-  rules.defineRule('validationNotes.levelsTotal',
-    'level', '+=', '-source',
-    /^levels\./, '+=', null
-  );
-
+  rules.defineRule('level', /^levels\./, '+=', null);
   rules.defineRule('warriorLevel', '', '=', '0');
 
   for(var i = 0; i < classes.length; i++) {
 
     var allowedArmors, allowedShields, baseAttack, features, hitDie, notes,
         profWeaponPenalty, profWeaponCount, saveBreath, saveDeath,
-        savePetrification, saveSpell, saveWand, spellsKnown, thiefSkillLevel;
+        savePetrification, saveSpell, saveWand, spellAbility, spellsKnown,
+        thiefSkillLevel;
     var klass = classes[i];
 
+    spellAbility = null;
     spellsKnown = null;
     thiefSkillLevel = null;
 
@@ -1066,6 +1067,7 @@ FirstEdition.classRules = function(rules, classes) {
         '13 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveSpell = '15 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveWand = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
+      spellAbility = 'wisdom';
       spellsKnown = [
         'C1:1:1/2:2/4:3/9:4/11:5/12:6/15:7/17:8/19:9',
         'C2:3:1/4:2/5:3/9:4/12:5/13:6/15:7/17:8/19:9',
@@ -1076,7 +1078,11 @@ FirstEdition.classRules = function(rules, classes) {
         'C7:16:1/19:2/22:3/25:4/27:5/28:6/29:7'
       ];
       profWeaponPenalty = -3;
-      rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
+      rules.defineRule('casterLevels.C',
+        'levels.Cleric', '=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('clericFeatures.Bonus Cleric Experience',
         'wisdom', '?', 'source >= 16'
       );
@@ -1169,6 +1175,7 @@ FirstEdition.classRules = function(rules, classes) {
         '13 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveSpell = '15 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
       saveWand = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
+      spellAbility = 'wisdom';
       if(klass == 'Druid') {
         spellsKnown = [
           'D1:1:2/3:3/4:4/9:5/13:6',
@@ -1190,7 +1197,11 @@ FirstEdition.classRules = function(rules, classes) {
         ];
       }
       profWeaponPenalty = -4;
-      rules.defineRule('casterLevelDivine', 'levels.' + klass, '+=', null);
+      rules.defineRule('casterLevels.D',
+        'levels.' + klass, '=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.D', '+=', null);
       if(klass == 'Druid') {
         rules.defineRule('druidFeatures.Bonus Druid Experience',
           'charisma', '?', 'source >= 16',
@@ -1324,6 +1335,7 @@ FirstEdition.classRules = function(rules, classes) {
       savePetrification = '13 - Math.floor((source-1) / 5) * 2';
       saveSpell = '12 - Math.floor((source-1) / 5) * 2';
       saveWand = '11 - Math.floor((source-1) / 5) * 2';
+      spellAbility = 'intelligence';
       if(FirstEdition.USE_OSRIC_RULES) {
         spellsKnown = [
           'I1:1:1/2:2/4:3/5:4/9:5/17:6',
@@ -1346,7 +1358,11 @@ FirstEdition.classRules = function(rules, classes) {
         ];
       }
       profWeaponPenalty = -5;
-      rules.defineRule('casterLevelArcane', 'levels.Illusionist', '+=', null);
+      rules.defineRule('casterLevels.I',
+        'levels.Illusionist', '=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.I', '+=', null);
 
     } else if(klass == 'Magic User') {
 
@@ -1390,6 +1406,7 @@ FirstEdition.classRules = function(rules, classes) {
       savePetrification = '13 - Math.floor((source-1) / 5) * 2';
       saveSpell = '12 - Math.floor((source-1) / 5) * 2';
       saveWand = '11 - Math.floor((source-1) / 5) * 2';
+      spellAbility = 'intelligence';
       if(FirstEdition.USE_OSRIC_RULES) {
         spellsKnown = [
           'M1:1:1/2:2/4:3/5:4/12:5/21:6',
@@ -1416,7 +1433,11 @@ FirstEdition.classRules = function(rules, classes) {
         ];
       }
       profWeaponPenalty = -5;
-      rules.defineRule('casterLevelArcane', 'levels.Magic User', '+=', null);
+      rules.defineRule('casterLevels.M',
+        'levels.Magic User', '=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.M', '+=', null);
       rules.defineRule('intelligenceRow',
         'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 14 ? 3 : source <= 16 ? 4 : (source - 13)',
         'levels.Magic User', '?', null
@@ -1624,6 +1645,7 @@ FirstEdition.classRules = function(rules, classes) {
           'Math.floor((source - 7) / 2)';
         profWeaponCount = '3 + Math.floor(source / 3)';
       }
+      spellAbility = 'wisdom';
       spellsKnown = [
         'C1:9:1/10:2/14:3/21:4',
         'C2:11:1/12:2/16:3/22:4',
@@ -1640,9 +1662,11 @@ FirstEdition.classRules = function(rules, classes) {
           'levels.Paladin', '+', 'Math.floor(source / 6) * 0.5'
         );
       }
-      rules.defineRule('casterLevelDivine',
-        'levels.Paladin', '+=', 'source<=8 ? null : Math.min(source - 8, 8)'
+      rules.defineRule('casterLevels.C',
+        'levels.Paladin', '=', 'source<=8 ? null : Math.min(source - 8, 8)',
+         'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('combatNotes.fightingTheUnskilledFeature',
         'levels.Paladin', '+=', null
       );
@@ -1725,6 +1749,7 @@ FirstEdition.classRules = function(rules, classes) {
       saveWand =
         'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
         'Math.floor((source - 7) / 2)';
+      spellAbility = 'wisdom';
       spellsKnown = [
         'D1:8:1/10:2/18:3/23:4',
         'D2:12:1/14:2/20:3',
@@ -1736,14 +1761,16 @@ FirstEdition.classRules = function(rules, classes) {
       rules.defineRule('attacksPerRound',
         'levels.Ranger', '+', 'Math.floor(source / 7) * 0.5'
       );
-      rules.defineRule('casterLevelArcane',
-        'levels.Ranger', '+=',
-        'source <= 7 ? null : Math.min(Math.floor((source-6)/2), 6)'
+      rules.defineRule('casterLevels.D',
+        'levels.Ranger', '+=', 'source <= 7 ? null : Math.min(Math.floor((source-6)/2), 6)',
+         'magicNotes.casterLevelBonusFeature', '+', null
       );
-      rules.defineRule('casterLevelDivine',
-        'levels.Ranger', '+=',
-        'source <= 7 ? null : Math.min(Math.floor((source-6)/2), 6)'
+      rules.defineRule('casterLevels.M',
+        'levels.Ranger', '+=', 'source <= 7 ? null : Math.min(Math.floor((source-6)/2), 6)',
+         'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule('casterLevelArcane', 'casterLevels.M', '+=', null);
+      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('combatNotes.fightingTheUnskilledFeature',
         'levels.Ranger', '+=', null
       );
@@ -1805,7 +1832,7 @@ FirstEdition.classRules = function(rules, classes) {
     SRD35.defineClass
       (rules, klass, hitDie, null, baseAttack, null, null,
        null, null, null, null, null, features,
-       spellsKnown, null, null);
+       spellsKnown, spellsKnown, spellAbility);
 
     rules.defineRule('save.Breath', 'levels.' + klass, '+=', saveBreath);
     rules.defineRule('save.Death', 'levels.' + klass, '+=', saveDeath);
@@ -2734,21 +2761,6 @@ FirstEdition.spellDescriptionRules = function(rules, spells, descriptions) {
   if(descriptions == null) {
     descriptions = FirstEdition.spellsDescriptions;
   }
-
-  rules.defineRule('casterLevels.C',
-    'levels.Cleric', '+=', null,
-    'levels.Paladin', '+=', 'source<=8 ? null : Math.min(source - 8, 8)'
-  );
-  rules.defineRule('casterLevels.D',
-    'levels.Bard', '+=', null,
-    'levels.Druid', '+=', null,
-    'levels.Ranger', '+=', 'source<=7 ? null : Math.min(Math.floor((source-6)/2), 6)'
-  );
-  rules.defineRule('casterLevels.I', 'levels.Illusionist', '=', null);
-  rules.defineRule('casterLevels.M',
-    'levels.Magic User', '+=', null,
-    'levels.Ranger', '+=', 'source<=7 ? null : Math.min(Math.floor((source-6)/2), 6)'
-  );
 
   for(var i = 0; i < spells.length; i++) {
 
