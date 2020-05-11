@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '1.7.1.1';
+var FirstEdition_VERSION = '1.8.1.0';
 
 /*
  * This module loads the rules from the 1st edition core rules.  The FirstEdition
