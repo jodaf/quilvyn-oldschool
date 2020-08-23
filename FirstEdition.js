@@ -47,21 +47,6 @@ function FirstEdition() {
   rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
   rules.ruleNotes = FirstEdition.ruleNotes;
 
-  // Remove some editor and character sheet elements that don't apply
-  rules.defineEditorElement('skills');
-  rules.defineEditorElement('feats');
-  rules.defineEditorElement('specialize');
-  rules.defineEditorElement('prohibit');
-  rules.defineEditorElement('experience', 'Experience', 'text', [8], 'levels');
-  rules.defineSheetElement('ExperienceInfo', 'Level', null, '');
-  rules.defineSheetElement('Experience', 'ExperienceInfo/');
-  rules.defineSheetElement('Experience Needed', 'ExperienceInfo/', '/%V');
-  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
-  rules.defineSheetElement('Allowed Armors', 'EquipmentInfo/', null, '; ');
-  rules.defineSheetElement('Allowed Shields', 'EquipmentInfo/', null, '; ');
-  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
-  rules.defineSheetElement('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
-
   SRD35.createViewers(rules, SRD35.VIEWERS);
   rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
   rules.defineChoice('preset', 'race', 'level', 'levels');
@@ -85,6 +70,50 @@ function FirstEdition() {
     FirstEdition.editedRules(FirstEdition.GENDERS, 'Gender'),
     FirstEdition.editedRules(FirstEdition.RACES, 'Race'));
   FirstEdition.goodiesRules(rules);
+
+  // Remove some editor elements that don't apply
+  rules.defineEditorElement('skills');
+  rules.defineEditorElement('skills');
+  rules.defineEditorElement('animalCompanionName');
+  rules.defineEditorElement('familiar');
+  rules.defineEditorElement('familiarName');
+  rules.defineEditorElement('familiarEnhancement');
+
+  // Add additional elements to editor and sheet
+  rules.defineEditorElement
+    ('extraStrength', 'Extra Strength', 'text', [4], 'intelligence');
+  rules.defineEditorElement
+    ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
+  if(FirstEdition.USE_OSIRIC_RULES) {
+    rules.defineEditorElement
+      ('weaponSpecialization', 'Specialization', 'select-one',
+       ['None'].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))),
+       'spells');
+    rules.defineEditorElement
+      ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
+  }
+  rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
+  rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
+  rules.defineSheetElement
+    ('Strength Minor Test', 'StrengthTests/',
+     '<b>Strength Minor/Major Test</b>: %Vin6');
+  rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
+  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
+  rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
+  rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
+  rules.defineSheetElement
+    ('Thief Skill Level', 'Feature Notes+', '<b>Skills</b>:');
+  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
+  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
+  rules.defineSheetElement('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+  rules.defineSheetElement
+    ('Understand Spell', 'Spells Known', '<b>%N</b>: %V%');
+  rules.defineSheetElement('SpellsPerLevel', 'Spells Known', '%V', '/');
+  rules.defineSheetElement
+    ('Minimum Spells Per Level', 'SpellsPerLevel/',
+     '<b>Min/Max Spells/Level</b>: %V');
+  rules.defineSheetElement
+    ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
 
   Quilvyn.addRuleSet(rules);
 
@@ -129,8 +158,11 @@ FirstEdition.FEATURES = {
   'Backstab':'Section=combat Note="+4 melee attack/x%V damage when surprising"',
   'Band Of Followers':'Section=feature Note="Will attract followers"',
   'Bonus Cleric Experience':'Section=ability Note="10% added to awarded experience"',
+  'Bonus Cleric Spells':'Section=magic Note="%1/%2/%3/%4"',
   'Bonus Druid Experience':'Section=ability Note="10% added to awarded experience"',
+  'Bonus Druid Spells':'Section=magic Note="%1/%2/%3/%4"',
   'Bonus Fighter Experience':'Section=ability Note="10% added to awarded experience"',
+  'Bonus Languages':'Section=feature Note="+%V Language Count"',
   'Bonus Magic User Experience':'Section=ability Note="10% added to awarded experience"',
   'Bonus Paladin Experience':'Section=ability Note="10% added to awarded experience"',
   'Bonus Ranger Experience':'Section=feature Note="10% added to awarded experience"',
@@ -150,7 +182,6 @@ FirstEdition.FEATURES = {
   'Eldritch Craft':'Section=magic Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
   'Eldritch Power':'Section=magic Note="May use <i>Enchant An Item</i> spell"',
   'Evasion':'Section=save Note="Successful save yields no damage instead of half"',
-  'Extra Languages':'Section=feature Note="+%V Language Count"',
   'Favored Enemy':'Section=combat Note="+%V melee damage vs. evil humanoids and giantish foes"',
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
   'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
@@ -190,33 +221,33 @@ FirstEdition.FEATURES = {
   'Unburdened':'Section=feature Note="May not own gt 5 magic items"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
   'Wilderness Movement':'Section=feature Note="Normal, untrackable move through undergrowth"',
-  // Races
-  'Half Orc Ability Adjustment':'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
-  'Dwarf Ability Adjustment':'Section=ability Note="+1 Constitution/-1 Charisma"',
-  'Elf Ability Adjustment':'Section=ability Note="+1 Dexterity/-1 Constitution"',
-  'Halfling Ability Adjustment':'Section=ability Note="+1 Dexterity/-1 Strength"',
+  // Race
+  'Accurate':'Section=combat Note="+3 attack with sling or bow"',
+  'Bow Precision':'Section=combat Note="+1 attack w/bows"',
+  'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
   'Detect Secret Doors':'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Infravision':'Section=feature Note="60\' vision in darkness"',
-  'Resist Charm':'Section=save Note="%V% vs. charm"',
-  'Resist Sleep':'Section=save Note="%V% vs. sleep"',
-  'Slow':'Section=ability Note="-30 Speed"',
+  'Direction Sense':'Section=feature Note="Determine North underground 50%"',
+  'Dwarf Ability Adjustment':'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
   'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
-  'Know Depth':'Section=feature Note="Determine approximate depth underground %V%"',
-  'Sense Construction':'Section=feature Note="Detect new construction 75%, sliding walls 66% w/in 10\'"',
-  'Sense Slope':'Section=feature Note="Detect slope and grade %V% w/in 10\'"',
-  'Trap Sense':'Section=feature Note="Detect stonework traps 50% w/in 10\'"',
-  'Resist Magic':'Section=save Note="+%V vs. spell or wand"',
-  'Resist Poison':'Section=save Note="+%V vs. poison"',
-  'Bow Precision':'Section=combat Note="+1 attack w/bows"',
-  'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
-  'Sword Precision':'Section=combat Note="+1 attack w/longsword and short sword"',
+  'Elf Ability Adjustment':'Section=ability Note="+1 Dexterity/-1 Constitution"',
   'Gnome Dodge':'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
   'Gnome Emnity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
-  'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
-  'Direction Sense':'Section=feature Note="Determine N underground 50%"',
+  'Half Orc Ability Adjustment':'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
+  'Halfling Ability Adjustment':'Section=ability Note="+1 Dexterity/-1 Strength"',
+  'Infravision':'Section=feature Note="60\' vision in darkness"',
+  'Know Depth':'Section=feature Note="Determine approximate depth underground %V%"',
+  'Resist Charm':'Section=save Note="%V% vs. charm"',
+  'Resist Magic':'Section=save Note="+%V vs. spell or wand"',
+  'Resist Poison':'Section=save Note="+%V vs. poison"',
+  'Resist Sleep':'Section=save Note="%V% vs. sleep"',
+  'Sense Construction':'Section=feature Note="Detect new construction 75%, sliding walls 66% w/in 10\'"',
   'Sense Hazard':'Section=feature Note="Detect unsafe wall, ceiling, or floor 70% w/in 10\'"',
-  'Accurate':'Section=combat Note="+3 attack with sling and bow"',
+  'Sense Slope':'Section=feature Note="Detect slope and grade %V% w/in 10\'"',
+  'Slow':'Section=ability Note="-30 Speed"',
+  'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
+  'Sword Precision':'Section=combat Note="+1 attack w/longsword and short sword"',
+  'Trap Sense':'Section=feature Note="Detect stonework traps 50% w/in 10\'"'
 };
 FirstEdition.GENDERS = Object.assign({}, SRD35.GENDERS);
 FirstEdition.LANGUAGES = {
@@ -232,7 +263,6 @@ FirstEdition.LANGUAGES = {
   'Kobold':'',
   'Orcish':''
 };
-
 FirstEdition.RACES = {
   'Dwarf':
     'Require=' +
@@ -1581,7 +1611,7 @@ FirstEdition.CLASSES = {
     'SaveStep=4 ' +
     'ProfWeaponInitial=3 ProfWeaponBump=4 ProfWeaponPenalty=2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Leather/Studded)","1:Shield Proficiency (All)",' +
+      '"1:Armor Proficiency (Leather/Studded Leather)","1:Shield Proficiency (All)",' +
       '1:Assassination,1:Backstab,1:Disguise,"9:Extra Languages",' +
       '"12:Read Scrolls"',
   'Bard':
@@ -1618,8 +1648,11 @@ FirstEdition.CLASSES = {
     'ProfWeaponInitial=2 ProfWeaponBump=4 ProfWeaponPenalty=3 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+      '"1:Turn Undead",' +
       '"wisdom >= 16 ? 1:Bonus Cleric Experience",' +
-      '"1:Cleric Spell Failure","1:Turn Undead","9:Attract Followers" ' +
+      '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
+      '"wisdom <= 12 ? 1:Cleric Spell Failure,"' +
+      '"9:Attract Followers" ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
@@ -1658,8 +1691,9 @@ FirstEdition.CLASSES = {
     'SaveStep=3 ' +
     'ProfWeaponInitial=2 ProfWeaponBump=5 ProfWeaponPenalty=4 ' +
     'Features=' +
-      '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small)",' +
+      '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
       '"charism >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
+      '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
       '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
       '"3:Wilderness Movement","7:Fey Immunity",7:Shapeshift ' +
      'CasterLevelDivine=levels.Druid ' +
@@ -2011,12 +2045,13 @@ FirstEdition.editedRules = function(base, type) {
       result[a] = FirstEdition.OSRIC_RULE_EDITS[type][a];
     else {
       var matchInfo =
-        FirstEdition.OSRIC_RULE_EDITS[type][a].match(/\w+[-+]?=/g);
+        FirstEdition.OSRIC_RULE_EDITS[type][a].match(/[A-Z]\w*[-+]?=/g);
       for(var i = 0; i < matchInfo.length; i++) {
         var op = matchInfo[i].match(/\W+$/)[0];
         var attr = matchInfo[i].replace(op, '');
         var values =
-          QuilvynUtils.getAttrValueArray(FirstEdition.OSRIC_RULE_EDITS[type][a], attr);
+          // TODO hack to make getAttrValueArray work with +=
+          QuilvynUtils.getAttrValueArray(FirstEdition.OSRIC_RULE_EDITS[type][a].replaceAll('+=', '='), attr);
         var valuesText = '"' + values.join('","') + '"';
         if(op == '=')
           // getAttrValue[Array] will pick up the last value, so appending the
@@ -2026,7 +2061,7 @@ FirstEdition.editedRules = function(base, type) {
           result[a] =
             result[a].replace(attr + '=', attr + '=' + valuesText + ',');
         else if(op == '-=')
-          ; // TODO if needed
+          ; // TODO implement if needed
       }
     }
   }
@@ -2074,10 +2109,6 @@ FirstEdition.abilityRules = function(rules) {
   );
   rules.defineRule
     ('hitPoints', 'combatNotes.constitutionHitPointsAdjustment', '+', null);
-  rules.defineSheetElement
-    ('Survive Resurrection', 'SaveAndResistance/', '<b>%N</b>: %V%');
-  rules.defineSheetElement
-    ('Survive System Shock', 'SaveAndResistance/', '<b>%N</b>: %V%');
 
   // Dexterity
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
@@ -2085,7 +2116,7 @@ FirstEdition.abilityRules = function(rules) {
     'source <= 6 ? (7 - source) : source <= 14 ? null : ' +
     'source <= 18 ? 14 - source : -4'
   );
-  rules.defineRule('combatNotes.dexterityMissileAttackAdjustment',
+  rules.defineRule('combatNotes.dexterityAttackAdjustment',
     'dexterity', '=',
     'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
     'source <= 18 ? source - 15 : 3'
@@ -2099,7 +2130,11 @@ FirstEdition.abilityRules = function(rules) {
   // Intelligence
   rules.defineRule('featureNotes.intelligenceLanguageBonus',
     'intelligence', '=',
-    'source<=7 ? null : source<=15 ? Math.floor((source-6) / 2) : (source-11)'
+      'source<=7 ? null : source<=15 ? Math.floor((source-6)/2) : (source-11)',
+    'race', 'v',
+      'source == "Human" ? null : ' +
+      'source == "Half Elf" ? 2 : ' +
+      'source.indexOf("Elf") >= 0 ? 3 : 2'
   );
   rules.defineRule
     ('languageCount', 'featureNotes.intelligenceLanguageBonus', '+', null);
@@ -2145,38 +2180,12 @@ FirstEdition.abilityRules = function(rules) {
     'extraStrength', '+', 'source <= 50 ? 1 : source <= 75 ? 2 : ' +
                           'source <= 90 ? 3 : source <= 99 ? 4 : 5'
   );
-  rules.defineEditorElement
-    ('extraStrength', 'Extra Strength', 'text', [4], 'intelligence');
-  rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
-  rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
-  rules.defineSheetElement
-    ('Strength Minor Test', 'StrengthTests/',
-     '<b>Strength Minor/Major Test</b>: %Vin6');
-  rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
 
   // Wisdom
   rules.defineRule('saveNotes.wisdomMentalSavingThrowAdjustment',
     'wisdom', '=',
     'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : (source-14)'
   );
-  rules.defineRule('divineSpellBonus.1',
-    'casterLevelDivine', '?', null,
-    'wisdom', '=', 'source<=12 ? null : source==13 ? 1 : source<=18 ? 2 : 3'
-  );
-  rules.defineRule('divineSpellBonus.2',
-    'casterLevelDivine', '?', null,
-    'wisdom', '=', 'source <= 14 ? null : source == 15 ? 1 : 2'
-  );
-  rules.defineRule('divineSpellBonus.3',
-    'casterLevelDivine', '?', null,
-    'wisdom', '=', 'source <= 16 ? null : 1'
-  );
-  rules.defineRule('divineSpellBonus.4',
-    'casterLevelDivine', '?', null,
-    'wisdom', '=', 'source <= 17 ? null : 1'
-  );
-
-  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
 
 };
 
@@ -2197,8 +2206,16 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
     ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
   rules.defineRule('attacksPerRound', '', '=', '1');
   rules.defineRule('baseAttack', '', '=', '0');
-  rules.defineRule('meleeAttack', 'baseAttack', '=', null);
-  rules.defineRule('rangedAttack', 'baseAttack', '=', null);
+  rules.defineRule('meleeAttack',
+    'baseAttack', '=', null,
+    'combatNotes.strengthAttackAdjustment', '+', null
+  );
+  rules.defineRule('rangedAttack',
+    'baseAttack', '=', null,
+    'combatNotes.dexterityAttackAdjustment', '+', null,
+    // Note: the rules seem to indicate that strength affects ranged attacks
+    'combatNotes.strengthAttackAdjustment', '+', null
+  );
   rules.defineRule('turnUndeadColumn',
     'turningLevel', '=',
     'source <= 8 ? source : source <= 13 ? 9 : source <= 18 ? 10 : 11'
@@ -2237,17 +2254,11 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
       'turnUndeadColumn', '=', '"' + turningTable[i] +'".split(":")[source].trim()'
     );
   }
-
-  rules.defineEditorElement
-    ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
-  if(FirstEdition.USE_OSIRIC_RULES) {
-    rules.defineEditorElement
-      ('weaponSpecialization', 'Specialization', 'select-one',
-       ['None'].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))),
-       'spells');
-    rules.defineEditorElement
-      ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
-  }
+  var notes = rules.getChoices('notes');
+  if(notes && notes['validationNotes.two-handedWeapon'])
+    delete notes['validationNotes.two-handedWeapon'];
+  rules.defineChoice
+    ('notes', 'validationNotes.two-handedWeapon:Requires shield == "None"');
 
 };
 
@@ -2273,18 +2284,209 @@ FirstEdition.identityRules = function(
   for(var race in races) {
     rules.choiceRules(rules, 'Race', race, races[race]);
   }
+
   rules.defineRule('casterLevel',
     'casterLevelArcane', '=', null,
     'casterLevelDivine', '+=', null
   );
-  // TODO Does character level mean anything in 1st Ed?
+  rules.defineRule('magicNotes.bonusClericSpells.1',
+    'features.Bonus Cleric Spells', '?', null,
+    'wisdom', '=', 'source<=12 ? 0 : source==13 ? 1 : source<=18 ? 2 : 3'
+  );
+  rules.defineRule('magicNotes.bonusClericSpells.2',
+    'features.Bonus Cleric Spells', '?', null,
+    'wisdom', '=', 'source <= 14 ? 0 : source == 15 ? 1 : 2'
+  );
+  rules.defineRule('magicNotes.bonusClericSpells.3',
+    'features.Bonus Cleric Spells', '?', null,
+    'wisdom', '=', 'source <= 16 ? 0 : 1'
+  );
+  rules.defineRule('magicNotes.bonusClericSpells.4',
+    'features.Bonus Cleric Spells', '?', null,
+    'wisdom', '=', 'source <= 17 ? 0 : 1'
+  );
+  rules.defineRule('magicNotes.bonusDruidSpells.1',
+    'features.Bonus Druid Spells', '?', null,
+    'wisdom', '=', 'source<=12 ? 0 : source==13 ? 1 : source<=18 ? 2 : 3'
+  );
+  rules.defineRule('magicNotes.bonusDruidSpells.2',
+    'features.Bonus Druid Spells', '?', null,
+    'wisdom', '=', 'source <= 14 ? 0 : source == 15 ? 1 : 2'
+  );
+  rules.defineRule('magicNotes.bonusDruidSpells.3',
+    'features.Bonus Druid Spells', '?', null,
+    'wisdom', '=', 'source <= 16 ? 0 : 1'
+  );
+  rules.defineRule('magicNotes.bonusDruidSpells.4',
+    'features.Bonus Druid Spells', '?', null,
+    'wisdom', '=', 'source <= 17 ? 0 : 1'
+  );
+  rules.defineRule
+    ('combatNotes.fightingTheUnskilled', 'warriorLevel', '+=', null);
   rules.defineRule('level', /^levels\./, '+=', null);
+  for(var save in {
+    'Breath':'', 'Death':'', 'Petrification':'', 'Spell':'', 'Wand':''
+  }) {
+    rules.defineRule('save.' + save, 'class' + save + 'Bonus', '=', null);
+  }
+  rules.defineRule('save.Spell', 'saveNotes.resistMagic', '+', null);
+  rules.defineRule('save.Wand', 'saveNotes.resistMagic', '+', null);
+  rules.defineRule
+    ('saveNotes.resistMagic', 'constitution', '=', 'Math.floor(source / 3.5)');
+  rules.defineRule
+    ('saveNotes.resistPoison', 'constitution', '=', 'Math.floor(source / 3.5)');
+  if(FirstEdition.USE_OSRIC_RULES) {
+    rules.defineRule('skills.Climb Walls',
+      'thiefSkillLevel', '=',
+      'source <= 6 ? source*2+78 : Math.min(source+84, 99)'
+    );
+    rules.defineRule('skills.Find Traps',
+      'thiefSkillLevel', '=',
+      'source <= 17 ? source*4+21 : Math.min(source*2+55, 99)',
+      'dexterity', '+',
+      'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null'
+    );
+    rules.defineRule
+      ('skills.Hear Noise', 'thiefSkillLevel', '=', 'source*3+7');
+    rules.defineRule('skills.Hide In Shadows',
+      'thiefSkillLevel', '=',
+      'source <= 15 ? source*5+15 : (source+75)',
+      'dexterity', '+',
+      'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
+    );
+    rules.defineRule('skills.Move Quietly',
+      'thiefSkillLevel', '=',
+      'source <= 15 ? source * 5 + 15 : (source + 75)',
+      'dexterity', '+',
+      'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
+    );
+    rules.defineRule('skills.Open Locks',
+      'thiefSkillLevel', '=',
+      'source <= 16 ? source * 4 + 26 : (source + 75)',
+      'dexterity', '+',
+      'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
+    );
+    rules.defineRule('skills.Pick Pockets',
+      'thiefSkillLevel', '=',
+      'source <= 14 ? source * 4 + 31 : (source + 75)',
+      'dexterity', '+',
+      'source<=11 ? (source-12)*5 : source>=18 ? (source-17)*10-5 : null'
+    );
+    rules.defineRule('skills.Read Languages',
+      'thiefSkillLevel', '=',
+      'source <= 19 ? Math.max(source*5-5, 1) : Math.min(source*2+52, 99)'
+    );
+  } else {
+    rules.defineRule('skills.Climb Walls',
+      'thiefSkillLevel', '=',
+      'source <= 4 ? 84 + source : Math.min(80 + source * 2, 99)'
+    );
+    rules.defineRule('skills.Find Traps',
+      'thiefSkillLevel', '=', 'Math.min(source * 5 + 15, 99)',
+      'dexterity', '+',
+      'source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
+    );
+    rules.defineRule('skills.Hear Noise',
+      'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + 10'
+    );
+    rules.defineRule('skills.Hide In Shadows',
+      'thiefSkillLevel', '=',
+      'source <= 4 ? (source+1) * 5 : source <= 8 ? source * 6 + 1 : ' +
+      'source <= 12 ? (source-1) * 7 : Math.min(source * 8 - 19, 99)',
+      'dexterity', '+',
+      'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
+    );
+    rules.defineRule('skills.Move Quietly',
+      'thiefSkillLevel', '=',
+      'source <= 4 ? source*6+9 : source <= 7 ? source*7+5 : ' +
+      'Math.min(source*8-2, 99)',
+      'dexterity', '+',
+      'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
+    );
+    rules.defineRule('skills.Open Locks',
+      'thiefSkillLevel', '=',
+      'source <= 4 ? source*4+21 : Math.min(source*5+17, 99)',
+      'dexterity', '+',
+      'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
+    );
+    rules.defineRule('skills.Pick Pockets',
+      'thiefSkillLevel', '=',
+      'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
+      'Math.min(source*5+40, 125)',
+      'dexterity', '+',
+      'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null',
+      'levels.Monk', '*', '0'
+    );
+    rules.defineRule('skills.Read Languages',
+      'thiefSkillLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
+      'levels.Monk', '*', '0'
+    );
+  }
+  var skillRacialAdjustments = FirstEdition.USE_OSRIC_RULES ? {
+    'Climb Walls':
+      "{'Dwarf':-10, 'Elf':-5, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5, 'Human':5}",
+    'Find Traps':
+      "{'Dwarf':15, 'Elf':5, 'Half Orc':5}",
+    'Hear Noise':
+      "{'Elf':5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
+    'Hide In Shadows':
+      "{'Elf':10, 'Half Elf':5, 'Halfling':15}",
+    'Move Quietly':
+      "{'Dwarf':-5, 'Elf':5, 'Halfling':15}",
+    'Open Locks':
+      "{'Dwarf':15, 'Elf':-5, 'Gnome':10, 'Half Orc':5, 'Human':5}",
+    'Pick Pockets':
+      "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
+    'Read Languages':
+      "{'Dwarf':-5, 'Elf':10, 'Halfling':-5, 'Half Orc':-10}"
+  } : {
+    'Climb Walls':
+      "{'Dwarf':-10, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5}",
+    'Find Traps':
+      "{'Dwarf':15, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
+    'Hear Noise':
+      "{'Elf':5, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
+    'Hide In Shadows':
+      "{'Elf':10, 'Gnome':5, 'Half Elf':5, 'Halfling':15}",
+    'Move Quietly':
+      "{'Elf':5, 'Gnome':5, 'Halfling':10}",
+    'Open Locks':
+      "{'Dwarf':10, 'Elf':-5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
+    'Pick Pockets':
+      "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
+    'Read Languages':
+      "{'Dwarf':-5, 'Halfling':-5, 'Half Orc':-10}"
+  };
+  for(var skill in skillRacialAdjustments) {
+    rules.defineRule('skills.' + skill,
+      'race', '+', skillRacialAdjustments[skill] + '[source]'
+    );
+  }
+  rules.defineRule('spellsPerDay.C1', 'bonusClericSpells.1', '+', null);
+  rules.defineRule('spellsPerDay.C2', 'bonusClericSpells.2', '+', null);
+  rules.defineRule('spellsPerDay.C3', 'bonusClericSpells.3', '+', null);
+  rules.defineRule('spellsPerDay.C4', 'bonusClericSpells.4', '+', null);
+  rules.defineRule('spellsPerDay.D1', 'bonusDruidSpells.1', '+', null);
+  rules.defineRule('spellsPerDay.D2', 'bonusDruidSpells.2', '+', null);
+  rules.defineRule('spellsPerDay.D3', 'bonusDruidSpells.3', '+', null);
+  rules.defineRule('spellsPerDay.D4', 'bonusDruidSpells.4', '+', null);
+  SRD35.validAllocationRules
+    (rules, 'weaponProficiency', 'weaponProficiencyCount', 'Sum "^weaponProficiency\\."');
+  rules.defineRule('validationNotes.weaponProficiencyAllocation.2',
+    'weaponSpecialization', '+', 'source == "None" ? nul : 1',
+    'doubleSpecialization', '+', 'source ? 1 : null'
+  );
+
 };
 
 /* Defines rules related to magic use. */
 FirstEdition.magicRules = function(rules, schools, spells) {
-  SRD35.magicRules(rules, schools, spells);
-  // No changes needed to the rules defined by SRD35 method
+  for(var school in schools) {
+    rules.choiceRules(rules, 'School', school, schools[school]);
+  }
+  for(var spell in spells) {
+    rules.choiceRules(rules, 'Spell', spell, spells[spell]);
+  }
 };
 
 /* Defines rules related to character features and languages. */
@@ -2330,7 +2532,6 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'ProfWeaponPenalty'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelArcane'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
-      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
       QuilvynUtils.getAttrValueArray(attrs, 'SpellsPerDay'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
       FirstEdition.SPELLS
@@ -2351,7 +2552,6 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
       QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
-      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
       FirstEdition.SPELLS
     );
@@ -2449,16 +2649,15 @@ FirstEdition.armorRules = function(rules, name, ac, maxMove) {
  * #casterLevelArcane# and #casterLevelDivine#, if specified, give the
  * Javascript expression for determining the caster level for the class; these
  * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
- * character level attribute 'level'. #spellAbility#, if specified, names the
- * ability for computing spell difficulty class. #spellsPerDay# lists the
- * number of spells per level per day that the class can cast, and #spells#
- * lists spells defined by the class.
+ * character level attribute 'level'. #spellsPerDay# lists the number of spells
+ * per level per day that the class can cast, and #spells# lists spells defined
+ * by the class.
  */
 FirstEdition.classRules = function(
   rules, name, requires, hitDie, attack, saveBreath, saveDeath,
   savePetrification, saveSpell, saveWand, saveStep, features, selectables,
   languages, weaponInitial, weaponBump, weaponPenalty, casterLevelArcane,
-  casterLevelDivine, spellAbility, spellsPerDay, spells, spellDict
+  casterLevelDivine, spellsPerDay, spells, spellDict
 ) {
 
   if(!name) {
@@ -2519,11 +2718,6 @@ FirstEdition.classRules = function(
     console.log('Bad weaponPenalty "' + weaponInitial + '" for class ' + name);
     return;
   }
-  if(spellAbility &&
-     !spellAbility.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
-    console.log('Bad spellAbility "' + spellAbility + '" for class ' + name);
-    return;
-  }
 
   var classLevel = 'levels.' + name;
   var prefix =
@@ -2540,11 +2734,6 @@ FirstEdition.classRules = function(
                      'source'
   );
 
-  rules.defineRule('casterLevel',
-    'casterLevelArcane', '+=', null,
-    'casterLevelDivine', '+=', null
-  );
-
   var saves = {
     'Breath':saveBreath, 'Death':saveDeath, 'Petrification':savePetrification,
     'Spell':saveSpell, 'Wand':saveWand
@@ -2553,7 +2742,6 @@ FirstEdition.classRules = function(
     rules.defineRule('class' + save + 'Bonus',
       classLevel, '+=', saves[save][0] + ' - Math.floor((source - 1) / ' + saveStep + ') * ' + saves[save][1]
     );
-    rules.defineRule('save.' + save, 'class' + save + 'Bonus', '+', null);
   }
 
   SRD35.featureListRules(rules, features, name, classLevel, false);
@@ -2562,7 +2750,6 @@ FirstEdition.classRules = function(
 
   if(languages.length > 0)
     rules.defineRule('languageCount', classLevel, '+', languages.length);
-
   for(var i = 0; i < languages.length; i++) {
     if(languages[i] != 'any')
       rules.defineRule('languages.' + languages[i], classLevel, '=', '1');
@@ -2579,30 +2766,21 @@ FirstEdition.classRules = function(
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
-        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source'),
-        'magicNotes.casterLevelBonus', '+', null
+        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source')
       );
     } else {
       rules.defineRule('casterLevels.' + name,
         classLevel, '?', null,
-        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source'),
-        'magicNotes.casterLevelBonus', '+', null
+        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source')
       );
     }
     if(casterLevelArcane) {
-      rules.defineRule
-        ('casterLevelArcane', 'casterLevels.' + name, '+=', null);
+      rules.defineRule('casterLevelArcane', 'casterLevels.' + name, '+=', null);
     }
     if(casterLevelDivine) {
-      rules.defineRule
-        ('casterLevelDivine', 'casterLevels.' + name, '+=', null);
+      rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
     }
-    rules.defineRule('spellCountLevel.' + name,
-      'levels.' + name, '=', null,
-      'magicNotes.casterLevelBonus', '+', null
-    );
     for(var i = 0; i < spellsPerDay.length; i++) {
-      var spellModifier = spellAbility.toLowerCase() + 'Modifier';
       var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
       var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
@@ -2614,24 +2792,13 @@ FirstEdition.classRules = function(
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
-        'spellCountLevel.' + name, '+=', code
+        'casterLevels.' + name, '+=', code
       );
-      if(spellLevel > 0) {
-        rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
-          spellModifier, '+',
-            'source >= ' + spellLevel +
-              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
-        );
-      }
       if(spellType != name) {
         rules.defineRule('casterLevels.' + spellType,
           'casterLevels.' + name, '=', null,
         );
       }
-      rules.defineRule('spellDifficultyClass.' + spellType,
-        'casterLevels.' + spellType, '?', null,
-        spellModifier, '=', '10 + source'
-      );
     }
   }
 
@@ -2664,82 +2831,47 @@ FirstEdition.classRules = function(
     }
   }
 
-  rules.defineRule('warriorLevel', '', '=', '0');
-
 };
 
+/*
+ * Defines in #rules# the rules associated with class #name# that are not
+ * directly derived from the parmeters passed to classRules.
+ */
 FirstEdition.classRulesExtra = function(rules, name) {
-
-  var thiefSkillsRacialAdjustments = FirstEdition.USE_OSRIC_RULES ? {
-    'Climb Walls':
-      "{'Dwarf':-10, 'Elf':-5, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5, 'Human':5}",
-    'Find Traps':
-      "{'Dwarf':15, 'Elf':5, 'Half Orc':5}",
-    'Hear Noise':
-      "{'Elf':5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
-    'Hide In Shadows':
-      "{'Elf':10, 'Half Elf':5, 'Halfling':15}",
-    'Move Quietly':
-      "{'Dwarf':-5, 'Elf':5, 'Halfling':15}",
-    'Open Locks':
-      "{'Dwarf':15, 'Elf':-5, 'Gnome':10, 'Half Orc':5, 'Human':5}",
-    'Pick Pockets':
-      "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
-    'Read Languages':
-      "{'Dwarf':-5, 'Elf':10, 'Halfling':-5, 'Half Orc':-10}"
-  } : {
-    'Climb Walls':
-      "{'Dwarf':-10, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5}",
-    'Find Traps':
-      "{'Dwarf':15, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
-    'Hear Noise':
-      "{'Elf':5, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
-    'Hide In Shadows':
-      "{'Elf':10, 'Gnome':5, 'Half Elf':5, 'Halfling':15}",
-    'Move Quietly':
-      "{'Elf':5, 'Gnome':5, 'Halfling':10}",
-    'Open Locks':
-      "{'Dwarf':10, 'Elf':-5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
-    'Pick Pockets':
-      "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
-    'Read Languages':
-      "{'Dwarf':-5, 'Halfling':-5, 'Half Orc':-10}"
-  };
-
-  var thiefSkillLevel;
-
-  thiefSkillLevel = null;
 
   if(name == 'Assassin') {
 
-    thiefSkillLevel = 'source >= 4 ? source - 2 : 1';
-    rules.defineRule('combatNotes.assassination',
-      'levels.Assassin', '=', '50 + 5 * source'
-    );
+    // TODO generalize these two lines, probably in SRD35
+    rules.defineRule
+      ('features.Armor Proficiency (Leather)', 'levels.Assassin', '=', '1');
+    rules.defineRule
+      ('features.Armor Proficiency (Studded Leather)', 'levels.Assassin', '=', '1');
+    rules.defineRule
+      ('combatNotes.assassination', 'levels.Assassin', '=', '50 + 5 * source');
     rules.defineRule('combatNotes.backstab',
       'levels.Assassin', '+=', '2 + Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('featureNotes.extraLanguages',
+    rules.defineRule('featureNotes.bonusLanguages',
       'intelligence', '=', 'source < 15 ? null : (source - 14)',
       'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0'
     );
+    rules.defineRule
+      ('thiefSkillLevel', 'levels.Assassin', '+=', 'Math.max(source - 2, 1)');
 
   } else if(name == 'Cleric') {
 
     if(FirstEdition.USE_OSRIC_RULES) {
       rules.defineRule('magicNotes.clericSpellFailure',
-        'wisdom', '=', 'source<=11 ? (12-source) * 5 : source==12 ? 1 : null'
+        'wisdom', '=', 'Math.max((12 - source) * 5, 1)'
       );
     } else {
       rules.defineRule('magicNotes.clericSpellFailure',
-        'wisdom', '=', 'source<=12 ? (13-source) * 5 : null'
+        'wisdom', '=', '(13 - source) * 5'
       );
+      rules.defineRule('spellsPerDay.C6', 'wisdom', '?', 'source >= 17');
+      rules.defineRule('spellsPerDay.C7', 'wisdom', '?', 'source >= 18');
     }
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
-    rules.defineRule('spellsKnown.C1', 'divineSpellBonus.1', '+', null);
-    rules.defineRule('spellsKnown.C2', 'divineSpellBonus.2', '+', null);
-    rules.defineRule('spellsKnown.C3', 'divineSpellBonus.3', '+', null);
-    rules.defineRule('spellsKnown.C4', 'divineSpellBonus.4', '+', null);
 
   } else if(name == 'Druid' ||
             (name == 'Bard' && !FirstEdition.USE_OSRIC_RULES)) {
@@ -2752,10 +2884,6 @@ FirstEdition.classRulesExtra = function(rules, name) {
       );
     }
     rules.defineRule("languages.Druids' Cant", 'levels.' + name, '=', '1');
-    rules.defineRule('spellsKnown.D1', 'divineSpellBonus.1', '+', null);
-    rules.defineRule('spellsKnown.D2', 'divineSpellBonus.2', '+', null);
-    rules.defineRule('spellsKnown.D3', 'divineSpellBonus.3', '+', null);
-    rules.defineRule('spellsKnown.D4', 'divineSpellBonus.4', '+', null);
 
     if(name == 'Bard') {
       rules.defineRule('featureNotes.legendLore',
@@ -2774,9 +2902,6 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('attacksPerRound',
       'levels.Fighter', '+', 'Math.floor(source / 6) * 0.5'
     );
-    rules.defineRule('combatNotes.fightingTheUnskilled',
-      'levels.Fighter', '+=', null
-    );
     rules.defineRule('warriorLevel', 'levels.Fighter', '+=', null);
 
   } else if(name == 'Magic User') {
@@ -2791,36 +2916,30 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('maximumSpellsPerLevel',
       'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? -1 : source <= 3 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
     );
-    rules.defineRule('minimumSpellsPerLevel',
-      'intelligenceRow', '=', 'source + 4'
-    );
-    rules.defineSheetElement
-      ('Understand Spell', 'Spells Known', '<b>%N</b>: %V%');
-    rules.defineSheetElement('SpellsPerLevel', 'Spells Known', '%V', '/');
-    rules.defineSheetElement
-      ('Minimum Spells Per Level', 'SpellsPerLevel/',
-       '<b>Min/Max Spells/Level</b>: %V');
-    rules.defineSheetElement
-      ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
+    rules.defineRule
+      ('minimumSpellsPerLevel', 'intelligenceRow', '=', 'source + 4');
 
-  } else if(name == 'Monk') {
+  } else if(name == 'Monk' && !FirstEdition.USE_OSRIC_RULES) {
 
-    thiefSkillLevel = 'source';
     rules.defineRule('armorClass',
       'levels.Monk', '=', '11 - source + Math.floor(source / 5)'
     );
     rules.defineRule
       ('combatNotes.aware', 'levels.Monk', '=', '34 - source * 2');
+    rules.defineRule
+      ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
     rules.defineRule('combatNotes.flurryOfBlows.1',
       'levels.Monk', '=', 'source <= 5 ? 1.25 : source <= 8 ? 1.5 : source <= 10 ? 2 : source <= 13 ? 2.5 : source <= 15 ? 3 : 4'
     );
-    rules.defineRule
-      ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
     rules.defineRule
       ('combatNotes.killingBlow.1', 'levels.Monk', '=', 'source - 7');
     rules.defineRule('combatNotes.monkDamageAdjustment',
       'levels.Monk', '=', 'Math.floor(source / 2)'
     );
+    rules.defineRule
+      ('combatNotes.strengthAttackAdjustment', 'levels.Monk', '*', '0');
+    rules.defineRule
+      ('combatNotes.strengthDamageAdjustment', 'levels.Monk', '*', '0');
     rules.defineRule
       ('featureNotes.feignDeath', 'levels.Monk', '=', 'source * 2');
     rules.defineRule
@@ -2838,12 +2957,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
       'levels.Monk', '=', 'source < 6 ? 1 : source < 13 ? 4 : 8'
     );
     rules.defineRule('speed', 'levels.Monk', '+', 'source * 10 + 20');
-    rules.defineRule
-      ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '=', '0');
-    rules.defineRule
-      ('combatNotes.strengthAttackAdjustment', 'levels.Monk', '=', '0');
-    rules.defineRule
-      ('combatNotes.strengthDamageAdjustment', 'levels.Monk', '=', '0');
+    rules.defineRule('thiefSkillLevel', 'levels.Monk', '+=', null);
     rules.defineRule('weapons.Unarmed.2',
       'levels.Monk', '=', 'FirstEdition.monkUnarmedDamage[source]'
     );
@@ -2859,9 +2973,6 @@ FirstEdition.classRulesExtra = function(rules, name) {
         'levels.Paladin', '+', 'Math.floor(source / 6) * 0.5'
       );
     }
-    rules.defineRule('combatNotes.fightingTheUnskilled',
-      'levels.Paladin', '+=', null
-    );
     rules.defineRule('magicNotes.cureDisease',
       'levels.Paladin', '=', 'Math.floor(source / 5) + 1'
     );
@@ -2877,143 +2988,19 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('attacksPerRound',
       'levels.Ranger', '+', 'Math.floor(source / 7) * 0.5'
     );
-    rules.defineRule('combatNotes.fightingTheUnskilled',
-      'levels.Ranger', '+=', null
-    );
-    rules.defineRule
-      ('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
+    rules.defineRule('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
     rules.defineRule('warriorLevel', 'levels.Ranger', '+=', null);
 
   } else if(name == 'Thief') {
 
-    thiefSkillLevel = 'source';
     rules.defineRule('combatNotes.backstab',
       'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
     );
     rules.defineRule('languageCount', 'levels.Thief', '+', '1');
     rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
+    rules.defineRule('thiefSkillLevel', 'levels.Thief', '+=', null);
 
   }
-
-  if(thiefSkillLevel != null) {
-    if(FirstEdition.USE_OSRIC_RULES) {
-      rules.defineRule('thiefSkills.Climb Walls',
-        'thiefSkillLevel', '=',
-        'source <= 6 ? source*2+78 : Math.min(source+84, 99)'
-      );
-      rules.defineRule('thiefSkills.Find Traps',
-        'thiefSkillLevel', '=',
-        'source <= 17 ? source*4+21 : Math.min(source*2+55, 99)',
-        'dexterity', '+',
-        'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null'
-      );
-      rules.defineRule
-        ('thiefSkills.Hear Noise', 'thiefSkillLevel', '=', 'source*3+7');
-      rules.defineRule('thiefSkills.Hide In Shadows',
-        'thiefSkillLevel', '=',
-        'source <= 15 ? source*5+15 : (source+75)',
-        'dexterity', '+',
-        'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Move Quietly',
-        'thiefSkillLevel', '=',
-        'source <= 15 ? source * 5 + 15 : (source + 75)',
-        'dexterity', '+',
-        'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Open Locks',
-        'thiefSkillLevel', '=',
-        'source <= 16 ? source * 4 + 26 : (source + 75)',
-        'dexterity', '+',
-        'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Pick Pockets',
-        'thiefSkillLevel', '=',
-        'source <= 14 ? source * 4 + 31 : (source + 75)',
-        'dexterity', '+',
-        'source<=11 ? (source-12)*5 : source>=18 ? (source-17)*10-5 : null'
-      );
-      rules.defineRule('thiefSkills.Read Languages',
-        'thiefSkillLevel', '=',
-        'source <= 19 ? Math.max(source*5-5, 1) : Math.min(source*2+52, 99)'
-      );
-    } else {
-      rules.defineRule('thiefSkills.Climb Walls',
-        'thiefSkillLevel', '=',
-        'source <= 4 ? 84 + source : Math.min(80 + source * 2, 99)'
-      );
-      rules.defineRule('thiefSkills.Find Traps',
-        'thiefSkillLevel', '=', 'Math.min(source * 5 + 15, 99)',
-        'dexterity', '+',
-        'source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Hear Noise',
-        'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + 10'
-      );
-      rules.defineRule('thiefSkills.Hide In Shadows',
-        'thiefSkillLevel', '=',
-        'source <= 4 ? (source+1) * 5 : source <= 8 ? source * 6 + 1 : ' +
-        'source <= 12 ? (source-1) * 7 : Math.min(source * 8 - 19, 99)',
-        'dexterity', '+',
-        'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Move Quietly',
-        'thiefSkillLevel', '=',
-        'source <= 4 ? source*6+9 : source <= 7 ? source*7+5 : ' +
-        'Math.min(source*8-2, 99)',
-        'dexterity', '+',
-        'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Open Locks',
-        'thiefSkillLevel', '=',
-        'source <= 4 ? source*4+21 : Math.min(source*5+17, 99)',
-        'dexterity', '+',
-        'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
-      );
-      rules.defineRule('thiefSkills.Pick Pockets',
-        'thiefSkillLevel', '=',
-        'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
-        'Math.min(source*5+40, 125)',
-        'dexterity', '+',
-        'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null',
-        'levels.Monk', '*', '0'
-      );
-      rules.defineRule('thiefSkills.Read Languages',
-        'thiefSkillLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
-        'levels.Monk', '*', '0'
-      );
-    }
-    rules.defineRule
-      ('thiefSkillLevel', 'levels.' + name, '+=', thiefSkillLevel);
-    rules.defineSheetElement('Thief Skills', 'Skills', null, ' * ');
-    for(var skill in {'Climb Walls':'', 'Find Traps':'', 'Hear Noise':'',
-                      'Hide In Shadows':'', 'Move Quietly':'',
-                      'Open Locks':'', 'Pick Pockets':'',
-                      'Read Languages':''}) {
-      rules.defineRule('thiefSkills.' + skill,
-        'race', '+', thiefSkillsRacialAdjustments[skill] + '[source]'
-      );
-    }
-  }
-
-/* TODO
-  rules.defineNote
-    ('validationNotes.weaponProficiencyAllocation:%1 available vs. %2 allocated');
-  rules.defineRule('validationNotes.weaponProficiencyAllocation.1',
-    '', '=', '0',
-    'weaponProficiencyCount', '=', null
-  );
-  rules.defineRule('validationNotes.weaponProficiencyAllocation.2',
-    '', '=', '0',
-    /^weaponProficiency\./, '+=', null,
-    'weaponSpecialization', '+', 'source == "None" ? null : 1',
-    'doubleSpecialization', '+', 'source ? 1 : null'
-  );
-  rules.defineRule('validationNotes.weaponProficiencyAllocation',
-    'validationNotes.weaponProficiencyAllocation.1', '=', '-source',
-    'validationNotes.weaponProficiencyAllocation.2', '+=', null
-  );
-*/
 
 };
 
@@ -3049,25 +3036,17 @@ FirstEdition.languageRules = function(rules, name) {
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
  * associated features and #languages# the automatic languages. #spells# lists
- * any natural spells, for which #spellAbility# is used to compute the save DC.
- * #spellDict# is the dictionary of all spells used to look up individual spell
- * attributes.
+ * any natural spells, and #spellDict# is the dictionary of all spells used to
+ * look up individual spell attributes.
  */
 FirstEdition.raceRules = function(
-  rules, name, requires, features, selectables, languages, spellAbility,
-  spells, spellDict
+  rules, name, requires, features, selectables, languages, spells, spellDict
 ) {
   SRD35.raceRules(
-    rules, name, requires, features, selectables, languages, spellAbility,
+    rules, name, requires, features, selectables, languages, 'intelligence',
     spells, spellDict
   );
-
-  rules.defineRule('featureNotes.intelligenceLanguageBonus',
-    'race', 'v',
-    'source == "Human" ? null : ' +
-    'source.indexOf("Elf") >= 0 && source != "Half Elf" ? 3 : 2'
-  );
-
+  // No changes needed to the rules defined by SRD35 method
 };
 
 /*
@@ -3077,69 +3056,22 @@ FirstEdition.raceRules = function(
 FirstEdition.raceRulesExtra = function(rules, name) {
 
   if(name == 'Half Elf') {
-
-    rules.defineRule('saveNotes.resistCharm',
-      'halfElfFeatures.Resist Charm', '+=', '30'
-    );
-    rules.defineRule('saveNotes.resistSleep',
-      'halfElfFeatures.Resist Sleep', '+=', '30'
-    );
-
+    rules.defineRule('saveNotes.resistCharm', 'halfElfLevel', '+=', '30');
+    rules.defineRule('saveNotes.resistSleep', 'halfElfLevel', '+=', '30');
   } else if(name == 'Dwarf') {
-
-    rules.defineRule
-      ('featureNotes.knowDepth', 'dwarfFeatures.Know Depth', '+=', '50');
-    rules.defineRule
-      ('featureNotes.senseSlope', 'dwarfFeatures.Sense Slope', '+=', '75');
-    rules.defineRule('save.Spell', 'saveNotes.resistMagic', '+', null);
-    rules.defineRule('save.Wand', 'saveNotes.resistMagic', '+', null);
-    rules.defineRule('saveNotes.resistMagic',
-      'constitution', '=', 'Math.floor(source / 3.5)'
-    );
-    rules.defineRule('saveNotes.resistPoison',
-      'constitution', '=', 'Math.floor(source / 3.5)'
-    );
-
+    rules.defineRule('featureNotes.knowDepth', 'dwarfLevel', '+=', '50');
+    rules.defineRule('featureNotes.senseSlope', 'dwarfLevel', '+=', '75');
   } else if(name == 'Elf') {
-
-    rules.defineRule
-      ('saveNotes.resistCharm', 'elfFeatures.Resist Charm', '+=', '90');
-    rules.defineRule
-      ('saveNotes.resistSleep', 'elfFeatures.Resist Sleep', '+=', '90');
-
+    rules.defineRule('saveNotes.resistCharm', 'elfLevel', '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', 'elfLevel', '+=', '90');
   } else if(name == 'Gnome') {
-
-    rules.defineRule
-      ('featureNotes.knowDepth', 'gnomeFeatures.Know Depth', '+=', '60');
-    rules.defineRule
-      ('featureNotes.senseSlope', 'gnomeFeatures.Sense Slope', '+=', '80');
-    rules.defineRule('save.Spell', 'saveNotes.resistMagic', '+', null);
-    rules.defineRule('save.Wand', 'saveNotes.resistMagic', '+', null);
-    rules.defineRule('saveNotes.resistMagic',
-      'constitution', '=', 'Math.floor(source / 3.5)'
-    );
-    rules.defineRule('saveNotes.resistPoison',
-      'constitution', '=', 'Math.floor(source / 3.5)'
-    );
-
-  } else if(name == 'Halfling') {
-
-    rules.defineRule('save.Spell', 'saveNotes.resistMagic', '+', null);
-    rules.defineRule('save.Wand', 'saveNotes.resistMagic', '+', null);
-    rules.defineRule('saveNotes.resistMagic',
-      'constitution', '=', 'Math.floor(source / 3.5)'
-    );
-    rules.defineRule('saveNotes.resistPoison',
-      'constitution', '=', 'Math.floor(source / 3.5)'
-    );
-
+    rules.defineRule('featureNotes.knowDepth', 'gnomeLevel', '+=', '60');
+    rules.defineRule('featureNotes.senseSlope', 'gnomeLevel', '+=', '80');
   }
 
 };
 
-/*
- * Defines in #rules# the rules associated with magic school #name#.
- */
+/* Defines in #rules# the rules associated with magic school #name#. */
 FirstEdition.schoolRules = function(rules, name) {
   if(!name) {
     console.log('Empty school name');
@@ -3171,7 +3103,7 @@ FirstEdition.shieldRules = function(rules, name, ac) {
   rules.shieldStats.ac[name] = ac;
 
   rules.defineRule('armorClass',
-    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
+    'shield', '+', '-' + QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
   );
 
 };
@@ -3213,8 +3145,8 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     for(attr in this.getChoices('armors')) {
       if(attr == 'None' ||
-         attrs['Armor Proficiency (All)'] != null ||
-         attrs['Armor Proficiency (' + attr + ')'] != null) {
+         attrs['features.Armor Proficiency (All)'] != null ||
+         attrs['features.Armor Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
       }
     }
@@ -3242,8 +3174,8 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     for(attr in this.getChoices('shields')) {
       if(attr == 'None' ||
-         attrs['Shield Proficiency (All)'] != null ||
-         attrs['Shield Proficiency (' + attr + ')'] != null) {
+         attrs['features.Shield Proficiency (All)'] != null ||
+         attrs['features.Shield Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
       }
     }
