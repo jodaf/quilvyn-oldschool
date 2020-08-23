@@ -1530,7 +1530,7 @@ FirstEdition.WEAPONS = {
   'Voulge':'Category=2h Damage=2d4'
 };
 FirstEdition.CLASSES = {
-/*
+/* TODO
     - Assassin
     baseAttack = 'source <= 4 ? -1 : source <= 8 ? 1 : source <= 12 ? 4 : 6';
     - Cleric
@@ -1572,103 +1572,6 @@ FirstEdition.CLASSES = {
     - Thief
     baseAttack = '(source <= 8 ? -1 : 0) + Math.floor((source - 1) / 4) * 2';
 */
-/*
-    - Assassin
-    saveBreath = '16 - Math.floor((source - 1) / 4)';
-    saveDeath = '13 - Math.floor((source - 1) / 4)';
-    savePetrification = '12 - Math.floor((source - 1) / 4)';
-    saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
-    saveWand = '14 - Math.floor((source - 1) / 4) * 2';
-    - Bard/Cleric/Druid
-    saveBreath = '16 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
-    saveDeath = '10 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
-    savePetrification =
-      '13 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
-    saveSpell = '15 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
-    saveWand = '14 - Math.floor(source / 3) - Math.floor((source+5) / 12)';
-    - Fighter
-    saveBreath =
-      'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
-      'Math.floor((source - 9) / 2)';
-    saveDeath =
-      'source<=16 ? 14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 11) / 2)';
-    savePetrification =
-      'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 9) / 2)';
-    saveSpell =
-      'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 5) / 2)';
-    saveWand =
-      'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 7) / 2)';
-    - Illusionist/Magic User
-    saveBreath = '15 - Math.floor((source-1) / 5) * 2';
-    saveDeath = '14 - Math.floor((source-1)/5) - Math.floor((source-1)/10)';
-    savePetrification = '13 - Math.floor((source-1) / 5) * 2';
-    saveSpell = '12 - Math.floor((source-1) / 5) * 2';
-    saveWand = '11 - Math.floor((source-1) / 5) * 2';
-    - Monk
-    saveBreath = '16 - Math.floor((source - 1) / 4)';
-    saveDeath = '13 - Math.floor((source - 1) / 4)';
-    savePetrification = '12 - Math.floor((source - 1) / 4)';
-    saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
-    saveWand = '14 - Math.floor((source - 1) / 4) * 2';
-    - Paladin
-    if(FirstEdition.USE_OSRIC_RULES) {
-      saveBreath =
-        'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2 :'+
-        '2';
-      saveDeath =
-        'source<=16?12-Math.floor((source-1)/2)-Math.floor((source-1)/4) : 2';
-      savePetrification =
-        'source<=16?13-Math.floor((source-1)/2)-Math.floor((source-1)/4) : 2';
-      saveSpell =
-        'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source <= 18 ? 4 : 3';
-      saveWand =
-        'source<=16?14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'source<=18 ? 3 : 2';
-    } else {
-      saveBreath =
-        'source<=16?17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
-        'Math.floor((source - 9) / 2)';
-      saveDeath =
-        'source<=16?14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'Math.floor((source - 11) / 2)';
-      savePetrification =
-        'source<=16?15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'Math.floor((source - 9) / 2)';
-      saveSpell =
-        'source<=16?17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'Math.floor((source - 5) / 2)';
-      saveWand =
-        'source<=16?16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-        'Math.floor((source - 7) / 2)';
-    }
-    - Ranger
-    saveBreath =
-      'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4)*2:' +
-      'Math.floor((source - 9) / 2)';
-    saveDeath =
-      'source<=16 ? 14-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 11) / 2)';
-    savePetrification =
-      'source<=16 ? 15-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 9) / 2)';
-    saveSpell =
-      'source<=16 ? 17-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 5) / 2)';
-    saveWand =
-      'source<=16 ? 16-Math.floor((source-1)/2)-Math.floor((source-1)/4) : ' +
-      'Math.floor((source - 7) / 2)';
-    - Thief
-    saveBreath = '16 - Math.floor((source - 1) / 4)';
-    saveDeath = '13 - Math.floor((source - 1) / 4)';
-    savePetrification = '12 - Math.floor((source - 1) / 4)';
-    saveSpell = '15 - Math.floor((source - 1) / 4) * 2';
-    saveWand = '14 - Math.floor((source - 1) / 4) * 2';
- */
   'Assassin':
     'Require=' +
       '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
@@ -2207,10 +2110,10 @@ FirstEdition.abilityRules = function(rules) {
   );
   rules.defineRule('combatNotes.strengthAttackAdjustment',
     'strengthRow', '=', 'source <= 2 ? (source - 3) : ' +
-                        'source <= 7 ? null : Math.floor((source - 5) / 3)'
+                        'source <= 7 ? 0 : Math.floor((source - 5) / 3)'
   );
   rules.defineRule('combatNotes.strengthDamageAdjustment',
-    'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? null : ' +
+    'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? 0 : ' +
                         'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
   );
   rules.defineRule('loadLight',
@@ -2358,9 +2261,24 @@ FirstEdition.goodiesRules = function(rules) {
 FirstEdition.identityRules = function(
   rules, alignments, classes, genders, races
 ) {
-  SRD35.identityRules
-    (rules, alignments, classes, [], [], genders, races);
-  // No changes needed to the rules defined by SRD35 method
+  for(var alignment in alignments) {
+    rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
+  }
+  for(var clas in classes) {
+    rules.choiceRules(rules, 'Class', clas, classes[clas]);
+  }
+  for(var gender in genders) {
+    rules.choiceRules(rules, 'Gender', gender, genders[gender]);
+  }
+  for(var race in races) {
+    rules.choiceRules(rules, 'Race', race, races[race]);
+  }
+  rules.defineRule('casterLevel',
+    'casterLevelArcane', '=', null,
+    'casterLevelDivine', '+=', null
+  );
+  // TODO Does character level mean anything in 1st Ed?
+  rules.defineRule('level', /^levels\./, '+=', null);
 };
 
 /* Defines rules related to magic use. */
@@ -2371,8 +2289,14 @@ FirstEdition.magicRules = function(rules, schools, spells) {
 
 /* Defines rules related to character features and languages. */
 FirstEdition.talentRules = function(rules, features, languages) {
-  SRD35.talentRules(rules, [], features, languages, []);
-  // No changes needed to the rules defined by SRD35 method
+  for(var feature in features) {
+    rules.choiceRules(rules, 'Feature', feature, features[feature]);
+  }
+  for(var language in languages) {
+    rules.choiceRules(rules, 'Language', language, languages[language]);
+  }
+  SRD35.validAllocationRules
+    (rules, 'language', 'languageCount', 'Sum "^languages\\."');
 };
 
 /*
@@ -2620,7 +2544,6 @@ FirstEdition.classRules = function(
     'casterLevelArcane', '+=', null,
     'casterLevelDivine', '+=', null
   );
-  rules.defineRule('level', /^levels\./, '+=', null);
 
   var saves = {
     'Breath':saveBreath, 'Death':saveDeath, 'Petrification':savePetrification,
@@ -2634,8 +2557,7 @@ FirstEdition.classRules = function(
   }
 
   SRD35.featureListRules(rules, features, name, classLevel, false);
-  rules.defineSheetElement
-    (name + ' Features', 'FeaturesAndSkills/', null, '; ');
+  rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
   if(languages.length > 0)
@@ -2823,10 +2745,10 @@ FirstEdition.classRulesExtra = function(rules, name) {
             (name == 'Bard' && !FirstEdition.USE_OSRIC_RULES)) {
 
     if(name == 'Druid') {
-      rules.defineRule('languageCount', 'levels.Druid', '+=', '1');
+      rules.defineRule('languageCount', 'levels.Druid', '+', '1');
     } else {
       rules.defineRule('languageCount',
-        'levels.Bard', '+=', 'source >= 18 ? source - 7 : source >= 4 ? source - 2 - Math.floor((source-3) / 3) : 1'
+        'levels.Bard', '+', 'source >= 18 ? source - 7 : source >= 4 ? source - 2 - Math.floor((source-3) / 3) : 1'
       );
     }
     rules.defineRule("languages.Druids' Cant", 'levels.' + name, '=', '1');
@@ -2968,7 +2890,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.backstab',
       'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('languageCount', 'levels.Thief', '+=', '1');
+    rules.defineRule('languageCount', 'levels.Thief', '+', '1');
     rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
 
   }
@@ -3276,7 +3198,9 @@ FirstEdition.spellRules = function(
  */
 FirstEdition.weaponRules = function(rules, name, category, damage, range) {
   SRD35.weaponRules(rules, name, 0, category, damage, 20, 2, range);
-  // No changes needed to the rules defined by SRD35 method
+  delete rules.getChoices('notes')['weapons.' + name];
+  rules.defineChoice
+    ('notes', 'weapons.' + name + ':%V (%1 %2%3)' + (range ? ' R%5' : ''));
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
@@ -3289,8 +3213,8 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     for(attr in this.getChoices('armors')) {
       if(attr == 'None' ||
-         attrs['allowedArmors.All'] != null ||
-         attrs['allowedArmors.' + attr] != null) {
+         attrs['Armor Proficiency (All)'] != null ||
+         attrs['Armor Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
       }
     }
@@ -3302,10 +3226,10 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     var howMany = attrs.weaponProficiencyCount;
     for(attr in this.getChoices('weapons')) {
-      if(attrs['weaponProficiency.' + attr] == null) {
-        choices[choices.length] = attr;
-      } else {
+      if(attrs['weaponProficiency.' + attr] != null) {
         howMany--;
+      } else {
+        choices[choices.length] = attr;
       }
     }
     for( ; howMany > 0; howMany--) {
@@ -3318,13 +3242,29 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     for(attr in this.getChoices('shields')) {
       if(attr == 'None' ||
-         attrs['allowedShields.All'] != null ||
-         attrs['allowedShields.' + attr] != null) {
+         attrs['Shield Proficiency (All)'] != null ||
+         attrs['Shield Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
       }
     }
     attributes['shield'] = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
+  } else if(attribute == 'weapons') {
+    var howMany = 3;
+    attrs = this.applyRules(attributes);
+    choices = [];
+    for(attr in this.getChoices('weapons')) {
+      if(attrs['weapons.' + attr] != null) {
+        howMany--;
+      } else if(attrs['weaponProficiency.' + attr] != null) {
+        choices[choices.length] = attr;
+      }
+    }
+    for(var i = 0; i < howMany; i++) {
+      var index = QuilvynUtils.random(0, choices.length - 1);
+      attributes['weapons.' + choices[index]] = 1;
+      choices.splice(index, 1);
+    }
   } else {
     SRD35.randomizeOneAttribute.apply(this, [attributes, attribute]);
   }
