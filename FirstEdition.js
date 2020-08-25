@@ -151,102 +151,147 @@ FirstEdition.ARMORS = {
 FirstEdition.FEATURES = {
   // Class
   'Alert':'Section=combat Note="Surprised 1/6, surprise 1/2"',
-  'Assassination':'Section=combat Note="Strike kills surprised target %V% - 5%/2 foe levels"',
-  'Attract Followers':'Section=feature Note="May build stronghold and attract followers"',
-  'Attract Followers':'Section=feature Note="May build stronghold and attract followers"',
+  'Assassination':
+    'Section=combat Note="Strike kills surprised target %V% - 5%/2 foe levels"',
+  'Attract Followers':
+    'Section=feature Note="May build stronghold and attract followers"',
   'Aware':'Section=combat Note="Surprised %V%"',
-  'Backstab':'Section=combat Note="+4 melee attack/x%V damage when surprising"',
+  'Backstab':
+    'Section=combat Note="+4 melee attack, x%V damage when surprising"',
   'Band Of Followers':'Section=feature Note="Will attract followers"',
-  'Bonus Cleric Experience':'Section=ability Note="10% added to awarded experience"',
+  'Bonus Cleric Experience':
+    'Section=ability Note="10% added to awarded experience"',
   'Bonus Cleric Spells':'Section=magic Note="%1/%2/%3/%4"',
-  'Bonus Druid Experience':'Section=ability Note="10% added to awarded experience"',
+  'Bonus Druid Experience':
+    'Section=ability Note="10% added to awarded experience"',
   'Bonus Druid Spells':'Section=magic Note="%1/%2/%3/%4"',
-  'Bonus Fighter Experience':'Section=ability Note="10% added to awarded experience"',
+  'Bonus Fighter Experience':
+    'Section=ability Note="10% added to awarded experience"',
   'Bonus Languages':'Section=feature Note="+%V Language Count"',
-  'Bonus Magic User Experience':'Section=ability Note="10% added to awarded experience"',
-  'Bonus Paladin Experience':'Section=ability Note="10% added to awarded experience"',
-  'Bonus Ranger Experience':'Section=feature Note="10% added to awarded experience"',
-  'Bonus Thief Experience':'Section=ability Note="10% added to awarded experience"',
-  'Charming Music':'Section=magic Note="R40\' %V% chance of charming creatures while playing (save 1 rd)"',
-  'Clear Mind':'Section=save Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
+  'Bonus Magic User Experience':
+    'Section=ability Note="10% added to awarded experience"',
+  'Bonus Paladin Experience':
+    'Section=ability Note="10% added to awarded experience"',
+  'Bonus Ranger Experience':
+    'Section=feature Note="10% added to awarded experience"',
+  'Bonus Thief Experience':
+    'Section=ability Note="10% added to awarded experience"',
+  'Charming Music':
+    'Section=magic Note="R40\' %V% chance of charming creatures while playing (save 1 rd)"',
+  'Clear Mind':
+    'Section=save Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
   'Cleric Spell Failure':'Section=magic Note="%V%"',
-  'Controlled Movement':'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
+  'Controlled Movement':
+    'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
   'Cure Disease':'Section=magic Note="<i>Cure Disease</i> %V/wk"',
-  'Defensive Song':'Section=magic Note="Counteract song attacks, soothe shriekers"',
+  'Defensive Song':
+    'Section=magic Note="Counteract song attacks, soothe shriekers"',
   'Detect Evil':'Section=magic Note="R60\' <i>Detect Evil</i> at will"',
   'Diamond Body':'Section=save Note="Immune to poison"',
-  'Discriminating':'Section=feature Note="Must not associate w/non-good characters"',
+  'Discriminating':
+    'Section=feature Note="Must not associate w/non-good characters"',
   'Disguise':'Section=feature Note="92%+ chance of successful disguise"',
   'Divine Health':'Section=save Note="Immune to disease"',
-  'Dodge Missiles':'Section=combat Note="Petrification save to dodge non-magical missiles"',
-  'Eldritch Craft':'Section=magic Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
+  'Dodge Missiles':
+    'Section=combat Note="Petrification save to dodge non-magical missiles"',
+  'Eldritch Craft':
+    'Section=magic Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
   'Eldritch Power':'Section=magic Note="May use <i>Enchant An Item</i> spell"',
-  'Evasion':'Section=save Note="Successful save yields no damage instead of half"',
-  'Favored Enemy':'Section=combat Note="+%V melee damage vs. evil humanoids and giantish foes"',
+  'Evasion':
+    'Section=save Note="Successful save yields no damage instead of half"',
+  'Favored Enemy':
+    'Section=combat Note="+%V melee damage vs. evil humanoids and giantish foes"',
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
   'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
-  'Fighting The Unskilled':'Section=combat Note="%V attacks/rd vs. creatures with lt 1d8 hit die"',
+  'Fighting The Unskilled':
+    'Section=combat Note="%V attacks/rd vs. creatures with lt 1d8 hit die"',
   'Flurry Of Blows':'Section=combat Note="%1 unarmed attacks per rd"',
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
-  'Killing Blow':'Section=combat Note="%1+foe AC % chance of killing w/unarmed strike"',
-  'Lay On Hands':'Section=magic Note="Heal %V HP 1/dy"',
-  'Legend Lore':'Section=feature Note="%V% chance of info about legendary item, person, place"',
+  'Killing Blow':
+    'Section=combat Note="%1+foe AC % chance of killing w/unarmed strike"',
+  'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
+  'Legend Lore':
+    'Section=feature Note="%V% chance of info about legendary item, person, place"',
   'Loner':'Section=feature Note="Will not work with gt 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
-  'Monk Damage Adjustment':'Section=combat Note="+%V damage"',
-  'Nature Knowledge':'Section=feature Note="Identify plant and animal types, determine water purity"',
-  'Nonmaterialist':'Section=feature Note="May not own gt 10 magic items, including 1 armor suit and 1 shield"',
-  'Philanthropist':'Section=feature Note="Must donate 10% of gross income/100% net to lawful good causes"',
-  'Poetic Inspiration':'Section=magic Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
-  'Protection From Evil':'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
+  'Nature Knowledge':
+    'Section=feature Note="Identify plant and animal types, determine water purity"',
+  'Nonmaterialist':
+    'Section=feature Note="Owns le 10 magic items w/1 armor suit and 1 shield"',
+  'Philanthropist':
+    'Section=feature Note="Donate 10% of gross income, 100% net to LG causes"',
+  'Poetic Inspiration':
+    'Section=magic Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
+  'Protection From Evil':
+    'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
-  'Read Scroll':'Section=magic Note="Cast arcane spells from scrolls"',
   'Read Scrolls':'Section=magic Note="Cast arcane spells from scrolls"',
   'Resist Fire':'Section=save Note="+2 vs. fire"',
   'Resist Lightning':'Section=save Note="+2 vs. lightning"',
   'Scrying':'Section=magic Note="May use scrying magic items"',
   'Selective':'Section=feature Note="Must employ only good henchmen"',
-  'Shapeshift':'Section=magic Note="Change into natural animal 3/dy, curing d6x10 HP"',
+  'Shapeshift':
+    'Section=magic Note="Change into natural animal 3/dy, curing d6x10 HP"',
   'Slow Fall':'Section=save Note="No damage from fall of %1 w/in %2\' of wall"',
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
-  'Spiritual':'Section=feature Note="Must donate net income to religious institution"',
+  'Spiritual':
+    'Section=feature Note="Must donate net income to religious institution"',
   'Steel Mind':'Section=save Note="Resist telepathy and mind blast as int 18"',
-  'Stunning Blow':'Section=combat Note="Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5"',
-  'Summon Warhorse':'Section=feature Note="Call warhorse w/enhanced features"',
-  'Track':'Section=feature Note="90% rural, 65% urban or dungeon base chance creature tracking"',
-  'Travel Light':'Section=feature Note="Will not possess more than can be carried"',
-  'Turn Undead':'Section=combat Note="Turn 2d6, destroy (good) or control (evil) d6+6 undead creatures"',
-  'Unburdened':'Section=feature Note="May not own gt 5 magic items"',
+  'Stunning Blow':
+     'Section=combat Note="Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5"',
+  'Summon Warhorse':
+    'Section=feature Note="Call warhorse w/enhanced features"',
+  'Track':
+    'Section=feature Note="90% rural, 65% urban or dungeon base chance creature tracking"',
+  'Travel Light':
+    'Section=feature Note="Will not possess more than can be carried"',
+  'Turn Undead':
+    'Section=combat Note="Turn 2d6, destroy (good) or control (evil) d6+6 undead creatures"',
+  'Unburdened':'Section=feature Note="Own le 5 magic items"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
-  'Wilderness Movement':'Section=feature Note="Normal, untrackable move through undergrowth"',
+  'Wilderness Movement':
+     'Section=feature Note="Normal, untrackable move through undergrowth"',
   // Race
-  'Accurate':'Section=combat Note="+3 attack with sling or bow"',
-  'Bow Precision':'Section=combat Note="+1 attack w/bows"',
+  'Bow Precision':
+    'Section=combat Note="+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
-  'Detect Secret Doors':'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
+  'Deadly Aim':
+    'Section=combat Note="+3 Compound Long Bow Attack Modifier/+3 Compound Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
+  'Detect Secret Doors':
+    'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
   'Direction Sense':'Section=feature Note="Determine North underground 50%"',
-  'Dwarf Ability Adjustment':'Section=ability Note="+1 Constitution/-1 Charisma"',
+  'Dwarf Ability Adjustment':
+    'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
   'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
-  'Elf Ability Adjustment':'Section=ability Note="+1 Dexterity/-1 Constitution"',
-  'Gnome Dodge':'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
+  'Elf Ability Adjustment':
+    'Section=ability Note="+1 Dexterity/-1 Constitution"',
+  'Gnome Dodge':
+    'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
   'Gnome Emnity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
-  'Half Orc Ability Adjustment':'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
-  'Halfling Ability Adjustment':'Section=ability Note="+1 Dexterity/-1 Strength"',
-  'Infravision':'Section=feature Note="60\' vision in darkness"',
-  'Know Depth':'Section=feature Note="Determine approximate depth underground %V%"',
+  'Half Orc Ability Adjustment':
+    'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
+  'Halfling Ability Adjustment':
+    'Section=ability Note="+1 Dexterity/-1 Strength"',
+  'Infravision':
+    'Section=feature Note="60\' vision in darkness"',
+  'Know Depth':
+    'Section=feature Note="Determine approximate depth underground %V%"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
-  'Resist Magic':'Section=save Note="+%V vs. spell or wand"',
+  'Resist Magic':'Section=save Note="+%V vs. Spell or Wand"',
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
-  'Sense Construction':'Section=feature Note="Detect new construction 75%, sliding walls 66% w/in 10\'"',
-  'Sense Hazard':'Section=feature Note="Detect unsafe wall, ceiling, or floor 70% w/in 10\'"',
+  'Sense Construction':
+    'Section=feature Note="Detect new construction 75%, sliding walls 66% w/in 10\'"',
+  'Sense Hazard':
+    'Section=feature Note="Detect unsafe wall, ceiling, or floor 70% w/in 10\'"',
   'Sense Slope':'Section=feature Note="Detect slope and grade %V% w/in 10\'"',
   'Slow':'Section=ability Note="-30 Speed"',
   'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
-  'Sword Precision':'Section=combat Note="+1 attack w/longsword and short sword"',
+  'Sword Precision':
+    'Section=combat Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
   'Trap Sense':'Section=feature Note="Detect stonework traps 50% w/in 10\'"'
 };
 FirstEdition.GENDERS = Object.assign({}, SRD35.GENDERS);
@@ -314,8 +359,8 @@ FirstEdition.RACES = {
       '"constitution >= 10","dexterity >= 8","intelligence >= 6",' +
       '"strength >= 6","strength <= 17","wisdom <= 17" ' +
     'Features=' +
-      '"1:Halfling Ability Adjustment",1:Accurate,"1:Resist Magic",' +
-      '1:Infravision,"1:Resist Poison",1:Stealthy ' +
+      '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
+      '"1:Resist Magic","1:Resist Poison",1:Stealthy ' +
     'Languages=' +
       'Common,Dwarfish,Gnome,Goblin,Halfling,Orcish',
   'Human':
@@ -1955,7 +2000,7 @@ FirstEdition.OSRIC_RULE_EDITS = {
     // New
     'Heavy War Hammer':'Category=1h Damage=d6+1', // Best guess on category
     'Lance':'Category=2h Damage=2d4+1',
-    'Light War Hammer':'Cateory=Li Damage=d4+1',
+    'Light War Hammer':'Category=Li Damage=d4+1',
     'Pole Arm':'Category=2h Damage=d6+1'
   }
 };
@@ -1988,7 +2033,11 @@ FirstEdition.editedRules = function(base, type) {
         var values =
           // TODO hack to make getAttrValueArray work with +=
           QuilvynUtils.getAttrValueArray(FirstEdition.OSRIC_RULE_EDITS[type][a].replaceAll('+=', '='), attr);
-        var valuesText = '"' + values.join('","') + '"';
+        for(var i = 0; i < values.length; i++) {
+          if(!(values[i] + '').match(/^[-+]?\d+$/))
+            values[i] = '"' + values[i] + '"';
+        }
+        var valuesText = values.join(',');
         if(op == '=')
           // getAttrValue[Array] will pick up the last value, so appending the
           // replacement value is sufficient
@@ -2901,9 +2950,6 @@ FirstEdition.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('combatNotes.killingBlow.1', 'levels.Monk', '=', 'source - 7');
-    rules.defineRule('combatNotes.monkDamageAdjustment',
-      'levels.Monk', '=', 'Math.floor(source / 2)'
-    );
     rules.defineRule
       ('combatNotes.strengthAttackAdjustment', 'levels.Monk', '*', '0');
     rules.defineRule
