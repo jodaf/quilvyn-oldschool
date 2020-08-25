@@ -255,13 +255,13 @@ FirstEdition.FEATURES = {
      'Section=feature Note="Normal, untrackable move through undergrowth"',
   // Race
   'Bow Precision':
-    'Section=combat Note="+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
+    'Section=combat Note="+1 Composite Long Bow Attack Modifier/+1 Composite Short Bow Attack Modifier/+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
   'Deadly Aim':
-    'Section=combat Note="+3 Compound Long Bow Attack Modifier/+3 Compound Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
+    'Section=combat Note="+3 Composite Long Bow Attack Modifier/+3 Composite Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Direction Sense':'Section=feature Note="Determine North underground 50%"',
+  'Direction Sense':'Section=feature Note="50% Determine North underground%"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
@@ -278,21 +278,21 @@ FirstEdition.FEATURES = {
   'Infravision':
     'Section=feature Note="60\' vision in darkness"',
   'Know Depth':
-    'Section=feature Note="Determine approximate depth underground %V%"',
+    'Section=feature Note="%V% Determine approximate depth underground"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
   'Resist Magic':'Section=save Note="+%V vs. Spell or Wand"',
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
   'Sense Construction':
-    'Section=feature Note="Detect new construction 75%, sliding walls 66% w/in 10\'"',
+    'Section=feature Note="R10\' 75% Detect new construction, 66% sliding walls"',
   'Sense Hazard':
-    'Section=feature Note="Detect unsafe wall, ceiling, or floor 70% w/in 10\'"',
-  'Sense Slope':'Section=feature Note="Detect slope and grade %V% w/in 10\'"',
+    'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
+  'Sense Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
   'Slow':'Section=ability Note="-30 Speed"',
   'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
   'Sword Precision':
     'Section=combat Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
-  'Trap Sense':'Section=feature Note="Detect stonework traps 50% w/in 10\'"'
+  'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
 };
 FirstEdition.GENDERS = Object.assign({}, SRD35.GENDERS);
 FirstEdition.LANGUAGES = {
@@ -324,7 +324,7 @@ FirstEdition.RACES = {
       '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
       '"intelligence >= 8" ' +
     'Features=' +
-      '"1:Elf Ability Adjustment","1:Bow Precision","1:Detect Secret Doors",' +
+      '"1:Bow Precision","1:Detect Secret Doors","1:Elf Ability Adjustment",' +
       '1:Infravision,"1:Resist Charm","1:Resist Sleep",1:Stealthy,' +
       '"1:Sword Precision" ' +
     'Languages=' +
@@ -357,7 +357,7 @@ FirstEdition.RACES = {
   'Halfling':
     'Require=' +
       '"constitution >= 10","dexterity >= 8","intelligence >= 6",' +
-      '"strength >= 6","strength <= 17","wisdom <= 17" ' +
+      '"strength >= 6","wisdom <= 17" ' +
     'Features=' +
       '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
       '"1:Resist Magic","1:Resist Poison",1:Stealthy ' +
@@ -1960,8 +1960,6 @@ FirstEdition.OSRIC_RULE_EDITS = {
   'Race':{
     'Dwarf':
       'Features+=Slow',
-    'Elf':
-      'Require+="constitution <= 17"',
     'Gnome':
       'Features+=Slow',
     'Halfling':
@@ -2057,14 +2055,15 @@ FirstEdition.editedRules = function(base, type) {
 FirstEdition.abilityRules = function(rules) {
 
   for(var ability in SRD35.ABILITIES) {
-    rules.defineRule(ability, ability.toLowerCase() + 'Adjust', '+', null);
+    ability = ability.toLowerCase();
+    rules.defineRule(ability, ability + 'Adjust', '+', null);
   }
 
   // Charisma
   rules.defineRule('abilityNotes.charismaLoyaltyAjustment',
     'charisma', '=',
     'source <= 8 ? source * 5 - 45 : source <= 13 ? null : ' +
-    'source <= 15 ? source * 5 - 65 : (source * 10 - 140)'
+    'source <= 15 ? source * 10 - 135 : (source * 10 - 140)'
   );
   rules.defineRule('maximumHenchmen',
     'charisma', '=',
@@ -2467,6 +2466,7 @@ FirstEdition.identityRules = function(
   rules.defineRule('spellsPerDay.D2', 'bonusDruidSpells.2', '+', null);
   rules.defineRule('spellsPerDay.D3', 'bonusDruidSpells.3', '+', null);
   rules.defineRule('spellsPerDay.D4', 'bonusDruidSpells.4', '+', null);
+  rules.defineRule('warriorLevel', '', '=', '0');
   SRD35.validAllocationRules
     (rules, 'weaponProficiency', 'weaponProficiencyCount', 'Sum "^weaponProficiency\\."');
   rules.defineRule('validationNotes.weaponProficiencyAllocation.2',
@@ -2903,7 +2903,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
       'levels.Fighter', '=', '-Math.floor((source - 1) / 4)'
     );
     rules.defineRule('save.Breath', 'fighterBreathSaveAdjustment', '+', null);
-    rules.defineRule('warriorLevel', 'levels.Fighter', '+=', null);
+    rules.defineRule('warriorLevel', 'levels.Fighter', '+', null);
 
   } else if(name == 'Illusionist') {
 
@@ -2995,7 +2995,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('turningLevel',
       'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
     );
-    rules.defineRule('warriorLevel', 'levels.Paladin', '+=', null);
+    rules.defineRule('warriorLevel', 'levels.Paladin', '+', null);
 
   } else if(name == 'Ranger') {
 
@@ -3003,7 +3003,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
       'levels.Ranger', '+', 'Math.floor(source / 7) * 0.5'
     );
     rules.defineRule('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
-    rules.defineRule('warriorLevel', 'levels.Ranger', '+=', null);
+    rules.defineRule('warriorLevel', 'levels.Ranger', '+', null);
 
   } else if(name == 'Thief') {
 
@@ -3250,8 +3250,8 @@ FirstEdition.ruleNotes = function() {
     '    limit of level 10.\n' +
     '  </li>\n' +
     '  <li>\n' +
-    '    Quilvyn generally uses the OSRIC names and effects for spells, rather\n' +
-    '    than those found in the 1E PHB.\n',
+    '    Quilvyn generally uses the OSRIC names and effects for spells,\n' +
+    '    rather than those found in the 1E PHB.\n',
     '  </li>\n' +
     '  <li>\n' +
     '    The OSRIC rules are unclear as to whether or not the Fighting the\n' +
@@ -3269,6 +3269,10 @@ FirstEdition.ruleNotes = function() {
     '  </li>\n' +
     '  <li>\n' +
     '    Quilvyn does not compute class level from experience points.\n' +
+    '  </li>\n' +
+    '  <li>\n' +
+    '    Quilvyn does not note Halfling characters with a strength of 18,\n' +
+    '    nor (OSRIC rules) Elf characters with a constitution of 18.\n' +
     '  </li>\n' +
     '  <li>\n' +
     '    Quilvyn does not report the chance of extraordinary success on\n' +
