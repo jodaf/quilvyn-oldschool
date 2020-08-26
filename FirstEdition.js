@@ -106,6 +106,7 @@ function FirstEdition() {
   rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
   rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
   rules.defineSheetElement('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+  rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
   rules.defineSheetElement
     ('Understand Spell', 'Spells Per Day', '<b>%N</b>: %V%');
   rules.defineSheetElement('SpellsPerLevel', 'Spells Per Day', '%V', '/');
@@ -232,7 +233,7 @@ FirstEdition.FEATURES = {
   'Scrying':'Section=magic Note="May use scrying magic items"',
   'Selective':'Section=feature Note="Must employ only good henchmen"',
   'Shapeshift':
-    'Section=magic Note="Change into natural animal 3/dy, curing d6x10 HP"',
+    'Section=magic Note="Change into natural animal 3/dy, healing d6x10 HP"',
   'Slow Fall':'Section=save Note="No damage from fall of %1 w/in %2\' of wall"',
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
@@ -252,7 +253,7 @@ FirstEdition.FEATURES = {
   'Unburdened':'Section=feature Note="Own le 5 magic items"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
   'Wilderness Movement':
-     'Section=feature Note="Normal, untrackable move through undergrowth"',
+     'Section=ability Note="Normal, untrackable move through undergrowth"',
   // Race
   'Bow Precision':
     'Section=combat Note="+1 Composite Long Bow Attack Modifier/+1 Composite Short Bow Attack Modifier/+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
@@ -1688,7 +1689,7 @@ FirstEdition.CLASSES = {
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
-      '"charism >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
+      '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
       '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
       '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
       '"3:Wilderness Movement","7:Fey Immunity",7:Shapeshift ' +
@@ -1736,7 +1737,7 @@ FirstEdition.CLASSES = {
       '"2:Fighting The Unskilled","9:Attract Followers"',
   'Illusionist':
     'Require="dexterity >= 16","intelligence >= 15" ' +
-    'HitDie=d4 Attack=-1,2,0 WeaponProficiency=1,6,5 ' +
+    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
       '"10:Eldritch Craft","12:Attract Followers" ' +
@@ -1770,7 +1771,7 @@ FirstEdition.CLASSES = {
       'Vision;Arcane Spells Level 1"',
   'Magic User':
     'Require="dexterity >= 6","intelligence >= 9" ' +
-    'HitDie=d4 Attack=-1,2,0 WeaponProficiency=1,6,5 ' +
+    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
@@ -1853,13 +1854,13 @@ FirstEdition.CLASSES = {
       '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
       '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
     'HitDie=d10 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
-    'Breath=14,1,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 Wand=14,1.5,2 ' +
+    'Breath=15,1.5,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 Wand=14,1.5,2 ' +
     'Features=' +
-      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)"' +
+      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/wisdom >= 16 ? 1:Bonus Paladin Experience",' +
       '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
       '"1:Fighting The Unskilled","1:Lay On Hands",1:Nonmaterialist,' +
-      '1:Philanthropist","1:Protection From Evil","3:Turn Undead",' +
+      '1:Philanthropist,"1:Protection From Evil","3:Turn Undead",' +
       '"4:Summon Warhorse" ' +
     'CasterLevelDivine="levels.Paladin<=8 ? null : Math.min(levels.Paladin - 8, 8)" ' +
     'SpellAbility=wisdom ' +
@@ -1873,7 +1874,7 @@ FirstEdition.CLASSES = {
       '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
       '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
     'HitDie=d8 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
-    'Breath=17,1,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
+    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
@@ -2032,20 +2033,21 @@ FirstEdition.editedRules = function(base, type) {
         var values =
           // TODO hack to make getAttrValueArray work with +=
           QuilvynUtils.getAttrValueArray(FirstEdition.OSRIC_RULE_EDITS[type][a].replaceAll('+=', '='), attr);
-        for(var i = 0; i < values.length; i++) {
-          if(!(values[i] + '').match(/^[-+]?\d+$/))
-            values[i] = '"' + values[i] + '"';
+        for(var j = 0; j < values.length; j++) {
+          if(!(values[j] + '').match(/^[-+]?\d+$/))
+            values[j] = '"' + values[j] + '"';
         }
         var valuesText = values.join(',');
-        if(op == '=')
-          // getAttrValue[Array] will pick up the last value, so appending the
-          // replacement value is sufficient
+        if(op == '=') {
+          // getAttrValue[Array] will pick up the last definition, so appending
+          // the replacement is sufficient
           result[a] += ' ' + attr + '=' + valuesText;
-        else if(op == '+=')
+        } else if(op == '+=') {
           result[a] =
             result[a].replace(attr + '=', attr + '=' + valuesText + ',');
-        else if(op == '-=')
-          ; // TODO implement if needed
+        } else if(op == '-=') {
+          // TODO implement if needed
+        }
       }
     }
   }
@@ -2274,10 +2276,18 @@ FirstEdition.identityRules = function(
     rules.choiceRules(rules, 'Race', race, races[race]);
   }
 
+  rules.defineRule('classBreathSaveAdjustment',
+    'levels.Fighter', '=', 'source >= 17 ? -2 : -Math.floor((source - 1) / 4)',
+    'levels.Paladin', '=', 'source >= 17 ? -2 : -Math.floor((source - 1) / 4)',
+    'levels.Ranger', '=', 'source >= 17 ? -2 : -Math.floor((source - 1) / 4)'
+  );
   rules.defineRule('classSaveAdjustment',
-    'levels.Bard', '=', 'source >= 19 ? 2 : source >= 7 ? 1 : null',
-    'levels.Cleric', '=', 'source >= 19 ? 2 : source >= 7 ? 1 : null',
-    'levels.Druid', '=', 'source >= 19 ? 2 : source >= 7 ? 1 : null'
+    'levels.Bard', '=', 'source >= 19 ? -2 : source >= 7 ? -1 : null',
+    'levels.Cleric', '=', 'source >= 19 ? -2 : source >= 7 ? -1 : null',
+    'levels.Druid', '=', 'source >= 19 ? -2 : source >= 7 ? -1 : null',
+    'levels.Fighter', '=', 'source >= 17 ? 1 : null',
+    'levels.Paladin', '=', 'source >= 17 ? 1 : null',
+    'levels.Ranger', '=', 'source >= 17 ? 1 : null'
   );
   rules.defineRule('casterLevel',
     'casterLevelArcane', '=', null,
@@ -2326,6 +2336,7 @@ FirstEdition.identityRules = function(
       'classSaveAdjustment', '+', null
     );
   }
+  rules.defineRule('save.Breath', 'classBreathSaveAdjustment', '+', null);
   rules.defineRule('save.Spell', 'saveNotes.resistMagic', '+', null);
   rules.defineRule('save.Wand', 'saveNotes.resistMagic', '+', null);
   rules.defineRule
@@ -2721,7 +2732,7 @@ FirstEdition.classRules = function(
   };
   for(var save in saves) {
     rules.defineRule('class' + save + 'Bonus',
-      classLevel, '+=', saves[save][0] + ' - Math.floor((source - 1) / ' + saves[save][2] + ') * ' + saves[save][1]
+      classLevel, '+=', saves[save][0] + ' - Math.floor(Math.floor((source - 1) / ' + saves[save][2] + ') * ' + saves[save][1] + ')'
     );
   }
 
@@ -2898,12 +2909,8 @@ FirstEdition.classRulesExtra = function(rules, name) {
   } else if(name == 'Fighter') {
 
     rules.defineRule('attacksPerRound',
-      'levels.Fighter', '+', 'Math.floor(source / 6) * 0.5'
+      'levels.Fighter', '+', 'source < 7 ? null : source < 13 ? 0.5 : 1'
     );
-    rules.defineRule('fighterBreathSaveAdjustment',
-      'levels.Fighter', '=', '-Math.floor((source - 1) / 4)'
-    );
-    rules.defineRule('save.Breath', 'fighterBreathSaveAdjustment', '+', null);
     rules.defineRule('warriorLevel', 'levels.Fighter', '+', null);
 
   } else if(name == 'Illusionist') {
@@ -2922,14 +2929,14 @@ FirstEdition.classRulesExtra = function(rules, name) {
       );
     }
     rules.defineRule('intelligenceRow',
-      'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 14 ? 3 : source <= 16 ? 4 : (source - 13)',
-      'levels.Magic User', '?', null
+      'levels.Magic User', '?', null,
+      'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 16 ? 3 : (source - 13)'
     );
     rules.defineRule('understandSpell',
       'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
     );
     rules.defineRule('maximumSpellsPerLevel',
-      'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? -1 : source <= 3 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
+      'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? 1 : source <= 3 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
     );
     rules.defineRule
       ('minimumSpellsPerLevel', 'intelligenceRow', '=', 'source + 4');
@@ -2981,11 +2988,11 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
     if(FirstEdition.USE_OSRIC_RULES) {
       rules.defineRule('attacksPerRound',
-        'levels.Paladin', '+', 'Math.floor(source / 7) * 0.5'
+        'levels.Paladin', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
       );
     } else {
       rules.defineRule('attacksPerRound',
-        'levels.Paladin', '+', 'Math.floor(source / 6) * 0.5'
+        'levels.Paladin', '+', 'source < 7 ? null : source < 13 ? 0.5 : 1'
       );
     }
     rules.defineRule('magicNotes.cureDisease',
@@ -2993,6 +3000,9 @@ FirstEdition.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('magicNotes.layOnHands', 'levels.Paladin', '=', '2 * source');
+    rules.defineRule('save.Breath', 'levels.Paladin', '^', '2');
+    rules.defineRule('save.Death', 'levels.Paladin', '^', '2');
+    rules.defineRule('save.Petrification', 'levels.Paladin', '^', '2');
     rules.defineRule('turningLevel',
       'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
     );
@@ -3001,7 +3011,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
   } else if(name == 'Ranger') {
 
     rules.defineRule('attacksPerRound',
-      'levels.Ranger', '+', 'Math.floor(source / 7) * 0.5'
+      'levels.Ranger', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
     );
     rules.defineRule('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
     rules.defineRule('warriorLevel', 'levels.Ranger', '+', null);
@@ -3267,6 +3277,9 @@ FirstEdition.ruleNotes = function() {
     '<ul>\n' +
     '  <li>\n' +
     '    Quilvyn does not note racial restrictions on class and level.\n' +
+    '  </li>\n' +
+    '  <li>\n' +
+    '    Quilvyn does not note class restrictions on weapon choice.\n' +
     '  </li>\n' +
     '  <li>\n' +
     '    Quilvyn does not compute class level from experience points.\n' +
