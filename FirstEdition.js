@@ -1608,12 +1608,13 @@ FirstEdition.CLASSES = {
   'Assassin':
     'Require=' +
       '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
-    '"intelligence >= 11","strength >= 12" ' +
+      '"intelligence >= 11","strength >= 12" ' +
     'HitDie=d6 Attack=-1,2,4 WeaponProficiency=3,4,2 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)","1:Shield Proficiency (All)",' +
-      '1:Assassination,1:Backstab,1:Disguise,"9:Extra Languages",' +
+      '1:Assassination,1:Backstab,1:Disguise,' +
+      '"intelligence >= 15? 9:Bonus Languages",' +
       '"12:Read Scrolls"',
   'Bard':
     'Require=' +
@@ -1659,7 +1660,7 @@ FirstEdition.CLASSES = {
       'C4:7=1;8=2;10=3;13=4;14=5;16=6;18=7;20=8;21=9,' +
       'C5:9=1;10=2;14=3;15=4;16=5;18=6;20=7;21=8;22=9,' +
       'C6:11=1;12=2;16=3;18=4;20=5;21=6;23=7;24=8;26=9,' +
-      'C7:16=1;19=2;22=3;25=4;27=5;28=6;29=7" ' +
+      'C7:16=1;19=2;22=3;25=4;27=5;28=6;29=7 ' +
     'Spells=' +
       '"C1:Bless;Command;Create Water;Cure Light Wounds;Detect Evil;' +
       'Detect Magic;Light;Protection From Evil;Purify Food And Drink;' +
@@ -1903,7 +1904,7 @@ FirstEdition.OSRIC_RULE_EDITS = {
   'Class':{
     'Assassin':
       'Require+=' +
-        '"intelligence >= 11","strength >= 12","wisdom >= 6" ' +
+        '"wisdom >= 6" ' +
       'WeaponProficiency=3,4,3',
     'Cleric':
       'Require+=' +
@@ -2273,7 +2274,7 @@ FirstEdition.identityRules = function(
     rules.choiceRules(rules, 'Race', race, races[race]);
   }
 
-  rules.defineRule('bardClericDruidSaveAdjustment',
+  rules.defineRule('classSaveAdjustment',
     'levels.Bard', '=', 'source >= 19 ? 2 : source >= 7 ? 1 : null',
     'levels.Cleric', '=', 'source >= 19 ? 2 : source >= 7 ? 1 : null',
     'levels.Druid', '=', 'source >= 19 ? 2 : source >= 7 ? 1 : null'
@@ -2322,7 +2323,7 @@ FirstEdition.identityRules = function(
   }) {
     rules.defineRule('save.' + save,
       'class' + save + 'Bonus', '=', null,
-      'bardClericDruidSaveAdjustment', '+', null
+      'classSaveAdjustment', '+', null
     );
   }
   rules.defineRule('save.Spell', 'saveNotes.resistMagic', '+', null);
@@ -2383,7 +2384,7 @@ FirstEdition.identityRules = function(
       'source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
     );
     rules.defineRule('skills.Hear Noise',
-      'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + 10'
+      'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + (source >= 15 ? 15 : 10)'
     );
     rules.defineRule('skills.Hide In Shadows',
       'thiefSkillLevel', '=',
@@ -2394,8 +2395,8 @@ FirstEdition.identityRules = function(
     );
     rules.defineRule('skills.Move Quietly',
       'thiefSkillLevel', '=',
-      'source <= 4 ? source*6+9 : source <= 7 ? source*7+5 : ' +
-      'Math.min(source*8-2, 99)',
+      'source <= 4 ? source*6+9 : source <= 6 ? source*7+5 : ' +
+      'source == 7 ? 55 : Math.min(source*8-2, 99)',
       'dexterity', '+',
       'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
     );
@@ -2408,7 +2409,7 @@ FirstEdition.identityRules = function(
     rules.defineRule('skills.Pick Pockets',
       'thiefSkillLevel', '=',
       'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
-      'Math.min(source*5+40, 125)',
+      'source <= 15 ? source*5+40 : 125',
       'dexterity', '+',
       'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null',
       'levels.Monk', '*', '0'
@@ -2710,7 +2711,7 @@ FirstEdition.classRules = function(
       (rules, 'validation', prefix + 'Class', classLevel, requires);
 
   rules.defineRule('baseAttack',
-    classLevel, '+', attack[0] + ' + Math.floor(source / ' + attack[1] + ') * ' + attack[2],
+    classLevel, '+', attack[0] + ' + Math.floor((source - 1) / ' + attack[2] + ') * ' + attack[1],
     'classBaseAttackAdjustment', '+', null
   );
 
@@ -2726,12 +2727,12 @@ FirstEdition.classRules = function(
 
   SRD35.featureListRules(rules, features, name, classLevel, false);
   for(var i = 0; i < features.length; i++) {
-    if(features[i].match(/Armor Proficiency \(.*\//)) {
+    if(features[i].match(/Armor Proficiency.*\//)) {
       var armors =
         features[i].replace(/^.*\(/, '').replace(/\)$/, '').split('/');
       for(var j = 0; j < armors.length; j++) {
         rules.defineRule('features.Armor Proficiency (' + armors[j] + ')',
-          'features.' + features[i], '=', '1'
+          prefix + 'Features.' + features[i].replace(/^\d+:/, ''), '=', '1'
         );
       }
     }
@@ -2753,7 +2754,7 @@ FirstEdition.classRules = function(
     'levels.' + name, '^=', weaponProficiency[2]
   );
 
-  if(spellsPerDay.length >= 0) {
+  if(spellsPerDay.length > 0) {
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
@@ -2843,7 +2844,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
       'levels.Assassin', '+=', '2 + Math.floor((source - 1) / 4)'
     );
     rules.defineRule('featureNotes.bonusLanguages',
-      'intelligence', '=', 'source < 15 ? null : (source - 14)',
+      'intelligence', '=', 'source - 14',
       'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0'
     );
     rules.defineRule
