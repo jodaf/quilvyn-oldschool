@@ -2381,7 +2381,7 @@ FirstEdition.identityRules = function(
     rules.defineRule('skills.Find Traps',
       'thiefSkillLevel', '=', 'Math.min(source * 5 + 15, 99)',
       'dexterity', '+',
-      'source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
+      'source == 9 ? -10 : source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
     );
     rules.defineRule('skills.Hear Noise',
       'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + (source >= 15 ? 15 : 10)'
