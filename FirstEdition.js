@@ -206,11 +206,11 @@ FirstEdition.FEATURES = {
   'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
   'Fighting The Unskilled':
     'Section=combat Note="%V attacks/rd vs. creatures with lt 1d8 hit die"',
-  'Flurry Of Blows':'Section=combat Note="%1 unarmed attacks per rd"',
+  'Flurry Of Blows':'Section=combat Note="%V unarmed attacks/rd"',
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Killing Blow':
-    'Section=combat Note="%1+foe AC % chance of killing w/unarmed strike"',
+    'Section=combat Note="%V+foe AC % chance of killing w/Stunning Blow"',
   'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
   'Legend Lore':
     'Section=feature Note="%V% chance of info about legendary item, person, place"',
@@ -224,9 +224,12 @@ FirstEdition.FEATURES = {
     'Section=feature Note="Donate 10% of gross income, 100% net to LG causes"',
   'Poetic Inspiration':
     'Section=magic Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
+  'Precise Blow':'Section=combat Note="+%V weapon damage"',
   'Protection From Evil':
     'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
+  'Quivering Palm':
+    'Section=combat Note="Touched w/fewer hit dice dies w/in %V dy 1/wk"',
   'Read Scrolls':'Section=magic Note="Cast arcane spells from scrolls"',
   'Resist Fire':'Section=save Note="+2 vs. fire"',
   'Resist Lightning':'Section=save Note="+2 vs. lightning"',
@@ -1839,7 +1842,7 @@ FirstEdition.CLASSES = {
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=d4 Attack=0,2,3 WeaponProficiency=1,2,3 ' +
+    'HitDie=d4 Attack=1,2,4 WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Dodge Missiles",1:Evasion,"1:Killing Blow",1:Spiritual,' +
@@ -1878,9 +1881,9 @@ FirstEdition.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-      '1:Alert"1:Favored Enemy","1:Fighting The Unskilled",1:Loner,' +
+      '1:Alert,"1:Favored Enemy","1:Fighting The Unskilled",1:Loner,' +
       '1:Selective,1:Track,"1:Travel Light",10:Scrying,' +
-      '"10:Band of Followers" ' +
+      '"10:Band Of Followers" ' +
     'CasterLevelArcane="levels.Ranger <= 7 ? null : Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
     'CasterLevelDivine="levels.Ranger <= 7 ? null : Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
      'SpellAbility=wisdom ' +
@@ -2422,8 +2425,7 @@ FirstEdition.identityRules = function(
       'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
       'source <= 15 ? source*5+40 : 125',
       'dexterity', '+',
-      'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null',
-      'levels.Monk', '*', '0'
+      'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null'
     );
     rules.defineRule('skills.Read Languages',
       'thiefSkillLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
@@ -2795,7 +2797,7 @@ FirstEdition.classRules = function(
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
-        'casterLevels.' + name, '+=', code
+        'levels.' + name, '+=', code
       );
       if(spellType != name) {
         rules.defineRule('casterLevels.' + spellType,
@@ -2947,25 +2949,29 @@ FirstEdition.classRulesExtra = function(rules, name) {
       'levels.Monk', '=', '11 - source + Math.floor(source / 5)'
     );
     rules.defineRule('classBaseAttackAdjustment',
-      'levels.Monk', '+=', 'source >= 19 ? -1 : null'
+      'levels.Monk', '+=', 'source >= 9 ? 1 : null'
     );
     rules.defineRule
       ('combatNotes.aware', 'levels.Monk', '=', '34 - source * 2');
     rules.defineRule
       ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
-    rules.defineRule('combatNotes.flurryOfBlows.1',
+    rules.defineRule('combatNotes.flurryOfBlows',
       'levels.Monk', '=', 'source <= 5 ? 1.25 : source <= 8 ? 1.5 : source <= 10 ? 2 : source <= 13 ? 2.5 : source <= 15 ? 3 : 4'
     );
     rules.defineRule
-      ('combatNotes.killingBlow.1', 'levels.Monk', '=', 'source - 7');
+      ('combatNotes.killingBlow', 'levels.Monk', '=', 'source - 7');
+    rules.defineRule
+      ('combatNotes.preciseBlow', 'levels.Monk', '=', 'Math.floor(source / 2)');
+    rules.defineRule('combatNotes.quiveringPalm', 'levels.Monk', '=', null);
     rules.defineRule
       ('combatNotes.strengthAttackAdjustment', 'levels.Monk', '*', '0');
     rules.defineRule
       ('combatNotes.strengthDamageAdjustment', 'levels.Monk', '*', '0');
+    rules.defineRule('dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
     rules.defineRule
       ('featureNotes.feignDeath', 'levels.Monk', '=', 'source * 2');
     rules.defineRule
-      ('magicNotes.wholenessOfBody', 'levels.Monk', '=', 'source - 7');
+      ('magicNotes.wholenessOfBody', 'levels.Monk', '=', 'source - 6');
     rules.defineRule
       ('maximumHenchmen', 'levels.Monk', 'v', 'source < 6 ? 0 : source - 4');
     rules.defineRule
@@ -2978,7 +2984,9 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('saveNotes.slowFall.2',
       'levels.Monk', '=', 'source < 6 ? 1 : source < 13 ? 4 : 8'
     );
-    rules.defineRule('speed', 'levels.Monk', '+', 'source * 10 + 20');
+    rules.defineRule('skills.Pick Pockets', 'levels.Monk', '*', '0');
+    rules.defineRule
+      ('speed', 'levels.Monk', '+', 'source * 10 + (source >= 17 ? 30 : 20)');
     rules.defineRule('thiefSkillLevel', 'levels.Monk', '+=', null);
     rules.defineRule('weapons.Unarmed.2',
       'levels.Monk', '=', 'FirstEdition.monkUnarmedDamage[source]'
@@ -3230,6 +3238,8 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
         choices[choices.length] = attr;
       }
     }
+    if(howMany > choices.length)
+      howMany = choices.length;
     for(var i = 0; i < howMany; i++) {
       var index = QuilvynUtils.random(0, choices.length - 1);
       attributes['weapons.' + choices[index]] = 1;
