@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '2.0.1.0';
+var FirstEdition_VERSION = '2.0.1.1';
 
 /*
  * This module loads the rules from the 1st edition core rules. The
@@ -125,7 +125,10 @@ function FirstEdition() {
 // it sticks to the 1E PHB.
 FirstEdition.USE_OSRIC_RULES = true;
 
-FirstEdition.CHOICES = SRD35.CHOICES;
+FirstEdition.CHOICES = [
+  'Alignment', 'Armor', 'Class', 'Feature', 'Gender', 'Language', 'Race',
+  'School', 'Shield', 'Spell', 'Weapon'
+];
 // Note: the order here handles dependencies among attributes when generating
 // random characters
 FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
@@ -3179,6 +3182,53 @@ FirstEdition.weaponRules = function(rules, name, category, damage, range) {
     'weaponNonProficiencyPenalty', '=', '1',
     'weaponProficiency.' + name, 'v', '0'
   );
+};
+
+/*
+ * Returns the list of editing elements needed by #choiceRules# to add a #type#
+ * item to #rules#.
+ */
+FirstEdition.choiceEditorElements = function(rules, type) {
+  var result = [];
+  if(type == 'Armor' || type == 'Shield')
+    result.push(
+      ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
+      ['Move', 'Max Movement', 'select-one', [60, 90, 120]]
+    );
+  else if(type == 'Class')
+    result.push(
+      ['Require', 'Prerequsites', 'text', [40]],
+      ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
+      ['Attack', 'Base Attack', 'text', [20]],
+      ['WeaponProficiency', 'Weapon Proficiency', 'text', [20]],
+      ['Breath', 'Breath Save', 'text', [20]],
+      ['Death', 'Death Save', 'text', [20]],
+      ['Petrification', 'Petrification Save', 'text', [20]],
+      ['Spell', 'Spell Save', 'text', [20]],
+      ['Wand', 'Wand Save', 'text', [20]],
+      ['Features', 'Features', 'text', [40]],
+      ['Languages', 'Languages', 'text', [30]],
+      ['CasterLevelArcane', 'Arcane Level', 'text', [10]],
+      ['CasterLevelDivine', 'Divine Level', 'text', [10]],
+      ['SpellAbility', 'Spell Ability', 'select-one', ['charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom']],
+      ['SpellsPerDay', 'Spells Per Day', 'text', [40]],
+      ['Spells', 'Spells', 'text', [40]]
+    );
+  else if(type == 'Weapon') {
+    var oneToFive = [1, 2, 3, 4, 5];
+    var sixteenToTwenty = [16, 17, 18, 19, 20];
+    var zeroToOneFifty =
+     [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+    result.push(
+      ['Category', 'Category', 'select-one',
+       ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
+      ['Damage', 'Damage', 'select-one',
+       QuilvynUtils.getKeys(SRD35.LARGE_DAMAGE)],
+      ['Range', 'Range in Feet', 'select-one', zeroToOneFifty]
+    );
+  } else
+    result = SRD35.choiceEditorElements(rules, type);
+  return result
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
