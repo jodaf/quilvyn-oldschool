@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '2.0.1.1';
+var FirstEdition_VERSION = '2.0.2.0';
 
 /*
  * This module loads the rules from the 1st edition core rules. The
@@ -49,7 +49,7 @@ function FirstEdition() {
 
   SRD35.createViewers(rules, SRD35.VIEWERS);
   rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
-  rules.defineChoice('preset', 'race', 'level', 'levels');
+  rules.defineChoice('preset', 'race');
 
   FirstEdition.abilityRules(rules);
   FirstEdition.combatRules
@@ -72,16 +72,20 @@ function FirstEdition() {
   FirstEdition.goodiesRules(rules);
 
   // Remove some editor elements that don't apply
-  rules.defineEditorElement('skills');
-  rules.defineEditorElement('skills');
+  rules.defineEditorElement('animalCompanion');
   rules.defineEditorElement('animalCompanionName');
+  rules.defineEditorElement('experience');
   rules.defineEditorElement('familiar');
   rules.defineEditorElement('familiarName');
   rules.defineEditorElement('familiarEnhancement');
+  rules.defineEditorElement('levels');
+  rules.defineEditorElement('skills');
 
   // Add additional elements to editor and sheet
   rules.defineEditorElement
     ('extraStrength', 'Extra Strength', 'text', [4], 'intelligence');
+  rules.defineEditorElement
+    ('experiencePoints', 'Experience', 'bag', 'levels', 'imageUrl');
   rules.defineEditorElement
     ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
   if(FirstEdition.USE_OSIRIC_RULES) {
@@ -92,6 +96,8 @@ function FirstEdition() {
     rules.defineEditorElement
       ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
   }
+  rules.defineSheetElement
+    ('Experience Points', 'Level', '<b>Experience/Needed</b>: %V', '; ');
   rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
   rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
   rules.defineSheetElement
@@ -1622,7 +1628,8 @@ FirstEdition.CLASSES = {
       '"1:Armor Proficiency (Leather/Studded Leather)","1:Shield Proficiency (All)",' +
       '1:Assassination,1:Backstab,1:Disguise,' +
       '"intelligence >= 15? 9:Bonus Languages",' +
-      '"12:Read Scrolls"',
+      '"12:Read Scrolls" ' +
+    'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
   'Bard':
     'Require=' +
       '"alignment =~ \'Neutral\'","charisma >= 15","constitution >= 10",' +
@@ -1637,6 +1644,8 @@ FirstEdition.CLASSES = {
       '"1:Poetic Inspiration","1:Resist Fire","1:Resist Lightning",' +
       '"3:Nature Knowledge","3:Wilderness Movement","7:Fey Immunity",' +
       '7:Shapeshift ' +
+    'Experience=' +
+      '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,1800 ' +
     'CasterLevelDivine=levels.Bard ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
@@ -1658,6 +1667,9 @@ FirstEdition.CLASSES = {
       '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
       '"wisdom <= 12 ? 1:Cleric Spell Failure",' +
       '"9:Attract Followers" ' +
+    'Experience=' +
+      '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
+      '2250,2475,2700 ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
@@ -1699,16 +1711,17 @@ FirstEdition.CLASSES = {
       '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
       '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
       '"3:Wilderness Movement","7:Fey Immunity",7:Shapeshift ' +
-     'CasterLevelDivine=levels.Druid ' +
-     'SpellAbility=wisdom ' +
-     'SpellsPerDay=' +
-       'D1:1=2;3=3;4=4;9=5;13=6,' +
-       'D2:2=1;3=2;5=3;7=4;11=5;14=6,' +
-       'D3:3=1;4=2;7=3;12=4;13=5;14=6,' +
-       'D4:6=1;8=2;10=3;12=4;13=5;14=6,' +
-       'D5:9=1;10=2;12=3;13=4;14=5,' +
-       'D6:11=1;12=2;13=3;14=4,' +
-       'D7:12=1;13=2;14=3 ' +
+    'Experience=0,2,4,7.5,12.5,20,35,60,90,124,200,300,750,1500 ' +
+    'CasterLevelDivine=levels.Druid ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'D1:1=2;3=3;4=4;9=5;13=6,' +
+      'D2:2=1;3=2;5=3;7=4;11=5;14=6,' +
+      'D3:3=1;4=2;7=3;12=4;13=5;14=6,' +
+      'D4:6=1;8=2;10=3;12=4;13=5;14=6,' +
+      'D5:9=1;10=2;12=3;13=4;14=5,' +
+      'D6:11=1;12=2;13=3;14=4,' +
+      'D7:12=1;13=2;14=3 ' +
     'Spells=' +
       '"D1:Animal Friendship;Detect Magic;Detect Pits And Snares;Entangle;' +
       'Faerie Fire;Invisibility To Animals;Locate Animals;' +
@@ -1740,7 +1753,10 @@ FirstEdition.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16 ? 1:Bonus Fighter Experience",' +
-      '"2:Fighting The Unskilled","9:Attract Followers"',
+      '"2:Fighting The Unskilled","9:Attract Followers" ' +
+    'Experience=' +
+      '0,2,4,8,18,25,70,125,250,500,750,1000,1250,1500,1750,2000,2250,2500,' +
+      '2750,3000',
   'Illusionist':
     'Require="dexterity >= 16","intelligence >= 15" ' +
     'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
@@ -1748,6 +1764,9 @@ FirstEdition.CLASSES = {
     'Features=' +
       '"10:Eldritch Craft","12:Attract Followers" ' +
     'CasterLevelArcane=levels.Illusionist ' +
+    'Experience=' +
+      '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
+      '2200,2420 ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'I1:1=1;2=2;4=3;5=4;9=5;24=6;26=7,' +
@@ -1782,6 +1801,9 @@ FirstEdition.CLASSES = {
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
       '"7:Eldritch Craft","11:Attract Followers","12:Eldritch Power" ' +
+    'Experience=' +
+      '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+      '3000,3375,3750 ' +
     'CasterLevelArcane="levels.Magic User" ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
@@ -1854,7 +1876,9 @@ FirstEdition.CLASSES = {
       '"5:Controlled Movement","5:Purity Of Body","6:Feign Death",' +
       '"7:Wholeness Of Body","8:Speak With Plants","9:Clear Mind",' +
       '"9:Improved Evasion","10:Steel Mind","11:Diamond Body",' +
-      '"12:Free Will","13:Quivering Palm"',
+      '"12:Free Will","13:Quivering Palm" ' +
+    'Experience=' +
+      '0,2.25,4.75,10,22.5,47.5,98,200,350,500,700,950,1250,1750,2250,2750,3250',
   'Paladin':
     'Require=' +
       '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
@@ -1868,6 +1892,9 @@ FirstEdition.CLASSES = {
       '"1:Fighting The Unskilled","1:Lay On Hands",1:Nonmaterialist,' +
       '1:Philanthropist,"1:Protection From Evil","3:Turn Undead",' +
       '"4:Summon Warhorse" ' +
+    'Experience=' +
+      '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
+      '3500,3850,4200 ' +
     'CasterLevelDivine="levels.Paladin<=8 ? null : Math.min(levels.Paladin - 8, 8)" ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
@@ -1887,6 +1914,9 @@ FirstEdition.CLASSES = {
       '1:Alert,"1:Favored Enemy","1:Fighting The Unskilled",1:Loner,' +
       '1:Selective,1:Track,"1:Travel Light",10:Scrying,' +
       '"10:Band Of Followers" ' +
+    'Experience=' +
+      '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
+      '2975,3300,3625 ' +
     'CasterLevelArcane="levels.Ranger <= 7 ? null : Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
     'CasterLevelDivine="levels.Ranger <= 7 ? null : Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
      'SpellAbility=wisdom ' +
@@ -1904,7 +1934,10 @@ FirstEdition.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
-      '1:Backstab,"10:Read Scrolls"'
+      '1:Backstab,"10:Read Scrolls" ' +
+    'Experience=' +
+      '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
+      '1760,1980,2200'
 };
 
 FirstEdition.OSRIC_RULE_EDITS = {
@@ -1912,25 +1945,39 @@ FirstEdition.OSRIC_RULE_EDITS = {
     'Assassin':
       'Require+=' +
         '"wisdom >= 6" ' +
-      'WeaponProficiency=3,4,3',
+      'WeaponProficiency=3,4,3 ' +
+      'Experience=' +
+        '0,1.6,3,5.75,12.25,24.75,50,99,200.5,300,400,600,750,1000,1500',
+    'Bard':null,
     'Cleric':
       'Require+=' +
         '"charisma >= 6","constitution >= 6","intelligence >= 6",' +
         '"strength >= 6" ' +
-      'WeaponProficiency=2,3,3',
+      'WeaponProficiency=2,3,3 ' +
+      'Experience=' +
+        '0,1.55,2.9,6,13.25,27,55,110,220,450,675,900,1125,1350,1575,1800,' +
+        '2025,2250,2475,2700',
     'Druid':
       'Require+=' +
         '"constitution >= 6","dexterity >= 6","intelligence >= 6",' +
         '"strength >= 6" ' +
-      'WeaponProficiency=2,3,4',
+      'WeaponProficiency=2,3,4 ' +
+      'Experience=' +
+        '0,2,4,8,12,20,35,60,90,125,200,300,750,1500',
     'Fighter':
       'Require+=' +
         '"charisma >= 6","dexterity >= 6","wisdom >= 6" ' +
-      'Attack=0,1,1 WeaponProficiency=4,2,2',
+      'Attack=0,1,1 WeaponProficiency=4,2,2 ' +
+      'Experience=' +
+        '0,1.9,4.25,7.75,16,35,75,125,250,500,750,1000,1250,1500,1750,2000,' +
+        '2250,2500,2750,3000',
     'Illusionist':
       'Require+=' +
         '"charisma >= 6","strength >= 6","wisdom >= 6" ' +
       'WeaponProficiency=1,5,5 ' +
+      'Experience=' +
+        '0,2.5,475,9,18,36,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
+        '1760,1980,2200,2420 ' +
       'SpellsPerDay=' +
         'I1:1=1;2=2;4=3;5=4;9=5;17=6,' +
         'I2:3=1;4=2;5=3;10=4;12=5;18=6,' +
@@ -1943,6 +1990,9 @@ FirstEdition.OSRIC_RULE_EDITS = {
       'Require+=' +
         '"charisma >= 6","constitution >= 6","wisdom >= 6" ' +
       'WeaponProficiency=1,5,5 ' +
+      'Experience=' +
+        '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
+        '2625,3000,3375,3750 ' +
       'SpellsPerDay=' +
         'M1:1=1;2=2;4=3;5=4;12=5;21=6,' +
         'M2:3=1;4=2;6=3;9=4;13=5;21=6,' +
@@ -1953,17 +2003,27 @@ FirstEdition.OSRIC_RULE_EDITS = {
         'M7:14=1;15=2;17=3;19=4;22=5;24=6,' +
         'M8:16=1;17=2;19=3;21=4;24=5,' +
         'M9:18=1;20=2;23=3',
+    'Monk':null,
     'Paladin':
       'Require+=' +
         '"dexterity >= 6" ' +
-      'Attack=0,1,1 WeaponProficiency=3,2,2',
+      'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
+      'Experience=' +
+        '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,2750,' +
+        '3100,3450,3800,4150',
     'Ranger':
       'Require+=' +
         '"charisma >= 6","dexterity >= 6" ' +
-      'Attack=0,1,1 WeaponProficieny=3,2,2',
+      'Attack=0,1,1 WeaponProficieny=3,2,2 ' +
+      'Experience=' +
+        '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
+        '2600,2925,3250,3575',
     'Thief':
       'Require+=' +
-        '"charisma >= 6","constition >= 6","intelligence >= 6","strength >= 6"'
+        '"charisma >= 6","constition >= 6","intelligence >= 6","strength >= 6" ' +
+      'Experience=' +
+        '0,1.25,2.5,5,10,20,40,70,110,160,220,440,660,880,1100,1320,1540,' +
+        '1760,1980,2200'
   },
   'Race':{
     'Dwarf':
@@ -2530,6 +2590,7 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'Class') {
     FirstEdition.classRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Experience'),
       QuilvynUtils.getAttrValue(attrs, 'HitDie'),
       QuilvynUtils.getAttrValueArray(attrs, 'Attack'),
       QuilvynUtils.getAttrValueArray(attrs, 'Breath'),
@@ -2647,25 +2708,30 @@ FirstEdition.armorRules = function(rules, name, ac, maxMove) {
 
 /*
  * Defines in #rules# the rules associated with class #name#, which has the list
- * of hard prerequisites #requires#. The class grants #hitDie# (format [n]'d'n)
- * additional hit points with each level advance. #attack# is one of '1',
- * '1/2', or '3/4', indicating the base attack progression for the class;
- * similarly, #saveBreath#, #saveDeath#, #savePetrification#, #saveSpell#, and
- * #saveWand# are each one of '1/2' or '1/3', indicating the saving throw
- * progressions. #features# and #selectables# list the fixed and selectable
- * features acquired as the character advances in class level, and #languages#
- * lists any automatic languages for the class. A character of class level 1
- * has #weaponInitial# weapon proficiencies and adds another every #weaponBump#
- * levels; attacks with non-proficient weapons have a #weaponPenalty# penalty.
- * #casterLevelArcane# and #casterLevelDivine#, if specified, give the
+ * of hard prerequisites #requires#. #experience# lists the experience point
+ * progression required to advance levels in the class. The class grants
+ * #hitDie# (format [n]'d'n) additional hit points with each level advance.
+ * #attack# is a triplet indicating: the attack bonus for a level 1 character;
+ * the amount this increases as the character gains levels; the number of levels
+ * between increases. Similarly, #saveBreath#, #saveDeath#, #savePetrification#,
+ * #saveSpell#, and #saveWand# are each triplets indicating: the saving throw
+ * for a level 1 character; the amount this decreases as the character gains
+ * levels; the number of levels between decreases. #features# and #selectables#
+ * list the fixed and selectable features acquired as the character advances in
+ * class level, and #languages# lists any automatic languages for the class.
+ * #weaponProficiency# is a triplet indicating: the number of weapon
+ * proficiencies for a level 1 character; the number of levels between
+ * increments of weapon proficiencies; the penalty for using a non-proficient
+ * weapon. #casterLevelArcane# and #casterLevelDivine#, if specified, give the
  * Javascript expression for determining the caster level for the class; these
  * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
  * character level attribute 'level'. #spellsPerDay# lists the number of spells
  * per level per day that the class can cast, and #spells# lists spells defined
- * by the class.
+ * by the class. #spellDict# is the dictionary of all spells used to look up
+ * individual spell attributes.
  */
 FirstEdition.classRules = function(
-  rules, name, requires, hitDie, attack, saveBreath, saveDeath,
+  rules, name, requires, experience, hitDie, attack, saveBreath, saveDeath,
   savePetrification, saveSpell, saveWand, features, selectables, languages,
   weaponProficiency, casterLevelArcane, casterLevelDivine, spellsPerDay,
   spells, spellDict
@@ -2673,6 +2739,10 @@ FirstEdition.classRules = function(
 
   if(!name) {
     console.log('Empty class name');
+    return;
+  }
+  if(!Array.isArray(experience)) {
+    console.log('Bad experience "' + experience + '" for class ' + name);
     return;
   }
   if(!hitDie.match(/^(\d+)?d\d+$/)) {
@@ -2718,6 +2788,8 @@ FirstEdition.classRules = function(
     return;
   }
 
+  rules.defineChoice('preset', name);
+
   var classLevel = 'levels.' + name;
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
@@ -2725,6 +2797,14 @@ FirstEdition.classRules = function(
   if(requires.length > 0)
     SRD35.prerequisiteRules
       (rules, 'validation', prefix + 'Class', classLevel, requires);
+
+  rules.defineChoice('notes', 'experiencePoints.' + name + ':%V/%1');
+  rules.defineRule('experiencePoints.' + name + '.1',
+    classLevel, '=', 'source < ' + experience.length + ' ? [' + experience + '][source] * 1000 : ' + (experience[experience.length - 1] * 1000 + 1)
+  );
+  rules.defineRule(classLevel,
+    'experiencePoints.' + name, '=', 'source >= ' + (experience[experience.length - 1] * 1000) + ' ? ' + experience.length + ' : [' + experience + '].findIndex(item => item * 1000 > source)'
+  );
 
   rules.defineRule('baseAttack',
     classLevel, '+', attack[0] + ' + Math.floor((source - 1) / ' + attack[2] + ') * ' + attack[1],
@@ -2884,8 +2964,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     }
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
-  } else if(name == 'Druid' ||
-            (name == 'Bard' && !FirstEdition.USE_OSRIC_RULES)) {
+  } else if(name == 'Druid' || name == 'Bard') {
 
     rules.defineRule('classBaseAttackAdjustment',
       'levels.' + name, '+=', 'source >= 19 ? -1 : null'
@@ -2946,7 +3025,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('minimumSpellsPerLevel', 'intelligenceRow', '=', 'source + 4');
 
-  } else if(name == 'Monk' && !FirstEdition.USE_OSRIC_RULES) {
+  } else if(name == 'Monk') {
 
     rules.defineRule('armorClass',
       'levels.Monk', '=', '11 - source + Math.floor(source / 5)'
@@ -3248,7 +3327,6 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
     }
     attributes['armor'] = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
-
   } else if(attribute == 'proficiencies') {
     attrs = this.applyRules(attributes);
     choices = [];
@@ -3264,6 +3342,33 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
       var which = QuilvynUtils.random(0, choices.length - 1);
       attributes['weaponProficiency.' + choices[which]] = 1;
       choices = choices.slice(0, which).concat(choices.slice(which + 1));
+    }
+  } else if(attribute == 'levels') {
+    var classes = this.getChoices('levels');
+    var classAttrSet = false;
+    for(attr in classes) {
+      if(attr in attributes)
+        classAttrSet = true;
+    }
+    if(!classAttrSet) {
+      // Add a random class of level 1..4
+      attributes[QuilvynUtils.randomKey(classes)] = QuilvynUtils.random(1, 4);
+    }
+    for(attr in classes) {
+      if(!(attr in attributes))
+        continue;
+      // Delete the level attribute (from the random character preset);
+      // calculate experience needed for this and prior levels to assign a
+      // random experience value that will yield this level.
+      attributes['levels.' + attr] = attributes[attr];
+      delete attributes[attr];
+      attrs = this.applyRules(attributes);
+      var max = attrs['experiencePoints.' + attr + '.1'] - 1;
+      attributes['levels.' + attr]--;
+      attrs = this.applyRules(attributes);
+      var min = attrs['experiencePoints.' + attr + '.1'];
+      delete attributes['levels.' + attr];
+      attributes['experiencePoints.' + attr] = QuilvynUtils.random(min, max);
     }
   } else if(attribute == 'shield') {
     attrs = this.applyRules(attributes);
