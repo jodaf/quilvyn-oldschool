@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var FirstEdition_VERSION = '2.0.2.0';
+var FirstEdition_VERSION = '2.0.2.1';
 
 /*
  * This module loads the rules from the 1st edition core rules. The
@@ -34,102 +34,114 @@ function FirstEdition() {
     return;
   }
 
-  var name = FirstEdition.USE_OSRIC_RULES ? 'OSRIC' : 'First Edition';
-  var rules = new QuilvynRules(name, FirstEdition_VERSION);
+  // TODO Temporary hack
+  if(FirstEdition.called)
+    return;
+  FirstEdition.called = true;
 
-  rules.defineChoice('choices', FirstEdition.CHOICES);
-  rules.choiceEditorElements = FirstEdition.choiceEditorElements;
-  rules.choiceRules = FirstEdition.choiceRules;
-  rules.editorElements = SRD35.initialEditorElements();
-  rules.getFormats = SRD35.getFormats;
-  rules.makeValid = SRD35.makeValid;
-  rules.randomizeOneAttribute = FirstEdition.randomizeOneAttribute;
-  rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
-  rules.ruleNotes = FirstEdition.ruleNotes;
+  for(FirstEdition.EDITION in FirstEdition.EDITIONS) {
 
-  SRD35.createViewers(rules, SRD35.VIEWERS);
-  rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
-  rules.defineChoice('preset', 'race');
+    var rules = new QuilvynRules(FirstEdition.EDITION, FirstEdition_VERSION);
 
-  FirstEdition.abilityRules(rules);
-  FirstEdition.combatRules
-    (rules, FirstEdition.editedRules(FirstEdition.ARMORS, 'Armor'),
-     FirstEdition.editedRules(FirstEdition.SHIELDS, 'Shield'),
-     FirstEdition.editedRules(FirstEdition.WEAPONS, 'Weapon'));
-  // Spell definition is handled by each individual class and domain. Schools
-  // have to be defined before this can be done.
-  FirstEdition.magicRules
-    (rules, FirstEdition.editedRules(FirstEdition.SCHOOLS, 'School'), {});
-  // Feats must be defined before bloodlines
-  FirstEdition.talentRules
-    (rules, FirstEdition.editedRules(FirstEdition.FEATURES, 'Feature'),
-     FirstEdition.editedRules(FirstEdition.LANGUAGES, 'Language'));
-  FirstEdition.identityRules(
-    rules, FirstEdition.editedRules(FirstEdition.ALIGNMENTS, 'Alignment'),
-    FirstEdition.editedRules(FirstEdition.CLASSES, 'Class'),
-    FirstEdition.editedRules(FirstEdition.GENDERS, 'Gender'),
-    FirstEdition.editedRules(FirstEdition.RACES, 'Race'));
-  FirstEdition.goodiesRules(rules);
+    rules.defineChoice('choices', FirstEdition.CHOICES);
+    rules.choiceEditorElements = FirstEdition.choiceEditorElements;
+    rules.choiceRules = FirstEdition.choiceRules;
+    rules.editorElements = SRD35.initialEditorElements();
+    rules.getFormats = SRD35.getFormats;
+    rules.makeValid = SRD35.makeValid;
+    rules.randomizeOneAttribute = FirstEdition.randomizeOneAttribute;
+    rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
+    rules.ruleNotes = FirstEdition.ruleNotes;
 
-  // Remove some editor elements that don't apply
-  rules.defineEditorElement('animalCompanion');
-  rules.defineEditorElement('animalCompanionName');
-  rules.defineEditorElement('experience');
-  rules.defineEditorElement('familiar');
-  rules.defineEditorElement('familiarName');
-  rules.defineEditorElement('familiarEnhancement');
-  rules.defineEditorElement('levels');
-  rules.defineEditorElement('skills');
+    SRD35.createViewers(rules, SRD35.VIEWERS);
+    rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
+    rules.defineChoice('preset', 'race');
 
-  // Add additional elements to editor and sheet
-  rules.defineEditorElement
-    ('extraStrength', 'Extra Strength', 'text', [4], 'intelligence');
-  rules.defineEditorElement
-    ('experiencePoints', 'Experience', 'bag', 'levels', 'imageUrl');
-  rules.defineEditorElement
-    ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
-  if(FirstEdition.USE_OSIRIC_RULES) {
+    FirstEdition.abilityRules(rules);
+    FirstEdition.combatRules
+      (rules, FirstEdition.editedRules(FirstEdition.ARMORS, 'Armor'),
+       FirstEdition.editedRules(FirstEdition.SHIELDS, 'Shield'),
+       FirstEdition.editedRules(FirstEdition.WEAPONS, 'Weapon'));
+    // Spell definition is handled by each individual class and domain. Schools
+    // have to be defined before this can be done.
+    FirstEdition.magicRules
+      (rules, FirstEdition.editedRules(FirstEdition.SCHOOLS, 'School'), {});
+    // Feats must be defined before bloodlines
+    FirstEdition.talentRules
+      (rules, FirstEdition.editedRules(FirstEdition.FEATURES, 'Feature'),
+       FirstEdition.editedRules(FirstEdition.LANGUAGES, 'Language'));
+    FirstEdition.identityRules(
+      rules, FirstEdition.editedRules(FirstEdition.ALIGNMENTS, 'Alignment'),
+      FirstEdition.editedRules(FirstEdition.CLASSES, 'Class'),
+      FirstEdition.editedRules(FirstEdition.GENDERS, 'Gender'),
+      FirstEdition.editedRules(FirstEdition.RACES, 'Race'));
+    FirstEdition.goodiesRules(rules);
+
+    // Remove some editor elements that don't apply
+    rules.defineEditorElement('animalCompanion');
+    rules.defineEditorElement('animalCompanionName');
+    rules.defineEditorElement('experience');
+    rules.defineEditorElement('familiar');
+    rules.defineEditorElement('familiarName');
+    rules.defineEditorElement('familiarEnhancement');
+    rules.defineEditorElement('levels');
+    rules.defineEditorElement('skills');
+
+    // Add additional elements to editor and sheet
     rules.defineEditorElement
-      ('weaponSpecialization', 'Specialization', 'select-one',
-       ['None'].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))),
-       'spells');
+      ('extraStrength', 'Extra Strength', 'text', [4], 'intelligence');
     rules.defineEditorElement
-      ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
-  }
-  rules.defineSheetElement
-    ('Experience Points', 'Level', '<b>Experience/Needed</b>: %V', '; ');
-  rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
-  rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
-  rules.defineSheetElement
-    ('Strength Minor Test', 'StrengthTests/',
-     '<b>Strength Minor/Major Test</b>: %Vin6');
-  rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
-  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
-  rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
-  rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
-  rules.defineSheetElement
-    ('Thief Skill Level', 'Feature Notes+', '<b>Skills</b>:');
-  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
-  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
-  rules.defineSheetElement('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
-  rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
-  rules.defineSheetElement
+      ('experiencePoints', 'Experience', 'bag', 'levels', 'imageUrl');
+    rules.defineEditorElement
+      ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
+    if(FirstEdition.EDITION != 'First Edition') {
+      rules.defineEditorElement
+        ('weaponSpecialization', 'Specialization', 'select-one',
+         ['None'].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))),
+         'spells');
+      rules.defineEditorElement
+        ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
+    }
+    rules.defineSheetElement
+      ('Experience Points', 'Level', '<b>Experience/Needed</b>: %V', '; ');
+    rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
+    rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
+    var strengthMinorDie = FirstEdition.EDITION == 'Second Edition' ? 20 : 6;
+    rules.defineSheetElement
+      ('Strength Minor Test', 'StrengthTests/',
+       '<b>Strength Minor/Major Test</b>: %Vin' + strengthMinorDie);
+    rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
+    rules.defineSheetElement('Maximum Henchmen', 'Alignment');
+    rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
+    rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
+    rules.defineSheetElement
+      ('Thief Skill Level', 'Feature Notes+', '<b>Skills</b>:');
+    rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
+    rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
+    rules.defineSheetElement
+      ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+    rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
+    rules.defineSheetElement
     ('Understand Spell', 'Spells Per Day', '<b>%N</b>: %V%');
-  rules.defineSheetElement('SpellsPerLevel', 'Spells Per Day', '%V', '/');
-  rules.defineSheetElement
-    ('Minimum Spells Per Level', 'SpellsPerLevel/',
-     '<b>Min/Max Spells/Level</b>: %V');
-  rules.defineSheetElement
-    ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
+    rules.defineSheetElement('SpellsPerLevel', 'Spells Per Day', '%V', '/');
+    rules.defineSheetElement
+      ('Minimum Spells Per Level', 'SpellsPerLevel/',
+       '<b>Min/Max Spells/Level</b>: %V');
+    rules.defineSheetElement
+      ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
 
-  Quilvyn.addRuleSet(rules);
+    Quilvyn.addRuleSet(rules);
+
+  }
 
 }
 
-// OSRIC varies somewhat from the classic 1E rules. If USE_OSRIC_RULES is true,
-// FirstEdition incorporates these modifications into its rule set; otherwise,
-// it sticks to the 1E PHB.
-FirstEdition.USE_OSRIC_RULES = true;
+FirstEdition.EDITION = 'First Edition';
+FirstEdition.EDITIONS = {
+  'First Edition':'',
+  'Second Edition':'',
+  'OSRIC':''
+};
 
 FirstEdition.CHOICES = [
   'Alignment', 'Armor', 'Class', 'Feature', 'Gender', 'Language', 'Race',
@@ -274,7 +286,7 @@ FirstEdition.FEATURES = {
     'Section=combat Note="+3 Composite Long Bow Attack Modifier/+3 Composite Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Direction Sense':'Section=feature Note="50% Determine North underground%"',
+  'Direction Sense':'Section=feature Note="50% Determine North underground"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
@@ -284,12 +296,11 @@ FirstEdition.FEATURES = {
   'Gnome Dodge':
     'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
   'Gnome Emnity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
-  'Half Orc Ability Adjustment':
+  'Half-Orc Ability Adjustment':
     'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
   'Halfling Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Strength"',
-  'Infravision':
-    'Section=feature Note="60\' vision in darkness"',
+  'Infravision':'Section=feature Note="60\' vision in darkness"',
   'Know Depth':
     'Section=feature Note="%V% Determine approximate depth underground"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
@@ -311,10 +322,10 @@ FirstEdition.GENDERS = Object.assign({}, SRD35.GENDERS);
 FirstEdition.LANGUAGES = {
   'Common':'',
   "Druids' Cant":'',
-  'Dwarfish':'',
-  'Elven':'',
+  'Dwarf':'',
+  'Elf':'',
   'Gnoll':'',
-  'Gnomish':'',
+  'Gnome':'',
   'Goblin':'',
   'Halfling':'',
   'Hobgoblin':'',
@@ -331,7 +342,7 @@ FirstEdition.RACES = {
       '1:Infravision,"1:Know Depth","1:Resist Magic","1:Resist Poison",' +
       '"1:Sense Construction","1:Sense Slope","1:Trap Sense" ' +
     'Languages=' +
-      'Common,Dwarfish,Gnomish,Goblin,Kobold,Orcish',
+      'Common,Dwarf,Gnome,Goblin,Kobold,Orcish',
   'Elf':
     'Require=' +
       '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
@@ -341,7 +352,7 @@ FirstEdition.RACES = {
       '1:Infravision,"1:Resist Charm","1:Resist Sleep",1:Stealthy,' +
       '"1:Sword Precision" ' +
     'Languages=' +
-      'Common,Elven,Gnoll,Gnomish,Goblin,Halfling,Hobgoblin,Orcish',
+      'Common,Elf,Gnoll,Gnome,Goblin,Halfling,Hobgoblin,Orcish',
   'Gnome':
     'Require=' +
       '"constitution >= 8","intelligence >= 7","strength >= 6" ' +
@@ -350,21 +361,21 @@ FirstEdition.RACES = {
       '"1:Gnome Emnity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
       '"1:Resist Poison","1:Sense Hazard","1:Sense Slope" ' +
     'Languages=' +
-      'Common,Dwarfish,Gnomish,Goblin,Halfling,Kobold',
-  'Half Elf':
+      'Common,Dwarf,Gnome,Goblin,Halfling,Kobold',
+  'Half-Elf':
     'Require=' +
       '"constitution >= 6","dexterity >= 6","intelligence >= 4" ' +
     'Features=' +
       '"1:Detect Secret Doors",1:Infravision,"1:Resist Charm",' +
       '"1:Resist Sleep" ' +
     'Languages=' +
-      'Common,Elven,Gnoll,Gnome,Goblin,Halfling,Hobgoblin,Orcish',
-  'Half Orc':
+      'Common,Elf,Gnoll,Gnome,Goblin,Halfling,Hobgoblin,Orcish',
+  'Half-Orc':
     'Require=' +
       '"charisma <= 12","constitution >= 13","dexterity <= 17",' +
       '"intelligence <= 17","strength >= 6","wisdom <= 14" ' +
     'Features=' +
-      '"1:Half Orc Ability Adjustment",1:Infravision ' +
+      '"1:Half-Orc Ability Adjustment",1:Infravision ' +
     'Languages=' +
       'Common,Orcish',
   'Halfling':
@@ -375,7 +386,7 @@ FirstEdition.RACES = {
       '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
       '"1:Resist Magic","1:Resist Poison",1:Stealthy ' +
     'Languages=' +
-      'Common,Dwarfish,Gnome,Goblin,Halfling,Orcish',
+      'Common,Dwarf,Gnome,Goblin,Halfling,Orcish',
   'Human':
     'Languages=' +
       'Common'
@@ -1564,7 +1575,7 @@ FirstEdition.SPELLS = {
 };
 FirstEdition.WEAPONS = {
   'Bardiche':'Category=2h Damage=2d4',
-  'Bastard Sword':'Category=1h Damage=2d4',
+  'Bastard Sword':'Category=2h Damage=2d4',
   'Battle Axe':'Category=1h Damage=d8',
   'Bec De Corbin':'Category=2h Damage=d8',
   'Bill-Guisarme':'Category=2h Damage=2d4',
@@ -1635,7 +1646,7 @@ FirstEdition.CLASSES = {
       '"alignment =~ \'Neutral\'","charisma >= 15","constitution >= 10",' +
       '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
       '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
-      '"race =~ \'Human|Half Elf\'" ' +
+      '"race =~ \'Human|Half-Elf\'" ' +
     'HitDie=d6 Attack=0,2,2 WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
@@ -1940,134 +1951,246 @@ FirstEdition.CLASSES = {
       '1760,1980,2200'
 };
 
-FirstEdition.OSRIC_RULE_EDITS = {
-  'Class':{
-    'Assassin':
-      'Require+=' +
-        '"wisdom >= 6" ' +
-      'WeaponProficiency=3,4,3 ' +
-      'Experience=' +
-        '0,1.6,3,5.75,12.25,24.75,50,99,200.5,300,400,600,750,1000,1500',
-    'Bard':null,
-    'Cleric':
-      'Require+=' +
-        '"charisma >= 6","constitution >= 6","intelligence >= 6",' +
-        '"strength >= 6" ' +
-      'WeaponProficiency=2,3,3 ' +
-      'Experience=' +
-        '0,1.55,2.9,6,13.25,27,55,110,220,450,675,900,1125,1350,1575,1800,' +
-        '2025,2250,2475,2700',
-    'Druid':
-      'Require+=' +
-        '"constitution >= 6","dexterity >= 6","intelligence >= 6",' +
-        '"strength >= 6" ' +
-      'WeaponProficiency=2,3,4 ' +
-      'Experience=' +
-        '0,2,4,8,12,20,35,60,90,125,200,300,750,1500',
-    'Fighter':
-      'Require+=' +
-        '"charisma >= 6","dexterity >= 6","wisdom >= 6" ' +
-      'Attack=0,1,1 WeaponProficiency=4,2,2 ' +
-      'Experience=' +
-        '0,1.9,4.25,7.75,16,35,75,125,250,500,750,1000,1250,1500,1750,2000,' +
-        '2250,2500,2750,3000',
-    'Illusionist':
-      'Require+=' +
-        '"charisma >= 6","strength >= 6","wisdom >= 6" ' +
-      'WeaponProficiency=1,5,5 ' +
-      'Experience=' +
-        '0,2.5,475,9,18,36,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
-        '1760,1980,2200,2420 ' +
-      'SpellsPerDay=' +
-        'I1:1=1;2=2;4=3;5=4;9=5;17=6,' +
-        'I2:3=1;4=2;5=3;10=4;12=5;18=6,' +
-        'I3:5=1;6=2;9=3;12=4;16=5;20=6,' +
-        'I4:7=1;8=2;11=3;15=4;19=5;21=6,' +
-        'I5:10=1;11=2;16=3;18=4;19=5;23=6,' +
-        'I6:12=1;13=2;17=3;20=4;22=5;24=6,' +
-        'I7:14=1;15=2;21=3;23=4;24=5',
-    'Magic User':
-      'Require+=' +
-        '"charisma >= 6","constitution >= 6","wisdom >= 6" ' +
-      'WeaponProficiency=1,5,5 ' +
-      'Experience=' +
-        '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
-        '2625,3000,3375,3750 ' +
-      'SpellsPerDay=' +
-        'M1:1=1;2=2;4=3;5=4;12=5;21=6,' +
-        'M2:3=1;4=2;6=3;9=4;13=5;21=6,' +
-        'M3:5=1;6=2;8=3;11=4;14=5;22=6,' +
-        'M4:7=1;8=2;11=3;14=4;17=5;22=6,' +
-        'M5:9=1;10=2;11=3;14=4;17=5;23=6,' +
-        'M6:12=1;13=2;15=3;17=4;19=5;23=6,' +
-        'M7:14=1;15=2;17=3;19=4;22=5;24=6,' +
-        'M8:16=1;17=2;19=3;21=4;24=5,' +
-        'M9:18=1;20=2;23=3',
-    'Monk':null,
-    'Paladin':
-      'Require+=' +
-        '"dexterity >= 6" ' +
-      'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
-      'Experience=' +
-        '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,2750,' +
-        '3100,3450,3800,4150',
-    'Ranger':
+FirstEdition.RULE_EDITS = {
+  'First Edition':{},
+  'Second Edition':{
+    'Armor':{
+      // Removed
+      'Elfin Chain':null,
+      // New TODO Move=?
+      'Brigandine':'AC=4 Move=120',
+      'Hide':'AC=4 Move=120',
+      'Bronze Plate':'AC=6 Move=120',
+      'Plate':'AC=7 Move=120',
+      'Field Plate':'AC=8 Move=120',
+      'Full Plate':'AC=9 Move=120'
+    },
+    'Feature':{
+      // Modified
+      'Deadly Aim':
+        'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
+      'Sense Construction':
+        'Note="R10\' 87% Detect new construction, 66% sliding walls"',
+      'Stealthy':'Note="Foe -4 surprise roll when traveling quietly"',
+      // New
+      'Gnome Ability Adjustment':
+        'Section=ability Note="+1 Intelligence/-1 Wisdom"',
+      'Magic Mismatch':
+        'Section=feature Note="20% chance of magic item malfunction"'
+    },
+    'Race':{
+      // Removed
+      'Half-Orc':null,
+      // Modified
+      'Dwarf':
+        'Require=' +
+          '"charisma <= 17","constitution >= 11","dexterity <= 17",' +
+          '"strength >= 8" ' +
+        'Features+="1:Magic Mismatch" ' +
+        'Languages=Common,Dwarf',
+      'Elf':
+        'Require=' +
+          '"charisma >= 8","constitution >= 7","dexterity >= 6",' +
+          '"intelligence >= 8" ' +
+        'Languages=Common,Elf',
+      'Gnome':
+        'Require=' +
+          '"constitution >= 8","intelligence >= 6","strength >= 6" ' +
+        'Features+="1:Magic Mismatch" ' +
+        'Features-="1:Resist Poison" ' +
+        'Languages=Common,Gnome',
+      'Half-Elf':
+        'Languages=Common',
+      'Halfling':
+        'Require=' +
+          '"constitution >= 10","dexterity >= 7","intelligence >= 6",' +
+          '"strength >= 7","wisdom <= 17" ' +
+        'Features+="1:Sense Slope" ' +
+        'Languages=Common,Halfling'
+    },
+    'School':{
+      // Removed
+      'Divination':null,
+      'Transmutation':null,
+      // New
+      'Alteration':'',
+      'Greater Divination':'',
+      'Lesser Divination':''
+    },
+    'Shield':{
+      'Large Shield':null,
+      'Body Shield':'AC=1',
+      'Buckler Shield':'AC=1'
+    },
+    'Weapon':{
+      // Removed
+      'Bo Stick':null,
+      'Hammer':null,
+      'Heavy Flail':null,
+      'Heavy Lance':null,
+      'Heavy Mace':null,
+      'Heavy Pick':null,
+      'Jo Stick':null,
+      'Light Flail':null,
+      'Light Lance':null,
+      'Light Mace':null,
+      'Light Pick':null,
+      'Medium Lance':null,
+      // Modified
+      'Dart':'Range=10',
+      // New
+      'Arquebus':'Category=R Damage=d10 Range=50',
+      'Blowgun':'Category=R Damage=d3 Range=10',
+      'Hand Crossbow':'Category=R Damage=d3 Range=60',
+      "Footman's Flail":FirstEdition.WEAPONS['Heavy Flail'],
+      "Footman's Mace":FirstEdition.WEAPONS['Heavy Mace'],
+      "Footman's Pick":FirstEdition.WEAPONS['Heavy Pick'],
+      'Harpoon':'Category=R Damage=2d4 Range=10',
+      "Horseman's Flail":FirstEdition.WEAPONS['Light Flail'],
+      "Horseman's Mace":FirstEdition.WEAPONS['Light Mace'],
+      "Horseman's Pick":FirstEdition.WEAPONS['Light Pick'],
+      'Knife':'Category=Li Damage=d3 Range=10',
+      'Heavy Horse Lance':'Category=2h Damage=d8+1',
+      'Light Horse Lance':'Category=2h Damage=d3+1',
+      'Medium Horse Lance':FirstEdition.WEAPONS['Medium Lance'],
+      'Hook Fauchard':'Category=2h Damage=d4',
+      'Khopesh':'Category=1h Damage=2d4',
+      'Scourge':'Category=1h Damage=d4',
+      'Sickle':'Category=1h Damage=d4+1',
+      'Staff Sling':'Category=R Damage=d4 Range=30',
+      'Warhammer':FirstEdition.WEAPONS['Hammer'],
+      'Whip':'Category=1h Damage=d2'
+    },
+  },
+  'OSRIC':{
+    'Class':{
+      'Assassin':
+        'Require+=' +
+          '"wisdom >= 6" ' +
+        'WeaponProficiency=3,4,3 ' +
+        'Experience=' +
+          '0,1.6,3,5.75,12.25,24.75,50,99,200.5,300,400,600,750,1000,1500',
+      'Bard':null,
+      'Cleric':
+        'Require+=' +
+          '"charisma >= 6","constitution >= 6","intelligence >= 6",' +
+          '"strength >= 6" ' +
+        'WeaponProficiency=2,3,3 ' +
+        'Experience=' +
+          '0,1.55,2.9,6,13.25,27,55,110,220,450,675,900,1125,1350,1575,1800,' +
+          '2025,2250,2475,2700',
+      'Druid':
+        'Require+=' +
+          '"constitution >= 6","dexterity >= 6","intelligence >= 6",' +
+          '"strength >= 6" ' +
+        'WeaponProficiency=2,3,4 ' +
+        'Experience=' +
+          '0,2,4,8,12,20,35,60,90,125,200,300,750,1500',
+      'Fighter':
+        'Require+=' +
+          '"charisma >= 6","dexterity >= 6","wisdom >= 6" ' +
+        'Attack=0,1,1 WeaponProficiency=4,2,2 ' +
+        'Experience=' +
+          '0,1.9,4.25,7.75,16,35,75,125,250,500,750,1000,1250,1500,1750,2000,' +
+          '2250,2500,2750,3000',
+      'Illusionist':
+        'Require+=' +
+          '"charisma >= 6","strength >= 6","wisdom >= 6" ' +
+        'WeaponProficiency=1,5,5 ' +
+        'Experience=' +
+          '0,2.5,475,9,18,36,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
+          '1760,1980,2200,2420 ' +
+        'SpellsPerDay=' +
+          'I1:1=1;2=2;4=3;5=4;9=5;17=6,' +
+          'I2:3=1;4=2;5=3;10=4;12=5;18=6,' +
+          'I3:5=1;6=2;9=3;12=4;16=5;20=6,' +
+          'I4:7=1;8=2;11=3;15=4;19=5;21=6,' +
+          'I5:10=1;11=2;16=3;18=4;19=5;23=6,' +
+          'I6:12=1;13=2;17=3;20=4;22=5;24=6,' +
+          'I7:14=1;15=2;21=3;23=4;24=5',
+      'Magic User':
+        'Require+=' +
+          '"charisma >= 6","constitution >= 6","wisdom >= 6" ' +
+        'WeaponProficiency=1,5,5 ' +
+        'Experience=' +
+          '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
+          '2625,3000,3375,3750 ' +
+        'SpellsPerDay=' +
+          'M1:1=1;2=2;4=3;5=4;12=5;21=6,' +
+          'M2:3=1;4=2;6=3;9=4;13=5;21=6,' +
+          'M3:5=1;6=2;8=3;11=4;14=5;22=6,' +
+          'M4:7=1;8=2;11=3;14=4;17=5;22=6,' +
+          'M5:9=1;10=2;11=3;14=4;17=5;23=6,' +
+          'M6:12=1;13=2;15=3;17=4;19=5;23=6,' +
+          'M7:14=1;15=2;17=3;19=4;22=5;24=6,' +
+          'M8:16=1;17=2;19=3;21=4;24=5,' +
+          'M9:18=1;20=2;23=3',
+      'Monk':null,
+      'Paladin':
+        'Require+=' +
+          '"dexterity >= 6" ' +
+        'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
+        'Experience=' +
+          '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,' +
+          '2750,3100,3450,3800,4150',
+      'Ranger':
       'Require+=' +
         '"charisma >= 6","dexterity >= 6" ' +
-      'Attack=0,1,1 WeaponProficieny=3,2,2 ' +
-      'Experience=' +
-        '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
-        '2600,2925,3250,3575',
-    'Thief':
-      'Require+=' +
-        '"charisma >= 6","constition >= 6","intelligence >= 6","strength >= 6" ' +
-      'Experience=' +
-        '0,1.25,2.5,5,10,20,40,70,110,160,220,440,660,880,1100,1320,1540,' +
-        '1760,1980,2200'
-  },
-  'Race':{
-    'Dwarf':
-      'Features+=Slow',
-    'Gnome':
-      'Features+=Slow',
-    'Halfling':
-      'Features+=Slow'
-  },
-  'Weapon':{
-    // Removed
-    'Bardiche':null,
-    'Bec De Corbin':null,
-    'Bill-Guisarme':null,
-    'Bo Stick':null,
-    'Fauchard':null,
-    'Fauchard-Fork':null,
-    'Glaive':null,
-    'Glaive-Guisarme':null,
-    'Guisarme':null,
-    'Guisarme-Voulge':null,
-    'Heavy Lance':null,
-    'Jo Stick':null,
-    'Light Lance':null,
-    'Lucern Hammer':null,
-    'Medium Lance':null,
-    'Military Fork':null,
-    'Partisan':null,
-    'Pike':null,
-    'Ranseur':null,
-    'Spetum':null,
-    'Voulge':null,
-    // Modified
-    'Club':'Damage=d4',
-    'Heavy Crossbow':'Damage=d6+1 Range=60',
-    'Light Crossbow':'Damage=d4+1',
-    'Light Mace':'Damage=d4+1',
-    'Sling':'Range=35',
-    'Spear':'Range=15',
-    // New
-    'Heavy War Hammer':'Category=1h Damage=d6+1', // Best guess on category
-    'Lance':'Category=2h Damage=2d4+1',
-    'Light War Hammer':'Category=Li Damage=d4+1',
-    'Pole Arm':'Category=2h Damage=d6+1'
+        'Attack=0,1,1 WeaponProficieny=3,2,2 ' +
+        'Experience=' +
+          '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
+          '2600,2925,3250,3575',
+      'Thief':
+        'Require+=' +
+          '"charisma >= 6","constition >= 6","intelligence >= 6","strength >= 6" ' +
+        'Experience=' +
+          '0,1.25,2.5,5,10,20,40,70,110,160,220,440,660,880,1100,1320,1540,' +
+          '1760,1980,2200'
+    },
+    'Race':{
+      'Dwarf':
+        'Features+=Slow',
+      'Gnome':
+        'Features+=Slow',
+      'Halfling':
+        'Features+=Slow'
+    },
+    'Weapon':{
+      // Removed
+      'Bardiche':null,
+      'Bec De Corbin':null,
+      'Bill-Guisarme':null,
+      'Bo Stick':null,
+      'Fauchard':null,
+      'Fauchard-Fork':null,
+      'Glaive':null,
+      'Glaive-Guisarme':null,
+      'Guisarme':null,
+      'Guisarme-Voulge':null,
+      'Heavy Lance':null,
+      'Jo Stick':null,
+      'Light Lance':null,
+      'Lucern Hammer':null,
+      'Medium Lance':null,
+      'Military Fork':null,
+      'Partisan':null,
+      'Pike':null,
+      'Ranseur':null,
+      'Spetum':null,
+      'Voulge':null,
+      // Modified
+      'Club':'Damage=d4',
+      'Heavy Crossbow':'Damage=d6+1 Range=60',
+      'Light Crossbow':'Damage=d4+1',
+      'Light Mace':'Damage=d4+1',
+      'Sling':'Range=35',
+      'Spear':'Range=15',
+      // New
+      'Heavy War Hammer':'Category=1h Damage=d6+1', // Best guess on category
+      'Lance':'Category=2h Damage=2d4+1',
+      'Light War Hammer':'Category=Li Damage=d4+1',
+      'Pole Arm':'Category=2h Damage=d6+1'
+    }
   }
 };
 
@@ -2081,24 +2204,23 @@ FirstEdition.strengthEncumbranceAdjustments = [
 ];
 
 FirstEdition.editedRules = function(base, type) {
-  if(!FirstEdition.USE_OSRIC_RULES ||
-     !(type in FirstEdition.OSRIC_RULE_EDITS))
+  var edits = FirstEdition.RULE_EDITS[FirstEdition.EDITION][type];
+  if(!edits)
     return base;
   var result = Object.assign({}, base);
-  for(var a in FirstEdition.OSRIC_RULE_EDITS[type]) {
-    if(!FirstEdition.OSRIC_RULE_EDITS[type][a])
+  for(var a in edits) {
+    if(edits[a] == null)
       delete result[a];
     else if(!(a in base))
-      result[a] = FirstEdition.OSRIC_RULE_EDITS[type][a];
+      result[a] = edits[a];
     else {
-      var matchInfo =
-        FirstEdition.OSRIC_RULE_EDITS[type][a].match(/[A-Z]\w*[-+]?=/g);
+      var matchInfo = edits[a].match(/[A-Z]\w*[-+]?=/g);
       for(var i = 0; i < matchInfo.length; i++) {
         var op = matchInfo[i].match(/\W+$/)[0];
         var attr = matchInfo[i].replace(op, '');
         var values =
           // TODO hack to make getAttrValueArray work with +=
-          QuilvynUtils.getAttrValueArray(FirstEdition.OSRIC_RULE_EDITS[type][a].replaceAll('+=', '='), attr);
+          QuilvynUtils.getAttrValueArray(edits[a].replace(/[-+]=/g, '='), attr);
         for(var j = 0; j < values.length; j++) {
           if(!(values[j] + '').match(/^[-+]?\d+$/))
             values[j] = '"' + values[j] + '"';
@@ -2112,7 +2234,11 @@ FirstEdition.editedRules = function(base, type) {
           result[a] =
             result[a].replace(attr + '=', attr + '=' + valuesText + ',');
         } else if(op == '-=') {
-          // TODO implement if needed
+          for(var j = 0; j < values.length; j++) {
+            console.log('Remove <' + values[j] + '> from <' + result[a] + '>');
+            result[a] =
+              result[a].replace(new RegExp(',' + values[j] + '|=' + values[j] + ',?'), '');
+          }
         }
       }
     }
@@ -2129,7 +2255,7 @@ FirstEdition.abilityRules = function(rules) {
   }
 
   // Charisma
-  rules.defineRule('abilityNotes.charismaLoyaltyAjustment',
+  rules.defineRule('abilityNotes.charismaLoyaltyAdjustment',
     'charisma', '=',
     'source <= 8 ? source * 5 - 45 : source <= 13 ? null : ' +
     'source <= 15 ? source * 10 - 135 : (source * 10 - 140)'
@@ -2144,6 +2270,10 @@ FirstEdition.abilityRules = function(rules) {
     'source <= 7 ? (source * 5 - 40) : source <= 12 ? null : ' +
     'source <= 15 ? source * 5 - 60 : (source * 5 - 55)'
   );
+  if(FirstEdition.EDITION == 'Second Edition') {
+    rules.defineRule('abilityNotes.charismaLoyaltyAdjustment', '', '*', '0.2');
+    rules.defineRule('abilityNotes.charismaReactionAdjustment', '', '*', '0.2');
+  }
 
   // Constitution
   rules.defineRule('surviveResurrection',
@@ -2153,6 +2283,7 @@ FirstEdition.abilityRules = function(rules) {
   rules.defineRule('surviveSystemShock',
     'constitution', '=',
     'source <= 13 ? source * 5 + 20 : source == 16 ? 95 : ' +
+    (FirstEdition.EDITION == 'Second Edition' ? 'source == 15 ? 90 : ' : '') +
     'source <= 17 ? source * 3 + 46 : 99'
   );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
@@ -2172,24 +2303,33 @@ FirstEdition.abilityRules = function(rules) {
   );
   rules.defineRule('combatNotes.dexterityAttackAdjustment',
     'dexterity', '=',
+    (FirstEdition.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
     'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
     'source <= 18 ? source - 15 : 3'
   );
   rules.defineRule('combatNotes.dexteritySurpriseAdjustment',
     'dexterity', '=',
+    (FirstEdition.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
     'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
     'source <= 18 ? source - 15 : 3'
   );
 
   // Intelligence
-  rules.defineRule('featureNotes.intelligenceLanguageBonus',
-    'intelligence', '=',
-      'source<=7 ? null : source<=15 ? Math.floor((source-6)/2) : (source-11)',
-    'race', 'v',
-      'source == "Human" ? null : ' +
-      'source == "Half Elf" ? 2 : ' +
-      'source.indexOf("Elf") >= 0 ? 3 : 2'
-  );
+  if(FirstEdition.EDITION == 'Second Edition') {
+    rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      'intelligence', '=',
+        'source<=9 ? 1 : source == 9 ? 2 : source<=15 ? Math.floor((source-6)/2) : (source-11)'
+    );
+  } else {
+    rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      'intelligence', '=',
+        'source<=7 ? null : source<=15 ? Math.floor((source-6)/2) : (source-11)',
+      'race', 'v',
+        'source == "Human" ? null : ' +
+        'source == "Half-Elf" ? 2 : ' +
+        'source.indexOf("Elf") >= 0 ? 3 : 2'
+    );
+  }
   rules.defineRule
     ('languageCount', 'featureNotes.intelligenceLanguageBonus', '+', null);
 
@@ -2205,6 +2345,7 @@ FirstEdition.abilityRules = function(rules) {
     'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? 0 : ' +
                         'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
   );
+  // TODO
   rules.defineRule('loadLight',
     '', '=', '35',
     'abilityNotes.strengthEncumbranceAdjustment', '+', null
@@ -2226,9 +2367,13 @@ FirstEdition.abilityRules = function(rules) {
                         'source <= 5 ? Math.pow(2, source - 3) : ' +
                         'source <= 9 ? source * 3 - 11 : (source * 5 - 30)'
   );
-  rules.defineRule('strengthMinorTest',
-    'strengthRow', '=', 'source == 14 ? 5 : Math.floor((source + 5) / 4)'
-  );
+  if(FirstEdition.EDITION == 'Second Edition') {
+    rules.defineRule('strengthMinorTest', 'strengthRow', '=', 'source + 2');
+  } else {
+    rules.defineRule('strengthMinorTest',
+      'strengthRow', '=', 'source == 14 ? 5 : Math.floor((source + 5) / 4)'
+    );
+  }
   rules.defineRule('strengthRow',
     'strength', '=', 'source >= 16 ? source - 9 : Math.floor((source - 2) / 2)',
     'extraStrength', '+', 'source <= 50 ? 1 : source <= 75 ? 2 : ' +
@@ -2274,7 +2419,7 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
     'turningLevel', '=',
     'source <= 8 ? source : source <= 13 ? 9 : source <= 18 ? 10 : 11'
   );
-  var turningTable = FirstEdition.USE_OSRIC_RULES ?  [
+  var turningTable = FirstEdition.EDITION == 'OSRIC' ? [
     'skeleton:10:7 :4 :T :T :D :D :D :D :D :D',
     'zombie  :13:10:7 :T :T :D :D :D :D :D :D',
     'ghoul   :16:13:10:4 :T :T :D :D :D :D :D',
@@ -2409,7 +2554,7 @@ FirstEdition.identityRules = function(
     ('saveNotes.resistMagic', 'constitution', '=', 'Math.floor(source / 3.5)');
   rules.defineRule
     ('saveNotes.resistPoison', 'constitution', '=', 'Math.floor(source / 3.5)');
-  if(FirstEdition.USE_OSRIC_RULES) {
+  if(FirstEdition.EDITION == 'OSRIC') {
     rules.defineRule('skills.Climb Walls',
       'thiefSkillLevel', '=',
       'source <= 6 ? source*2+78 : Math.min(source+84, 99)'
@@ -2495,40 +2640,40 @@ FirstEdition.identityRules = function(
       'levels.Monk', '*', '0'
     );
   }
-  var skillRacialAdjustments = FirstEdition.USE_OSRIC_RULES ? {
+  var skillRacialAdjustments = FirstEdition.EDITION == 'OSRIC' ? {
     'Climb Walls':
-      "{'Dwarf':-10, 'Elf':-5, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5, 'Human':5}",
+      "{'Dwarf':-10, 'Elf':-5, 'Gnome':-15, 'Halfling':-15, 'Half-Orc':5, 'Human':5}",
     'Find Traps':
-      "{'Dwarf':15, 'Elf':5, 'Half Orc':5}",
+      "{'Dwarf':15, 'Elf':5, 'Half-Orc':5}",
     'Hear Noise':
-      "{'Elf':5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
+      "{'Elf':5, 'Gnome':5, 'Halfling':5, 'Half-Orc':5}",
     'Hide In Shadows':
-      "{'Elf':10, 'Half Elf':5, 'Halfling':15}",
+      "{'Elf':10, 'Half-Elf':5, 'Halfling':15}",
     'Move Quietly':
       "{'Dwarf':-5, 'Elf':5, 'Halfling':15}",
     'Open Locks':
-      "{'Dwarf':15, 'Elf':-5, 'Gnome':10, 'Half Orc':5, 'Human':5}",
+      "{'Dwarf':15, 'Elf':-5, 'Gnome':10, 'Half-Orc':5, 'Human':5}",
     'Pick Pockets':
-      "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
+      "{'Elf':5, 'Half-Elf':10, 'Halfling':5, 'Half-Orc':-5}",
     'Read Languages':
-      "{'Dwarf':-5, 'Elf':10, 'Halfling':-5, 'Half Orc':-10}"
+      "{'Dwarf':-5, 'Elf':10, 'Halfling':-5, 'Half-Orc':-10}"
   } : {
     'Climb Walls':
-      "{'Dwarf':-10, 'Gnome':-15, 'Halfling':-15, 'Half Orc':5}",
+      "{'Dwarf':-10, 'Gnome':-15, 'Halfling':-15, 'Half-Orc':5}",
     'Find Traps':
-      "{'Dwarf':15, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
+      "{'Dwarf':15, 'Gnome':10, 'Halfling':5, 'Half-Orc':5}",
     'Hear Noise':
-      "{'Elf':5, 'Gnome':10, 'Halfling':5, 'Half Orc':5}",
+      "{'Elf':5, 'Gnome':10, 'Halfling':5, 'Half-Orc':5}",
     'Hide In Shadows':
-      "{'Elf':10, 'Gnome':5, 'Half Elf':5, 'Halfling':15}",
+      "{'Elf':10, 'Gnome':5, 'Half-Elf':5, 'Halfling':15}",
     'Move Quietly':
       "{'Elf':5, 'Gnome':5, 'Halfling':10}",
     'Open Locks':
-      "{'Dwarf':10, 'Elf':-5, 'Gnome':5, 'Halfling':5, 'Half Orc':5}",
+      "{'Dwarf':10, 'Elf':-5, 'Gnome':5, 'Halfling':5, 'Half-Orc':5}",
     'Pick Pockets':
-      "{'Elf':5, 'Half Elf':10, 'Halfling':5, 'Half Orc':-5}",
+      "{'Elf':5, 'Half-Elf':10, 'Halfling':5, 'Half-Orc':-5}",
     'Read Languages':
-      "{'Dwarf':-5, 'Halfling':-5, 'Half Orc':-10}"
+      "{'Dwarf':-5, 'Halfling':-5, 'Half-Orc':-10}"
   };
   for(var skill in skillRacialAdjustments) {
     rules.defineRule('skills.' + skill,
@@ -2547,7 +2692,7 @@ FirstEdition.identityRules = function(
   SRD35.validAllocationRules
     (rules, 'weaponProficiency', 'weaponProficiencyCount', 'Sum "^weaponProficiency\\."');
   rules.defineRule('validationNotes.weaponProficiencyAllocation.2',
-    'weaponSpecialization', '+', 'source == "None" ? nul : 1',
+    'weaponSpecialization', '+', 'source == "None" ? null : 1',
     'doubleSpecialization', '+', 'source ? 1 : null'
   );
 
@@ -2951,7 +3096,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('classBaseAttackAdjustment',
       'levels.Cleric', '+=', 'source >= 19 ? -1 : null'
     );
-    if(FirstEdition.USE_OSRIC_RULES) {
+    if(FirstEdition.EDITION == 'OSRIC') {
       rules.defineRule('magicNotes.clericSpellFailure',
         'wisdom', '=', 'Math.max((12 - source) * 5, 1)'
       );
@@ -2999,7 +3144,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Illusionist') {
 
-    if(!FirstEdition.USE_OSRIC_RULES) {
+    if(!FirstEdition.EDITION == 'OSRIC') {
       rules.defineRule('classBaseAttackAdjustment',
         'levels.Illusionist', '+=', 'source >= 16 ? 2 : source >= 11 ? 1 : null'
       );
@@ -3007,7 +3152,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Magic User') {
 
-    if(!FirstEdition.USE_OSRIC_RULES) {
+    if(!FirstEdition.EDITION == 'OSRIC') {
       rules.defineRule('classBaseAttackAdjustment',
         'levels.Magic User', '+=', 'source >= 16 ? 2 : source >= 11 ? 1 : null'
       );
@@ -3076,7 +3221,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Paladin') {
 
-    if(FirstEdition.USE_OSRIC_RULES) {
+    if(FirstEdition.EDITION == 'OSRIC') {
       rules.defineRule('attacksPerRound',
         'levels.Paladin', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
       );
@@ -3173,18 +3318,24 @@ FirstEdition.raceRules = function(
  */
 FirstEdition.raceRulesExtra = function(rules, name) {
 
-  if(name == 'Half Elf') {
-    rules.defineRule('saveNotes.resistCharm', 'halfElfLevel', '+=', '30');
-    rules.defineRule('saveNotes.resistSleep', 'halfElfLevel', '+=', '30');
+  if(name == 'Half-Elf') {
+    rules.defineRule('saveNotes.resistCharm', 'half-ElfLevel', '+=', '30');
+    rules.defineRule('saveNotes.resistSleep', 'half-ElfLevel', '+=', '30');
   } else if(name == 'Dwarf') {
     rules.defineRule('featureNotes.knowDepth', 'dwarfLevel', '+=', '50');
-    rules.defineRule('featureNotes.senseSlope', 'dwarfLevel', '+=', '75');
+    rules.defineRule('featureNotes.senseSlope',
+      'dwarfLevel', '+=', FirstEdition.EDITION == 'Second Edition' ? '87' : '75'
+    );
   } else if(name == 'Elf') {
     rules.defineRule('saveNotes.resistCharm', 'elfLevel', '+=', '90');
     rules.defineRule('saveNotes.resistSleep', 'elfLevel', '+=', '90');
   } else if(name == 'Gnome') {
-    rules.defineRule('featureNotes.knowDepth', 'gnomeLevel', '+=', '60');
-    rules.defineRule('featureNotes.senseSlope', 'gnomeLevel', '+=', '80');
+    rules.defineRule('featureNotes.knowDepth',
+      'gnomeLevel', '+=', FirstEdition.EDITION == 'Second Edition' ? '50' : '60'
+    );
+    rules.defineRule('featureNotes.senseSlope',
+      'gnomeLevel', '+=', FirstEdition.EDITION == 'Second Edition' ? '87' : '80'
+    );
   }
 
 };
@@ -3235,6 +3386,8 @@ FirstEdition.shieldRules = function(rules, name, ac) {
 FirstEdition.spellRules = function(
   rules, name, school, casterGroup, level, description
 ) {
+  if(school == 'Transmutation' && FirstEdition.EDITION == 'Second Edition')
+    school = 'Alteration';
   SRD35.spellRules(rules, name, school, casterGroup, level, description);
   // No changes needed to the rules defined by SRD35 method
 };
