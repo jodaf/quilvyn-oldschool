@@ -1221,10 +1221,10 @@ FirstEdition.SPELLS = {
   'Project Image(I5 Illu)':
     'School=Illusion ' +
     'Description="R$L5\' Self duplicate immune to attacks, can cast spells for $L rd"',
-  "Protection From Evil":
+  'Protection From Evil':
     'School=Abjuration ' +
     'Description="Touched untouchable by evil outsiders, -2 evil attacks, +2 saves for $L2 rd (rev good)"',
-  "Protection From Evil(C1 Abju)":
+  'Protection From Evil(C1 Abju)':
     'School=Abjuration ' +
     'Description="Touched untouchable by evil outsiders, -2 evil attacks, +2 saves for $L3 rd (rev good)"',
   "Protection From Evil 10' Radius":
@@ -1965,6 +1965,12 @@ FirstEdition.RULE_EDITS = {
       'Field Plate':'AC=8 Move=120',
       'Full Plate':'AC=9 Move=120'
     },
+    'Class':{
+      // Removed
+      'Assassin':null,
+      'Monk':null,
+      // Modified
+    },
     'Feature':{
       // Modified
       'Deadly Aim':
@@ -1996,8 +2002,10 @@ FirstEdition.RULE_EDITS = {
       'Gnome':
         'Require=' +
           '"constitution >= 8","intelligence >= 6","strength >= 6" ' +
-        'Features+="1:Magic Mismatch" ' +
-        'Features-="1:Resist Poison" ' +
+        'Features=' +
+          '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
+          '"1:Gnome Emnity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
+          '"1:Magic Mismatch","1:Sense Hazard","1:Sense Slope" ' +
         'Languages=Common,Gnome',
       'Half-Elf':
         'Languages=Common',
@@ -2021,6 +2029,192 @@ FirstEdition.RULE_EDITS = {
       'Large Shield':null,
       'Body Shield':'AC=1',
       'Buckler Shield':'AC=1'
+    },
+    'Spell':{
+      // Removed
+      'Alter Reality':null,
+      'Cacodemon':null,
+      'Continual Darkness':null,
+      'Cure Blindness':null,
+      'Detect Illusion':null,
+      'Dispel Exhaustion':null,
+      'Dispel Illusion':null,
+      'Exorcise':null,
+      'Locate Animals':null,
+      'Locate Plants':null,
+      'Paralyzation':null,
+      'Predict Weather':null,
+      'Purify Water':null,
+      'Push':null,
+      'Spirit-Wrack':null,
+      'True Sight':null,
+      'Write':null,
+      // Modified
+      'Armor':'School=Conjuration',
+      'Astral Spell':'School=Evocation',
+      'Augury':'School="Lesser Divination"',
+      'Chill Touch':'School=Necromancy',
+      'Clairaudience':'School="Lesser Divination"',
+      'Clairvoyance':'School="Lesser Divination"',
+      'Commune':'School="Greater Divination"',
+      'Commune With Nature':'School="Greater Divination"',
+      'Contact Other Plane':'School="Greater Divination"',
+      'Cure Disease':'School=Abjuration',
+      'Detect Charm':'School="Lesser Divination"',
+      'Detect Evil':'School="Lesser Divination"',
+      'Detect Invisibility':'School="Lesser Divination"',
+      'Detect Lie':'School="Lesser Divination"',
+      'Detect Magic':'School="Lesser Divination"',
+      'Detect Pits And Snares':'School="Lesser Divination"',
+      'Divination':'School="Lesser Divination"',
+      'Enchant An Item':'School=Enchantment',
+      'Enchanted Weapon':'School=Enchantment',
+      'ESP':'School="Lesser Divination"',
+      'Find The Path':'School="Greater Divination"',
+      'Find Traps':'School="Lesser Divination"',
+      'Finger Of Death':'School=Necromancy',
+      'Fire Trap':'School=Abjuration',
+      'Flame Arrow':'School=Conjuration',
+      'Guards And Wards':'School=Evocation',
+      'Heat Metal':'School=Alteration',
+      'Identify':'School="Lesser Divination"',
+      'Incendiary Cloud':'School=Alteration',
+      'Know Alignment':'School="Lesser Divination"',
+      'Legend Lore':'School="Greater Divination"',
+      'Locate Object':'School="Lesser Divination"',
+      'Major Creation':'School=Illusion',
+      'Massmorph':'School=Alteration',
+      'Minor Creation':'School=Illusion',
+      'Neutralize Poison':'School=Necromancy',
+      'Prismatic Sphere':'School=Abjuration',
+      'Prismatic Wall':'School=Conjuration',
+      'Read Magic':'School="Lesser Divination"',
+      'Stone Tell':'School="Greater Divination"',
+      'True Seeing':'School="Greater Divination"',
+      'Vision':'School="Greater Divination"',
+      // Added
+      'Abjure':'School=Abjuration Description="TODO"',
+      'Acid Arrow':'School=Conjuration Description="TODO"',
+      'Advanced Illusion':'School=Illusion Description="TODO"',
+      'Aid':'School=Necromancy Description="TODO"',
+      'Air Walk':'School=Alteration Description="TODO"',
+      'Alarm':'School=Abjuration Description="TODO"',
+      'Alter Self':'School=Alteration Description="TODO"',
+      'Avoidance':'School=Abjuration Description="TODO"',
+      'Banishment':'School=Abjuration Description="TODO"',
+      'Bind':'School=Enchantment Description="TODO"',
+      'Binding':'School=Enchantment Description="TODO"',
+      'Black Tentacles':'School=Conjuration Description="TODO"',
+      'Changestaff':'School=Evocation Description="TODO"',
+      'Chain Lightning':'School=Evocation Description="TODO"',
+      'Cloak Of Bravery':'School=Conjuraion Description="TODO"',
+      'Combine':'School=Evocation Description="TODO"',
+      'Contagion':'School=Necromancy Description="TODO"',
+      'Contingency':'School=Evocation Description="TODO"',
+      'Control Undead':'School=Necromancy Description="TODO"',
+      'Crystalbrittle':'School=Alteration Description="TODO"',
+      'Cure Blindness Or Deafness':'School=Abjuration Description="TODO"',
+      'Death Fog':'School=Alteration Description="TODO"',
+      'Deeppockets':'School=Alteration Description="TODO"',
+      'Delude':'School=Alteration Description="TODO"',
+      'Demand':'School=Evocation Description="TODO"',
+      'Detect Poison':'School="Lesser Divination" Description="TODO"',
+      'Detect Scrying':'School="Lesser Divination" Description="TODO"',
+      'Detect Undead':'School="Lesser Divination" Description="TODO"',
+      'Disjunction':'School=Alteration Description="TODO"',
+      'Dismissal':'School=Abjuration Description="TODO"',
+      'Domination':'School=Enchantment Description="TODO"',
+      'Dream':'School=Invocation Description="TODO"',
+      'Dust Devil':'School=Conjuration Description="TODO"',
+      'Endure Cold':'School=Alteration Description="TODO"',
+      'Endure Heat':'School=Alteration Description="TODO"',
+      'Energy Drain':'School=Evocation Description="TODO"',
+      'Enervation':'School=Necromancy Description="TODO"',
+      'Ensnarement':'School=Conjuration Description="TODO"',
+      'Enthrall':'School=Enchantment Description="TODO"',
+      'Exaction':'School=Evocation Description="TODO"',
+      'Eyebite':'School=Enchantment Description="TODO"',
+      'Fabricate':'School=Enchantment Description="TODO"',
+      'False Vision':'School="Greater Divination" Description="TODO"',
+      'Flame Blade':'School=Evocation Description="TODO"',
+      'Flame Walk':'School=Alteration Description="TODO"',
+      'Flaming Sphere':'School=Evocation Description="TODO"',
+      "Fool's Gold":'School=Alteration Description="TODO"',
+      'Forbiddance':'School=Abjuration Description="TODO"',
+      'Forcecage':'School=Evocation Description="TODO"',
+      'Foresight':'School="Greater Divination" Description="TODO"',
+      'Free Action':'School=Abjuration Description="TODO"',
+      'Giant Insect':'School=Alteration Description="TODO"',
+      'Glitterdust':'School=Conjuration Description="TODO"',
+      'Grease':'School=Conjuration Description="TODO"',
+      'Goodberry':'School=Alteration Description="TODO"',
+      "Heroes' Feast":'School=Evocation Description="TODO"',
+      'Hideous Laughter':'School=Enchantment Description="TODO"',
+      'Hold Undead':'School=Necromancy Description="TODO"',
+      'Illusionary Wall':'School=Illusion Description="TODO"',
+      'Imbue With Spell Ability':'School=Enchantment Description="TODO"',
+      'Invisibility To Undead':'School=Abjuration Description="TODO"',
+      'Irritation':'School=Alteration Description="TODO"',
+      'Item':'School=Alteration Description="TODO"',
+      'Lamentable Belaborment':'School=Enchantment Description="TODO"',
+      'Liveoak':'School=Enchantment Description="TODO"',
+      'Locate Animals Or Plants':'School="Lesser Divination" Description="TODO"',
+      "Mage's Lucubration":'School=Alteration Description="TODO"',
+      "Mage's Magnificent Mansion":'School=Alteration Description="TODO"',
+      'Magic Font':'School="Greater Divination" Description="TODO"',
+      'Magic Mirror':'School=Enchantment Description="TODO"',
+      'Magical Stone':'School=Enchantment Description="TODO"',
+      'Magical Vestment':'School=Enchantment Description="TODO"',
+      'Messenger':'School=Enchantment Description="TODO"',
+      'Meld Into Stone':'School=Alteration Description="TODO"',
+      'Minute Meteors':'School=Evocation Description="TODO"',
+      'Mirage Arcana':'School=Illusion Description="TODO"',
+      'Mislead':'School=Illusion Description="TODO"',
+      'Moonbeam':'School=Evocation Description="TODO"',
+      'Mount':'School=Conjuration Description="TODO"',
+      'Phantom Steed':'School=Conjuration Description="TODO"',
+      'Protection From Cantrips':'School=Abjuration Description="TODO"',
+      'Negative Plane Protection':'School=Abjuration Description="TODO"',
+      'Rainbow':'School=Evocation Description="TODO"',
+      'Rainbow Pattern':'School=Alteration Description="TODO"',
+      'Reflecting Pool':'School="Lesser Divination" Description="TODO"',
+      'Remove Paralysis':'School=Abjuration Description="TODO"',
+      'Resilient Sphere':'School=Alteration Description="TODO"',
+      'Screen':'School="Greater Divination" Description="TODO"',
+      'Secret Page':'School=Alteration Description="TODO"',
+      'Secure Shelter':'School=Alteration Description="TODO"',
+      'Seeming':'School=Illusion Description="TODO"',
+      'Sending':'School=Evocation Description="TODO"',
+      'Sepia Snake Sigil':'School=Conjuration Description="TODO"',
+      'Sequester':'School=Illusion Description="TODO"',
+      'Shadow Walk':'School=Illusion Description="TODO"',
+      'Shout':'School=Evocation Description="TODO"',
+      'Sink':'School=Enchantment Description="TODO"',
+      'Solid Fog':'School=Alteration Description="TODO"',
+      'Spike Growth':'School=Alteration Description="TODO"',
+      'Spike Stones':'School=Alteration Description="TODO"',
+      'Spectral Hand':'School=Necromancy Description="TODO"',
+      'Spell Turning':'School=Abjuration Description="TODO"',
+      'Spook':'School=Illusion Description="TODO"',
+      'Starshine':'School=Evocation Description="TODO"',
+      'Stoneskin':'School=Alteration Description="TODO"',
+      'Succor':'School=Alteration Description="TODO"',
+      'Summon Swarm':'School=Conjuration Description="TODO"',
+      'Sunray':'School=Evocation Description="TODO"',
+      'Taunt':'School=Enchantment Description="TODO"',
+      'Telekinetic Sphere':'School=Evocation Description="TODO"',
+      'Teleport Without Error':'School=Alteration Description="TODO"',
+      'Transmute Water To Dust':'School=Alteration Description="TODO"',
+      'Vacancy':'School=Alteration Description="TODO"',
+      'Vampiric Touch':'School=Necromancy Description="TODO"',
+      'Water Walk':'School=Alteration Description="TODO"',
+      'Weird':'School=Illusion Description="TODO"',
+      'Whispering Wind':'School=Alteration Description="TODO"',
+      'Wind Wall':'School=Alteration Description="TODO"',
+      'Withdraw':'School=Alteration Description="TODO"',
+      'Wizard Mark':'School=Alteration Description="TODO"',
+      'Wraithform':'School=Alteration Description="TODO"',
+      'Wyvern Watch':'School=Evocation Description="TODO"'
     },
     'Weapon':{
       // Removed
@@ -2219,7 +2413,7 @@ FirstEdition.editedRules = function(base, type) {
         var op = matchInfo[i].match(/\W+$/)[0];
         var attr = matchInfo[i].replace(op, '');
         var values =
-          // TODO hack to make getAttrValueArray work with +=
+          // TODO hack to make getAttrValueArray work with [-+]=
           QuilvynUtils.getAttrValueArray(edits[a].replace(/[-+]=/g, '='), attr);
         for(var j = 0; j < values.length; j++) {
           if(!(values[j] + '').match(/^[-+]?\d+$/))
@@ -2235,9 +2429,8 @@ FirstEdition.editedRules = function(base, type) {
             result[a].replace(attr + '=', attr + '=' + valuesText + ',');
         } else if(op == '-=') {
           for(var j = 0; j < values.length; j++) {
-            console.log('Remove <' + values[j] + '> from <' + result[a] + '>');
-            result[a] =
-              result[a].replace(new RegExp(',' + values[j] + '|=' + values[j] + ',?'), '');
+            var pat = new RegExp(',' + values[j] + '|(?<==)' + values[j] + ',?');
+            result[a] = result[a].replace(pat, '');
           }
         }
       }
@@ -2751,7 +2944,7 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
       QuilvynUtils.getAttrValueArray(attrs, 'SpellsPerDay'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
-      FirstEdition.SPELLS
+      FirstEdition.editedRules(FirstEdition.SPELLS, 'Spell')
     );
     FirstEdition.classRulesExtra(rules, name);
   } else if(type == 'Feature')
@@ -2770,7 +2963,7 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
       QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
-      FirstEdition.SPELLS
+      FirstEdition.editedRules(FirstEdition.SPELLS, 'Spell')
     );
     FirstEdition.raceRulesExtra(rules, name);
   } else if(type == 'School')
