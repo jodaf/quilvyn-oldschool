@@ -1968,6 +1968,132 @@ FirstEdition.RULE_EDITS = {
     'Class':{
       // Removed
       'Assassin':null,
+      'Cleric':
+        'Spells=' +
+          '"P1:Animal Friendship;Bless;Combine;Command;Create Water;' +
+          'Cure Light Wounds;Detect Evil;Detect Magic;Detect Poison;' +
+          'Detect Pits And Snares;Endure Cold;Endure Heat;Entangle;' +
+          'Faerie Fire;Invisibility To Animals;Invisibility To Undead;Light;' +
+          'Locate Animals Or Plants;Magical Stone;Pass Without Trace;' +
+          'Protection From Evil;Purify Food And Drink;Remove Fear;Sanctuary;' +
+          'Shillelagh",' +
+          '"P2:Aid;Augury;Barkskin;Chant;Charm Person Or Mammal;Detect Charm;' +
+          'Dust Devil;Enthrall;Find Traps;Fire Trap;Flame Blade;Goodberry;' +
+          'Heat Metal;Hold Person;Know Alignment;Messenger;Obscurement;' +
+          'Produce Flame;Resist Cold;Resist Fire;Silence 15\' Radius;' +
+          'Slow Poison;Snake Charm;Speak With Animals;Spiritual Weapon;Trip;' +
+          'Warp Wood;Withdraw;Wyvern Watch",' +
+          '"P3:Animate Dead;Call Lightning;Continual Light;' +
+          'Create Food And Water;Cure Blindness Or Deafness;Cure Disease;' +
+          'Dispel Magic;Feign Death;Flame Walk;Glyph Of Warding;Hold Animal;' +
+          'Locate Object;Magical Vestment;Meld Into Stone;' +
+          'Negative Plane Protection;Plant Growth;Prayer;' +
+          'Protection From Fire;Pyrotechnics;Remove Curse;Remove Paralysis;' +
+          'Snare;Speak With Dead;Spike Growth;Starshine;Stone Shape;' +
+          'Summon Insects;Tree;Water Breathing;Water Walk",' +
+          '"P4:Abjure;Animal Summoning I;Call Woodland Beings;' +
+          'Cloak Of Bravery;Control Temperature 10\' Radius;' +
+          'Cure Serious Wounds;Detect Lie;Divination;Free Action;' +
+          'Giant Insect;Hallucinatory Forest;Hold Plant;' +
+          'Imbue With Spell Ability;Lower Water;Neutralize Poison;Plant Door;' +
+          'Produce Fire;Protection From Evil 10\' Radius;' +
+          'Protection From Lightning;Reflecting Pool;Repel Insects;' +
+          'Speak With Plants;Spell Immunity;Sticks To Snakes;Tongues",' +
+          '"P5:Air Walk;Animal Growth;Animal Summoning II;Anti-Plant Shell;' +
+          'Atonement;Commune;Commune With Nature;Control Winds;' +
+          'Cure Critical Wounds;Dispel Evil;Flame Strike;Insect Plague;' +
+          'Magic Font;Moonbeam;Pass Plant;Plane Shift;Quest;Rainbow;' +
+          'Raise Dead;Spike Stones;Transmute Rock To Mud;True Seeing;' +
+          'Wall Of Fire",' +
+          '"P6:Aerial Servant;Animal Summoning III;Animate Object;' +
+          'Anti-Animal Shell;Blade Barrier;Conjure Animals;' +
+          'Conjure Fire Elemental;Find The Path;Fire Seeds;Forbiddance;Heal;' +
+          'Heroes\' Feast;Liveoak;Part Water;Speak With Monsters;Stone Tell;' +
+          'Transmute Water To Dust;Transport Via Plants;Turn Wood;' +
+          'Wall Of Thorns;Weather Summoning;Word Of Recall",' +
+          '"P7:Animate Rock;Astral Spell;Changestaff;Chariot Of Fire;' +
+          'Confusion;Conjure Earth Elemental;Control Weather;Creeping Doom;' +
+          'Earthquake;Exaction;Fire Storm;Gate;Holy Word;Regenerate;' +
+          'Reincarnate;Restoration;Resurrection;Succor;Sunray;Symbol;' +
+          'Transmute Metal To Wood;Wind Walk"',
+      'Druid':
+        'Spells="P1:Animal Friendship"',
+      'Illusionist':
+        'Spells="P1:Animal Friendship"',
+      'Magic User':
+        'Spells=' +
+          '"W1:Affect Normal Fires;Alarm;Armor;Audible Glamer;Burning Hands;' +
+          'Change Self;Charm Person;Chill Touch;Color Spray;' +
+          'Comprehend Languages;Dancing Lights;Detect Magic;Detect Undead;' +
+          'Enlarge;Erase;Feather Fall;Find Familiar;Friends;Gaze Reflection;' +
+          'Grease;Hold Portal;Hypnotism;Identify;Jump;Light;Magic Missile;' +
+          'Mending;Message;Mount;Magic Aura;Phantasmal Force;' +
+          'Protection From Evil;Read Magic;Shield;Shocking Grasp;Sleep;' +
+          'Spider Climb;Spook;Taunt;Floating Disk;Unseen Servant;' +
+          'Ventriloquism;Wall Of Fog;Wizard Mark",' +
+          '"W2:Alter Self;Bind;Blindness;Blur;Continual Light;Darkness;' +
+          'Deafness;Deeppockets;Detect Evil;Detect Invisibility;ESP;' +
+          'Flaming Sphere;Fog Cloud;Fool\'s Gold;Forget;Glitterdust;' +
+          'Hypnotic Pattern;Improved Phantasmal Force;Invisibility;' +
+          'Irritation;Knock;Know Alignment;False Trap;Levitate;Locate Object;' +
+          'Magic Mouth;Acid Arrow;Mirror Image;Misdirection;' +
+          'Protection From Cantrips;Pyrotechnics;Ray Of Enfeeblement;' +
+          'Rope Trick;Scare;Shatter;Spectral Hand;Stinking Cloud;Strength;' +
+          'Summon Swarm;Hideous Laughter;Web;Whispering Wind;Wizard Lock",' +
+          '"W3:Blink;Clairaudience;Clairvoyance;Delude;Dispel Magic;' +
+          'Explosive Runes;Feign Death;Fireball;Flame Arrow;Fly;Gust Of Wind;' +
+          'Haste;Hold Person;Hold Undead;Illusory Script;Infravision;' +
+          'Invisibility 10\' Radius;Item;Tiny Hut;Lightning Bolt;' +
+          'Minute Meteors;Monster Summoning I;Non-Detection;Phantom Steed;' +
+          'Protection From Evil 10\' Radius;Protection From Normal Missiles;' +
+          'Secret Page;Sepia Snake Sigil;Slow;Spectral Force;Suggestion;' +
+          'Tongues;Vampiric Touch;Water Breathing;Wind Wall;Wraithform",' +
+          '"W4:Charm Monster;Confusion;Contagion;Detect Scrying;Dig;' +
+          'Dimension Door;Emotion;Enchanted Weapon;Enervation;' +
+          'Black Tentacles;Extension I;Fear;Fire Charm;Fire Shield;' +
+          'Fire Trap;Fumble;Hallucinatory Terrain;Ice Storm;Illusionary Wall;' +
+          'Improved Invisibility;Secure Shelter;Magic Mirror;Massmorph;' +
+          'Minor Creation;Minor Globe Of Invulnerability;' +
+          'Monster Summoning II;Resilient Sphere;Phantasmal Killer;' +
+          'Plant Growth;Polymorph Other;Polymorph Self;Rainbow Pattern;' +
+          'Mnemonic Enhancement;Remove Curse;Shadow Monsters;Shout;Solid Fog;' +
+          'Stoneskin;Vacancy;Wall Of Fire;Wall Of Ice;Wizard Eye",' +
+          '"W5:Advanced Illusion;Airy Water;Animal Growth;Animate Dead;' +
+          'Avoidance;Interposing Hand;Chaos;Cloudkill;Cone Of Cold;' +
+          'Conjure Elemental;Contact Other Plane;Demi-Shadow Monsters;' +
+          'Dismissal;Distance Distortion;Domination;Dream;Extension II;' +
+          'Fabricate;False Vision;Feeblemind;Hold Monster;' +
+          'Lamentable Belaborment;Secret Chest;Magic Jar;Major Creation;' +
+          'Monster Summoning III;Mage\'s Faithful Hound;Passwall;Seeming;' +
+          'Sending;Shadow Door;Shadow Magic;Stone Shape;Summon Shadow;' +
+          'Telekinesis;Teleport;Transmute Rock To Mud;Wall Of Force;' +
+          'Wall Of Iron;Wall Of Stone",' +
+           '"W6:Anti-Magic Shell;Forceful Hand;Chain Lightning;' +
+          'Conjure Animals;Contingency;Control Weather;Death Fog;Death Spell;' +
+          'Demi-Shadow Magic;Disintegrate;Enchant An Item;Ensnarement;' +
+          'Extension III;Eyebite;Geas;Glasseye;Globe Of Invulnerability;' +
+          'Guards And Wards;Invisible Stalker;Legend Lore;Lower Water;' +
+          'Mass Suggestion;Mirage Arcana;Mislead;Monster Summoning IV;' +
+          'Mage\'s Lucubration;Move Earth;Freezing Sphere;Part Water;' +
+          'Permanent Illusion;Programmed Illusion;Project Image;' +
+          'Reincarnation;Repulsion;Shades;Stone To Flesh;Transformation;' +
+          'Transmute Water To Dust;True Seeing;Veil",' +
+           '"W7:Banishment;Grasping Hand;Charm Plants;Control Undead;' +
+          'Delayed Blast Fireball;Instant Summons;Duo-Dimension;' +
+          'Finger Of Death;Forcecage;Limited Wish;Mass Invisibility;' +
+          'Monster Summoning V;Mage\'s Magnificent Mansion;Mage\'s Sword;' +
+          'Phase Door;Power Word Stun;Prismatic Spray;Reverse Gravity;' +
+          'Sequester;Shadow Walk;Simulacrum;Spell Turning;Statue;' +
+          'Teleport Without Error;Vanish;Vision",' +
+           '"W8:Antipathy/Sympathy;Clenched Fist;Binding;Clone;Demand;' +
+          'Glass-Steel;Incendiary Cloud;Mass Charm;Maze;Mind Blank;' +
+          'Monster Summoning VI;Telekinetic Sphere;Permanency;' +
+          'Polymorph Object;Power Word Blind;Prismatic Wall;Screen;' +
+          'Spell Immunity;Sink;Symbol;Trap The Soul",' +
+           '"W9:Astral Spell;Crushing Hand;Crystalbrittle;Energy Drain;' +
+          'Foresight;Gate;Imprisonment;Meteor Swarm;Monster Summoning VII;' +
+          'Disjunction;Power Word Kill;Prismatic Sphere;Shape Change;Succor;' +
+          'Temporal Stasis;Time Stop;Weird;Wish',
       'Monk':null,
       // Modified
     },
@@ -2107,7 +2233,7 @@ FirstEdition.RULE_EDITS = {
       'Black Tentacles':'School=Conjuration Description="TODO"',
       'Changestaff':'School=Evocation Description="TODO"',
       'Chain Lightning':'School=Evocation Description="TODO"',
-      'Cloak Of Bravery':'School=Conjuraion Description="TODO"',
+      'Cloak Of Bravery':'School=Conjuration Description="TODO"',
       'Combine':'School=Evocation Description="TODO"',
       'Contagion':'School=Necromancy Description="TODO"',
       'Contingency':'School=Evocation Description="TODO"',
@@ -2124,7 +2250,7 @@ FirstEdition.RULE_EDITS = {
       'Disjunction':'School=Alteration Description="TODO"',
       'Dismissal':'School=Abjuration Description="TODO"',
       'Domination':'School=Enchantment Description="TODO"',
-      'Dream':'School=Invocation Description="TODO"',
+      'Dream':'School=Evocation Description="TODO"',
       'Dust Devil':'School=Conjuration Description="TODO"',
       'Endure Cold':'School=Alteration Description="TODO"',
       'Endure Heat':'School=Alteration Description="TODO"',
