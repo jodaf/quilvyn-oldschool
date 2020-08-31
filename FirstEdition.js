@@ -34,11 +34,6 @@ function FirstEdition() {
     return;
   }
 
-  // TODO Temporary hack
-  if(FirstEdition.called)
-    return;
-  FirstEdition.called = true;
-
   for(FirstEdition.EDITION in FirstEdition.EDITIONS) {
 
     var rules = new QuilvynRules(FirstEdition.EDITION, FirstEdition_VERSION);
@@ -121,14 +116,8 @@ function FirstEdition() {
     rules.defineSheetElement
       ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
     rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
-    rules.defineSheetElement
-    ('Understand Spell', 'Spells Per Day', '<b>%N</b>: %V%');
-    rules.defineSheetElement('SpellsPerLevel', 'Spells Per Day', '%V', '/');
-    rules.defineSheetElement
-      ('Minimum Spells Per Level', 'SpellsPerLevel/',
-       '<b>Min/Max Spells/Level</b>: %V');
-    rules.defineSheetElement
-      ('Maximum Spells Per Level', 'SpellsPerLevel/', '%V');
+    rules.defineSheetElement('Understand Spell', 'Spells Per Day', '<b>%N</b>: %V%');
+    rules.defineSheetElement('Maximum Spells Per Level', 'Spells Per Day');
 
     Quilvyn.addRuleSet(rules);
 
@@ -214,6 +203,8 @@ FirstEdition.FEATURES = {
     'Section=feature Note="Must not associate w/non-good characters"',
   'Disguise':'Section=feature Note="92%+ chance of successful disguise"',
   'Divine Health':'Section=save Note="Immune to disease"',
+  'Divine Protection':
+    'Section=save Note="+2 Breath/+2 Death/+2 Petrification/+2 Spell/+2 Wand"',
   'Dodge Missiles':
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
   'Eldritch Craft':
@@ -304,7 +295,7 @@ FirstEdition.FEATURES = {
   'Know Depth':
     'Section=feature Note="%V% Determine approximate depth underground"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
-  'Resist Magic':'Section=save Note="+%V vs. Spell or Wand"',
+  'Resist Magic':'Section=save Note="+%V Spell/+%V Wand"',
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
   'Sense Construction':
@@ -1906,7 +1897,7 @@ FirstEdition.CLASSES = {
     'Experience=' +
       '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
       '3500,3850,4200 ' +
-    'CasterLevelDivine="levels.Paladin<=8 ? null : Math.min(levels.Paladin - 8, 8)" ' +
+    'CasterLevelDivine="levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 8)" ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'C1:9=1;10=2;14=3;21=4,' +
@@ -1930,13 +1921,13 @@ FirstEdition.CLASSES = {
       '2975,3300,3625 ' +
     'CasterLevelArcane="levels.Ranger <= 7 ? null : Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
     'CasterLevelDivine="levels.Ranger <= 7 ? null : Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
-     'SpellAbility=wisdom ' +
-     'SpellsPerDay=' +
-       'D1:8=1;10=2;18=3;23=4,' +
-       'D2:12=1;14=2;20=3,' +
-       'D3:16=1;17=2;22=3,' +
-       'M1:9=1;11=2;19=3;24=4,' +
-       'M2:13=1;15=2;21=3',
+      'SpellAbility=wisdom ' +
+      'SpellsPerDay=' +
+        'D1:8=1;10=2;18=3;23=4,' +
+        'D2:12=1;14=2;20=3,' +
+        'D3:16=1;17=2;22=3,' +
+        'M1:9=1;11=2;19=3;24=4,' +
+        'M2:13=1;15=2;21=3',
   'Thief':
     'Require=' +
       '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
@@ -1968,7 +1959,17 @@ FirstEdition.RULE_EDITS = {
     'Class':{
       // Removed
       'Assassin':null,
+      'Monk':null,
+      // Modified
       'Cleric':
+        'SpellsPerDay=' +
+          'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
+          'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
+          'P3:5=1;6=2;8=3;11=4;12=5;13=6;16=7;18=8;20=9,' +
+          'P4:7=1;8=2;10=3;13=4;14=5;15=6;17=7;18=8,' +
+          'P5:9=1;10=2;14=3;15=4;17=5;18=6;20=7,' +
+          'P6:11=1;12=2;16=3;18=4;20=5,' +
+          'P7:14=1;17=2 ' +
         'Spells=' +
           '"P1:Animal Friendship;Bless;Combine;Command;Create Water;' +
           'Cure Light Wounds;Detect Evil;Detect Magic;Detect Poison;' +
@@ -2017,10 +2018,52 @@ FirstEdition.RULE_EDITS = {
           'Reincarnate;Restoration;Resurrection;Succor;Sunray;Symbol;' +
           'Transmute Metal To Wood;Wind Walk"',
       'Druid':
+        'Require=' +
+          '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
+        'Features=' +
+          '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
+          '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
+          '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
+          '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
+          '7:Shapeshift ' +
+        'SpellsPerDay=' +
+          'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
+          'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
+          'P3:5=1;6=2;8=3;11=4;12=5;13=6;16=7;18=8;20=9,' +
+          'P4:7=1;8=2;10=3;13=4;14=5;15=6;17=7;18=8,' +
+          'P5:9=1;10=2;14=3;15=4;17=5;18=6;20=7,' +
+          'P6:11=1;12=2;16=3;18=4;20=5,' +
+          'P7:14=1;17=2 ' +
         'Spells="P1:Animal Friendship"',
+      'Fighter':
+        'Require="strength >= 9" ' +
+        'Features-="2:Fighting The Unskilled"',
       'Illusionist':
+        'SpellsPerDay=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2 ' +
         'Spells="P1:Animal Friendship"',
       'Magic User':
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
+          '"9:Eldritch Craft" ' +
+        'SpellsPerDay=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2 ' +
         'Spells=' +
           '"W1:Affect Normal Fires;Alarm;Armor;Audible Glamer;Burning Hands;' +
           'Change Self;Charm Person;Chill Touch;Color Spray;' +
@@ -2094,21 +2137,57 @@ FirstEdition.RULE_EDITS = {
           'Foresight;Gate;Imprisonment;Meteor Swarm;Monster Summoning VII;' +
           'Disjunction;Power Word Kill;Prismatic Sphere;Shape Change;Succor;' +
           'Temporal Stasis;Time Stop;Weird;Wish',
-      'Monk':null,
-      // Modified
+      'Paladin':
+        'Require=' +
+          '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
+          '"strength >= 12","wisdom >= 13" ' +
+        'Features=' +
+          '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+          '"strength >= 16/charisma >= 16 ? 1:Bonus Paladin Experience",' +
+          '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
+          '"1:Divine Protection","1:Lay On Hands",1:Nonmaterialist,1:Philanthropist,' +
+          '"1:Protection From Evil","3:Turn Undead","4:Summon Warhorse" ' +
+        'CasterLevelDivine="levels.Paladin<9 ? null : Math.min(levels.Paladin-8, 9)" ' +
+        'SpellsPerDay=' +
+          'P1:9=1;10=2;14=3,' +
+          'P2:11=1;12=2;16=3,' +
+          'P3:13=1;16=2;17=3,' +
+          'P4:15=1;19=2;20=3',
+      'Ranger':
+        'Require=' +
+          '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
+          '"strength >= 13","wisdom >= 14" ' +
+        'Features=' +
+          '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+          '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
+          '"1:Animal Empathy","1:Track","1:Travel Light","2:Favored Enemy",' +
+          '"10:Band Of Followers" ' +
+        'CasterLevelArcane=levels.Ranger ? null : null ' +
+        'CasterLevelDivine="levels.Ranger<8 ? null : Math.min(levels.Ranger-7, 9)" ' +
+        'SpellsPerDay=' +
+          'P1:8=1;9=2;13=3,' +
+          'P2:10=1;11=2;15=3,' +
+          'P3:12=1;14=2;16=3',
+       'Thief':
+         'Require=' +
+           '"alignment != \'Lawful Good\'","dexterity >= 9"'
     },
     'Feature':{
       // Modified
       'Deadly Aim':
         'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
+      'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
       'Sense Construction':
         'Note="R10\' 87% Detect new construction, 66% sliding walls"',
       'Stealthy':'Note="Foe -4 surprise roll when traveling quietly"',
       // New
+      'Animal Empathy':
+        'Section=feature Note="Automatic friend to domestic animals, shift wild reaction one category (%V Wand save neg)"',
       'Gnome Ability Adjustment':
         'Section=ability Note="+1 Intelligence/-1 Wisdom"',
       'Magic Mismatch':
-        'Section=feature Note="20% chance of magic item malfunction"'
+        'Section=feature Note="20% chance of magic item malfunction"',
+      'Woodland Languages':'Section=skill Note="+%V Language Count"'
     },
     'Race':{
       // Removed
@@ -2454,8 +2533,8 @@ FirstEdition.RULE_EDITS = {
           '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,' +
           '2750,3100,3450,3800,4150',
       'Ranger':
-      'Require+=' +
-        '"charisma >= 6","dexterity >= 6" ' +
+        'Require+=' +
+          '"charisma >= 6","dexterity >= 6" ' +
         'Attack=0,1,1 WeaponProficieny=3,2,2 ' +
         'Experience=' +
           '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
@@ -3441,6 +3520,10 @@ FirstEdition.classRulesExtra = function(rules, name) {
       );
     }
     rules.defineRule("languages.Druids' Cant", 'levels.' + name, '=', '1');
+    if(name == 'Druid' && FirstEdition.EDITION == 'Second Edition') {
+      rules.defineRule
+        ('skillNotes.woodlandLanguages', 'levels.Druid', '=', 'source - 2');
+    }
 
     if(name == 'Bard') {
       rules.defineRule('featureNotes.legendLore',
@@ -3476,18 +3559,27 @@ FirstEdition.classRulesExtra = function(rules, name) {
         'levels.Magic User', '+=', 'source >= 16 ? 2 : source >= 11 ? 1 : null'
       );
     }
-    rules.defineRule('intelligenceRow',
-      'levels.Magic User', '?', null,
-      'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 16 ? 3 : (source - 13)'
-    );
-    rules.defineRule('understandSpell',
-      'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
-    );
-    rules.defineRule('maximumSpellsPerLevel',
-      'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? 1 : source <= 3 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
-    );
-    rules.defineRule
-      ('minimumSpellsPerLevel', 'intelligenceRow', '=', 'source + 4');
+    if(FirstEdition.EDITION == 'Second Edition') {
+      rules.defineRule('maximumSpellsPerLevel',
+        'levels.Magic User', '?', null,
+        'intelligence', '=', 'source==9 ? 6 : source<13 ? 7 : source<15 ? 9 : source<17 ? 11 : source==17 ? 14 : source==18 ? 18 : "all"'
+      );
+      rules.defineRule('understandSpell',
+        'levels.Magic User', '?', null,
+        'intelligence', '=', 'source * 5 - 10'
+      );
+    } else {
+      rules.defineRule('intelligenceRow',
+        'levels.Magic User', '?', null,
+        'intelligence', '=', 'source <= 9 ? 0 : source <= 12 ? 1 : source <= 14 ? 2 : source <= 16 ? 3 : (source - 13)'
+      );
+      rules.defineRule('maximumSpellsPerLevel',
+        'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? 1 : source <= 3 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
+      );
+      rules.defineRule('understandSpell',
+        'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
+      );
+    }
 
   } else if(name == 'Monk') {
 
@@ -3564,10 +3656,25 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Ranger') {
 
-    rules.defineRule('attacksPerRound',
-      'levels.Ranger', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
-    );
-    rules.defineRule('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
+    if(FirstEdition.EDITION == 'Second Edition') {
+      rules.defineRule('attacksPerRound',
+        'levels.Ranger', '+', 'source < 7 ? null : source < 13 ? 0.5 : 1'
+      );
+      rules.defineRule('skillNotes.animalEmpathy',
+        'levels.Ranger', '=', '-Math.floor((source + 2) / 3)'
+      );
+      rules.defineRule('skills.Hide In Shadows',
+        'levels.Ranger', '+=', 'source < 5 ? source * 5 + 5 : source < 9 ? source * 6 + 1 : source < 13 ? source * 7 - 7 : source < 15 ? source * 8 - 19 : 99'
+      );
+      rules.defineRule('skills.Move Silently',
+        'levels.Ranger', '+=', 'source < 5 ? source * 6 + 9 : source < 7 ? source * 7 + 5 : source == 7 ? 55 : source == 8 ? 62 : source < 13 ? source * 8 - 2 : 99'
+      );
+    } else {
+      rules.defineRule('attacksPerRound',
+        'levels.Ranger', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
+      );
+      rules.defineRule('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
+    }
     rules.defineRule('warriorLevel', 'levels.Ranger', '+', null);
 
   } else if(name == 'Thief') {
