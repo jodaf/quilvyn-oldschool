@@ -1961,6 +1961,27 @@ FirstEdition.RULE_EDITS = {
       'Assassin':null,
       'Monk':null,
       // Modified
+      'Bard':
+        'Require=' +
+          '"alignment =~ \'Neutral\'","charisma >= 15","dexterity >= 12",' +
+          '"intelligence >= 13" ' +
+        'Features=' +
+          '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain)",' +
+          '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
+          '"1:Poetic Inspiration" ' +
+        'Experience=' +
+          '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
+          '1760,1980,2200 ' +
+        'CasterLevelArcane=levels.Bard ' +
+        'CasterLevelDivine=levels.Bard ? null : null ' +
+        'SpellAbility=intelligence ' +
+        'SpellsPerDay=' +
+          'W1:2=1;3=2;5=3;16=4,' +
+          'W2:4=1;6=2;8=3;17=4,' +
+          'W3:7=1;9=2;11=3;18=4,' +
+          'W4:10=1;12=2;14=3;19=4,' +
+          'W5:13=1;15=2;17=3;20=4,' +
+          'W6:16=1;18=2;20=3',
       'Cleric':
         'SpellsPerDay=' +
           'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
@@ -2039,16 +2060,24 @@ FirstEdition.RULE_EDITS = {
         'Require="strength >= 9" ' +
         'Features-="2:Fighting The Unskilled"',
       'Illusionist':
+        'Require="dexterity >= 16","intelligence >= 9" ' +
+        'Features=' +
+          '"Intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
+          '"1:Empowered Illusions","1:Illusion Resistance",' +
+          '"1:School Opposition (Abjuration)",' +
+          '"1:School Opposition (Evocation)",' +
+          '"1:School Opposition (Necromancy)",' +
+          '"1:School Specialization (Illusion)" ' +
         'SpellsPerDay=' +
-          'W1:1=1;2=2;4=3;5=4;13=5,' +
-          'W2:3=1;4=2;7=3;10=4;13=5,' +
-          'W3:5=1;6=2;8=3;11=4;13=5,' +
-          'W4:7=1;8=2;11=3;12=4;15=5,' +
-          'W5:9=1;10=2;11=3;12=4;15=5,' +
-          'W6:12=1;13=2;16=3;20=4,' +
-          'W7:14=1;16=2;17=3,' +
-          'W8:16=1;17=2;19=3,' +
-          'W9:18=1;20=2 ' +
+          'W1:1=2;2=3;4=4;5=5;13=6,' +
+          'W2:3=2;4=3;7=4;10=5;13=6,' +
+          'W3:5=2;6=3;8=4;11=5;13=6,' +
+          'W4:7=2;8=3;11=4;12=5;15=6,' +
+          'W5:9=2;10=3;11=4;12=5;15=6,' +
+          'W6:12=2;13=3;16=4;20=5,' +
+          'W7:14=2;16=3;17=4,' +
+          'W8:16=2;17=3;19=4,' +
+          'W9:18=2;20=3 ' +
         'Spells="P1:Animal Friendship"',
       'Magic User':
         'Features=' +
@@ -2177,16 +2206,63 @@ FirstEdition.RULE_EDITS = {
       'Deadly Aim':
         'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
+      'Charming Music':
+        'Section=feature Note="Modify listener reaction 1 category (%V paralyzation save neg)"',
+      'Defensive Song':
+        'Note="Spell save to counteract magical song and poetry attacks"',
+      'Legend Lore':'Note="%V% chance of info about magic item"',
+      'Poetic Inspiration':
+        'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Sense Construction':
         'Note="R10\' 87% Detect new construction, 66% sliding walls"',
       'Stealthy':'Note="Foe -4 surprise roll when traveling quietly"',
       // New
       'Animal Empathy':
         'Section=feature Note="Automatic friend to domestic animals, shift wild reaction one category (%V Wand save neg)"',
+      'Bonus Illusionist Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Empowered Illusions':
+        'Section=magic Note="Foes -1 save vs. illusion spells"',
+      'Illusion Focus':
+        'Section=magic Note="+1 illusion spell each level"',
+      'Illusion Resistance':
+        'Section=save Note="+1 vs. illusions"',
       'Gnome Ability Adjustment':
         'Section=ability Note="+1 Intelligence/-1 Wisdom"',
       'Magic Mismatch':
         'Section=feature Note="20% chance of magic item malfunction"',
+      'School Opposition (Abjuration)':
+        'Section=magic Note="Cannot learn or cast Abjuration spells"',
+      'School Opposition (Alteration)':
+        'Section=magic Note="Cannot learn or cast Alteration spells"',
+      'School Opposition (Conjuration)':
+        'Section=magic Note="Cannot learn or cast Conjuration spells"',
+      'School Opposition (Divination)':
+        'Section=magic Note="Cannot learn or cast Greater Divination spells"',
+      'School Opposition (Enchantment)':
+        'Section=magic Note="Cannot learn or cast Enchantment spells"',
+      'School Opposition (Evocation)':
+        'Section=magic Note="Cannot learn or cast Evocation spells"',
+      'School Opposition (Illusion)':
+        'Section=magic Note="Cannot learn or cast Illusion spells"',
+      'School Opposition (Necromancy)':
+        'Section=magic Note="Cannot learn or cast Necromancy spells"',
+      'School Specialization (Abjuration)':
+        'Section=magic,save Note="Extra Abjuration spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Alteration)':
+        'Section=magic,save Note="Extra Alteration spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Conjuration)':
+        'Section=magic,save Note="Extra Conjuration spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Divination)':
+        'Section=magic,save Note="Extra Divination spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Enchantment)':
+        'Section=magic,save Note="Extra Enchantment spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Evocation)':
+        'Section=magic,save Note="Extra Evocation spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Illusion)':
+        'Section=magic,save Note="Extra Illusion spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Specialization (Necromancy)':
+        'Section=magic,save Note="Extra Necromancy spell/dy each spell level","+1 vs. Abjuration spells"',
       'Woodland Languages':'Section=skill Note="+%V Language Count"'
     },
     'Race':{
@@ -2618,7 +2694,7 @@ FirstEdition.editedRules = function(base, type) {
         var op = matchInfo[i].match(/\W+$/)[0];
         var attr = matchInfo[i].replace(op, '');
         var values =
-          // TODO hack to make getAttrValueArray work with [-+]=
+          // .replace allows getAttrValueArray work with [-+]=
           QuilvynUtils.getAttrValueArray(edits[a].replace(/[-+]=/g, '='), attr);
         for(var j = 0; j < values.length; j++) {
           if(!(values[j] + '').match(/^[-+]?\d+$/))
@@ -2954,89 +3030,94 @@ FirstEdition.identityRules = function(
     ('saveNotes.resistPoison', 'constitution', '=', 'Math.floor(source / 3.5)');
   if(FirstEdition.EDITION == 'OSRIC') {
     rules.defineRule('skills.Climb Walls',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 6 ? source*2+78 : Math.min(source+84, 99)'
     );
     rules.defineRule('skills.Find Traps',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 17 ? source*4+21 : Math.min(source*2+55, 99)',
       'dexterity', '+',
       'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null'
     );
-    rules.defineRule
-      ('skills.Hear Noise', 'thiefSkillLevel', '=', 'source*3+7');
+    rules.defineRule('skills.Hear Noise', 'rogueLevel', '=', 'source*3+7');
     rules.defineRule('skills.Hide In Shadows',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 15 ? source*5+15 : (source+75)',
       'dexterity', '+',
       'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
     );
     rules.defineRule('skills.Move Quietly',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 15 ? source * 5 + 15 : (source + 75)',
       'dexterity', '+',
       'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
     );
     rules.defineRule('skills.Open Locks',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 16 ? source * 4 + 26 : (source + 75)',
       'dexterity', '+',
       'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
     );
     rules.defineRule('skills.Pick Pockets',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 14 ? source * 4 + 31 : (source + 75)',
       'dexterity', '+',
       'source<=11 ? (source-12)*5 : source>=18 ? (source-17)*10-5 : null'
     );
     rules.defineRule('skills.Read Languages',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 19 ? Math.max(source*5-5, 1) : Math.min(source*2+52, 99)'
     );
   } else {
     rules.defineRule('skills.Climb Walls',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 4 ? 84 + source : Math.min(80 + source * 2, 99)'
     );
     rules.defineRule('skills.Find Traps',
-      'thiefSkillLevel', '=', 'Math.min(source * 5 + 15, 99)',
+      'rogueLevel', '=', 'Math.min(source * 5 + 15, 99)',
       'dexterity', '+',
       'source == 9 ? -10 : source <= 11 ? (source-12)*5 : source >= 18 ? (source-17)*5 : null'
     );
     rules.defineRule('skills.Hear Noise',
-      'thiefSkillLevel', '=', 'Math.floor((source-1)/2) * 5 + (source >= 15 ? 15 : 10)'
+      'rogueLevel', '=', 'Math.floor((source-1)/2) * 5 + (source >= 15 ? 15 : 10)'
     );
     rules.defineRule('skills.Hide In Shadows',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 4 ? (source+1) * 5 : source <= 8 ? source * 6 + 1 : ' +
       'source <= 12 ? (source-1) * 7 : Math.min(source * 8 - 19, 99)',
       'dexterity', '+',
       'source <= 10 ? (source-11)*5 : source >= 17 ? (source-16)*5 : null'
     );
     rules.defineRule('skills.Move Quietly',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 4 ? source*6+9 : source <= 6 ? source*7+5 : ' +
       'source == 7 ? 55 : Math.min(source*8-2, 99)',
       'dexterity', '+',
       'source <= 12 ? (source-13)*5 : source >= 17 ? (source-16)*5 : null'
     );
     rules.defineRule('skills.Open Locks',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 4 ? source*4+21 : Math.min(source*5+17, 99)',
       'dexterity', '+',
       'source <= 10 ? (source-11)*5 : source >= 16 ? (source-15)*5 : null'
     );
     rules.defineRule('skills.Pick Pockets',
-      'thiefSkillLevel', '=',
+      'rogueLevel', '=',
       'source <= 9 ? source*5+25 : source <= 12 ? source*10-20 : ' +
       'source <= 15 ? source*5+40 : 125',
       'dexterity', '+',
       'source <= 11 ? (source-12)*5 : source >= 17 ? (source-16)*5 : null'
     );
     rules.defineRule('skills.Read Languages',
-      'thiefSkillLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
+      'rogueLevel', '=', 'source >= 4 ? Math.min(source*5, 80) : null',
       'levels.Monk', '*', '0'
     );
+    if(FirstEdition.EDITION == 'Second Edition') {
+      rules.defineRule('skills.Climb Walls', 'levels.Bard', '+=', '50');
+      rules.defineRule('skills.Hear Noise', 'levels.Bard', '+=', '20');
+      rules.defineRule('skills.Pick Pockets', 'levels.Bard', '+=', '10');
+      rules.defineRule('skills.Read Languages', 'levels.Bard', '+=', '5');
+    }
   }
   var skillRacialAdjustments = FirstEdition.EDITION == 'OSRIC' ? {
     'Climb Walls':
@@ -3487,7 +3568,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
       'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0'
     );
     rules.defineRule
-      ('thiefSkillLevel', 'levels.Assassin', '+=', 'Math.max(source - 2, 1)');
+      ('rogueLevel', 'levels.Assassin', '+=', 'Math.max(source - 2, 1)');
 
   } else if(name == 'Cleric') {
 
@@ -3526,15 +3607,27 @@ FirstEdition.classRulesExtra = function(rules, name) {
     }
 
     if(name == 'Bard') {
-      rules.defineRule('featureNotes.legendLore',
-        'levels.Bard', '=', 'source == 23 ? 99 : source >= 7 ? source * 5 - 15 : source >= 3 ? source * 3 - 2 : (source * 5 - 5)'
-      );
-      rules.defineRule('magicNotes.charmingMusic',
-        'levels.Bard', '=', 'source == 23 ? 95 : source >= 21 ? source * 4 : source >= 2 ? 20 + Math.floor((source-2) * 10 / 3) : 15'
-      );
+      if(FirstEdition.EDITION == 'Second Edition') {
+        rules.defineRule('featureNotes.legendLore',
+          'levels.Bard', '=', 'source * 5'
+        );
+        rules.defineRule('featureNotes.charmingMusic',
+          'levels.Bard', '=', '-Math.floor(source / 3)'
+        );
+      } else {
+        rules.defineRule('featureNotes.legendLore',
+          'levels.Bard', '=', 'source == 23 ? 99 : source >= 7 ? source * 5 - 15 : source >= 3 ? source * 3 - 2 : (source * 5 - 5)'
+        );
+        rules.defineRule('magicNotes.charmingMusic',
+          'levels.Bard', '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
+        );
+      }
       rules.defineRule('maximumHenchmen',
         'levels.Bard', 'v', 'source < 23 ? Math.floor((source-2) / 3) : null'
       );
+      if(FirstEdition.EDITION == 'Second Edition')
+        rules.defineRule
+         ('magicNotes.poeticInspiration', 'levels.Bard', '=', null);
     }
 
   } else if(name == 'Fighter') {
@@ -3625,7 +3718,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('skills.Pick Pockets', 'levels.Monk', '*', '0');
     rules.defineRule
       ('speed', 'levels.Monk', '+', 'source * 10 + (source >= 17 ? 30 : 20)');
-    rules.defineRule('thiefSkillLevel', 'levels.Monk', '+=', null);
+    rules.defineRule('rogueLevel', 'levels.Monk', '+=', null);
     rules.defineRule('weapons.Unarmed.2',
       'levels.Monk', '=', 'FirstEdition.monkUnarmedDamage[source]'
     );
@@ -3687,7 +3780,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('languageCount', 'levels.Thief', '+', '1');
     rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
-    rules.defineRule('thiefSkillLevel', 'levels.Thief', '+=', null);
+    rules.defineRule('rogueLevel', 'levels.Thief', '+=', null);
 
   }
 
@@ -4041,10 +4134,6 @@ FirstEdition.ruleNotes = function() {
     '\n' +
     '<h3>Known Bugs</h3>\n' +
     '<ul>\n' +
-    '  <li>\n' +
-    '    Percentage calculations for the bard Charming Music effect differ\n' +
-    '    slightly from the 1E PHB table for some bard levels.\n' +
-    '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
 };
