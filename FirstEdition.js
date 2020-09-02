@@ -207,6 +207,8 @@ FirstEdition.FEATURES = {
     'Section=save Note="+2 Breath/+2 Death/+2 Petrification/+2 Spell/+2 Wand"',
   'Dodge Missiles':
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
+  'Double Specialization':
+    'Section=combat Note="+3 %V Attack Modifier/+3 %V Damage Modifier"',
   'Eldritch Craft':
     'Section=magic Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
   'Eldritch Power':'Section=magic Note="May use <i>Enchant An Item</i> spell"',
@@ -266,6 +268,8 @@ FirstEdition.FEATURES = {
   'Turn Undead':
     'Section=combat Note="Turn 2d6, destroy (good) or control (evil) d6+6 undead creatures"',
   'Unburdened':'Section=feature Note="Own le 5 magic items"',
+  'Weapon Specialization':
+     'Section=combat Note="+%1 %V Attack Modifier/+%2 %V Damage Modifier/+%3 attacks/rd"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
   'Wilderness Movement':
      'Section=ability Note="Normal, untrackable move through undergrowth"',
@@ -2058,7 +2062,10 @@ FirstEdition.RULE_EDITS = {
         'Spells="P1:Animal Friendship"',
       'Fighter':
         'Require="strength >= 9" ' +
-        'Features-="2:Fighting The Unskilled"',
+        'Features-="2:Fighting The Unskilled" ' +
+        'Experience=' +
+          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
+          '2500,2750,3000',
       'Illusionist':
         'Require="dexterity >= 16","intelligence >= 9" ' +
         'Features=' +
@@ -2176,6 +2183,9 @@ FirstEdition.RULE_EDITS = {
           '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
           '"1:Divine Protection","1:Lay On Hands",1:Nonmaterialist,1:Philanthropist,' +
           '"1:Protection From Evil","3:Turn Undead","4:Summon Warhorse" ' +
+        'Experience=' +
+          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
+          '2500,2750,3000 ' +
         'CasterLevelDivine="levels.Paladin<9 ? null : Math.min(levels.Paladin-8, 9)" ' +
         'SpellsPerDay=' +
           'P1:9=1;10=2;14=3,' +
@@ -2191,6 +2201,9 @@ FirstEdition.RULE_EDITS = {
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
           '"1:Animal Empathy","1:Track","1:Travel Light","2:Favored Enemy",' +
           '"10:Band Of Followers" ' +
+        'Experience=' +
+          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
+          '2500,2750,3000 ' +
         'CasterLevelArcane=levels.Ranger ? null : null ' +
         'CasterLevelDivine="levels.Ranger<8 ? null : Math.min(levels.Ranger-7, 9)" ' +
         'SpellsPerDay=' +
@@ -2203,24 +2216,28 @@ FirstEdition.RULE_EDITS = {
     },
     'Feature':{
       // Modified
-      'Deadly Aim':
-        'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
-      'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
       'Charming Music':
         'Section=feature Note="Modify listener reaction 1 category (%V paralyzation save neg)"',
+      'Deadly Aim':
+        'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
       'Defensive Song':
         'Note="Spell save to counteract magical song and poetry attacks"',
+      'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
       'Legend Lore':'Note="%V% chance of info about magic item"',
       'Poetic Inspiration':
         'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Sense Construction':
         'Note="R10\' 87% Detect new construction, 66% sliding walls"',
       'Stealthy':'Note="Foe -4 surprise roll when traveling quietly"',
+      'Track':'Section=skill Note="+%V Track"',
       // New
+      'Ambidextrous':'Section=combat Note="No penalty for two-handed fighting"',
       'Animal Empathy':
-        'Section=feature Note="Automatic friend to domestic animals, shift wild reaction one category (%V Wand save neg)"',
+        'Section=skill Note="Automatic friend to domestic animals, shift wild reaction one category (%V Wand save neg)"',
       'Bonus Illusionist Experience':
         'Section=ability Note="10% added to awarded experience"',
+      'Circle Of Power':
+        'Section=save Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
       'Empowered Illusions':
         'Section=magic Note="Foes -1 save vs. illusion spells"',
       'Illusion Focus':
@@ -2604,6 +2621,7 @@ FirstEdition.RULE_EDITS = {
       'Paladin':
         'Require+=' +
           '"dexterity >= 6" ' +
+        'Features+="1:Circle Of Power" ' +
         'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
         'Experience=' +
           '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,' +
@@ -2611,6 +2629,7 @@ FirstEdition.RULE_EDITS = {
       'Ranger':
         'Require+=' +
           '"charisma >= 6","dexterity >= 6" ' +
+        'Features+="1:Ambidextrous" ' +
         'Attack=0,1,1 WeaponProficieny=3,2,2 ' +
         'Experience=' +
           '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
@@ -2879,6 +2898,44 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
     ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
   rules.defineRule('attacksPerRound', '', '=', '1');
   rules.defineRule('baseAttack', '', '=', '0');
+  rules.defineRule('combatNotes.weaponSpecialization',
+    'weaponSpecialization', '=', 'source == "None" ? null : source'
+  );
+  if(FirstEdition.EDITION == 'Second Edition') {
+    rules.defineRule('combatNotes.weaponSpecialization.1',
+      'weaponSpecialization', '=', 'source.indexOf("Bow") >= 0 ? 2 : 1'
+    );
+    rules.defineRule('combatNotes.weaponSpecialization.2',
+      'weaponSpecialization', '=', 'source.indexOf("Bow") >= 0 ? 0 : 2'
+    );
+    rules.defineRule('combatNotes.weaponSpecialization.3',
+      'weaponSpecialization', '=',
+        'source == "None" ? null : source.indexOf("Crossbow") >= 0 ? -0.5 : 0',
+      'levels.Fighter', '+', 'source < 7 ? 0.5 : source < 13 ? 1 : 1.5',
+    );
+    SRD35.prerequisiteRules
+      (rules, 'validation', 'weaponSpecialization', 'weaponSpecialization',
+       'levels.Fighter >= 1');
+  } else {
+    rules.defineRule
+      ('combatNotes.weaponSpecialization.1', 'weaponSpecialization', '=', '1');
+    rules.defineRule
+      ('combatNotes.weaponSpecialization.2', 'weaponSpecialization', '=', '2');
+    rules.defineRule('combatNotes.weaponSpecialization.3',
+      'weaponSpecialization', '?', 'source != "None"',
+      'level', '=', 'Math.floor(source / 2)'
+    );
+    if(FirstEdition.EDITION == 'OSRIC') {
+      rules.defineRule('combatNotes.doubleSpecialization',
+        'doubleSpecialization', '?', null,
+        'weaponSpecialization', '=', 'source == "None" ? null : source'
+      );
+      rules.defineRule
+        ('features.Double Specialization', 'doubleSpecialization', '=', null);
+    }
+  }
+  rules.defineRule
+    ('features.Weapon Specialization', 'weaponSpecialization', '=', null);
   rules.defineRule('meleeAttack',
     'baseAttack', '=', null,
     'combatNotes.strengthAttackAdjustment', '+', null
@@ -3742,6 +3799,9 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule('save.Breath', 'levels.Paladin', '^', '2');
     rules.defineRule('save.Death', 'levels.Paladin', '^', '2');
     rules.defineRule('save.Petrification', 'levels.Paladin', '^', '2');
+    if(FirstEdition.EDITION == 'Second Edition') {
+      rules.defineRule('saveNotes.circleOfPower', 'levels.Paladin', '=', null);
+    }
     rules.defineRule('turningLevel',
       'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
     );
@@ -3756,11 +3816,17 @@ FirstEdition.classRulesExtra = function(rules, name) {
       rules.defineRule('skillNotes.animalEmpathy',
         'levels.Ranger', '=', '-Math.floor((source + 2) / 3)'
       );
+      rules.defineRule
+        ('skillNotes.track', 'levels.Ranger', '=', 'Math.floor(source / 3)');
       rules.defineRule('skills.Hide In Shadows',
         'levels.Ranger', '+=', 'source < 5 ? source * 5 + 5 : source < 9 ? source * 6 + 1 : source < 13 ? source * 7 - 7 : source < 15 ? source * 8 - 19 : 99'
       );
       rules.defineRule('skills.Move Silently',
         'levels.Ranger', '+=', 'source < 5 ? source * 6 + 9 : source < 7 ? source * 7 + 5 : source == 7 ? 55 : source == 8 ? 62 : source < 13 ? source * 8 - 2 : 99'
+      );
+      rules.defineRule('skills.Track',
+        'levels.Ranger', '+=', '0',
+        'skillNotes.track', '+', null
       );
     } else {
       rules.defineRule('attacksPerRound',
