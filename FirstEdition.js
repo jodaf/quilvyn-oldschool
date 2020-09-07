@@ -3014,13 +3014,6 @@ FirstEdition.abilityRules = function(rules) {
     'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? 0 : ' +
                         'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
   );
-  var encumbranceAdjustments = FirstEdition.EDITION == 'Second Edition' ? [
-  ] : [
-    -35, -25, -15, null, null, 10, 20, 35, 50, 75, 100, 125, 150, 200, 300
-  ];
-  rules.defineRule('abilityNotes.strengthEncumbranceAdjustment',
-    'strengthRow', '=', '[' + encumbranceAdjustments + '][source]'
-  );
   if(FirstEdition.EDITION == 'Second Edition') {
     rules.defineRule('loadLight',
       'strengthRow', '=', '[6, 11, 21, 36, 41, 46, 56, 71, 86, 111, 136, 161, 186, 236, 336][source]'
@@ -3028,7 +3021,7 @@ FirstEdition.abilityRules = function(rules) {
     rules.defineRule('loadMedium',
       'strengthRow', '=', '[7, 14, 30, 51, 59, 70, 86, 101, 122, 150, 175, 200, 225, 275, 375][source]'
     );
-    rules.defineRule('loadHeavy',
+    rules.defineRule('loadMax',
       'strengthRow', '=', '[8, 17, 39, 66, 77, 94, 116, 131, 158, 189, 214, 239, 264, 314, 414][source]'
     );
   } else {
@@ -3036,7 +3029,7 @@ FirstEdition.abilityRules = function(rules) {
       'strengthRow', '=', '[0, 10, 20, 35, 35, 45, 55, 70, 85, 110, 135, 160, 185, 235, 335][source]'
     );
     rules.defineRule('loadMedium', 'loadLight', '=', 'source + 35');
-    rules.defineRule('loadHeavy', 'loadMedium', '=', 'source + 35');
+    rules.defineRule('loadMax', 'loadMedium', '=', 'source + 35');
   }
   rules.defineRule('speed',
     '', '=', '120',
