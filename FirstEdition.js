@@ -117,6 +117,15 @@ function FirstEdition() {
     rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
     rules.defineSheetElement
       ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+    rules.defineSheetElement
+      ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
+    rules.defineSheetElement('Thac0 Melee', 'Thac0Info/', '%V');
+    rules.defineSheetElement('Thac0 Ranged', 'Thac0Info/', '%V');
+    rules.defineSheetElement
+      ('Thac10Info', 'AttackInfo', '<b>THAC10 Melee/Ranged</b>: %V', '/');
+    rules.defineSheetElement('Thac10 Melee', 'Thac10Info/', '%V');
+    rules.defineSheetElement('Thac10 Ranged', 'Thac10Info/', '%V');
+    rules.defineSheetElement('AttackInfo');
     rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
     rules.defineSheetElement('Understand Spell', 'Spells Per Day', '<b>%N</b>: %V%');
     rules.defineSheetElement('Maximum Spells Per Level', 'Spells Per Day');
@@ -147,17 +156,17 @@ FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
 
 FirstEdition.ALIGNMENTS = Object.assign({}, SRD35.ALIGNMENTS);
 FirstEdition.ARMORS = {
-  'None':'AC=0 Move=120',
-  'Banded':'AC=6 Move=90',
-  'Chain':'AC=5 Move=90',
-  'Elven Chain':'AC=5 Move=120',
-  'Leather':'AC=2 Move=120',
-  'Padded':'AC=2 Move=90',
-  'Plate':'AC=7 Move=60',
-  'Ring':'AC=3 Move=90',
-  'Scale Mail':'AC=4 Move=60',
-  'Splint':'AC=6 Move=60',
-  'Studded Leather':'AC=3 Move=90',
+  'None':'AC=0 Move=120 Weight=0',
+  'Banded':'AC=6 Move=90 Weight=35',
+  'Chain':'AC=5 Move=90 Weight=30',
+  'Elven Chain':'AC=5 Move=120 Weight=15',
+  'Leather':'AC=2 Move=120 Weight=15',
+  'Padded':'AC=2 Move=90 Weight=10',
+  'Plate':'AC=7 Move=60 Weight=45',
+  'Ring':'AC=3 Move=90 Weight=35',
+  'Scale Mail':'AC=4 Move=60 Weight=40',
+  'Splint':'AC=6 Move=60 Weight=40',
+  'Studded Leather':'AC=3 Move=90 Weight=20',
 };
 FirstEdition.FEATURES = {
   // Class
@@ -407,10 +416,10 @@ FirstEdition.RACES = {
 };
 FirstEdition.SCHOOLS = Object.assign({}, SRD35.SCHOOLS);
 FirstEdition.SHIELDS = {
-  'None':'AC=0',
-  'Large Shield':'AC=1',
-  'Medium Shield':'AC=1',
-  'Small Shield':'AC=1'
+  'None':'AC=0 Weight=0',
+  'Large Shield':'AC=1 Weight=10',
+  'Medium Shield':'AC=1 Weight=8',
+  'Small Shield':'AC=1 Weight=5'
 };
 FirstEdition.SKILLS = {
   'Climb Walls':'Ability=strength Class=Assassin,Monk,Thief',
@@ -1992,13 +2001,17 @@ FirstEdition.RULE_EDITS = {
   'First Edition':{},
   'Second Edition':{
     'Armor':{
-      // New TODO Move=?
-      'Brigandine':'AC=4 Move=120',
-      'Hide':'AC=4 Move=120',
-      'Bronze Plate':'AC=6 Move=120',
-      'Plate':'AC=7 Move=120',
-      'Field Plate':'AC=8 Move=120',
-      'Full Plate':'AC=9 Move=120'
+      // Modified
+      'Chain':'Weight=40',
+      'Plate':'Weight=50',
+      'Ring':'Weight=30',
+      'Studded Leather':'Weight=20',
+      // New
+      'Brigandine':'AC=4 Move=120 Weight=35',
+      'Bronze Plate':'AC=6 Move=120 Weight=45',
+      'Field Plate':'AC=8 Move=120 Weight=60',
+      'Full Plate':'AC=9 Move=120 Weight=70',
+      'Hide':'AC=4 Move=120 Weight=30 Weight=15'
     },
     'Class':{
       // Removed
@@ -2373,9 +2386,13 @@ FirstEdition.RULE_EDITS = {
       'Lesser Divination':''
     },
     'Shield':{
+      // Removed
       'Large Shield':null,
-      'Body Shield':'AC=1',
-      'Buckler Shield':'AC=1'
+      // Modified
+      'Medium Shield':'Weight=5',
+      // New
+      'Body Shield':'AC=1 Weight=15',
+      'Buckler Shield':'AC=1 Weight=3'
     },
     'Skill':{
       // Modified
@@ -2793,7 +2810,7 @@ FirstEdition.RULE_EDITS = {
       // New
       'Human Skill Modifiers':
         'Section=skill Note="+5 Climb Walls/+5 Open Locks"',
-      'Slow':'Section=ability Note="-30 Speed"'
+      'Slow':'Section=ability Note="-60 Speed"'
     },
     'Race':{
       'Dwarf':
@@ -2848,9 +2865,6 @@ FirstEdition.RULE_EDITS = {
 FirstEdition.monkUnarmedDamage = [
   '0', '1d3', '1d4', '1d6', '1d6', '1d6+1', '2d4', '2d4+1', '2d6', '3d4',
   '2d6+1', '3d4+1', '4d4', '4d4+1', '5d4', '6d4', '5d6', '8d4'
-];
-FirstEdition.strengthEncumbranceAdjustments = [
-  -35, -25, -15, null, null, 10, 20, 35, 50, 75, 100, 125, 150, 200, 300
 ];
 
 /*
@@ -2989,10 +3003,9 @@ FirstEdition.abilityRules = function(rules) {
   rules.defineRule
     ('languageCount', 'featureNotes.intelligenceLanguageBonus', '+', null);
 
+
+  if(FirstEdition.EDITION == 'Second Edition')
   // Strength
-  rules.defineRule('abilityNotes.strengthEncumbranceAdjustment',
-    'strengthRow', '=', 'FirstEdition.strengthEncumbranceAdjustments[source]'
-  );
   rules.defineRule('combatNotes.strengthAttackAdjustment',
     'strengthRow', '=', 'source <= 2 ? (source - 3) : ' +
                         'source <= 7 ? 0 : Math.floor((source - 5) / 3)'
@@ -3001,19 +3014,30 @@ FirstEdition.abilityRules = function(rules) {
     'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? 0 : ' +
                         'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
   );
-  // TODO 2nd Ed load?
-  rules.defineRule('loadLight',
-    '', '=', '35',
-    'abilityNotes.strengthEncumbranceAdjustment', '+', null
+  var encumbranceAdjustments = FirstEdition.EDITION == 'Second Edition' ? [
+  ] : [
+    -35, -25, -15, null, null, 10, 20, 35, 50, 75, 100, 125, 150, 200, 300
+  ];
+  rules.defineRule('abilityNotes.strengthEncumbranceAdjustment',
+    'strengthRow', '=', '[' + encumbranceAdjustments + '][source]'
   );
-  rules.defineRule('loadMedium',
-    '', '=', '70',
-    'abilityNotes.strengthEncumbranceAdjustment', '+', null
-  );
-  rules.defineRule('loadMax',
-    '', '=', '105',
-    'abilityNotes.strengthEncumbranceAdjustment', '+', null
-  );
+  if(FirstEdition.EDITION == 'Second Edition') {
+    rules.defineRule('loadLight',
+      'strengthRow', '=', '[6, 11, 21, 36, 41, 46, 56, 71, 86, 111, 136, 161, 186, 236, 336][source]'
+    );
+    rules.defineRule('loadMedium',
+      'strengthRow', '=', '[7, 14, 30, 51, 59, 70, 86, 101, 122, 150, 175, 200, 225, 275, 375][source]'
+    );
+    rules.defineRule('loadHeavy',
+      'strengthRow', '=', '[8, 17, 39, 66, 77, 94, 116, 131, 158, 189, 214, 239, 264, 314, 414][source]'
+    );
+  } else {
+    rules.defineRule('loadLight',
+      'strengthRow', '=', '[0, 10, 20, 35, 35, 45, 55, 70, 85, 110, 135, 160, 185, 235, 335][source]'
+    );
+    rules.defineRule('loadMedium', 'loadLight', '=', 'source + 35');
+    rules.defineRule('loadHeavy', 'loadMedium', '=', 'source + 35');
+  }
   rules.defineRule('speed',
     '', '=', '120',
     'abilityNotes.armorSpeedMaximum', 'v', null
@@ -3043,8 +3067,6 @@ FirstEdition.abilityRules = function(rules) {
   );
 
 };
-
-/* TODO: THACO/THAC10 */
 
 /* Defines rules related to combat. */
 FirstEdition.combatRules = function(rules, armors, shields, weapons) {
@@ -3111,6 +3133,14 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
     // Note: the rules seem to indicate that strength affects ranged attacks
     'combatNotes.strengthAttackAdjustment', '+', null
   );
+  rules.defineRule
+    ('thac0Melee', 'meleeAttack', '=', 'Math.min(20 - source, 20)');
+  rules.defineRule
+    ('thac0Ranged', 'rangedAttack', '=', 'Math.min(20 - source, 20)');
+  rules.defineRule
+    ('thac10Melee', 'meleeAttack', '=', 'Math.min(10 - source, 20)');
+  rules.defineRule
+    ('thac10Ranged', 'rangedAttack', '=', 'Math.min(10 - source, 20)');
   if(FirstEdition.EDITION == 'Second Edition')
     rules.defineRule('turnUndeadColumn',
       'turningLevel', '=',
@@ -3169,8 +3199,8 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
       'turnUndeadColumn', '=', '"' + turningTable[i] +'".split(":")[source].trim()'
     );
   }
-  var notes = rules.getChoices('notes');
   // Get rid of mention of "Buckler" in SRD35 two-handed weapon note
+  var notes = rules.getChoices('notes');
   if(notes && notes['validationNotes.two-handedWeapon'])
     delete notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
@@ -3426,7 +3456,8 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'Armor')
     FirstEdition.armorRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
-      QuilvynUtils.getAttrValue(attrs, 'Move')
+      QuilvynUtils.getAttrValue(attrs, 'Move'),
+      QuilvynUtils.getAttrValue(attrs, 'Weight')
     );
   else if(type == 'Class') {
     FirstEdition.classRules(rules, name,
@@ -3473,7 +3504,8 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
     FirstEdition.schoolRules(rules, name);
   else if(type == 'Shield')
     FirstEdition.shieldRules(rules, name,
-      QuilvynUtils.getAttrValue(attrs, 'AC')
+      QuilvynUtils.getAttrValue(attrs, 'AC'),
+      QuilvynUtils.getAttrValue(attrs, 'Weight')
     );
   else if(type == 'Skill')
     FirstEdition.skillRules(rules, name,
@@ -3516,9 +3548,9 @@ FirstEdition.alignmentRules = function(rules, name) {
 /*
  * Defines in #rules# the rules associated with armor #name#, which improves
  * the character's armor class by #ac# and imposes a maximum movement speed of
- * #maxMove#.
+ * #maxMove# and weighs #weight# pounds.
  */
-FirstEdition.armorRules = function(rules, name, ac, maxMove) {
+FirstEdition.armorRules = function(rules, name, ac, maxMove, weight) {
 
   if(!name) {
     console.log('Empty armor name');
@@ -3532,22 +3564,33 @@ FirstEdition.armorRules = function(rules, name, ac, maxMove) {
     console.log('Bad maxMove "' + maxMove + '" for armor ' + name);
     return;
   }
+  if(typeof weight != 'number') {
+    console.log('Bad weight "' + weight + '" for armor ' + name);
+    return;
+  }
 
   if(rules.armorStats == null) {
     rules.armorStats = {
       ac:{},
-      move:{}
+      move:{},
+      weight:{}
     };
   }
   rules.armorStats.ac[name] = ac;
   rules.armorStats.move[name] = maxMove;
+  rules.armorStats.weight[name] = weight;
 
+  if(FirstEdition.EDITION != 'Second Edition') {
+    rules.defineRule('abilityNotes.armorSpeedMaximum',
+      'armor', '+', QuilvynUtils.dictLit(rules.armorStats.move) + '[source]'
+    );
+  }
   rules.defineRule('armorClass',
     '', '=', '10',
     'armor', '+', '-' + QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
-  rules.defineRule('abilityNotes.armorSpeedMaximum',
-    'armor', '+', QuilvynUtils.dictLit(rules.armorStats.move) + '[source]'
+  rules.defineRule('armorWeight',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.weight) + '[source]'
   );
 
 };
@@ -4167,9 +4210,9 @@ FirstEdition.schoolRules = function(rules, name) {
 
 /*
  * Defines in #rules# the rules associated with shield #name#, which adds #ac#
- * to the character's armor class.
+ * to the character's armor class and weight #weight# pounds
  */
-FirstEdition.shieldRules = function(rules, name, ac) {
+FirstEdition.shieldRules = function(rules, name, ac, weight) {
 
   if(!name) {
     console.log('Empty shield name');
@@ -4179,16 +4222,25 @@ FirstEdition.shieldRules = function(rules, name, ac) {
     console.log('Bad ac "' + ac + '" for shield ' + name);
     return;
   }
+  if(typeof weight != 'number') {
+    console.log('Bad weight "' + weight + '" for shield ' + name);
+    return;
+  }
 
   if(rules.shieldStats == null) {
     rules.shieldStats = {
-      ac:{}
+      ac:{},
+      weight:{}
     };
   }
   rules.shieldStats.ac[name] = ac;
+  rules.shieldStats.weight[name] = weight;
 
   rules.defineRule('armorClass',
     'shield', '+', '-' + QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
+  );
+  rules.defineRule('armorWeight',
+    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.weight) + '[source]'
   );
 
 };
