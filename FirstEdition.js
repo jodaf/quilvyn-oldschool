@@ -827,7 +827,7 @@ FirstEdition.SPELLS = {
     'Description="R10\' Target appears dead, takes half damage, immune draining for $L2plus4 rd"',
   'Find Familiar':
     'School=Conjuration ' +
-    'Description="Call beast to serve as familiar (HP 1d3+1, AC 7, Int 6)"',
+    'Description="Call beast to serve as familiar (HP 1d3+1, AC 7)"',
   'Find The Path':
     'School=Divination ' +
     'Description="Touched knows shortest route into and out of location for $L tn (rev causes indirection)"',
@@ -2501,12 +2501,18 @@ FirstEdition.RULE_EDITS = {
       'True Sight':null,
       'Write':null,
       // Modified
-      'Armor':'School=Conjuration',
+      'Affect Normal Fires':
+        'Description="R${L}y change size of normal fires in 10\' radius for $L2 rd"',
       'Astral Spell':'School=Evocation',
+      'Audible Glamer':
+        'Description="R$L10plus60\' Sounds of $L4 shouting for $L3 rd (save disbelieve)"',
       'Augury':'School="Lesser Divination"',
-      'Chill Touch':'School=Necromancy',
+      'Burning Hands':
+        'Description="Self 5\' cone of flame 1d3+$L2 HP"',
       'Clairaudience':'School="Lesser Divination"',
       'Clairvoyance':'School="Lesser Divination"',
+      'Color Spray':
+        'Description="Targets in 20\' cone unconscious (lt $Lplus1 HD), blinded 1d4 rd ($Lplus1-$Lplus2) or stunned 1 rd (gt $Lplus2) (save neg)"',
       'Commune':'School="Greater Divination"',
       'Commune With Nature':'School="Greater Divination"',
       'Contact Other Plane':'School="Greater Divination"',
@@ -2520,28 +2526,54 @@ FirstEdition.RULE_EDITS = {
       'Divination':'School="Lesser Divination"',
       'Enchant An Item':'School=Enchantment',
       'Enchanted Weapon':'School=Enchantment',
+      'Enlarge':
+        'Description="R$L5\' Creature or object grows $L10% for $L5 rd (rev shrinks, save neg)"',
+      'Erase':
+        'Description="R30\' Erase magical ($L5plus30% chance) or normal (90%) from 2-page area"',
       'ESP':'School="Lesser Divination"',
+      'Feather Fall':
+        'Description="R$L10\' Objects in 10\'x10\'x10\' area fall 2\'/sec for $L rd"',
       'Find The Path':'School="Greater Divination"',
       'Find Traps':'School="Lesser Divination"',
       'Finger Of Death':'School=Necromancy',
       'Fire Trap':'School=Abjuration',
       'Flame Arrow':'School=Conjuration',
+      'Gaze Reflection':'Description="Gaze attacks reflected back for $L rd"',
       'Guards And Wards':'School=Evocation',
       'Heat Metal':'School=Alteration',
-      'Identify':'School="Lesser Divination"',
+      'Hypnotism':
+        'Description="R5\' 1d6 targets subject to suggestion for $Lplus1 rd"',
+      'Identify':
+        'School="Lesser Divination"' +
+        'Description="$L10% chance of determining magical properties of touched if used w/in $L rd, requires rest afterward"',
       'Incendiary Cloud':'School=Alteration',
+      'Jump':
+        'School=Transmutation ' +
+        'Description="Touched can jump 30\' forward, 10\' back or up for $L+1d3 rd"',
       'Know Alignment':'School="Lesser Divination"',
       'Legend Lore':'School="Greater Divination"',
       'Locate Object':'School="Lesser Divination"',
       'Major Creation':'School=Illusion',
       'Massmorph':'School=Alteration',
+      'Message':'Description="R$L10plus30\' remote whispering for $L5 rd"',
       'Minor Creation':'School=Illusion',
       'Neutralize Poison':'School=Necromancy',
+      'Phantasmal Force':
+        'Description="R$L10plus60\' $L10plus40\' sq illusionary object for conc or until struck"',
       'Prismatic Sphere':'School=Abjuration',
       'Prismatic Wall':'School=Conjuration',
       'Read Magic':'School="Lesser Divination"',
+      'Shield':
+        'Description="Self frontal AC 2 vs hurled, AC 3 vs arrow/bolt, AC 4 vs melee for $L5 rd"',
+      'Shocking Grasp':'Description="Touched 1d8+$L HP within $L rd"',
+      'Sleep':
+        'Description="R30\' Creatures up to 4+4 HD in 15\' radius sleep for $L5 rd"',
+      'Spider Climb':
+        'Description="Touched move 60\'/rd on walls and ceilings for $Lplus3 rd"',
       'Stone Tell':'School="Greater Divination"',
       'True Seeing':'School="Greater Divination"',
+      'Ventriloquism':
+        'Description="R${Math.min(lvl*10,90)}\' Self throw voice for $Lplus4 rd (save disbelieve)"',
       'Vision':'School="Greater Divination"',
       // Added
       'Abjure':'School=Abjuration Description="TODO"',
@@ -2549,8 +2581,9 @@ FirstEdition.RULE_EDITS = {
       'Advanced Illusion':'School=Illusion Description="TODO"',
       'Aid':'School=Necromancy Description="TODO"',
       'Air Walk':'School=Alteration Description="TODO"',
-      'Alarm':'School=Abjuration Description="TODO"',
+      'Alarm':'School=Abjuration Description="R10\' 20\' cu alarmed for $L30plus240 min"',
       'Alter Self':'School=Alteration Description="TODO"',
+      'Armor':'School=Conjuration Description="Touched AC 6 for $Lplus8 HP"',
       'Avoidance':'School=Abjuration Description="TODO"',
       'Banishment':'School=Abjuration Description="TODO"',
       'Bind':'School=Enchantment Description="TODO"',
@@ -2558,6 +2591,9 @@ FirstEdition.RULE_EDITS = {
       'Black Tentacles':'School=Conjuration Description="TODO"',
       'Changestaff':'School=Evocation Description="TODO"',
       'Chain Lightning':'School=Evocation Description="TODO"',
+      'Chill Touch':
+        'School=Necromancy ' +
+        'Description="Touched 1d4 HP, 1 Str damage for $Lplus3 rd"',
       'Cloak Of Bravery':'School=Conjuration Description="TODO"',
       'Combine':'School=Evocation Description="TODO"',
       'Contagion':'School=Necromancy Description="TODO"',
@@ -2571,7 +2607,9 @@ FirstEdition.RULE_EDITS = {
       'Demand':'School=Evocation Description="TODO"',
       'Detect Poison':'School="Lesser Divination" Description="TODO"',
       'Detect Scrying':'School="Lesser Divination" Description="TODO"',
-      'Detect Undead':'School="Lesser Divination" Description="TODO"',
+      'Detect Undead':
+        'School="Lesser Divination" ' +
+        'Description="Self discern undead in 10\'x60\' path for 3 tn"',
       'Disjunction':'School=Alteration Description="TODO"',
       'Dismissal':'School=Abjuration Description="TODO"',
       'Domination':'School=Enchantment Description="TODO"',
@@ -2597,7 +2635,9 @@ FirstEdition.RULE_EDITS = {
       'Free Action':'School=Abjuration Description="TODO"',
       'Giant Insect':'School=Alteration Description="TODO"',
       'Glitterdust':'School=Conjuration Description="TODO"',
-      'Grease':'School=Conjuration Description="TODO"',
+      'Grease':
+        'School=Conjuration ' +
+        'Description="R10\' 10\'x10\' area slippery for $Lplus3 rd"',
       'Goodberry':'School=Alteration Description="TODO"',
       "Heroes' Feast":'School=Evocation Description="TODO"',
       'Hideous Laughter':'School=Enchantment Description="TODO"',
@@ -2622,7 +2662,9 @@ FirstEdition.RULE_EDITS = {
       'Mirage Arcana':'School=Illusion Description="TODO"',
       'Mislead':'School=Illusion Description="TODO"',
       'Moonbeam':'School=Evocation Description="TODO"',
-      'Mount':'School=Conjuration Description="TODO"',
+      'Mount':
+        'School=Conjuration ' +
+        'Description="R10\' Create obedient mount for $L+2 hr"',
       'Phantom Steed':'School=Conjuration Description="TODO"',
       'Protection From Cantrips':'School=Abjuration Description="TODO"',
       'Negative Plane Protection':'School=Abjuration Description="TODO"',
@@ -2646,13 +2688,17 @@ FirstEdition.RULE_EDITS = {
       'Spike Stones':'School=Alteration Description="TODO"',
       'Spectral Hand':'School=Necromancy Description="TODO"',
       'Spell Turning':'School=Abjuration Description="TODO"',
-      'Spook':'School=Illusion Description="TODO"',
+      'Spook':
+        'School=Illusion ' +
+        'Description="Target flees from self (save neg)"',
       'Starshine':'School=Evocation Description="TODO"',
       'Stoneskin':'School=Alteration Description="TODO"',
       'Succor':'School=Alteration Description="TODO"',
       'Summon Swarm':'School=Conjuration Description="TODO"',
       'Sunray':'School=Evocation Description="TODO"',
-      'Taunt':'School=Enchantment Description="TODO"',
+      'Taunt':
+        'School=Enchantment ' +
+        'Description="R60\' Targets in 30\' radius attack caster"',
       'Telekinetic Sphere':'School=Evocation Description="TODO"',
       'Teleport Without Error':'School=Alteration Description="TODO"',
       'Transmute Water To Dust':'School=Alteration Description="TODO"',
@@ -2663,7 +2709,9 @@ FirstEdition.RULE_EDITS = {
       'Whispering Wind':'School=Alteration Description="TODO"',
       'Wind Wall':'School=Alteration Description="TODO"',
       'Withdraw':'School=Alteration Description="TODO"',
-      'Wizard Mark':'School=Alteration Description="TODO"',
+      'Wizard Mark':
+        'School=Alteration ' +
+        'Description="Etch item w/personal mark"',
       'Wraithform':'School=Alteration Description="TODO"',
       'Wyvern Watch':'School=Evocation Description="TODO"'
     },
