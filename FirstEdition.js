@@ -15,6 +15,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+/*jshint esversion: 6 */
 "use strict";
 
 var FirstEdition_VERSION = '2.0.2.1';
@@ -500,12 +501,13 @@ FirstEdition.SPELLS = {
   'Anti-Plant Shell':
     'School=Abjuration ' +
     'Description="Self 80\' radius blocks plant matter for $L tn"',
-  'Antipathy/Sympathy':
+/**/ 'Antipathy/Sympathy':
     'School=Enchantment ' +
     'Description="R30\' $L10\' cu or object repels or attracts specified creature type or alignment for $L2 hr (save reduces effect)"',
-  'Astral Spell':
+/**/ 'Astral Spell':
     'School=Alteration ' +
-    'Description="Self and 5 others leave bodies to travel astral plane"',
+    'Description="Self and $E others leave bodies to travel astral plane" ' +
+    'Effect="5"',
   'Atonement':
     'School=Abjuration ' +
     'Description="Touched relieved of consequences of unwilling alignment violation"',
@@ -513,7 +515,7 @@ FirstEdition.SPELLS = {
     'School=Illusion ' +
     'Description="R$L10plus60\' Sounds of ${(lvl-2)*4} shouting for $D (save disbelieve)" ' +
     'Duration="$L3 rd"',
-  'Audible Glamer MU2':
+  'Audible Glamer M2':
     'Duration="$L2 rd"',
   'Augury':
     'School=Divination ' +
@@ -540,7 +542,7 @@ FirstEdition.SPELLS = {
     'Description="Self +1 magical saves, foes -4 first attack, -2 thereafter for $Lplus3 rd"',
 /**/ 'Burning Hands':
     'School=Alteration ' +
-    'Description="Self $E flame $L HP" ' +
+    'Description="Self $E of flame $L HP" ' +
     'Effect="3\' cone"',
   'Cacodemon':
     'School=Conjuration ' +
@@ -582,10 +584,10 @@ FirstEdition.SPELLS = {
 /**/ 'Clairvoyance':
     'School=Divination ' +
     'Description="See remote known location for $L rd"',
-  'Clenched Fist':
+/**/ 'Clenched Fist':
     'School=Evocation ' +
     'Description="R$L5\' Force absorbs attacks, strikes foes 1d6-4d6 HP for conc or $L rd"',
-  'Clone':
+/**/ 'Clone':
     'School=Necromancy ' +
     'Description="Grow copy of target creature, each destroy the other or insane"',
 /**/ 'Cloudkill':
@@ -681,7 +683,7 @@ FirstEdition.SPELLS = {
   'Creeping Doom':
     'School=Conjuration ' +
     'Description="Bugs erupt, attack w/in 80\' for $L4 rd"',
-  'Crushing Hand':
+/**/ 'Crushing Hand':
     'School=Evocation ' +
     'Description="R$L5\' Force absorbs attacks, squeezes 1d10-4d10 HP for $L rd"',
   'Cure Blindness':
@@ -849,7 +851,7 @@ FirstEdition.SPELLS = {
     'Description="Targets in 60\' cone 65%-5*HD flee for $L rd (save neg)"',
 /**/ 'Feather Fall':
     'School=Alteration ' +
-    'Description="R$L10\' Objects in 10\' cu fall 2\'/sec for $D ' +
+    'Description="R$L10\' Objects in 10\' cu fall 2\'/sec for $D" ' +
     'Duration="$L6 secs"',
 /**/ 'Feeblemind':
     'School=Enchantment ' +
@@ -935,7 +937,7 @@ FirstEdition.SPELLS = {
     'School=Enchantment ' +
     'Description="R$L10\' $E falls and drops carried (save slowed) for $L rd" ' +
     'Effect="Target"',
-  'Gate':
+/**/ 'Gate':
     'School=Conjuration ' +
     'Description="R30\' Summon named extraplanar creature"',
 /**/ 'Gaze Reflection':
@@ -946,7 +948,7 @@ FirstEdition.SPELLS = {
     'School=Enchantment ' +
     'Description="$R fulfill quest or sicken and die in 1d4 wk" ' +
     'Range="Touched"',
-  'Glassteel':
+/**/ 'Glassteel':
     'School=Alteration ' +
     'Description="Touched $L10 lb glass gains steel strength"',
 /**/ 'Glassee':
@@ -1032,7 +1034,7 @@ FirstEdition.SPELLS = {
 /**/ 'Illusionary Script':
     'School=Illusion ' +
     'Description="Obscured writing causes 5d4 rd confusion (save neg) for readers other than specified"',
-  'Imprisonment':
+/**/ 'Imprisonment':
     'School=Abjuration ' +
     'Description="Touched safely trapped underground permanently (rev frees)"',
 /**/ 'Improved Invisibility':
@@ -1042,9 +1044,10 @@ FirstEdition.SPELLS = {
     'School=Illusion ' +
     'Description="R$L10plus60\' $E sight and sound illusion for conc + 2 rd" ' +
     'Effect="$L10plus40\' sq"',
-  'Incendiary Cloud':
+/**/ 'Incendiary Cloud':
     'School=Alteration ' +
-    'Description="R30\' 20\' radius smoke cloud for 1d6+4 rd, $Ldiv2, $L, $Ldiv2 HP rd 3, 4, 5 (save half)"',
+    'Description="R30\' 20\' radius smoke cloud for 1d6+4 rd, $E rd 3, 4, 5 (save half)" ' +
+    'Effect="$Ldiv2, $L, $Ldiv2 HP"',
 /**/ 'Infravision':
     'School=Alteration ' +
     'Description="Touched see 60\' in darkness for $Lplus2 hr"',
@@ -1074,7 +1077,7 @@ FirstEdition.SPELLS = {
 /**/ 'Invisible Stalker':
     'School=Conjuration ' +
     'Description="R10\' Conjured 8 HD invisible creature performs 1 task"',
-  'Irresistible Dance':
+/**/ 'Irresistible Dance':
     'School=Enchantment ' +
     'Description="Touched -4 AC, fail saves for 1d4+1 rd"',
 /**/ 'Jump':
@@ -1148,13 +1151,13 @@ FirstEdition.SPELLS = {
     'Description="R$L10plus60\' $Lplus1div2 energy darts hit targets in 10\' sq 1d4+1 HP ea"',
 /**/ 'Magic Mouth':
     'School=Alteration ' +
-    'Description="R$R Object responds to trigger by reciting 25 words" ' +
-    'Range="Touch"',
+    'Description="$R object responds to trigger by reciting 25 words" ' +
+    'Range="Touched"',
 /**/ 'Major Creation':
     'School=Alteration ' +
     'Description="R10\' Create $L\' cu object from component plant or mineral material for $D" ' +
     'Duration="$L hr"',
-  'Mass Charm':
+/**/ 'Mass Charm':
     'School=Enchantment ' +
     'Description="R$L5\' $L2 HD creature(s) in 30\' sq treat self as trusted friend (save neg)"',
 /**/ 'Mass Invisibility':
@@ -1168,7 +1171,7 @@ FirstEdition.SPELLS = {
 /**/ 'Massmorph':
     'School=Illusion ' +
     'Description="R$L10\' 10 humanoids look like trees"',
-  'Maze':
+/**/ 'Maze':
     'School=Conjuration ' +
     'Description="R$L5\' Target sent to interdimensional maze for amount of time based on Int"',
 /**/ 'Mending':
@@ -1177,12 +1180,13 @@ FirstEdition.SPELLS = {
 /**/ 'Message':
     'School=Alteration ' +
     'Description="R$L10plus60\' remote whispering for ${(lvl+5)*6} secs"',
-  'Meteor Swarm':
+/**/ 'Meteor Swarm':
     'School=Evocation ' +
     'Description="R$L10plus40\' 4 meteors 10d4 HP in 30\' diameter or 8 meteors 5d4 HP in 15\' diameter (collateral save half)"',
-  'Mind Blank':
+/**/ 'Mind Blank':
     'School=Abjuration ' +
-    'Description="R30\' Target immune divination for 1 dy"',
+    'Description="R30\' Target immune $E for 1 dy" ' +
+    'Effect="divination"',
 /**/ 'Minor Creation':
     'School=Alteration ' +
     'Description="Create $L\' cu object from component plant material for $L hr"',
@@ -1194,7 +1198,7 @@ FirstEdition.SPELLS = {
     'Description="Self $E duplicates draw attacks for $D" ' +
     'Duration="$L3 rd" ' +
     'Effect="1d4+1"',
-  'Mirror Image MU2':
+  'Mirror Image M2':
     'Duration="$L2 rd" ' +
     'Effect="1d4"',
 /**/ 'Misdirection':
@@ -1221,10 +1225,11 @@ FirstEdition.SPELLS = {
     'School=Conjuration ' +
     'Description="R70\' $E 5 HD creatures fight for $Lplus6 rd" ' +
     'Effect="1d2"',
-  'Monster Summoning VI':
+/**/ 'Monster Summoning VI':
     'School=Conjuration ' +
-    'Description="R80\' 1d2 6 HD creatures fight for $Lplus7 rd"',
-  'Monster Summoning VII':
+    'Description="R80\' $E 6 HD creatures fight for $Lplus7 rd" ' +
+    'Effect="1d2"',
+/**/ 'Monster Summoning VII':
     'School=Conjuration ' +
     'Description="R90\' 1d2 7 HD creatures fight for $Lplus8 rd"',
 /**/ 'Move Earth':
@@ -1262,7 +1267,7 @@ FirstEdition.SPELLS = {
 /**/ 'Passwall':
     'School=Alteration ' +
     'Description="R30\' Create 5\'x8\'x10\' passage through dirt and rock for $Lplus6 tn"',
-  'Permanency':
+/**/ 'Permanency':
     'School=Alteration ' +
     'Description="Effects of spell made permanent, costs 1 Con"',
 /**/ 'Permanent Illusion':
@@ -1275,7 +1280,7 @@ FirstEdition.SPELLS = {
     'Description="R$R $E illusionary object for conc or until struck (save disbelieve)" ' +
     'Effect="$L10plus60\' sq" ' +
     'Range="$L10plus40\'"',
-  'Phantasmal Force MU3':
+  'Phantasmal Force M3':
     'Effect="$L10plus80\' sq" ' +
     'Range="$L10plus80\'"',
 /**/ 'Phantasmal Killer':
@@ -1299,7 +1304,7 @@ FirstEdition.SPELLS = {
   'Plant Growth D3':
     'Effect="$L20\' sq" ' +
     'Range="160\'"',
-  'Polymorph Object':
+/**/ 'Polymorph Any Object':
     'School=Alteration ' +
     'Description="R$L5\' Transform any object (save -4 neg)"',
 /**/ 'Polymorph Other':
@@ -1308,10 +1313,10 @@ FirstEdition.SPELLS = {
 /**/ 'Polymorph Self':
     'School=Alteration ' +
     'Description="Self takes on named creature form for $L2 tn"',
-  'Power Word Blind':
+/**/ 'Power Word Blind':
     'School=Conjuration ' +
     'Description="R$L5\' Creatures in 15\' radius blinded for 1d4+1 rd or 1d4+1 tn"',
-  'Power Word Kill':
+/**/ 'Power Word Kill':
     'School=Conjuration ' +
     'Description="R$L10div4\' 1 60 HP target or 12 10 HP targets in 10\' radius die"',
 /**/ 'Power Word Stun':
@@ -1323,13 +1328,13 @@ FirstEdition.SPELLS = {
   'Predict Weather':
     'School=Divination ' +
     'Description="Discern local weather for next $L2 hr"',
-  'Prismatic Sphere':
+/**/ 'Prismatic Sphere':
     'School=Abjuration ' +
     'Description="Self 10\' radius impenetrable for $L tn"',
 /**/ 'Prismatic Spray':
     'School=Abjuration ' +
     'Description="Targets in 70\'x15\'x5\' area one of 20, 40, 80 HP (save half), fatal poison, stone, insane, planar teleport (save neg)"',
-  'Prismatic Wall':
+/**/ 'Prismatic Wall':
     'School=Abjuration ' +
     'Description="R10\' $L40\'x$L20\' multicolored wall blinds viewers 2d4 rd, blocks attacks for $L tn"',
   'Produce Fire':
@@ -1462,7 +1467,7 @@ FirstEdition.SPELLS = {
 /**/ 'Shadow Monsters':
     'School=Illusion ' +
     'Description="R30\' Create monsters $L HD total, 20% HP (save AC 10, 20% damage) for $L rd"',
-  'Shape Change':
+/**/ 'Shape Change':
     'School=Alteration ' +
     'Description="Self polymorph freely for $L tn"',
 /**/ 'Shatter':
@@ -1524,9 +1529,9 @@ FirstEdition.SPELLS = {
     'School=Illusion ' +
     'Description="R$R $L10plus40\' sq sight, sound, smell, temperature illusion for conc + 3 rd" ' +
     'Range="$L10plus60\'"',
-  'Spell Immunity':
+/**/ 'Spell Immunity':
     'School=Abjuration ' +
-    'Description="$Ldiv4 touched +8 vs. mind spells for $L tn"',
+    'Description="$Ldiv4 touched bonus vs. mind spells for $L tn"',
 /**/ 'Spider Climb':
     'School=Alteration ' +
     'Description="Touched move 30\'/rd on walls and ceilings for $D" ' +
@@ -1579,7 +1584,7 @@ FirstEdition.SPELLS = {
     'School=Conjuration ' +
     'Description="R10\' $E shadows obey commands for $Lplus1 rd" ' +
     'Effect="$L"',
-  'Symbol':
+/**/ 'Symbol':
     'School=Conjuration ' +
     'Description="Glowing symbol causes death, discord 5d4 rd, fear (save -4 neg), hopelessness, insanity, pain 2d10 tn, sleep 4d4+1 tn, or stunning 3d4 rd"',
   'Symbol C7':
@@ -1590,12 +1595,13 @@ FirstEdition.SPELLS = {
 /**/ 'Teleport':
     'School=Alteration ' +
     'Description="Instantly transport self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
-  'Temporal Statis':
+/**/ 'Temporal Statis':
     'School=Alteration ' +
     'Description="R10\' Target suspended animation permanently (rev wakens)"',
-  'Time Stop':
+/**/ 'Time Stop':
     'School=Alteration ' +
-    'Description="Self 15\' radius gains 1d8+$Ldiv2 x 6 secs"',
+    'Description="Self 15\' radius gains $D" ' +
+    'Duration="1d8+$Ldiv2 x 6 secs"',
 /**/ 'Tiny Hut':
     'School=Alteration ' +
     'Description="$E protects against view, elements for $D" ' +
@@ -1622,7 +1628,7 @@ FirstEdition.SPELLS = {
   'Transport Via Plants':
     'School=Alteration ' +
     'Description="Self teleport between plants"',
-  'Trap The Soul':
+/**/ 'Trap The Soul':
     'School=Conjuration ' +
     'Description="R10\' Target soul trapped in gem (save neg)"',
   'Tree':
@@ -1667,7 +1673,7 @@ FirstEdition.SPELLS = {
     'Description="R$R $E 4d4+$L HP to passers, 2d4 w/in 10\', 1d4 w/in 20\' for conc or $L rd" ' +
     'Effect="$L20\' sq wall or $L5\' radius circle" ' +
     'Range="80\'"',
-  'Wall Of Fire MU4':
+  'Wall Of Fire M4':
     'Description="R60\' $L20\' sq wall or $Lplus3\' radius circle 2d6+$L HP to passers, 2d6 w/in 10\', 1d6 w/in 20\' for conc or $L rd"',
 /**/ 'Wall Of Fog':
     'School=Alteration ' +
@@ -1708,7 +1714,7 @@ FirstEdition.SPELLS = {
   'Wind Walk':
     'School=Alteration ' +
     'Description="Self and $Ldiv8 others insubstantial, travel 600\'/tn for $L hr"',
-  'Wish':
+/**/ 'Wish':
     'School=Conjuration ' +
     'Description="Major reshaping of reality"',
 /**/ 'Wizard Eye':
@@ -2024,7 +2030,7 @@ FirstEdition.CLASSES = {
       'Reverse Gravity;Simulacrum;Statue;Vanish",' +
       '"M8:Antipathy/Sympathy;Clenched Fist;Clone;Glassteel;' +
       'Incendiary Cloud;Irresistible Dance;Mass Charm;Maze;Mind Blank;' +
-      'Monster Summoning VI;Permanency;Polymorph Object;Power Word Blind;' +
+      'Monster Summoning VI;Permanency;Polymorph Any Object;Power Word Blind;' +
       'Spell Immunity;Symbol;Trap The Soul",' +
       '"M9:Astral Spell;Crushing Hand;Gate;Imprisonment;Meteor Swarm;' +
       'Monster Summoning VII;Power Word Kill;Prismatic Sphere;Shape Change;' +
@@ -2342,7 +2348,7 @@ FirstEdition.RULE_EDITS = {
            '"W8:Antipathy/Sympathy;Clenched Fist;Binding;Clone;Demand;' +
           'Glassteel;Incendiary Cloud;Mass Charm;Maze;Mind Blank;' +
           'Monster Summoning VI;Telekinetic Sphere;Permanency;' +
-          'Polymorph Object;Power Word Blind;Prismatic Wall;Screen;' +
+          'Polymorph Any Object;Power Word Blind;Prismatic Wall;Screen;' +
           'Spell Immunity;Sink;Symbol;Trap The Soul",' +
            '"W9:Astral Spell;Crushing Hand;Crystalbrittle;Energy Drain;' +
           'Foresight;Gate;Imprisonment;Meteor Swarm;Monster Summoning VII;' +
@@ -2571,7 +2577,6 @@ FirstEdition.RULE_EDITS = {
       'Modern Languages':'Ability=intelligence Class=all',
       'Mountaineering':'Class=Fighter,Paladin,Ranger',
       'Musical Instrument':'Ability=dexterity Class=Cleric,Druid',
-      'Navigation':'Ability=intelligence Class=Cleric,Druid',
       'Navigation':
         'Ability=intelligence Class=Fighter,Illusionist,"Magic User",Paladin,Ranger',
       'Pottery':'Ability=dexterity Class=all',
@@ -2621,6 +2626,8 @@ FirstEdition.RULE_EDITS = {
 /**/     'Affect Normal Fires':
         'Duration="$L2 rd" ' +
         'Effect="10\' radius"',
+/**/     'Astral Spell':
+        'Effect="7"',
       'Augury':'School="Lesser Divination"',
 /**/     'Blindness':
         'Range="R$L10plus30\'"',
@@ -2713,7 +2720,6 @@ FirstEdition.RULE_EDITS = {
 /**/     'Hallucinatory Terrain':
         'Duration="for $L hr (save disbelieve)" ' +
         'Effect="$L30\' cu"',
-      'Heat Metal':'School=Alteration',
 /**/     'Hold Portal':
         'Effect="$L20\' sq"',
 /**/     'Hypnotism':
@@ -2725,7 +2731,8 @@ FirstEdition.RULE_EDITS = {
         'Description="Obscured writing transmits <i>Suggestion</i> (save neg) for readers other than specified for $L dy"',
 /**/     'Improved Phantasmal Force':
         'Effect="$L50plus200\' sq"',
-      'Incendiary Cloud':'School=Alteration',
+/**/     'Incendiary Cloud':
+        'Effect="${lvl}d2, ${lvl}d4, ${lvl}d2 HP"',
 /**/     'Jump':
         'Duration="for $L+1d3 rd"',
       'Knock':
@@ -2743,7 +2750,7 @@ FirstEdition.RULE_EDITS = {
 /**/     "Mage's Faithful Hound":
         'Duration="$L3plus6 tn"',
 /**/     'Magic Mouth':
-        'Range="10\'"',
+        'Range="R10\' Target"',
 /**/     'Major Creation':
         'School=Illusion ' +
         'Duration="variable duration"',
@@ -2753,6 +2760,8 @@ FirstEdition.RULE_EDITS = {
         'School=Alteration',
 /**/     'Message':
         'Description="Remote whispering for $L5 rd"',
+/**/     'Mind Blank':
+        'Effect="divination, mental control"',
 /**/     'Minor Creation':
         'School=Illusion',
 /**/     'Mirror Image':
@@ -2763,18 +2772,22 @@ FirstEdition.RULE_EDITS = {
         'Effect="1d3"',
 /**/     'Monster Summoning V':
         'Effect="1d3"',
+/**/     'Monster Summoning VI':
+        'Effect="1d3"',
 /**/     'Move Earth':
         'Effect="40\'x40\'x10\'"',
       'Neutralize Poison':'School=Necromancy',
 /**/     'Non-Detection':
         'Duration="$L hr" ' +
         'Effect="Touched"',
-      'Permanent Illusion':
+/**/     'Permanent Illusion':
         'Effect="$L10plus20\' cu"',
-      'Prismatic Sphere':'School=Abjuration',
+/**/     'Prismatic Sphere':
+        'School=Abjuration',
 /**/     'Prismatic Spray':
         'School=Conjuration',
-      'Prismatic Wall':'School=Conjuration',
+/**/     'Prismatic Wall':
+        'School=Conjuration',
 /**/     'Programmed Illusion':
         'Effect="$L10plus20\' cu"',
 /**/     'Ray Of Enfeeblement':
@@ -2801,6 +2814,8 @@ FirstEdition.RULE_EDITS = {
       'Stone Tell':'School="Greater Divination"',
 /**/     'Summon Shadow':
         'Effect="$Ldiv3"',
+/**/     'Time Stop':
+        'Duration="1d3 rd"',
 /**/     'Tiny Hut':
         'Duration="$Lplus4 hr" ' +
         'Effect="7.5\' radius"',
@@ -2846,7 +2861,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Bind':
         'School=Enchantment ' +
         'Description="R30\' $L5plus50\' rope-like item entangles or trips single target (save neg)"',
-      'Binding':'School=Enchantment Description="TODO"',
+/**/     'Binding':
+        'School=Enchantment ' +
+        'Description="R10\' Magical effect restrains creature (save neg)"',
 /**/     'Black Tentacles':
         'School=Conjuration ' +
         'Description="R30\' Many 10\' tentacles in 30\' sq AC 4, $L HP, Damage 2d4-3d4 (save 1d4)"',
@@ -2868,7 +2885,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Control Undead':
         'School=Necromancy ' +
         'Description="R20\' Command 1d6 undead totalling $L HD for 3d4+$L rd (3 HD save neg)"',
-      'Crystalbrittle':'School=Alteration Description="TODO"',
+/**/     'Crystalbrittle':
+        'School=Alteration ' +
+        'Description="Touched $L2\' cu becomes fragile"',
       'Cure Blindness Or Deafness':'School=Abjuration Description="TODO"',
 /**/     'Death Fog':
         'School=Alteration ' +
@@ -2879,7 +2898,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Delude':
         'School=Alteration ' +
         'Description="Self aura show alignment of creature in 10\' radius for $L tn"',
-      'Demand':'School=Evocation Description="TODO"',
+/**/     'Demand':
+        'School=Evocation ' +
+        'Description="Remote 25-word <i>Suggestion</i> (-2 save neg)"',
       'Detect Poison':'School="Lesser Divination" Description="TODO"',
 /**/     'Detect Scrying':
         'School="Lesser Divination" ' +
@@ -2887,7 +2908,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Detect Undead':
         'School="Lesser Divination" ' +
         'Description="Self discern undead in 60\'x$L10\' area for 3 tn"',
-      'Disjunction':'School=Alteration Description="TODO"',
+/**/     'Disjunction':
+        'School=Alteration ' +
+        'Description="R30\' Magic removed (artifacts $L%)"',
 /**/     'Dismissal':
         'School=Abjuration ' +
         'Description="R10\' Outsider returned to home plane (+HD delta save neg)"',
@@ -2900,7 +2923,9 @@ FirstEdition.RULE_EDITS = {
       'Dust Devil':'School=Conjuration Description="TODO"',
       'Endure Cold':'School=Alteration Description="TODO"',
       'Endure Heat':'School=Alteration Description="TODO"',
-      'Energy Drain':'School=Evocation Description="TODO"',
+/**/     'Energy Drain':
+        'School=Evocation ' +
+        'Description="Touched loses 2 levels or HD"',
 /**/     'Enervation':
         'School=Necromancy ' +
         'Description="Target drained of $Ldiv4 levels for 1d4+$L hr (save neg)"',
@@ -2927,7 +2952,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Forcecage':
         'School=Evocation ' +
         'Description="R$L5\' 20\' cu of bars w/1/2 in gaps for $Lplus6 tn"',
-      'Foresight':'School="Greater Divination" Description="TODO"',
+/**/     'Foresight':
+        'School="Greater Divination" ' +
+        'Description="Advance warning of harm to self or another for 2d4+$L rd"',
       'Free Action':'School=Abjuration Description="TODO"',
       'Giant Insect':'School=Alteration Description="TODO"',
 /**/     'Glitterdust':
@@ -3000,7 +3027,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Resilient Sphere':
         'School=Alteration ' +
         'Description="R20\' Sphere safely entraps target for $L rd (save neg)"',
-      'Screen':'School="Greater Divination" Description="TODO"',
+/**/     'Screen':
+        'School="Greater Divination" ' +
+        'Description="Divination of $L30\' cu misleads for $L hr"',
 /**/     'Secret Page':
         'School=Alteration ' +
         'Description="Overlay page with different contents"',
@@ -3025,7 +3054,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Shout':
         'School=Evocation ' +
         'Description="Sound in 30\' cone 2d6 HP (save neg) and deafens 2d6 rd (save half)"',
-      'Sink':'School=Enchantment Description="TODO"',
+/**/     'Sink':
+        'School=Enchantment ' +
+        'Description="R$L10\' Target embedded in floor (save neg)"',
 /**/     'Solid Fog':
         'School=Alteration ' +
         'Description="R30\' $L10\' cu slows, reduces vision to 2\' for 2d4+$L rd"',
@@ -3044,7 +3075,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Stoneskin':
         'School=Alteration ' +
         'Description="Touched immune to next 1d4+$Ldiv2 blows"',
-      'Succor':'School=Alteration Description="TODO"',
+/**/     'Succor':
+        'School=Alteration ' +
+        'Description="Breaking item teleports to self abode"',
 /**/     'Summon Swarm':
         'School=Conjuration ' +
         'Description="R60\' Vermin in 10\' cu 1 HP/rd for conc + 2 rd"',
@@ -3052,7 +3085,9 @@ FirstEdition.RULE_EDITS = {
 /**/     'Taunt':
         'School=Enchantment ' +
         'Description="R60\' Targets in 30\' radius attack caster"',
-      'Telekinetic Sphere':'School=Evocation Description="TODO"',
+/**/     'Telekinetic Sphere':
+        'School=Evocation ' +
+        'Description="R20\' Sphere safely entraps and floats target for $L rd (save neg)"',
 /**/     'Teleport Without Error':
         'School=Alteration ' +
         'Description="Instantly transport self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
@@ -3069,7 +3104,9 @@ FirstEdition.RULE_EDITS = {
         'School=Necromancy ' +
         'Description="Touch causes $Ldiv2max6 HP added to self"',
       'Water Walk':'School=Alteration Description="TODO"',
-      'Weird':'School=Illusion Description="TODO"',
+/**/     'Weird':
+        'School=Illusion ' +
+        'Description="R30\' Targets in 20\' radius fight nemeses to death (save paralyze 1 rd, -1d4 Str 1 tn)"',
 /**/     'Whispering Wind':
         'School=Alteration ' +
         'Description="R$L mi Self send 25 words or sound to known location"',
@@ -3121,7 +3158,7 @@ FirstEdition.RULE_EDITS = {
       'Scourge':'Category=1h Damage=d4',
       'Sickle':'Category=1h Damage=d4+1',
       'Staff Sling':'Category=R Damage=d4 Range=30',
-      'Warhammer':FirstEdition.WEAPONS['Hammer'],
+      'Warhammer':FirstEdition.WEAPONS.Hammer,
       'Whip':'Category=1h Damage=d2'
     },
   },
@@ -3555,7 +3592,7 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
     rules.defineRule('combatNotes.weaponSpecialization.3',
       'weaponSpecialization', '=',
         'source == "None" ? null : source.indexOf("Crossbow") >= 0 ? -0.5 : 0',
-      'levels.Fighter', '+', 'source < 7 ? 0.5 : source < 13 ? 1 : 1.5',
+      'levels.Fighter', '+', 'source < 7 ? 0.5 : source < 13 ? 1 : 1.5'
     );
     SRD35.prerequisiteRules
       (rules, 'validation', 'weaponSpecialization',
@@ -3748,7 +3785,7 @@ FirstEdition.identityRules = function(
     rules.defineRule
       ('skillNotes.rogueSkills.3', 'rogueSkillLevel', '+=', '3* source + 7');
     rules.defineRule('skillNotes.rogueSkills.4',
-      'rogueSkillLevel', '=', 'source < 16 ? 5 * source + 15 : (source + 75)',
+      'rogueSkillLevel', '=', 'source < 16 ? 5 * source + 15 : (source + 75)'
     );
     rules.defineRule('skillNotes.rogueSkills.5',
       'rogueSkillLevel', '=', 'source < 16 ? 5 * source + 15 : (source + 75)'
@@ -3857,7 +3894,7 @@ FirstEdition.talentRules = function(rules, features, languages, skills) {
   if(FirstEdition.EDITION == 'Second Edition') {
     rules.defineChoice('notes', 'skillNotes.armorSkillModifiers:%1 Climb Walls/%2 Find Traps/%3 Hear Noise/%4 Hide In Shadows/%5 Move Silently/%6 Open Locks/%7 Pick Pockets');
     rules.defineRule
-      ('skillNotes.armorSkillModifiers', 'rogueSkillLevel', '=', '1',);
+      ('skillNotes.armorSkillModifiers', 'rogueSkillLevel', '=', '1');
     for(var i = 1; i < rogueSkills.length; i++) {
       var skill = rogueSkills[i];
       if(skill == 'Read Languages')
@@ -4220,7 +4257,6 @@ FirstEdition.classRules = function(
     for(var i = 0; i < spellsPerDay.length; i++) {
       var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
-      var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
       var code = spellsPerDay[i].substring(spellTypeAndLevel.length + 1).
                  replace(/=/g, ' ? ').
                  split(/;/).reverse().join(' : source >= ');
@@ -4233,7 +4269,7 @@ FirstEdition.classRules = function(
       );
       if(spellType != name) {
         rules.defineRule('casterLevels.' + spellType,
-          'casterLevels.' + name, '=', null,
+          'casterLevels.' + name, '=', null
         );
       }
     }
@@ -4418,7 +4454,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Illusionist') {
 
-    if(!FirstEdition.EDITION == 'OSRIC') {
+    if(FirstEdition.EDITION != 'OSRIC') {
       rules.defineRule('classBaseAttackAdjustment',
         'levels.Illusionist', '+=', 'source > 15 ? 2 : source > 10 ? 1 : null'
       );
@@ -4426,7 +4462,7 @@ FirstEdition.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Magic User') {
 
-    if(!FirstEdition.EDITION == 'OSRIC') {
+    if(FirstEdition.EDITION != 'OSRIC') {
       rules.defineRule('classBaseAttackAdjustment',
         'levels.Magic User', '+=', 'source > 15 ? 2 : source > 10 ? 1 : null'
       );
@@ -4722,8 +4758,6 @@ FirstEdition.skillRules = function(rules, name, ability, classes) {
     console.log('Bad ability "' + ability + '" for skill ' + name);
   }
 
-  var nameNoSpace = name.replace(/ /g, '');
-
   rules.defineRule('skillModifier.' + name, 'skills.' + name, '=', null);
   rules.defineChoice('notes', 'skillNotes.dexteritySkillModifiers:%1 Find Traps/%2 Hide In Shadows/%3 Move Silently/%4 Open Locks/%5 Pick Pockets');
   if(FirstEdition.EDITION == 'OSRIC') {
@@ -4794,11 +4828,11 @@ FirstEdition.skillRules = function(rules, name, ability, classes) {
 FirstEdition.spellRules = function(
   rules, name, school, casterGroup, level, description, duration, effect, range
 ) {
-  if(duration)
+  if(duration != null)
     description = description.replaceAll('$D', duration);
-  if(effect)
+  if(effect != null)
     description = description.replaceAll('$E', effect);
-  if(range)
+  if(range != null)
     description = description.replaceAll('$R', range);
   SRD35.spellRules(rules, name, school, casterGroup, level, description);
   // No changes needed to the rules defined by SRD35 method
@@ -4859,8 +4893,6 @@ FirstEdition.choiceEditorElements = function(rules, type) {
       ['Spells', 'Spells', 'text', [40]]
     );
   else if(type == 'Weapon') {
-    var oneToFive = [1, 2, 3, 4, 5];
-    var sixteenToTwenty = [16, 17, 18, 19, 20];
     var zeroToOneFifty =
      [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
     result.push(
@@ -4872,7 +4904,7 @@ FirstEdition.choiceEditorElements = function(rules, type) {
     );
   } else
     result = SRD35.choiceEditorElements(rules, type);
-  return result
+  return result;
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
@@ -4890,7 +4922,7 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
         choices[choices.length] = attr;
       }
     }
-    attributes['armor'] = choices.length == 0 ? 'None' :
+    attributes.armor = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'proficiencies') {
     attrs = this.applyRules(attributes);
@@ -4945,7 +4977,7 @@ FirstEdition.randomizeOneAttribute = function(attributes, attribute) {
         choices[choices.length] = attr;
       }
     }
-    attributes['shield'] = choices.length == 0 ? 'None' :
+    attributes.shield = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'weapons') {
     var howMany = 3;
