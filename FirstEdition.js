@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var FirstEdition_VERSION = '2.0.2.1';
+var FirstEdition_VERSION = '2.0.3.0';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -198,7 +198,7 @@ FirstEdition.FEATURES = {
   'Bonus Thief Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Charming Music':
-    'Section=magic Note="R40\' %V% chance of charming creatures while playing (save 1 rd)"',
+    'Section=magic Note="R40\' %V% charm creatures while playing (save 1 rd)"',
   'Clear Mind':
     'Section=save Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
   'Cleric Spell Failure':'Section=magic Note="%V%"',
@@ -211,7 +211,7 @@ FirstEdition.FEATURES = {
   'Diamond Body':'Section=save Note="Immune to poison"',
   'Discriminating':
     'Section=feature Note="Must not associate w/non-good characters"',
-  'Disguise':'Section=feature Note="92%+ chance of successful disguise"',
+  'Disguise':'Section=feature Note="92%+ successful disguise"',
   'Divine Health':'Section=save Note="Immune to disease"',
   'Divine Protection':
     'Section=save Note="+2 Breath/+2 Death/+2 Petrification/+2 Spell/+2 Wand"',
@@ -234,10 +234,10 @@ FirstEdition.FEATURES = {
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Killing Blow':
-    'Section=combat Note="%V+foe AC % chance of killing w/Stunning Blow"',
+    'Section=combat Note="%V+foe AC% kill w/Stunning Blow"',
   'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
   'Legend Lore':
-    'Section=feature Note="%V% chance of info about legendary item, person, place"',
+    'Section=feature Note="%V% info about legendary item, person, place"',
   'Loner':'Section=feature Note="Will not work with gt 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Nature Knowledge':
@@ -274,7 +274,7 @@ FirstEdition.FEATURES = {
   'Summon Warhorse':
     'Section=feature Note="Call warhorse w/enhanced features"',
   'Track':
-    'Section=feature Note="90% rural, 65% urban or dungeon base chance creature tracking"',
+    'Section=feature Note="90% rural, 65%+ urban or dungeon creature tracking"',
   'Travel Light':
     'Section=feature Note="Will not possess more than can be carried"',
   'Turn Undead':
@@ -449,12 +449,12 @@ FirstEdition.SPELLS = {
   'Aerial Servant':
     'School=Conjuration ' +
     'Description="R10\' Summoned servant fetches request within $L days"',
-/**/ 'Affect Normal Fires':
+  'Affect Normal Fires':
     'School=Alteration ' +
     'Description="R$L5\' Change size of up to $E fire from candle flame to $E for $D" ' +
     'Duration="$L rd" ' +
     'Effect="1.5\' radius"',
-/**/ 'Airy Water':
+  'Airy Water':
     'School=Alteration ' +
     'Description="Water in 10\' radius around self breathable for $L tn"',
   'Alter Reality':
@@ -463,7 +463,7 @@ FirstEdition.SPELLS = {
   'Animal Friendship':
     'School=Enchantment ' +
     'Description="R10\' Recruit animal companion (save neg)"',
-/**/ 'Animal Growth':
+  'Animal Growth':
     'School=Alteration ' +
     'Description="R$R Dbl (rev halve) size, HD, and damage of 8 animals for $D" ' +
     'Duration="$L rd" ' +
@@ -483,7 +483,7 @@ FirstEdition.SPELLS = {
     'School=Conjuration ' +
     'Description="R$R Draw 4 16 HD, 8 8 HD, or 16 4 HD animals to assist" ' +
     'Range="$L80\'"',
-/**/ 'Animate Dead':
+  'Animate Dead':
     'School=Necromancy ' +
     'Description="R10\' Animated humanoid remains totaling $L HD obey simple commands"',
   'Animate Object':
@@ -494,24 +494,25 @@ FirstEdition.SPELLS = {
     'Description="R40\' Target $L2\' cu rock obeys simple commands for $L rd"',
   'Anti-Animal Shell':
     'School=Abjuration ' +
-    'Description="10\' radius blocks animal matter for $L tn"',
-/**/ 'Anti-Magic Shell':
+    'Description="Self 10\' radius blocks animal matter for $L tn"',
+  'Anti-Magic Shell':
     'School=Abjuration ' +
     'Description="$L5\' radius allows no magic inside, moves with self for $L tn"',
   'Anti-Plant Shell':
     'School=Abjuration ' +
-    'Description="Self 80\' radius blocks plant matter for $L tn"',
-/**/ 'Antipathy/Sympathy':
+    'Description="Self $R blocks plant matter for $L tn" ' +
+    'Range="80\' radius"',
+  'Antipathy/Sympathy':
     'School=Enchantment ' +
     'Description="R30\' $L10\' cu or object repels or attracts specified creature type or alignment for $L2 hr (save reduces effect)"',
-/**/ 'Astral Spell':
+  'Astral Spell':
     'School=Alteration ' +
     'Description="Self and $E others leave bodies to travel astral plane" ' +
     'Effect="5"',
   'Atonement':
     'School=Abjuration ' +
     'Description="Touched relieved of consequences of unwilling alignment violation"',
-/**/ 'Audible Glamer':
+  'Audible Glamer':
     'School=Illusion ' +
     'Description="R$L10plus60\' Sounds of ${(lvl-2)*4} shouting for $D (save disbelieve)" ' +
     'Duration="$L3 rd"',
@@ -519,28 +520,29 @@ FirstEdition.SPELLS = {
     'Duration="$L2 rd"',
   'Augury':
     'School=Divination ' +
-    'Description="Self $Lplus70% chance of determining weal or woe of action in next 3 tn"',
+    'Description="Self $Lplus70% determine weal or woe of action in next 3 tn"',
   'Barkskin':
     'School=Alteration ' +
-    'Description="Touched +1 AC, non-spell saves for $Lplus4 rd"',
+    'Description="Touched $E for $Lplus4 rd" ' +
+    'Effect="+1 AC, non-spell saves"',
   'Blade Barrier':
     'School=Evocation ' +
     'Description="R30\' Whirling blade wall 8d8 HP to passers for $L3 rd"',
   'Bless':
     'School=Conjuration ' +
     'Description="R60\' Unengaged allies in 50\' sq +1 attack and morale (rev foes -1) for 6 rds"',
-/**/ 'Blindness':
+  'Blindness':
     'School=Illusion ' +
     'Description="R$R Target blinded (save neg)" ' +
     'Range="30\'"',
-/**/ 'Blink':
+  'Blink':
     'School=Alteration ' +
     'Description="Self random teleport $E for $L rd" ' +
     'Effect="2\'/rd"',
-/**/ 'Blur':
+  'Blur':
     'School=Illusion ' +
     'Description="Self +1 magical saves, foes -4 first attack, -2 thereafter for $Lplus3 rd"',
-/**/ 'Burning Hands':
+  'Burning Hands':
     'School=Alteration ' +
     'Description="Self $E of flame $L HP" ' +
     'Effect="3\' cone"',
@@ -554,65 +556,67 @@ FirstEdition.SPELLS = {
     'School=Conjuration ' +
     'Description="R$R Draw forest denizens to assist (save neg)" ' +
     'Range="$L10plus120\'"',
-/**/ 'Change Self':
+  'Change Self':
     'School=Illusion ' +
     'Description="Self take any humanoid appearance for 2d6+$L2 rd"',
   'Chant':
     'School=Conjuration ' +
     'Description="R30\' Allies +1 attack, damage, saves (foes -1) during chant"',
-/**/ 'Chaos':
+  'Chaos':
     'School=Enchantment ' +
     'Description="R$L5\' Creatures in 40\' sq unpredictable for $L rd (save neg)"',
   'Chariot Of Fire':
     'School=Evocation ' +
-    'Description="R10\' Flaming chariot and horse pair (ea AC 2, HP 30) drive self and 8 others 240\'/rd, fly 480\'/rd for $Lplus6 tn"',
-/**/ 'Charm Monster':
+    'Description="R10\' Flaming chariot and horse pair (ea AC 2, HP 30) drive self and 8 others 240\'/rd, fly 480\'/rd for $D" ' +
+    'Duration="$Lplus6 tn"',
+  'Charm Monster':
     'School=Enchantment ' +
     'Description="R60\' Target 2d4 HD creatures treat self as trusted friend (save neg)"',
   'Charm Person Or Mammal':
     'School=Enchantment ' +
     'Description="R80\' Target mammal treats self as trusted friend (save neg)"',
-/**/ 'Charm Person':
+  'Charm Person':
     'School=Enchantment ' +
     'Description="R120\' Target humanoid treats self as trusted friend (save neg)"',
-/**/ 'Charm Plants':
+  'Charm Plants':
     'School=Enchantment ' +
     'Description="R30\' Command plants in 30\'x10\' area (save neg)"',
-/**/ 'Clairaudience':
+  'Clairaudience':
     'School=Divination ' +
     'Description="Hear remote known location for $L rd"',
-/**/ 'Clairvoyance':
+  'Clairvoyance':
     'School=Divination ' +
     'Description="See remote known location for $L rd"',
-/**/ 'Clenched Fist':
+  'Clenched Fist':
     'School=Evocation ' +
     'Description="R$L5\' Force absorbs attacks, strikes foes 1d6-4d6 HP for conc or $L rd"',
-/**/ 'Clone':
+  'Clone':
     'School=Necromancy ' +
     'Description="Grow copy of target creature, each destroy the other or insane"',
-/**/ 'Cloudkill':
+  'Cloudkill':
     'School=Evocation ' +
     'Description="R10\' Poisonous 40\'x20\'x20\' cloud kills (5+2 HD save, 4+1 HD -4 save neg) moves 10\'/rd for $L rd"',
-/**/ 'Color Spray':
+  'Color Spray':
     'School=Alteration ' +
     'Description=" 6 targets in $E unconscious (lt $Lplus1 HD), blinded 1d4 rd ($Lplus1-$Lplus2) or stunned 2d4 seg (gt $Lplus2) (save neg)" ' +
     'Effect="$L10\' cone"',
   'Command':
     'School=Enchantment ' +
-    'Description="R10\' Target obeys single-word command (save neg for Int 13+/HD 6+)"',
+    'Description="R$R Target obeys single-word command (save neg for Int 13+/HD 6+)" ' +
+    'Range="10\'"',
   'Commune':
     'School=Divination ' +
     'Description="Self deity answers $L yes/no questions"',
   'Commune With Nature':
     'School=Divination ' +
     'Description="Self discern nature info in $Ldiv2 mi radius"',
-/**/ 'Comprehend Languages':
+  'Comprehend Languages':
     'School=Alteration ' +
     'Description="Self understand unknown writing and speech for $L5 rd (rev obscures)"',
-/**/ 'Cone Of Cold':
+  'Cone Of Cold':
     'School=Evocation ' +
     'Description="Self $L5\'-long cone ${lvl}d4+$L HP (save half)"',
-/**/ 'Confusion':
+  'Confusion':
     'School=Enchantment ' +
     'Description="R$R $E unpredictable for $D (save neg 1 rd)" ' +
     'Duration="$Lplus2 rd" ' +
@@ -626,7 +630,7 @@ FirstEdition.SPELLS = {
     'Duration="$L rd" ' +
     'Effect="2d4 or more creatures in 20\' radius" ' +
     'Range="80\'"',
-/**/ 'Conjure Animals':
+  'Conjure Animals':
     'School=Conjuration ' +
     'Description="R30\' $E of animals appear and fight for $D" ' +
     'Duration="$L rd" ' +
@@ -635,20 +639,22 @@ FirstEdition.SPELLS = {
     'Duration="$L2 rd"',
   'Conjure Earth Elemental':
     'School=Conjuration ' +
-    'Description="R40\' 16 HD elemental assists for $L tn (rev dismisses)"',
-/**/ 'Conjure Elemental':
+    'Description="R40\' $E assists for $L tn (rev dismisses)" ' +
+    'Effect="16 HD elemental"',
+  'Conjure Elemental':
     'School=Conjuration ' +
     'Description="R60\' Summoned elemental obeys commands for conc or $L tn"',
   'Conjure Fire Elemental':
     'School=Conjuration ' +
-    'Description="R80\' 16 HD elemental assists for $L tn (rev dismisses)"',
-/**/ 'Contact Other Plane':
+    'Description="R80\' $E assists for $L tn (rev dismisses)" ' +
+    'Effect="16 HD elemental"',
+  'Contact Other Plane':
     'School=Divination ' +
     'Description="Self gain answers to $Ldiv2 yes/no questions"',
   'Continual Darkness':
     'School=Alteration ' +
     'Description="R60\' 30\' radius opaque"',
-/**/ 'Continual Light':
+  'Continual Light':
     'School=Alteration ' +
     'Description="R$R Target centers 60\' radius light (rev darkness) until dispelled" ' +
     'Range="60\'"',
@@ -656,8 +662,9 @@ FirstEdition.SPELLS = {
     'Range="120\'"',
   "Control Temperature 10' Radius":
     'School=Alteration ' +
-    'Description="Change temperature in 10\' radius by $L9 deg F for $Lplus4 tn"',
-/**/ 'Control Weather':
+    'Description="Change temperature in 10\' radius by $E for $Lplus4 tn" ' +
+    'Effect="${lvl*9}F"',
+  'Control Weather':
     'School=Alteration ' +
     'Description="Self controls precipitation, temp, and wind within $E for $D" ' +
     'Duration="4d6 hr" ' +
@@ -669,21 +676,23 @@ FirstEdition.SPELLS = {
     'Effect="4d8 mi sq"',
   'Control Winds':
     'School=Alteration ' +
-    'Description="Winds in $L40\' radius speed/slow $L3 mph/rd for $L tn"',
+    'Description="Winds in $L40\' radius speed or slow for $L tn"',
   'Create Food And Water':
     'School=Alteration ' +
     'Description="R10\' Creates $E food and drink" ' +
     'Effect="$L3 person/dy"',
   'Create Water':
     'School=Alteration ' +
-    'Description="R10\' Creates (rev destroys) $E potable water" ' +
-    'Effect="$L4 gallons"',
+    'Description="R$R Creates (rev destroys) $E potable water" ' +
+    'Effect="$L4 gallons" ' +
+    'Range="10\'"',
   'Create Water D2':
     'Effect="$L\' cu"',
   'Creeping Doom':
     'School=Conjuration ' +
-    'Description="Bugs erupt, attack w/in 80\' for $L4 rd"',
-/**/ 'Crushing Hand':
+    'Description="Bugs erupt, attack w/in $E for $L4 rd" ' +
+    'Effect="80\' radius"',
+  'Crushing Hand':
     'School=Evocation ' +
     'Description="R$L5\' Force absorbs attacks, squeezes 1d10-4d10 HP for $L rd"',
   'Cure Blindness':
@@ -701,35 +710,35 @@ FirstEdition.SPELLS = {
   'Cure Serious Wounds':
     'School=Necromancy ' +
     'Description="Touched heals 2d8+1 HP (rev inflicts)"',
-/**/ 'Dancing Lights':
+  'Dancing Lights':
     'School=Alteration ' +
     'Description="R$L10plus40\' Up to 4 movable lights for $L2 rd"',
-/**/ 'Darkness':
+  'Darkness':
     'School=Alteration ' +
     'Description="R$L10\' 15\' radius lightless for $D" ' +
     'Duration="$Lplus10 rd"',
   'Darkness I1':
     'Duration="2d4+$L rd"',
-/**/ 'Deafness':
+  'Deafness':
     'School=Illusion ' +
     'Description="R60\' Target deafened (save neg)"',
-/**/ 'Death Spell':
-    'School=Necromancy ' +
+  'Death Spell':
+    'School=Conjuration ' +
     'Description="R$L10\' Kills 4d20 points of creatures lt 9 HD in $E" ' +
     'Effect="$L5\' sq"',
-/**/ 'Delayed Blast Fireball':
+  'Delayed Blast Fireball':
     'School=Evocation ' +
     'Description="R$L10plus100\' ${lvl}d6+$L HP in 20\' radius (save half) after up to 5 rd"',
-/**/ 'Demi-Shadow Magic':
+  'Demi-Shadow Magic':
     'School=Illusion ' +
     'Description="R$L10plus60\' Mimics <i>Cloudkill</i> (die, save neg), <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (ea save $L2 HP), <i>Wall Of Fire</i> (2d6+$L HP, save ${lvl}d4), or <i>Wall Of Ice</i>"',
-/**/ 'Demi-Shadow Monsters':
+  'Demi-Shadow Monsters':
     'School=Illusion ' +
     'Description="R30\' Create monsters $L HD total, 40% HP (save AC 8, 40% damage) for $L rd"',
   'Detect Charm':
     'School=Divination ' +
     'Description="Self discern up to 10 charmed creatures in 30\' for 1 tn (rev shields 1 target)"',
-/**/ 'Detect Evil':
+  'Detect Evil':
     'School=Divination ' +
     'Description="Self discern evil (rev good) in $R for $D" ' +
     'Duration="$L5 rd" ' +
@@ -740,12 +749,13 @@ FirstEdition.SPELLS = {
   'Detect Illusion':
     'School=Divination ' +
     'Description="Self discern illusions in 10\'x$L10\' path, touching reveals to others for $L2plus3 rd"',
-/**/ 'Detect Invisibility':
+  'Detect Invisibility':
     'School=Divination ' +
     'Description="Self see invisible objects in 10\'x$L10\' path for $L5 rd"',
   'Detect Lie':
     'School=Divination ' +
-    'Description="R30\' Target discerns lies for $L rd (rev makes lies believable)"',
+    'Description="R30\' $E discerns lies for $L rd (rev makes lies believable)" ' +
+    'Effect="Target"',
   'Detect Magic':
     'School=Divination ' +
     'Description="Self discern magical auras in $E for $D" ' +
@@ -760,13 +770,13 @@ FirstEdition.SPELLS = {
   'Detect Pits And Snares':
     'School=Divination ' +
     'Description="Self discern outdoor traps, indoor pits in 10\'x40\' path for $L4 rd"',
-/**/ 'Dig':
+  'Dig':
     'School=Evocation ' +
     'Description="R30\' Excavate 5\' cube/rd for $L rd"',
-/**/ 'Dimension Door':
+  'Dimension Door':
     'School=Alteration ' +
     'Description="Self teleport $L30\'"',
-/**/ 'Disintegrate':
+  'Disintegrate':
     'School=Alteration ' +
     'Description="R$L5\' Obliterates $E matter (save neg)" ' +
     'Effect="$L10\' sq"',
@@ -779,7 +789,7 @@ FirstEdition.SPELLS = {
   'Dispel Illusion':
     'School=Abjuration ' +
     'Description="R$L10\' Dispel one illusion, 50% (+5%/-2% per caster level delta) dispel one magic"',
-/**/ 'Dispel Magic':
+  'Dispel Magic':
     'School=Abjuration ' +
     'Description="R$R 50% (+5%/-2% per caster level delta) magic in $E extinguished" ' +
     'Effect="30\' cu" ' +
@@ -789,77 +799,78 @@ FirstEdition.SPELLS = {
   'Dispel Magic D4':
     'Effect="40\' cu" ' +
     'Range="80\'"',
-/**/ 'Distance Distortion':
+  'Distance Distortion':
     'School=Alteration ' +
     'Description="R$L10\' Travel through $E half or dbl for $D" ' +
     'Duration="$L tn" ' +
     'Effect="$L100\' sq"',
   'Divination':
     'School=Divination ' +
-    'Description="Self $Lplus60% chance discern info about known location"',
-/**/ 'Duo-Dimension':
+    'Description="Self $Lplus60% discern info about known location"',
+  'Duo-Dimension':
     'School=Alteration ' +
     'Description="Self 2D, take 3x damage from front/back, for $Lplus3 rd"',
-/**/ 'ESP':
+  'ESP':
     'School=Divination ' +
     'Description="R$L5max90\' Self hear surface thoughts for $L rd"',
   'Earthquake':
     'School=Alteration ' +
     'Description="R120\' Intense shaking in $L5\' diameter for 1 rd"',
-/**/ 'Emotion':
+  'Emotion':
     'School=Enchantment ' +
     'Description="R$L10\' Targets in 40\' sq experience fear (flee), hate (+2 save/attack/damage), hopelessness (walk away or surrender), or rage (+1 attack, +3 damage, +5 HP) for conc"',
-/**/ 'Enchant An Item':
+  'Enchant An Item':
     'School=Conjuration ' +
     'Description="Touched item becomes magical"',
-/**/ 'Enchanted Weapon':
+  'Enchanted Weapon':
     'School=Alteration ' +
     'Description="Touched weapon magical $E for $L5 rd" ' +
     'Effect="(no bonus)"',
-/**/ 'Enlarge':
+  'Enlarge':
     'School=Alteration ' +
     'Description="R$L5\' Creature grows $L20max200% or object $L10max100% for $L tn (rev shrinks, save neg)"',
   'Entangle':
     'School=Alteration ' +
-    'Description="R80\' Plants in 20\' radius hold passers (save move half) for 1 tn"',
-/**/ 'Erase':
+    'Description="R80\' Plants in $E hold passers (save move half) for 1 tn" ' +
+    'Effect="20\' radius"',
+  'Erase':
     'School=Alteration ' +
     'Description="R30\' Erase magical ($L2plus50% chance) or normal ($L4plus50%) writing from 2-page area (save neg)"',
   'Exorcise':
     'School=Abjuration ' +
     'Description="R10\' Target relieved of supernatural inhabitant and influence"',
-/**/ 'Explosive Runes':
+  'Explosive Runes':
     'School=Alteration ' +
     'Description="Reading runes on touched 6d4+6 HP to reader (no save), 10\' radius (save half)"',
-/**/ 'Extension I':
+  'Extension I':
     'School=Alteration ' +
     'Description="Existing level 1-3 spell lasts 50% longer"',
-/**/ 'Extension II':
+  'Extension II':
     'School=Alteration ' +
     'Description="Existing level 1-4 spell lasts 50% longer"',
-/**/ 'Extension III':
+  'Extension III':
     'School=Alteration ' +
     'Description="Existing level 1-3 spell lasts 100% longer or level 4-5 50%"',
   'Faerie Fire':
     'School=Alteration ' +
     'Description="R80\' Outlines targets, allowing +2 attack, for $L4 rd"',
-/**/ 'False Trap':
+  'False Trap':
     'School=Illusion ' +
     'Description="Touched appears trapped (save disbelieve)"',
-/**/ 'Fear':
+  'Fear':
     'School=Illusion ' +
     'Description="Targets in 60\' cone 65%-5*HD flee for $L rd (save neg)"',
-/**/ 'Feather Fall':
+  'Feather Fall':
     'School=Alteration ' +
     'Description="R$L10\' Objects in 10\' cu fall 2\'/sec for $D" ' +
     'Duration="$L6 secs"',
-/**/ 'Feeblemind':
+  'Feeblemind':
     'School=Enchantment ' +
     'Description="R$R Target Int 2 (save Cleric +1, Druid -1, MU -4, Illusionist -5 and non-human -2 neg)" ' +
     'Range="$L10\'"',
   'Feeblemind D6':
     'Range="160\'"',
-/**/ 'Feign Death':
+  'Feign Death':
     'School=Necromancy ' +
     'Description="Touched appears dead, takes half damage, immune draining for $D" ' +
     'Duration="$Lplus6 rd"',
@@ -867,7 +878,7 @@ FirstEdition.SPELLS = {
     'Duration="$Lplus10 rd"',
   'Feign Death D2':
     'Duration="$L2plus4 rd"',
-/**/ 'Find Familiar':
+  'Find Familiar':
     'School=Conjuration ' +
     'Description="Call beast to serve as familiar (HP 1d3+1, AC 7)"',
   'Find The Path':
@@ -876,99 +887,101 @@ FirstEdition.SPELLS = {
   'Find Traps':
     'School=Divination ' +
     'Description="Detect traps in 10\'x30\' area for 3 tn"',
-/**/ 'Finger Of Death':
+  'Finger Of Death':
     'School=Enchantment ' +
     'Description="R60\' Target dies (save neg)"',
-/**/ 'Fire Charm':
+  'Fire Charm':
     'School=Enchantment ' +
     'Description="R10\' Fire mesmerizes viewers (save neg) in 15\' radius, makes suggestible for $L2 rd"',
   'Fire Seeds':
     'School=Conjuration ' +
-    'Description="R40\' Acorn missiles 2d8 HP in 5\' area, holly berries 1d8 in 5\' sq for $L tn (save half)"',
-/**/ 'Fire Shield':
+    'Description="R40\' 4 acorn missiles 2d8 HP in 5\' area or 8 holly berries 1d8 in 5\' sq for $L tn (save half)"',
+  'Fire Shield':
     'School=Evocation ' +
     'Description="Self +2 save and half damage vs. fire (rev cold), dbl damage vs. cold (rev fire) for $Lplus2 rd"',
   'Fire Storm':
     'School=Evocation ' +
     'Description="R$R Fire in $L20\' cu  area 2d8 HP (save half) for 1 rd (rev extinguishes)" ' +
     'Range="150\'"',
-/**/ 'Fire Trap':
+  'Fire Trap':
     'School=Evocation ' +
     'Description="Touched causes 1d4+$L HP (save half) in 5\' radius when opened"',
-/**/ 'Fireball':
+  'Fireball':
     'School=Evocation ' +
     'Description="R$R $E in 20\' radius (save half)" ' +
     'Effect="${lvl}d6 HP" ' +
     'Range="$L10plus100\'"',
-/**/ 'Flame Arrow':
+  'Flame Arrow':
     'School=Conjuration ' +
     'Description="Touched arrow or bolt 1 HP fire damage same rd"',
   'Flame Strike':
     'School=Evocation ' +
     'Description="R60\' 5\' radius fire column 6d8 HP (save half)"',
-/**/ 'Floating Disk':
+  'Floating Disk':
     'School=Evocation ' +
     'Description="3\' diameter disk holds $L100 lbs, follows self at $R for $Lplus3 tn" ' +
     'Range="6\'"',
-/**/ 'Fly':
+  'Fly':
     'School=Alteration ' +
     'Description="Touched can fly $E for $D" ' +
     'Duration="1d6+$L6 tn" ' +
     'Effect="120\'/rd"',
-/**/ 'Fog Cloud':
+  'Fog Cloud':
     'School=Alteration ' +
     'Description="R10\' Fog in 40\'x20\'x20\' area obscures vision, moves 10\'/rd for $Lplus4 rd"',
-/**/ "Fool's Gold":
+  "Fool's Gold":
     'School=Alteration ' +
     'Description="R10\' Copper and brass become gold for $L hr (-$L save disbelieve)"',
-/**/ 'Forceful Hand':
+  'Forceful Hand':
     'School=Evocation ' +
     'Description="R$L10\' Force absorbs attacks, pushes away for $L rd"',
-/**/ 'Forget':
+  'Forget':
     'School=Enchantment ' +
     'Description="R30\' 4 targets in 20\' sq forget last $Lplus3div3 rd (save neg)"',
-/**/ 'Freezing Sphere':
+  'Freezing Sphere':
     'School=Alteration ' +
     'Description="Freeze $L10\' sq water for $L rd, R$L10\' cold ray $L4 HP (save neg), or cold grenade 4d6 HP (save half) in 10\' radius"',
-/**/ 'Friends':
+  'Friends':
     'School=Enchantment ' +
     'Description="R$L10plus10\' Self Cha +2d4 (save self Cha -1d4) for $L rd"',
-/**/ 'Fumble':
+  'Fumble':
     'School=Enchantment ' +
     'Description="R$L10\' $E falls and drops carried (save slowed) for $L rd" ' +
     'Effect="Target"',
-/**/ 'Gate':
+  'Gate':
     'School=Conjuration ' +
     'Description="R30\' Summon named extraplanar creature"',
-/**/ 'Gaze Reflection':
+  'Gaze Reflection':
     'School=Alteration ' +
     'Description="Gaze attacks reflected back for $D" ' +
     'Duration="1 rd"',
-/**/ 'Geas':
+  'Geas':
     'School=Enchantment ' +
     'Description="$R fulfill quest or sicken and die in 1d4 wk" ' +
     'Range="Touched"',
-/**/ 'Glassteel':
+  'Glassteel':
     'School=Alteration ' +
     'Description="Touched $L10 lb glass gains steel strength"',
-/**/ 'Glassee':
+  'Glassee':
     'School=Alteration ' +
     'Description="Touched 3\'x2\' area becomes transparent for $L rd"',
-/**/ 'Globe Of Invulnerability':
+  'Globe Of Invulnerability':
     'School=Abjuration ' +
     'Description="Self 5\' radius blocks spells level 1-4 for $L rd"',
   'Glyph Of Warding':
     'School=Abjuration ' +
-    'Description="Touching $L25\' sq causes $L2 HP energy (save half or neg)"',
-/**/ 'Grasping Hand':
+    'Description="Touching $R causes $E energy (save half or neg)" ' +
+    'Effect="$L2 HP" ' +
+    'Range="$L25\' sq"',
+  'Grasping Hand':
     'School=Evocation ' +
     'Description="R$L10\' Force absorbs attacks, restrains for $L rd"',
-/**/ 'Guards And Wards':
+  'Guards And Wards':
     'School=Evocation ' +
     'Description="Multiple effects protect $E for $D" ' +
     'Duration="$L hr" ' +
     'Effect="$L10plus20\' radius"',
-/**/ 'Gust Of Wind':
+  'Gust Of Wind':
     'School=Alteration ' +
     'Description="Wind in 10\'x$L10\' path extinguishes flames, moves small objects for $D" ' +
     'Duration="6 secs"',
@@ -984,22 +997,23 @@ FirstEdition.SPELLS = {
   'Hallucinatory Terrain I3':
     'Effect="10\'x$L10\' area" ' +
     'Range="$L10plus40\'"',
-/**/ 'Haste':
+  'Haste':
     'School=Alteration ' +
     'Description="R60\' $L targets in 40\' sq dbl speed for $Lplus3 rd"',
   'Heal':
     'School=Necromancy ' +
-    'Description="Touched healed of all but 1d4 HP, cured of blindness, disease, feeblemind (rev causes disease and drains all but 1d4 HP)"',
+    'Description="Touched healed of $E, cured of blindness, disease, feeblemind (rev causes disease and drains all but 1d4 HP)" ' +
+    'Effect="all but 1d4 HP"',
   'Heat Metal':
     'School=Alteration ' +
     'Description="R40\' Metal dangerously hot (rev cold) for 7 rd"',
   'Hold Animal':
     'School=Enchantment ' +
     'Description="R80\' Immobilize 4 animals for $L2 rd"',
-/**/ 'Hold Monster':
+  'Hold Monster':
     'School=Enchantment ' +
     'Description="R$L5\' Immobilize 4 creatures (save neg) for $L rd"',
-/**/ 'Hold Person':
+  'Hold Person':
     'School=Enchantment ' +
     'Description="R$R Immobilize 1-4 medium targets (save neg) for $D" ' +
     'Duration="$L2 rd" ' +
@@ -1010,45 +1024,45 @@ FirstEdition.SPELLS = {
   'Hold Plant':
     'School=Enchantment ' +
     'Description="R80\' Mobile plants in 16 sq yd immobile for $L rd"',
-/**/ 'Hold Portal':
+  'Hold Portal':
     'School=Alteration ' +
     'Description="R$L20\' $E item held shut for $L rd" ' +
     'Effect="$L80\' sq"',
   'Holy Word':
     'School=Conjuration ' +
     'Description="30\' radius banishes evil extraplanar, kills (lt 4 HD), paralyzes (4-7 HD), stuns (8-11 HD), deafens (gt 11 HD) non-good creatures (rev good)"',
-/**/ 'Hypnotic Pattern':
+  'Hypnotic Pattern':
     'School=Illusion ' +
     'Description="Viewers in 30\' sq totaling 24 HD transfixed for conc (save neg)"',
-/**/ 'Hypnotism':
+  'Hypnotism':
     'School=Enchantment ' +
     'Description="R$R 1d6 targets subject to suggestion for $Lplus1 rd" ' +
     'Range="30\'"',
-/**/ 'Ice Storm':
+  'Ice Storm':
     'School=Evocation ' +
     'Description="R$L10\' Hail in 40\' sq 3d10 HP or sleet in 80\' sq blinds, slows, causes falls for 1 rd"',
-/**/ 'Identify':
+  'Identify':
     'School=Divination ' +
     'Description="$E determine magical properties of touched w/in $L hr of discovery (save neg or mislead), requires rest afterward" ' +
     'Effect="$L5plus15%"',
-/**/ 'Illusionary Script':
+  'Illusionary Script':
     'School=Illusion ' +
     'Description="Obscured writing causes 5d4 rd confusion (save neg) for readers other than specified"',
-/**/ 'Imprisonment':
+  'Imprisonment':
     'School=Abjuration ' +
     'Description="Touched safely trapped underground permanently (rev frees)"',
-/**/ 'Improved Invisibility':
+  'Improved Invisibility':
     'School=Illusion ' +
     'Description="Touched invisible for $Lplus4 rd"',
-/**/ 'Improved Phantasmal Force':
+  'Improved Phantasmal Force':
     'School=Illusion ' +
     'Description="R$L10plus60\' $E sight and sound illusion for conc + 2 rd" ' +
     'Effect="$L10plus40\' sq"',
-/**/ 'Incendiary Cloud':
+  'Incendiary Cloud':
     'School=Alteration ' +
     'Description="R30\' 20\' radius smoke cloud for 1d6+4 rd, $E rd 3, 4, 5 (save half)" ' +
     'Effect="$Ldiv2, $L, $Ldiv2 HP"',
-/**/ 'Infravision':
+  'Infravision':
     'School=Alteration ' +
     'Description="Touched see 60\' in darkness for $Lplus2 hr"',
   'Insect Plague':
@@ -1059,44 +1073,46 @@ FirstEdition.SPELLS = {
   'Insect Plague D5':
     'Effect="160\' radius" ' +
     'Range="320\'"',
-/**/ 'Instant Summons':
+  'Instant Summons':
     'School=Conjuration ' +
     'Description="Prepared, unpossessed 8 lb item called to self hand"',
-/**/ 'Interposing Hand':
+  'Interposing Hand':
     'School=Evocation ' +
     'Description="R$L10\' Force absorbs attacks, blocks passage for $L rd"',
-/**/ 'Invisibility':
+  'Invisibility':
     'School=Illusion ' +
     'Description="Touched invisible until attacking"',
-/**/ "Invisibility 10' Radius":
+  "Invisibility 10' Radius":
     'School=Illusion ' +
     'Description="Creatures w/in 10\' of touched invisible until attacking"',
   'Invisibility To Animals':
     'School=Alteration ' +
-    'Description="Touched undetected by animals for $Lplus10 rd"',
-/**/ 'Invisible Stalker':
+    'Description="$E undetected by animals for $Lplus10 rd" ' +
+    'Effect="Touched"',
+  'Invisible Stalker':
     'School=Conjuration ' +
     'Description="R10\' Conjured 8 HD invisible creature performs 1 task"',
-/**/ 'Irresistible Dance':
+  'Irresistible Dance':
     'School=Enchantment ' +
     'Description="Touched -4 AC, fail saves for 1d4+1 rd"',
-/**/ 'Jump':
+  'Jump':
     'School=Alteration ' +
     'Description="Touched can jump 30\' forward, 10\' back or up $D" ' +
     'Duration="$Lplus2div3 times"',
-/**/ 'Knock':
+  'Knock':
     'School=Alteration ' +
     'Description="R60\' Open stuck, locked item"',
-/**/ 'Know Alignment':
+  'Know Alignment':
     'School=Divination ' +
-    'Description="Self discern aura of 10 creatures for 1 tn (rev obscures)"',
-/**/ 'Legend Lore':
+    'Description="Self discern aura of $E for 1 tn (rev obscures)" ' +
+    'Effect="10 targets"',
+  'Legend Lore':
     'School=Divination ' +
     'Description="Self gain info about specified object, person, or place"',
-/**/ 'Levitate':
+  'Levitate':
     'School=Alteration ' +
     'Description="R$L20\' Self move $L100 lb target up/down 10\'/rd for $L tn (save neg)"',
-/**/ 'Light':
+  'Light':
     'School=Alteration ' +
     'Description="R$R Target spot radiates 20\' radius light for $D (rev darkness half duration)" ' +
     'Duration="$L tn" ' +
@@ -1104,17 +1120,17 @@ FirstEdition.SPELLS = {
   'Light C1':
     'Duration="$Lplus6 tn" ' +
     'Range="120\'"',
-/**/ 'Lightning Bolt':
+  'Lightning Bolt':
     'School=Evocation ' +
     'Description="R$L10plus40\' Bolt $E HP (save half)" ' +
     'Effect="${lvl}d6"',
-/**/ 'Limited Wish':
+  'Limited Wish':
     'School=Conjuration ' +
     'Description="Minor reshaping of reality"',
   'Locate Animals':
     'School=Divination ' +
     'Description="Self discern animals in 20\'x$L20\' area for $L rd"',
-/**/ 'Locate Object':
+  'Locate Object':
     'School=Divination ' +
     'Description="R$R Self find desired object for $L rd (rev obscures)" ' +
     'Range="$L20\'"',
@@ -1123,7 +1139,7 @@ FirstEdition.SPELLS = {
   'Locate Plants':
     'School=Divination ' +
     'Description="Self discern plants in $L5\' radius for $L tn"',
-/**/ 'Lower Water':
+  'Lower Water':
     'School=Alteration ' +
     'Description="R$R $E fluid subsides by $L5% for $D (rev raises)" ' +
     'Duration="$L5 rd" ' +
@@ -1133,67 +1149,67 @@ FirstEdition.SPELLS = {
     'Duration="$L tn" ' +
     'Effect="$L10\' sq" ' +
     'Range="120\'"',
-/**/ "Mage's Faithful Hound":
+  "Mage's Faithful Hound":
     'School=Conjuration ' +
     'Description="R10\' Invisible 10 HD dog guards, attacks 3d6 HP w/in 30\' of self for $D" ' +
     'Duration="$L2 rd"',
-/**/ "Mage's Sword":
+  "Mage's Sword":
     'School=Evocation ' +
     'Description="R30\' Control remote magic sword (19-20 hits, 5d4 HP) as F$Ldiv2 for $L rd"',
-/**/ 'Magic Aura':
+  'Magic Aura':
     'School=Illusion ' +
     'Description="Touched responds to <i>Detect Magic</i> for $L dy (save disbelieve)"',
-/**/ 'Magic Jar':
+  'Magic Jar':
     'School=Necromancy ' +
     'Description="R$L10\' Self trap target soul and possess target body (save neg)"',
-/**/ 'Magic Missile':
+  'Magic Missile':
     'School=Evocation ' +
     'Description="R$L10plus60\' $Lplus1div2 energy darts hit targets in 10\' sq 1d4+1 HP ea"',
-/**/ 'Magic Mouth':
+  'Magic Mouth':
     'School=Alteration ' +
     'Description="$R object responds to trigger by reciting 25 words" ' +
     'Range="Touched"',
-/**/ 'Major Creation':
+  'Major Creation':
     'School=Alteration ' +
     'Description="R10\' Create $L\' cu object from component plant or mineral material for $D" ' +
     'Duration="$L hr"',
-/**/ 'Mass Charm':
+  'Mass Charm':
     'School=Enchantment ' +
     'Description="R$L5\' $L2 HD creature(s) in 30\' sq treat self as trusted friend (save neg)"',
-/**/ 'Mass Invisibility':
+  'Mass Invisibility':
     'School=Illusion ' +
     'Description="R$L10\' All in $E invisible until attacking" ' +
     'Effect="30\' sq"',
-/**/ 'Mass Suggestion':
+  'Mass Suggestion':
     'School=Enchantment ' +
     'Description="R$R $L targets carry out reasonable suggestion for $L4plus4 tn" ' +
     'Range="30\'"',
-/**/ 'Massmorph':
+  'Massmorph':
     'School=Illusion ' +
     'Description="R$L10\' 10 humanoids look like trees"',
-/**/ 'Maze':
+  'Maze':
     'School=Conjuration ' +
     'Description="R$L5\' Target sent to interdimensional maze for amount of time based on Int"',
-/**/ 'Mending':
+  'Mending':
     'School=Alteration ' +
     'Description="R30\' Repair small break"',
-/**/ 'Message':
+  'Message':
     'School=Alteration ' +
     'Description="R$L10plus60\' remote whispering for ${(lvl+5)*6} secs"',
-/**/ 'Meteor Swarm':
+  'Meteor Swarm':
     'School=Evocation ' +
     'Description="R$L10plus40\' 4 meteors 10d4 HP in 30\' diameter or 8 meteors 5d4 HP in 15\' diameter (collateral save half)"',
-/**/ 'Mind Blank':
+  'Mind Blank':
     'School=Abjuration ' +
     'Description="R30\' Target immune $E for 1 dy" ' +
     'Effect="divination"',
-/**/ 'Minor Creation':
+  'Minor Creation':
     'School=Alteration ' +
     'Description="Create $L\' cu object from component plant material for $L hr"',
-/**/ 'Minor Globe Of Invulnerability':
+  'Minor Globe Of Invulnerability':
     'School=Abjuration ' +
     'Description="Self 5\' radius blocks spells level 1-3 for $L rd"',
-/**/ 'Mirror Image':
+  'Mirror Image':
     'School=Illusion ' +
     'Description="Self $E duplicates draw attacks for $D" ' +
     'Duration="$L3 rd" ' +
@@ -1201,45 +1217,45 @@ FirstEdition.SPELLS = {
   'Mirror Image M2':
     'Duration="$L2 rd" ' +
     'Effect="1d4"',
-/**/ 'Misdirection':
+  'Misdirection':
     'School=Illusion ' +
     'Description="R30\' Divination spells cast on target return false info for $D" ' +
     'Duration="$L rd"',
-/**/ 'Mnemonic Enhancer':
+  'Mnemonic Enhancer':
     'School=Alteration ' +
     'Description="Self retain 3 additional spell levels for 1 dy"',
-/**/ 'Monster Summoning I':
+  'Monster Summoning I':
     'School=Conjuration ' +
     'Description="R30\' 2d4 1 HD creatures fight for $Lplus2 rd"',
-/**/ 'Monster Summoning II':
+  'Monster Summoning II':
     'School=Conjuration ' +
     'Description="R40\' 1d6 2 HD creatures fight for $Lplus3 rd"',
-/**/ 'Monster Summoning III':
+  'Monster Summoning III':
     'School=Conjuration ' +
     'Description="R50\' 1d4 3 HD creatures fight for $Lplus4 rd"',
-/**/ 'Monster Summoning IV':
+  'Monster Summoning IV':
     'School=Conjuration ' +
     'Description="R60\' $E 4 HD creatures fight for $Lplus5 rd" ' +
     'Effect="1d4"',
-/**/ 'Monster Summoning V':
+  'Monster Summoning V':
     'School=Conjuration ' +
     'Description="R70\' $E 5 HD creatures fight for $Lplus6 rd" ' +
     'Effect="1d2"',
-/**/ 'Monster Summoning VI':
+  'Monster Summoning VI':
     'School=Conjuration ' +
     'Description="R80\' $E 6 HD creatures fight for $Lplus7 rd" ' +
     'Effect="1d2"',
-/**/ 'Monster Summoning VII':
+  'Monster Summoning VII':
     'School=Conjuration ' +
     'Description="R90\' 1d2 7 HD creatures fight for $Lplus8 rd"',
-/**/ 'Move Earth':
+  'Move Earth':
     'School=Alteration ' +
     'Description="R$L10\' Displace $E/tn" ' +
     'Effect="40\' cu"',
   'Neutralize Poison':
     'School=Alteration ' +
     'Description="Touched detoxed (rev lethally poisoned, save neg)"',
-/**/ 'Non-Detection':
+  'Non-Detection':
     'School=Abjuration ' +
     'Description="$E invisible to divination for $D" ' +
     'Duration="$L tn" ' +
@@ -1250,7 +1266,7 @@ FirstEdition.SPELLS = {
   'Paralyzation':
     'School=Illusion ' +
     'Description="R$L10\' Immobilize $L2 HD creatures in 20\' sq"',
-/**/ 'Part Water':
+  'Part Water':
     'School=Alteration ' +
     'Description="R$R Form 20\'x$L30\'x3\' water trench for $D" ' +
     'Duration="$L5 rd" ' +
@@ -1264,18 +1280,18 @@ FirstEdition.SPELLS = {
   'Pass Without Trace':
     'School=Enchantment ' +
     'Description="Touched leaves no sign of passage for $L tn"',
-/**/ 'Passwall':
+  'Passwall':
     'School=Alteration ' +
     'Description="R30\' Create 5\'x8\'x10\' passage through dirt and rock for $Lplus6 tn"',
-/**/ 'Permanency':
+  'Permanency':
     'School=Alteration ' +
     'Description="Effects of spell made permanent, costs 1 Con"',
-/**/ 'Permanent Illusion':
+  'Permanent Illusion':
     'School=Illusion ' +
     'Description="R$R $E sight, sound, smell, temperature illusion" ' +
     'Effect="$L10plus40\' sq" ' +
     'Range="$L10\'"',
-/**/ 'Phantasmal Force':
+  'Phantasmal Force':
     'School=Illusion ' +
     'Description="R$R $E illusionary object for conc or until struck (save disbelieve)" ' +
     'Effect="$L10plus60\' sq" ' +
@@ -1283,10 +1299,10 @@ FirstEdition.SPELLS = {
   'Phantasmal Force M3':
     'Effect="$L10plus80\' sq" ' +
     'Range="$L10plus80\'"',
-/**/ 'Phantasmal Killer':
+  'Phantasmal Killer':
     'School=Illusion ' +
     'Description="R$L5\' Nightmare illusion attacks target as HD 4, kills on hit for $L rd (Int save neg)"',
-/**/ 'Phase Door':
+  'Phase Door':
     'School=Alteration ' +
     'Description="Self pass through touched 10\' solid $E" ' +
     'Effect="$Ldiv2 times"',
@@ -1296,7 +1312,7 @@ FirstEdition.SPELLS = {
   'Plant Door':
     'School=Alteration ' +
     'Description="Self move effortlessly through vegetation for $L tn"',
-/**/ 'Plant Growth':
+  'Plant Growth':
     'School=Alteration ' +
     'Description="R$R Vegetation in $E becomes thick and entangled" ' +
     'Effect="$L10\' sq" ' +
@@ -1304,22 +1320,22 @@ FirstEdition.SPELLS = {
   'Plant Growth D3':
     'Effect="$L20\' sq" ' +
     'Range="160\'"',
-/**/ 'Polymorph Any Object':
+  'Polymorph Any Object':
     'School=Alteration ' +
     'Description="R$L5\' Transform any object (save -4 neg)"',
-/**/ 'Polymorph Other':
+  'Polymorph Other':
     'School=Alteration ' +
     'Description="R$L5\' Target takes on named creature form and identity (save neg)"',
-/**/ 'Polymorph Self':
+  'Polymorph Self':
     'School=Alteration ' +
     'Description="Self takes on named creature form for $L2 tn"',
-/**/ 'Power Word Blind':
+  'Power Word Blind':
     'School=Conjuration ' +
     'Description="R$L5\' Creatures in 15\' radius blinded for 1d4+1 rd or 1d4+1 tn"',
-/**/ 'Power Word Kill':
+  'Power Word Kill':
     'School=Conjuration ' +
     'Description="R$L10div4\' 1 60 HP target or 12 10 HP targets in 10\' radius die"',
-/**/ 'Power Word Stun':
+  'Power Word Stun':
     'School=Conjuration ' +
     'Description="R$L5\' Target stunned for 1d4-4d4 rd"',
   'Prayer':
@@ -1328,13 +1344,13 @@ FirstEdition.SPELLS = {
   'Predict Weather':
     'School=Divination ' +
     'Description="Discern local weather for next $L2 hr"',
-/**/ 'Prismatic Sphere':
+  'Prismatic Sphere':
     'School=Abjuration ' +
     'Description="Self 10\' radius impenetrable for $L tn"',
-/**/ 'Prismatic Spray':
+  'Prismatic Spray':
     'School=Abjuration ' +
     'Description="Targets in 70\'x15\'x5\' area one of 20, 40, 80 HP (save half), fatal poison, stone, insane, planar teleport (save neg)"',
-/**/ 'Prismatic Wall':
+  'Prismatic Wall':
     'School=Abjuration ' +
     'Description="R10\' $L40\'x$L20\' multicolored wall blinds viewers 2d4 rd, blocks attacks for $L tn"',
   'Produce Fire':
@@ -1343,24 +1359,25 @@ FirstEdition.SPELLS = {
     'Effect="120\' sq"',
   'Produce Flame':
     'School=Alteration ' +
-    'Description="Flame from burning hand can be thrown 40\' for $L2 rd"',
-/**/ 'Programmed Illusion':
+    'Description="Flame from burning hand can be thrown 40\' for $D" ' +
+    'Duration="$L2 rd"',
+  'Programmed Illusion':
     'School=Illusion ' +
     'Description="R$L10\' Target responds to trigger, shows $E scene for $L rd" ' +
     'Effect="$L10plus40\' sq"',
-/**/ 'Project Image':
+  'Project Image':
     'School=Illusion ' +
     'Description="R$R Self duplicate immune to attacks, can cast spells for $L rd" ' +
     'Range="$L10\'"',
   'Project Image I5':
     'Range="$L5\'"',
-/**/ 'Protection From Evil':
+  'Protection From Evil':
     'School=Abjuration ' +
     'Description="Touched untouchable by evil outsiders, -2 evil attacks, +2 saves for $D (rev good)" ' +
     'Duration="$L2 rd"',
   'Protection From Evil C1':
     'Duration="$L3 rd"',
-/**/ "Protection From Evil 10' Radius":
+  "Protection From Evil 10' Radius":
     'School=Abjuration ' +
     'Description="Touched 10\' radius untouchable by evil outsiders, -2 evil attacks, +2 saves for $D (rev good)" ' +
     'Duration="$L2 rd"',
@@ -1372,7 +1389,7 @@ FirstEdition.SPELLS = {
   'Protection From Lightning':
     'School=Abjuration ' +
     'Description="Self immune normal, ignore $L12 HP magic electricity or touched immune normal, +4 save and half damage vs magic electricity for $L tn"',
-/**/ 'Protection From Normal Missiles':
+  'Protection From Normal Missiles':
     'School=Abjuration ' +
     'Description="Touched invulnerable to arrows and bolts for $L tn"',
   'Purify Food And Drink':
@@ -1384,7 +1401,7 @@ FirstEdition.SPELLS = {
   'Push':
     'School=Conjuration ' +
     'Description="R$L3plus10\' Target $L lb object moves away from self"',
-/**/ 'Pyrotechnics':
+  'Pyrotechnics':
     'School=Alteration ' +
     'Description="R$R Target fire emits fireworks (blind 1d4+1 rd) or obscuring smoke for $L rd" ' +
     'Range="120\'"',
@@ -1396,11 +1413,11 @@ FirstEdition.SPELLS = {
   'Raise Dead':
     'School=Necromancy ' +
     'Description="R30\' Corpse restored to life w/in $L dy or destroy corporeal undead (rev slays, save 2d8+1 HP)"',
-/**/ 'Ray Of Enfeeblement':
+  'Ray Of Enfeeblement':
     'School=Enchantment ' +
     'Description="R$R Target loses $L2plus19% Str for $L rd" ' +
     'Range="$L3plus10\'"',
-/**/ 'Read Magic':
+  'Read Magic':
     'School=Divination ' +
     'Description="Self understand magical writing for $L2 rd (rev obscures)"',
   'Regenerate':
@@ -1409,19 +1426,20 @@ FirstEdition.SPELLS = {
   'Reincarnate':
     'School=Necromancy ' +
     'Description="Soul dead le 7 dy inhabits new body"',
-/**/ 'Reincarnation':
+  'Reincarnation':
     'School=Necromancy ' +
     'Description="Soul dead le $L dy inhabits new body"',
-/**/ 'Remove Curse':
+  'Remove Curse':
     'School=Abjuration ' +
     'Description="Touched uncursed (rev cursed for $L tn)"',
   'Remove Fear':
     'School=Abjuration ' +
-    'Description="Touched +4 vs. fear for 1 tn, new +$L save if already afraid (rev cause fear)"',
+    'Description="$E +4 vs. fear for 1 tn, new +$L save if already afraid (rev cause fear)" ' +
+    'Effect="Touched"',
   'Repel Insects':
     'School=Abjuration ' +
     'Description="Self 10\' radius expels normal insects, wards giant (save neg) for $L tn"',
-/**/ 'Repulsion':
+  'Repulsion':
     'School=Abjuration ' +
     'Description="R$L10\' Move all in 10\' path away 30\'/rd for $Ldiv2 rd"',
   'Resist Cold':
@@ -1429,71 +1447,73 @@ FirstEdition.SPELLS = {
     'Description="Touched comfortable to 0F, +3 save vs. cold for 1/4 or 1/2 damage for $L tn"',
   'Resist Fire':
     'School=Alteration ' +
-    'Description="Touched immune normal fire, +3 vs. magical for for 1/4 or 1/2 damage for $L tn"',
+    'Description="Touched comfortable to 212F, +3 vs. fire for 1/4 or 1/2 damage for $L tn"',
   'Restoration':
     'School=Necromancy ' +
     'Description="Touched regains levels and abilities lost w/in $L dy (rev drains)"',
   'Resurrection':
     'School=Necromancy ' +
     'Description="Touched restored to life w/in $L10 yr (rev slays)"',
-/**/ 'Reverse Gravity':
+  'Reverse Gravity':
     'School=Alteration ' +
     'Description="R$L5\' Items in 30\' sq fall up for $D" ' +
     'Duration="1 sec"',
-/**/ 'Rope Trick':
+  'Rope Trick':
     'School=Alteration ' +
     'Description="Touched rope leads to interdimensional space that holds $E for $L2 tn" ' +
     'Effect="6"',
   'Sanctuary':
     'School=Abjuration ' +
-    'Description="Foes save vs. magic to attack self for $Lplus2 rd"',
-/**/ 'Scare':
+    'Description="$E foes save vs. magic to attack for $Lplus2 rd" ' +
+    'Effect="Self"',
+  'Scare':
     'School=Enchantment ' +
     'Description="R$R Target lt 6 HD frozen in terror (save neg) for $D" ' +
     'Duration="3d4 rd" ' +
     'Range="10\'"',
-/**/ 'Secret Chest':
+  'Secret Chest':
     'School=Alteration ' +
     'Description="Create 12\' cu ethereal chest for 60 dy"',
-/**/ 'Shades':
+  'Shades':
     'School=Illusion ' +
     'Description="R30\' Create monsters $L HD total, 60% HP (save AC 6, 60% damage) for $L rd"',
-/**/ 'Shadow Door':
+  'Shadow Door':
     'School=Illusion ' +
     'Description="R10\' Illusionary door makes self invisible for $L rd"',
-/**/ 'Shadow Magic':
+  'Shadow Magic':
     'School=Illusion ' +
     'Description="R$L10plus50\' Mimics <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (save $L HP)"',
-/**/ 'Shadow Monsters':
+  'Shadow Monsters':
     'School=Illusion ' +
     'Description="R30\' Create monsters $L HD total, 20% HP (save AC 10, 20% damage) for $L rd"',
-/**/ 'Shape Change':
+  'Shape Change':
     'School=Alteration ' +
     'Description="Self polymorph freely for $L tn"',
-/**/ 'Shatter':
+  'Shatter':
     'School=Alteration ' +
     'Description="R$R $L10 lbs brittle material shatters (save neg)" ' +
     'Range="60\'"',
-/**/ 'Shield':
+  'Shield':
     'School=Evocation ' +
     'Description="Self frontal AC 2 vs thrown, AC 3 vs arrow or bolt, AC 4 vs melee, +1 save for $L5 rd"',
   'Shillelagh':
     'School=Alteration ' +
-    'Description="Touched club +1 attack, 2d4 damage for $L rd"',
-/**/ 'Shocking Grasp':
+    'Description="Touched club +1 attack, 2d4 damage for $D" ' +
+    'Duration="$L rd"',
+  'Shocking Grasp':
     'School=Alteration ' +
     'Description="Touched 1d8+$L HP"',
   "Silence 15' Radius":
     'School=Alteration ' +
     'Description="R120\' No sound in 15\' radius for $L2 rd"',
-/**/ 'Simulacrum':
+  'Simulacrum':
     'School=Illusion ' +
     'Description="Command half-strength copy of another creature"',
-/**/ 'Sleep':
+  'Sleep':
     'School=Enchantment ' +
     'Description="R$R Creatures up to 4+4 HD in 15\' radius sleep for $L5 rd" ' +
     'Range="$L10plus30\'"',
-/**/ 'Slow':
+  'Slow':
     'School=Alteration ' +
     'Description="R$L10plus90\' $L targets in 40\' sq half speed for $Lplus3 rd"',
   'Slow Poison':
@@ -1507,16 +1527,17 @@ FirstEdition.SPELLS = {
     'Description="Touched snare 90% undetectable"',
   'Speak With Animals':
     'School=Alteration ' +
-    'Description="Self converse w/1 type of animal w/in $E for $L2 rd" ' +
-    'Effect="30\'"',
+    'Description="R$R Self converse w/1 type of animal for $L2 rd" ' +
+    'Range="30\'"',
   'Speak With Animals D1':
-    'Effect="40\'"',
+    'Range="40\'"',
   'Speak With Dead':
     'School=Necromancy ' +
     'Description="R10\' Self question corpse"',
   'Speak With Monsters':
     'School=Alteration ' +
-    'Description="Self converse w/intelligent creatures in 30\' radius for $L rd"',
+    'Description="R30\' Self converse w/intelligent creatures for $D" ' +
+    'Duration="$L rd"',
   'Speak With Plants':
     'School=Alteration ' +
     'Description="Self converse w/plants in $E for $L rd" ' +
@@ -1525,14 +1546,14 @@ FirstEdition.SPELLS = {
   'Speak With Plants D4':
     'Duration="$L2 rd" ' +
     'Effect="40\' radius"',
-/**/ 'Spectral Force':
+  'Spectral Force':
     'School=Illusion ' +
     'Description="R$R $L10plus40\' sq sight, sound, smell, temperature illusion for conc + 3 rd" ' +
     'Range="$L10plus60\'"',
-/**/ 'Spell Immunity':
+  'Spell Immunity':
     'School=Abjuration ' +
     'Description="$Ldiv4 touched bonus vs. mind spells for $L tn"',
-/**/ 'Spider Climb':
+  'Spider Climb':
     'School=Alteration ' +
     'Description="Touched move 30\'/rd on walls and ceilings for $D" ' +
     'Duration="$Lplus1 rd"',
@@ -1541,21 +1562,24 @@ FirstEdition.SPELLS = {
     'Description="R$Lplus10\' Banish extraplanar for $L yr"',
   'Spiritual Weapon':
     'School=Evocation ' +
-    'Description="R30\' magical force attacks for conc or $L rd"',
-/**/ 'Statue':
+    'Description="R$R magical force attacks for conc or $L rd" ' +
+    'Duration="$L rd" ' +
+    'Range="30\'"',
+  'Statue':
     'School=Alteration ' +
     'Description="Touched become stone at will for $L hr"',
   'Sticks To Snakes':
     'School=Alteration ' +
-    'Description="R$R $L sticks in 10\' cu become snakes ($L5% venomous) (rev) for $L2 rd" ' +
+    'Description="R$R $E in 10\' cu become snakes ($L5% venomous) (rev) for $L2 rd" ' +
+    'Effect="$L sticks" ' +
     'Range="30\'"',
   'Sticks To Snakes D4':
     'Range="40\'"',
-/**/ 'Stinking Cloud':
+  'Stinking Cloud':
     'School=Evocation ' +
     'Description="R30\' Creatures w/in $E retch for 1d4+1 rd (save neg) for $L rd" ' +
     'Effect="20\' cu"',
-/**/ 'Stone Shape':
+  'Stone Shape':
     'School=Alteration ' +
     'Description="Touched $E rock reshaped" ' +
     'Effect="$L\' cu"',
@@ -1564,14 +1588,14 @@ FirstEdition.SPELLS = {
   'Stone Tell':
     'School=Divination ' +
     'Description="Self converse w/3\' cu rock for 1 tn"',
-/**/ 'Stone To Flesh':
+  'Stone To Flesh':
     'School=Alteration ' +
     'Description="R$L10\' Restore stoned creature or convert $E (rev)" ' +
     'Effect="$L9\' cu"',
-/**/ 'Strength':
+  'Strength':
     'School=Alteration ' +
     'Description="Touched Str +1d4 (HD d4), +1d6 (HD d8), or +1d8 (HD d10) for $L hr"',
-/**/ 'Suggestion':
+  'Suggestion':
     'School=Enchantment ' +
     'Description="R30\' Target carries out reasonable suggestion for $D (save neg)" ' +
     'Duration="$Lplus1 hr"',
@@ -1580,46 +1604,47 @@ FirstEdition.SPELLS = {
   'Summon Insects':
     'School=Conjuration ' +
     'Description="R30\' Target covered w/insects, 2 HP/rd for $L rd"',
-/**/ 'Summon Shadow':
+  'Summon Shadow':
     'School=Conjuration ' +
     'Description="R10\' $E shadows obey commands for $Lplus1 rd" ' +
     'Effect="$L"',
-/**/ 'Symbol':
+  'Symbol':
     'School=Conjuration ' +
     'Description="Glowing symbol causes death, discord 5d4 rd, fear (save -4 neg), hopelessness, insanity, pain 2d10 tn, sleep 4d4+1 tn, or stunning 3d4 rd"',
   'Symbol C7':
     'Description="Glowing symbol causes hopelessness, pain, or persuasion for $L tn"',
-/**/ 'Telekinesis':
+  'Telekinesis':
     'School=Alteration ' +
     'Description="R$L10\' Move $L25 lb for $Lplus2 rd"',
-/**/ 'Teleport':
+  'Teleport':
     'School=Alteration ' +
     'Description="Instantly transport self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
-/**/ 'Temporal Statis':
+  'Temporal Stasis':
     'School=Alteration ' +
     'Description="R10\' Target suspended animation permanently (rev wakens)"',
-/**/ 'Time Stop':
+  'Time Stop':
     'School=Alteration ' +
     'Description="Self 15\' radius gains $D" ' +
     'Duration="1d8+$Ldiv2 x 6 secs"',
-/**/ 'Tiny Hut':
+  'Tiny Hut':
     'School=Alteration ' +
     'Description="$E protects against view, elements for $D" ' +
     'Duration="$L hr" ' +
     'Effect="5\' radius"',
-/**/ 'Tongues':
+  'Tongues':
     'School=Alteration ' +
     'Description="Self understand any speech (rev muddle) in 30\' radius for $D" ' +
     'Duration="$L rd"',
   'Tongues C4':
     'Duration="1 tn"',
-/**/ 'Transformation':
+  'Transformation':
     'School=Alteration ' +
     'Description="Self become warrior (HP x2, AC +4, 2/rd dagger +2 damage) for $L rd"',
   'Transmute Metal To Wood':
     'School=Alteration ' +
-    'Description="R80\' $L8 lb object becomes wood"',
-/**/ 'Transmute Rock To Mud':
+    'Description="R80\' $E object becomes wood" ' +
+    'Effect="$L8 lb"',
+  'Transmute Rock To Mud':
     'School=Alteration ' +
     'Description="R$R $L20\' cu rock becomes mud (rev)" ' +
     'Range="$L10\'"',
@@ -1628,7 +1653,7 @@ FirstEdition.SPELLS = {
   'Transport Via Plants':
     'School=Alteration ' +
     'Description="Self teleport between plants"',
-/**/ 'Trap The Soul':
+  'Trap The Soul':
     'School=Conjuration ' +
     'Description="R10\' Target soul trapped in gem (save neg)"',
   'Tree':
@@ -1636,8 +1661,9 @@ FirstEdition.SPELLS = {
     'Description="Self polymorph into tree for $Lplus6 tn"',
   'Trip':
     'School=Enchantment ' +
-    'Description="Touched trips passers (save neg), 1d6 damage, stunned 1d4+1 rd for $L tn"',
-/**/ 'True Seeing':
+    'Description="Touched trips passers (save neg), $E damage, stunned 1d4+1 rd for $L tn" ' +
+    'Effect="1d6 HP"',
+  'True Seeing':
     'School=Divination ' +
     'Description="Touched sees past deceptions$E w/in $R for $L rd (rev obscures)" ' +
     'Effect=", alignment auras" ' +
@@ -1647,17 +1673,18 @@ FirstEdition.SPELLS = {
     'Description="Touched sees through deceptions w/in 60\' for $L rd"',
   'Turn Wood':
     'School=Alteration ' +
-    'Description="Wood in 120\'x$L20\' area forced away for $L4 rd"',
-/**/ 'Unseen Servant':
+    'Description="Wood in 120\'x$L20\' area forced away for $L4 rd" ' +
+    'Duration="$L4 rd"',
+  'Unseen Servant':
     'School=Conjuration ' +
     'Description="Invisible force does simple tasks w/in 30\' for $Lplus6 tn"',
-/**/ 'Vanish':
+  'Vanish':
     'School=Alteration ' +
     'Description="Touched teleported or replaced by stone"',
-/**/ 'Veil':
+  'Veil':
     'School=Illusion ' +
     'Description="R$L10\' $L20\' sq mimics other terrain for $L tn"',
-/**/ 'Ventriloquism':
+  'Ventriloquism':
     'School=Illusion ' +
     'Description="R$R Self throw voice for $D ((Int - 12) * 10% disbelieve)" ' +
     'Duration="$Lplus4 rd" ' +
@@ -1665,41 +1692,42 @@ FirstEdition.SPELLS = {
   'Ventriloquism M1':
     'Duration="$Lplus2 rd" ' +
     'Range="$L10max60\'"',
-/**/ 'Vision':
+  'Vision':
     'School=Divination ' +
     'Description="Self seek answer to question, may cause geas"',
-/**/ 'Wall Of Fire':
+  'Wall Of Fire':
     'School=Evocation ' +
     'Description="R$R $E 4d4+$L HP to passers, 2d4 w/in 10\', 1d4 w/in 20\' for conc or $L rd" ' +
     'Effect="$L20\' sq wall or $L5\' radius circle" ' +
     'Range="80\'"',
   'Wall Of Fire M4':
     'Description="R60\' $L20\' sq wall or $Lplus3\' radius circle 2d6+$L HP to passers, 2d6 w/in 10\', 1d6 w/in 20\' for conc or $L rd"',
-/**/ 'Wall Of Fog':
+  'Wall Of Fog':
     'School=Alteration ' +
     'Description="R30\' Fog in $E obscures for 2d4+$L rd" ' +
     'Effect="$L20\' cu"',
-/**/ 'Wall Of Force':
+  'Wall Of Force':
     'School=Evocation ' +
     'Description="R30\' Invisible $E wall impenetrable for $D" ' +
     'Duration="$Lplus10 rd" ' +
     'Effect="$L20\' sq"',
-/**/ 'Wall Of Ice':
+  'Wall Of Ice':
     'School=Evocation ' +
     'Description="R$L10\' Create $L10\' sq ice wall for $L tn"',
-/**/ 'Wall Of Iron':
+  'Wall Of Iron':
     'School=Evocation ' +
     'Description="R$L5\' Create ${lvl/4} in thick, $L15\' sq wall"',
-/**/ 'Wall Of Stone':
+  'Wall Of Stone':
     'School=Evocation ' +
     'Description="R$L5\' ${lvl/4} in thick, $L20\' sq wall emerges from stone"',
   'Wall Of Thorns':
     'School=Conjuration ' +
-    'Description="R80\' Briars in $L100\' cu 8 + AC HP for $L tn"',
+    'Description="R80\' Briars in $E 8 + AC HP for $L tn" ' +
+    'Effect="$L100\' cu"',
   'Warp Wood':
     'School=Alteration ' +
-    'Description="R$L10\' Bends 1 in x $L15 in wood"',
-/**/ 'Water Breathing':
+    'Description="R$L10\' Bends $L in x $L15 in wood"',
+  'Water Breathing':
     'School=Alteration ' +
     'Description="Touched breathe water (rev air) for $D" ' +
     'Duration="$L3 tn"',
@@ -1708,19 +1736,19 @@ FirstEdition.SPELLS = {
   'Weather Summoning':
     'School=Conjuration ' +
     'Description="Self directs precipitation, temp, and wind within d100 mi sq"',
-/**/ 'Web':
+  'Web':
     'School=Evocation ' +
     'Description="R$L5\' 80\' cu webbing for $L2 tn"',
   'Wind Walk':
     'School=Alteration ' +
     'Description="Self and $Ldiv8 others insubstantial, travel 600\'/tn for $L hr"',
-/**/ 'Wish':
+  'Wish':
     'School=Conjuration ' +
     'Description="Major reshaping of reality"',
-/**/ 'Wizard Eye':
+  'Wizard Eye':
     'School=Alteration ' +
     'Description="Self see through invisible eye w/60\' vision, 10\' infravision, moves 30\'/rd for $L rd"',
-/**/ 'Wizard Lock':
+  'Wizard Lock':
     'School=Alteration ' +
     'Description="Touched $L30\' sq item held closed"',
   'Word Of Recall':
@@ -2034,7 +2062,7 @@ FirstEdition.CLASSES = {
       'Spell Immunity;Symbol;Trap The Soul",' +
       '"M9:Astral Spell;Crushing Hand;Gate;Imprisonment;Meteor Swarm;' +
       'Monster Summoning VII;Power Word Kill;Prismatic Sphere;Shape Change;' +
-      'Temporal Statis;Time Stop;Wish"',
+      'Temporal Stasis;Time Stop;Wish"',
   'Monk':
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
@@ -2346,14 +2374,14 @@ FirstEdition.RULE_EDITS = {
           'Sequester;Shadow Walk;Simulacrum;Spell Turning;Statue;' +
           'Teleport Without Error;Vanish;Vision",' +
            '"W8:Antipathy/Sympathy;Clenched Fist;Binding;Clone;Demand;' +
-          'Glassteel;Incendiary Cloud;Mass Charm;Maze;Mind Blank;' +
-          'Monster Summoning VI;Telekinetic Sphere;Permanency;' +
+          'Glassteel;Incendiary Cloud;Irresistible Dance;Mass Charm;Maze;' +
+          'Mind Blank;Monster Summoning VI;Telekinetic Sphere;Permanency;' +
           'Polymorph Any Object;Power Word Blind;Prismatic Wall;Screen;' +
-          'Spell Immunity;Sink;Symbol;Trap The Soul",' +
+          'Spell Immunity;Sink;Symbol;Telekinetic Sphere;Trap The Soul",' +
            '"W9:Astral Spell;Crushing Hand;Crystalbrittle;Energy Drain;' +
           'Foresight;Gate;Imprisonment;Meteor Swarm;Monster Summoning VII;' +
           'Disjunction;Power Word Kill;Prismatic Sphere;Shape Change;Succor;' +
-          'Temporal Stasis;Time Stop;Weird;Wish',
+          'Temporal Stasis;Time Stop;Weird;Wish"',
       'Paladin':
         'Require=' +
           '"alignment == \'Lawful Good\'","charisma >= 17",' +
@@ -2407,7 +2435,7 @@ FirstEdition.RULE_EDITS = {
       'Defensive Song':
         'Note="Spell save to counteract magical song and poetry attacks"',
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
-      'Legend Lore':'Note="%V% chance of info about magic item"',
+      'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Sense Construction':
@@ -2431,7 +2459,7 @@ FirstEdition.RULE_EDITS = {
       'Gnome Ability Adjustment':
         'Section=ability Note="+1 Intelligence/-1 Wisdom"',
       'Magic Mismatch':
-        'Section=feature Note="20% chance of magic item malfunction"',
+        'Section=feature Note="20% magic item malfunction"',
       'Ranger Skills':
         'Section=skill Note="%1 Hide In Shadows/%2 Move Silently"',
       'School Opposition (Abjuration)':
@@ -2623,504 +2651,735 @@ FirstEdition.RULE_EDITS = {
       'True Sight':null,
       'Write':null,
       // Modified
-/**/     'Affect Normal Fires':
+      'Affect Normal Fires':
         'Duration="$L2 rd" ' +
         'Effect="10\' radius"',
-/**/     'Astral Spell':
+      'Animal Growth P5':
+        'Duration="$L2 rd" ' +
+        'Range="80\'"',
+      'Animal Summoning I':
+        'Range="1 mi"',
+      'Animal Summoning III':
+        'Range="$L100\'"',
+      'Anti-Plant Shell':
+        'Range="7.5\' radius"',
+      'Astral Spell':
         'Effect="7"',
-      'Augury':'School="Lesser Divination"',
-/**/     'Blindness':
+      'Augury':
+        'School="Lesser Divination"',
+      'Barkskin':
+        'Effect="unarmored AC ${6-Math.floor(lvl/4)}, +1 non-spell saves"',
+      'Blindness':
         'Range="R$L10plus30\'"',
-/**/     'Blink':
+      'Blink':
         'Effect="10\'/rd"',
-/**/     'Burning Hands':
+      'Burning Hands':
         'Effect="5\' cone"',
-/**/     'Clairaudience':
+      'Call Woodland Beings':
+        'Range="$L100\'"',
+      'Chariot Of Fire':
+        'Duration="12 hr"',
+      'Clairaudience':
         'School="Lesser Divination"',
-/**/     'Clairvoyance':
+      'Clairvoyance':
         'School="Lesser Divination"',
-/**/     'Color Spray':
+      'Color Spray':
         'Effect="20\' cone"',
-      'Commune':'School="Greater Divination"',
-      'Commune With Nature':'School="Greater Divination"',
-/**/     'Confusion':
+      'Command':
+        'Range="30\'"',
+      'Commune':
+        'School="Greater Divination"',
+      'Commune With Nature':
+        'School="Greater Divination"',
+      'Confusion':
         'Effect="1d4+$L or more creatures in 60\' sq"',
+      'Confusion P7':
+        'Duration="$L rd" ' +
+        'Effect="1d4 creatures in 40\' sq" ' +
+        'Range="80\'"',
       'Conjure Animals':
         'Effect="$L2 HD"',
-      'Contact Other Plane':'School="Greater Divination"',
-      'Cure Disease':'School=Abjuration',
-/**/     'Death Spell':
+      'Conjure Animals P6':
+        'Duration="$L2 rd"',
+      'Conjure Earth Elemental':
+        'Effect="elemental"',
+      'Conjure Fire Elemental':
+        'Effect="Elemental creature"',
+      'Contact Other Plane':
+        'School="Greater Divination"',
+      'Create Water':
+        'Range="30\'"',
+      'Continual Light P3':
+        'Range="120\'"',
+      "Control Temperature 10' Radius":
+        'Effect="${lvl*10}F"',
+      'Control Weather P7':
+        'Duration="4d12 hr"',
+      'Create Food And Water':
+        'Effect="$L person/dy"',
+      'Creeping Doom':
+        'Effect="20\' sq"',
+      'Cure Disease':
+        'School=Abjuration',
+      'Death Spell':
+        'School=Necromancy ' +
         'Effect="$L30\' cu"',
-/**/     'Demi-Shadow Magic':
+      'Demi-Shadow Magic':
         'Description="R$L10plus60\' Mimics spell level 4-5"',
-      'Detect Charm':'School="Lesser Divination"',
-/**/     'Detect Evil':
+      'Detect Charm':
         'School="Lesser Divination"',
-/**/     'Detect Invisibility':
+      'Detect Evil':
         'School="Lesser Divination"',
-      'Detect Lie':'School="Lesser Divination"',
-/**/     'Detect Magic':
+      'Detect Evil P1':
+        'Duration="$L5plus10 rd" ' +
+        'Range="10\'x120\' path"',
+      'Detect Invisibility':
         'School="Lesser Divination"',
-      'Detect Pits And Snares':'School="Lesser Divination"',
-/**/     'Dispel Magic':
+      'Detect Lie':
+        'School="Lesser Divination" ' +
+        'Effect="Self"',
+      'Detect Magic':
+        'School="Lesser Divination"',
+      'Detect Magic P1':
+        'Duration="1 tn" ' +
+        'Effect="10\'x30\' path"',
+      'Detect Pits And Snares':
+        'School="Lesser Divination"',
+      'Dispel Magic':
         'Description="R120\' 50% (+5%/-5% per caster level delta) magic in 30\' cu extinguished"',
-/**/     'Disintegrate':
+      'Dispel Magic P3':
+        'Range="60\'"',
+      'Disintegrate':
         'Effect="10\' sq"',
-/**/     'Distance Distortion':
+      'Distance Distortion':
         'Duration="$L2 tn" ' +
         'Effect="$L10\'"',
-      'Divination':'School="Lesser Divination"',
-/**/     'Emotion':
-        'Description="R$L10\' Targets in 20\' sq experience courage (+1 attack, +3 damage, +5 HP), fear (flee), friendship (react positively), happiness (+4 reaction), hate (react negatively), hope (+2 morale, save, attak, damage), hopelessness (walk away or surrender), or sadness (-1 surprise, +1 init) for conc"',
-/**/     'Enchant An Item':
+      'Divination':
+        'School="Lesser Divination"',
+      'Emotion':
+        'Description="R$L10\' Targets in 20\' sq experience courage (+1 attack, +3 damage, +5 HP), fear (flee), friendship (react positively), happiness (+4 reaction), hate (react negatively), hope (+2 morale, save, attack, damage), hopelessness (walk away or surrender), or sadness (-1 surprise, +1 init) for conc"',
+      'Enchant An Item':
         'School=Enchantment',
-/**/     'Enchanted Weapon':
+      'Enchanted Weapon':
         'School=Enchantment ' +
         'Effect="(+1 attack and damage)"',
-/**/     'Enlarge':
+      'Enlarge':
         'Description="R$L5\' Creature or object grows $L10% for $L5 rd (rev shrinks, save neg)"',
-/**/     'Erase':
+      'Entangle':
+        'Effect="40\' cu"',
+      'Erase':
         'Description="R30\' Erase magical ($L5plus30% chance) or normal (90%) from 2-page area"',
-/**/     'ESP':
+      'ESP':
         'School="Lesser Divination"',
-/**/     'Feather Fall':
+      'Feather Fall':
         'Duration="$L rd"',
-/**/     'Feeblemind':
+      'Feeblemind':
         'Description="R$L10\' Target Int 2 (save Priest +1, Wizard -4 and non-human -2 neg)"',
-/**/     'Feign Death':
+      'Feign Death':
         'Duration="$Lplus6 tn"',
-      'Find The Path':'School="Greater Divination"',
-      'Find Traps':'School="Lesser Divination"',
-/**/     'Finger Of Death':
+      'Feign Death P3':
+        'Duration="$Lplus10 rd"',
+      'Find The Path':
+        'School="Greater Divination"',
+      'Find Traps':
+        'School="Lesser Divination"',
+      'Finger Of Death':
         'School=Necromancy',
-      'Fire Trap':'School=Abjuration',
-/**/     'Fireball':
+      'Fire Storm':
+        'Range="160\'"',
+      'Fire Trap':
+        'School=Abjuration',
+      'Fireball':
         'Effect="${Lmax10}d6 HP" ' +
         'Range="$L10plus10\'"',
-/**/     'Flame Arrow':
+      'Flame Arrow':
         'School=Conjuration ' +
         'Description="Touched arrow 1 HP fire damage within 1 rd or R$L10plus30 self cast $Ldiv5 bolts for 5d6 HP (save half)"',
-/**/     'Floating Disk':
+      'Floating Disk':
         'Range="20\'"',
-/**/     'Fly':
+      'Fly':
         'Duration="1d6+$L tn" ' +
         'Effect="180\'/rd"',
       'Friends':
         'Description="R60\' Self Cha +2d4 for 1d4+$L rd"',
-/**/     'Gaze Reflection':
+      'Gaze Reflection':
         'Duration="$Lplus2 rd"',
       'Fumble':
         'Effect="30\' cu"',
-/**/     'Geas':
+      'Geas':
         'Range="R10\' Target"',
-/**/     'Guards And Wards':
+      'Glyph Of Warding':
+        'Effect="${lvl}d4 HP" ' +
+        'Range="$L\' sq"',
+      'Guards And Wards':
         'Effect="400\' sq"',
-/**/     'Gust Of Wind':
+      'Gust Of Wind':
         'Duration="1 rd"',
-/**/     'Hallucinatory Terrain':
+      'Hallucinatory Terrain':
         'Duration="for $L hr (save disbelieve)" ' +
         'Effect="$L30\' cu"',
-/**/     'Hold Portal':
+      'Heal':
+        'Effect="all HP"',
+      'Heat Metal':
+        'School=Necromancy',
+      'Hold Portal':
         'Effect="$L20\' sq"',
-/**/     'Hypnotism':
+      'Hypnotism':
         'Range="5\'"',
-/**/     'Identify':
+      'Identify':
         'School="Lesser Divination" ' +
         'Effect="$L10%"',
-/**/     'Illusionary Script':
+      'Illusionary Script':
         'Description="Obscured writing transmits <i>Suggestion</i> (save neg) for readers other than specified for $L dy"',
-/**/     'Improved Phantasmal Force':
+      'Improved Phantasmal Force':
         'Effect="$L50plus200\' sq"',
-/**/     'Incendiary Cloud':
+      'Incendiary Cloud':
         'Effect="${lvl}d2, ${lvl}d4, ${lvl}d2 HP"',
-/**/     'Jump':
+      'Insect Plague':
+        'Range="120\'"',
+      'Invisibility To Animals':
+        'Effect="$L touched"',
+      'Jump':
         'Duration="for $L+1d3 rd"',
       'Knock':
         'Description="R60\' Open stuck, locked item (rev locks)"',
-/**/     'Know Alignment':
+      'Know Alignment':
         'School="Lesser Divination" ' +
-        'Description="R10\' Self discern aura of 1 target/2 rd for $L rd (rev obscures)"',
-      'Legend Lore':'School="Greater Divination"',
-/**/     'Lightning Bolt':
+        'Effect="1 target/2 rd"',
+      'Know Alignment P2':
+        'Effect="1 target/rd"',
+      'Legend Lore':
+        'School="Greater Divination"',
+      'Lightning Bolt':
         'Effect="${Lmax10}d6"',
-/**/     'Locate Object':
+      'Light P1':
+        'Duration="$Lplus6 tn" ' +
+        'Range="120\'"',
+      'Locate Object':
         'School="Lesser Divination"',
-/**/     'Lower Water':
-        'Description="R80\' $L10\' sq fluid subsides by $L2\' for $L5 rd (rev raises)"',
-/**/     "Mage's Faithful Hound":
+      'Locate Object P3':
+        'Range="$L10plus60\'"',
+      'Lower Water':
+        'Description="R$R $L10\' sq fluid subsides by $L2\' for $D (rev raises)" ' +
+        'Duration="$L5 rd" ' +
+        'Range="80\'"',
+      'Lower Water P4':
+        'Duration="$L tn" ' +
+        'Range="120\'"',
+      "Mage's Faithful Hound":
         'Duration="$L3plus6 tn"',
-/**/     'Magic Mouth':
+      'Magic Mouth':
         'Range="R10\' Target"',
-/**/     'Major Creation':
+      'Major Creation':
         'School=Illusion ' +
         'Duration="variable duration"',
-/**/     'Mass Invisibility':
+      'Mass Invisibility':
         'Effect="180\' sq"',
-/**/     'Massmorph':
+      'Massmorph':
         'School=Alteration',
-/**/     'Message':
+      'Message':
         'Description="Remote whispering for $L5 rd"',
-/**/     'Mind Blank':
+      'Mind Blank':
         'Effect="divination, mental control"',
-/**/     'Minor Creation':
+      'Minor Creation':
         'School=Illusion',
-/**/     'Mirror Image':
+      'Mirror Image':
         'Effect="2d4"',
-/**/     'Misdirection':
+      'Misdirection':
         'Duration="8 hr"',
-/**/     'Monster Summoning IV':
+      'Monster Summoning IV':
         'Effect="1d3"',
-/**/     'Monster Summoning V':
+      'Monster Summoning V':
         'Effect="1d3"',
-/**/     'Monster Summoning VI':
+      'Monster Summoning VI':
         'Effect="1d3"',
-/**/     'Move Earth':
+      'Move Earth':
         'Effect="40\'x40\'x10\'"',
-      'Neutralize Poison':'School=Necromancy',
-/**/     'Non-Detection':
+      'Neutralize Poison':
+        'School=Necromancy',
+      'Non-Detection':
         'Duration="$L hr" ' +
         'Effect="Touched"',
-/**/     'Permanent Illusion':
+      'Part Water P6':
+        'Duration="$L tn" ' +
+        'Range="$L20\'"',
+      'Permanent Illusion':
         'Effect="$L10plus20\' cu"',
-/**/     'Prismatic Sphere':
+      'Plant Growth P3':
+        'Effect="$L20\' sq" ' +
+        'Range="160\'"',
+      'Prismatic Sphere':
         'School=Abjuration',
-/**/     'Prismatic Spray':
+      'Prismatic Spray':
         'School=Conjuration',
-/**/     'Prismatic Wall':
+      'Prismatic Wall':
         'School=Conjuration',
-/**/     'Programmed Illusion':
+      'Produce Fire':
+        'Effect="12\' sq"',
+      'Produce Flame':
+        'Duration="$L rd"',
+      'Programmed Illusion':
         'Effect="$L10plus20\' cu"',
-/**/     'Ray Of Enfeeblement':
+      'Protection From Evil P1':
+        'Duration="$L3 rd"',
+      "Protection From Evil 10' Radius P4":
+        'Duration="$L tn"',
+      'Pyrotechnics P3':
+        'Range="160\'"',
+      'Ray Of Enfeeblement':
         'Range="$L5plus10\'"',
-/**/     'Read Magic':
+      'Read Magic':
         'School="Lesser Divination"',
-/**/     'Reverse Gravity':
+      'Remove Fear':
+         'Effect="R10\' $Ldiv4plus1 targets"',
+      'Reverse Gravity':
         'Duration="1 rd"',
-/**/     'Rope Trick':
+      'Rope Trick':
         'Effect="8"',
-/**/     'Scare':
+      'Scare':
         'Duration="1d4+$L rd" ' +
         'Range="$L10+30\'"',
-/**/     'Shadow Magic':
+      'Sanctuary':
+        'Effect="Touched"',
+      'Shadow Magic':
         'Description="R$L10plus50\' Mimics spell level 1-3"',
-/**/     'Shatter':
+      'Shatter':
         'Range="$L10plus30\'"',
-/**/     'Sleep':
+      'Shillelagh':
+        'Duration="$Lplus4 rd"',
+      'Speak With Monsters':
+        'Duration="$L2 rd"',
+      'Sleep':
         'Range="30\'"',
-/**/     'Spectral Force':
+      'Spectral Force':
         'Range="$Lplus60\'"',
-/**/     'Spider Climb':
+      'Spell Immunity':
+        'Description="Touched immune to specified spell for $L tn"',
+      'Spider Climb':
         'Duration="$Lplus3 rd"',
-      'Stone Tell':'School="Greater Divination"',
-/**/     'Summon Shadow':
+      'Spiritual Weapon':
+        'Duration="$Lplus3 rd" ' +
+        'Range="$L10\'"',
+      'Sticks To Snakes':
+        'Effect="1d4+$L sticks"',
+      'Stone Shape P3':
+        'Effect="$Lplus3\' cu"',
+      'Stone Tell':
+        'School="Greater Divination"',
+      'Summon Shadow':
         'Effect="$Ldiv3"',
-/**/     'Time Stop':
+      'Symbol P7':
+        'Description="Glowing symbol causes hopelessness, pain, or persuasion for $L tn"',
+      'Time Stop':
         'Duration="1d3 rd"',
-/**/     'Tiny Hut':
+      'Tiny Hut':
         'Duration="$Lplus4 hr" ' +
         'Effect="7.5\' radius"',
-/**/     'True Seeing':
+      'Tongues P4':
+        'Duration="1 tn"',
+      'Transmute Metal To Wood':
+        'Effect="$L10 lb"',
+      'Transmute Rock To Mud P5':
+        'Range="160\'"',
+      'Transmute Water To Dust':
+        'Effect="$L3\' cu"',
+      'True Seeing':
         'School="Greater Divination" ' +
         'Effect="" ' +
         'Range="60\'"',
-      'Vision':'School="Greater Divination"',
-/**/     'Water Breathing':
+      'True Seeing P5':
+        'Effect=", alignment auras" ' +
+        'Range="40\'"',
+      'Turn Wood':
+        'Duration="$L rd"',
+      'Vision':
+        'School="Greater Divination"',
+      'Wall Of Thorns':
+        'Effect="$L10\' cu"',
+      'Water Breathing':
         'Duration="1d4+$L hr"',
-/**/     'Wall Of Fire':
+      'Water Breathing P3':
+        'Duration="$L hr"',
+      'Wall Of Fire':
         'Effect="$L20\' sq wall or $L5div2plus10\' radius circle" ' +
         'Range="60\'"',
-/**/     'Wall Of Fog':
+      'Wall Of Fog':
         'Effect="$L10plus20\' cu"',
-/**/     'Wall Of Force':
+      'Wall Of Force':
         'Effect="$L10\' sq"',
       // Added
-      'Abjure':'School=Abjuration Description="TODO"',
-/**/     'Acid Arrow':
+      'Abjure':
+        'School=Abjuration ' +
+        'Description="R10\' Return outsider to home plane 50%+HD delta"',
+      'Acid Arrow':
         'School=Conjuration ' +
         'Description="R180\' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd"',
-/**/     'Advanced Illusion':
+      'Advanced Illusion':
         'School=Illusion ' +
         'Description="R$L10plus60\' $L10plus40\' sq sight, sound, smell, temperature moving illusion for $L rd (save disbelieve)"',
-      'Aid':'School=Necromancy Description="TODO"',
-      'Air Walk':'School=Alteration Description="TODO"',
-/**/     'Alarm':
+      'Aid':
+        'School=Necromancy ' +
+        'Description="Touched +1 attack and damage, +1d8 HP for $Lplus1 rd"',
+      'Air Walk':
+        'School=Alteration ' +
+        'Description="Touched walk on air for $Lplus6 tn"',
+      'Alarm':
         'School=Abjuration ' +
         'Description="R10\' 20\' cu alarmed for $L30plus240 rd"',
-/**/     'Alter Self':
+      'Alter Self':
         'School=Alteration ' +
         'Description="Self change form for 3d4+$L2 rd"',
-/**/     'Armor':
+      'Armor':
         'School=Conjuration ' +
         'Description="Touched AC 6 for $Lplus8 HP"',
-/**/     'Avoidance':
+      'Avoidance':
         'School=Abjuration ' +
         'Description="R10\' 3\' cu target moves away from all but self"',
-/**/     'Banishment':
+      'Banishment':
         'School=Abjuration ' +
         'Description="R20\' For $L2 HD creatures out of plane (save neg)"',
-/**/     'Bind':
+      'Bind':
         'School=Enchantment ' +
         'Description="R30\' $L5plus50\' rope-like item entangles or trips single target (save neg)"',
-/**/     'Binding':
+      'Binding':
         'School=Enchantment ' +
         'Description="R10\' Magical effect restrains creature (save neg)"',
-/**/     'Black Tentacles':
+      'Black Tentacles':
         'School=Conjuration ' +
         'Description="R30\' Many 10\' tentacles in 30\' sq AC 4, $L HP, Damage 2d4-3d4 (save 1d4)"',
-      'Changestaff':'School=Evocation Description="TODO"',
-/**/     'Chain Lightning':
+      'Changestaff':
+        'School=Evocation ' +
+        'Description="Staff becomes Treant (12 HD, 40 HP, AC 0)"',
+      'Chain Lightning':
         'School=Evocation ' +
         'Description="R$L5plus40\' Bolt arcs between $L targets for ${Lmax12}d6 HP down to 1d6 HP (save half)"',
-/**/     'Chill Touch':
+      'Chill Touch':
         'School=Necromancy ' +
         'Description="Touched 1d4 HP, 1 Str damage for $Lplus3 rd"',
-      'Cloak Of Bravery':'School=Conjuration Description="TODO"',
-      'Combine':'School=Evocation Description="TODO"',
-/**/     'Contagion':
+      'Cloak Of Bravery':
+        'School=Conjuration ' +
+        'Description="1-4 touched +4-1 vs. fear (rev touched 3\' fear aura)"',
+      'Combine':
+        'School=Evocation ' +
+        'Description="2-4 Assistants give focus priest +2-4 level spellcasting and turning"',
+      'Contagion':
         'School=Necromancy ' +
         'Description="R30\' Target diseased, -2 Str, Dex, Cha, and attack (save neg)"',
-/**/     'Contingency':
+      'Contingency':
         'School=Evocation ' +
         'Description="Trigger self spell conditionally for $L dy"',
-/**/     'Control Undead':
+      'Control Undead':
         'School=Necromancy ' +
-        'Description="R20\' Command 1d6 undead totalling $L HD for 3d4+$L rd (3 HD save neg)"',
-/**/     'Crystalbrittle':
+        'Description="R20\' Command 1d6 undead totaling $L HD for 3d4+$L rd (3 HD save neg)"',
+      'Crystalbrittle':
         'School=Alteration ' +
         'Description="Touched $L2\' cu becomes fragile"',
-      'Cure Blindness Or Deafness':'School=Abjuration Description="TODO"',
-/**/     'Death Fog':
+      'Cure Blindness Or Deafness':
+        'School=Abjuration ' +
+        'Description="Touch cures (rev causes, save neg) non-organic blindness or deafness"',
+      'Death Fog':
         'School=Alteration ' +
-        'Description="R30\' $L20\' fog kills plants, animals tak 1, 2, 4, 8 HP for 1d4+$L rd"',
-/**/     'Deeppockets':
+        'Description="R30\' $L20\' fog kills plants, animals take 1, 2, 4, 8 HP for 1d4+$L rd"',
+      'Deeppockets':
         'School=Alteration ' +
         'Description="Touched garment carries 100 lbs comfortably for $Lplus12 hr"',
-/**/     'Delude':
+      'Delude':
         'School=Alteration ' +
         'Description="Self aura show alignment of creature in 10\' radius for $L tn"',
-/**/     'Demand':
+      'Demand':
         'School=Evocation ' +
         'Description="Remote 25-word <i>Suggestion</i> (-2 save neg)"',
-      'Detect Poison':'School="Lesser Divination" Description="TODO"',
-/**/     'Detect Scrying':
+      'Detect Poison':
+        'School="Lesser Divination" ' +
+        'Description="Detect whether object has been poisoned, $L5% type, for $Lplus10 rd"',
+      'Detect Scrying':
         'School="Lesser Divination" ' +
         'Description="Note scrying in 120\' radius for 1d6+$L tn"',
-/**/     'Detect Undead':
+      'Detect Undead':
         'School="Lesser Divination" ' +
         'Description="Self discern undead in 60\'x$L10\' area for 3 tn"',
-/**/     'Disjunction':
+      'Disjunction':
         'School=Alteration ' +
         'Description="R30\' Magic removed (artifacts $L%)"',
-/**/     'Dismissal':
+      'Dismissal':
         'School=Abjuration ' +
         'Description="R10\' Outsider returned to home plane (+HD delta save neg)"',
-/**/     'Domination':
+      'Domination':
         'School=Enchantment ' +
         'Description="R$L10\'" Self control target actions until save',
-/**/     'Dream':
+      'Dream':
         'School=Evocation ' +
         'Description="Touched sends message to named recipient in dream"',
-      'Dust Devil':'School=Conjuration Description="TODO"',
-      'Endure Cold':'School=Alteration Description="TODO"',
-      'Endure Heat':'School=Alteration Description="TODO"',
-/**/     'Energy Drain':
+      'Dust Devil':
+        'School=Conjuration ' +
+        'Description="R30\' AC 4, 2 HD, dmg 1d4 air elemental attacks for $L2 rd"',
+      'Endure Cold':
+        'School=Alteration ' +
+        'Description="Touched withstand -30F for $L30 min"',
+      'Endure Heat':
+        'School=Alteration ' +
+        'Description="Touched withstand 130F for $L30 min"',
+      'Energy Drain':
         'School=Evocation ' +
         'Description="Touched loses 2 levels or HD"',
-/**/     'Enervation':
+      'Enervation':
         'School=Necromancy ' +
         'Description="Target drained of $Ldiv4 levels for 1d4+$L hr (save neg)"',
-/**/     'Ensnarement':
+      'Ensnarement':
         'School=Conjuration ' +
         'Description="R10\' Entrap extra-planar creature"',
-      'Enthrall':'School=Enchantment Description="TODO"',
-      'Exaction':'School=Evocation Description="TODO"',
-/**/     'Eyebite':
+      'Enthrall':
         'School=Enchantment ' +
-        'Description="R20\' Self gaze charm, fear, sicken, or sleep attackfor $Ldiv3 rd"',
-/**/     'Fabricate':
+        'Description="Self fascinate 90\' radius (save neg)"',
+      'Exaction':
+        'School=Evocation ' +
+        'Description="Demand service of extra-planar creature"',
+      'Eyebite':
+        'School=Enchantment ' +
+        'Description="R20\' Self gaze charm, fear, sicken, or sleep attack for $Ldiv3 rd"',
+      'Fabricate':
         'School=Enchantment ' +
         'Description="R$L5\' Convert $L3\' cu material into product"',
-/**/     'False Vision':
+      'False Vision':
         'School="Greater Divination" ' +
         'Description="Mislead scrying of 30\' radius for 1d4+$L rd"',
-      'Flame Blade':'School=Evocation Description="TODO"',
-      'Flame Walk':'School=Alteration Description="TODO"',
-/**/     'Flaming Sphere':
+      'Flame Blade':
+        'School=Evocation ' +
+        'Description="Self wield flaming scimitar (1d4+4 HP, +2 vs. vulnerable or undead) for $Ldiv2plus4 rd"',
+      'Flame Walk':
+        'School=Alteration ' +
+        'Description="$Ldiv5plus1 touched immune non-magical fire, +2 and half dmg magical for $Lplus1 rd"',
+      'Flaming Sphere':
         'School=Evocation ' +
         'Description="R10\' 3\' radius sphere 2d4 HP (save neg) move 30\'/rd for $L rd"',
-      'Forbiddance':'School=Abjuration Description="TODO"',
-/**/     'Forcecage':
+      'Forbiddance':
+        'School=Abjuration ' +
+        'Description="R30\' $L60\' cu limits magical entry based on alignment, password"',
+      'Forcecage':
         'School=Evocation ' +
         'Description="R$L5\' 20\' cu of bars w/1/2 in gaps for $Lplus6 tn"',
-/**/     'Foresight':
+      'Foresight':
         'School="Greater Divination" ' +
         'Description="Advance warning of harm to self or another for 2d4+$L rd"',
-      'Free Action':'School=Abjuration Description="TODO"',
-      'Giant Insect':'School=Alteration Description="TODO"',
-/**/     'Glitterdust':
+      'Free Action':
+        'School=Abjuration ' +
+        'Description="Touched move freely for $L tn"',
+      'Giant Insect':
+        'School=Alteration ' +
+        'Description="R20\' 1-6 insects become ${lvl<10?3:lvl<13?4:6} HD giant version"',
+      'Glitterdust':
         'School=Conjuration ' +
         'Description="R10\' 20\' cu glowing dust coats and blinds 1d4+1 rd for 1d4+$L rd"',
-/**/     'Grease':
+      'Grease':
         'School=Conjuration ' +
         'Description="R10\' 10\' sq slippery for $Lplus3 rd"',
-      'Goodberry':'School=Alteration Description="TODO"',
-      "Heroes' Feast":'School=Evocation Description="TODO"',
-/**/     'Hold Undead':
+      'Goodberry':
+        'School=Alteration ' +
+        'Description="2d4 berries provide full meal, heal 1 HP (rev 1 HP poison) for $Lplus1 day"',
+      "Heroes' Feast":
+        'School=Evocation ' +
+        'Description="R10\' Meal for $L cures disease, heal 1d4+4 HP, +1 attack and immune poison and fear for 12 hr"',
+      'Hold Undead':
         'School=Necromancy ' +
-        'Description="R60\' Immobilize 1-3 targets (save neg) totalling $L HD for 1d4+$L rd"',
-/**/     'Illusionary Wall':
+        'Description="R60\' Immobilize 1-3 targets (save neg) totaling $L HD for 1d4+$L rd"',
+      'Illusionary Wall':
         'School=Illusion ' +
         'Description="R30\' False 10\' sq wall, floor, or ceiling"',
-      'Imbue With Spell Ability':'School=Enchantment Description="TODO"',
-      'Invisibility To Undead':'School=Abjuration Description="TODO"',
-/**/     'Irritation':
+      'Imbue With Spell Ability':
+        'School=Enchantment ' +
+        'Description="Transfer divination or cure spellcasting to touched level 1-2 (1 1st), 3-4 (2 1st) or 5+ (2 1st and 1 2nd) non-caster"',
+      'Invisibility To Undead':
+        'School=Abjuration ' +
+        'Description="Touched undetectable by undead (5 HD save) for 6 rd"',
+      'Irritation':
         'School=Alteration ' +
         'Description="RL10\' 1-4 targets in 15\' radius itch (-4 AC, -2 attack) for 3 rd or rash (-1 Cha/dy for 4 dy) (save neg)"',
-/**/     'Item':
+      'Item':
         'School=Alteration ' +
         'Description="Shrink touched $L2\' cu item to 1/12 size, change to cloth for $L4 hr"',
-/**/     'Lamentable Belaborment':
+      'Lamentable Belaborment':
         'School=Enchantment ' +
         'Description="R10\' Targets in 10\' radius absorbed in conversation for 3-6 rd (save neg; failed save rd 3 wander away, failed save rd 6 rage attack for 1d4+1 rd)"',
-      'Liveoak':'School=Enchantment Description="TODO"',
-      'Locate Animals Or Plants':'School="Lesser Divination" Description="TODO"',
-/**/     "Mage's Lucubration":
+      'Liveoak':
+        'School=Enchantment ' +
+        'Description="Oak tree guards (S 7-8 HD, 2d8 dmg; M 9-10 HD, 3d6 dmg; L 11-12 HD, 4d6 dmg) based on $L-word command for $L dy"',
+      'Locate Animals Or Plants':
+        'School="Lesser Divination" ' +
+        'Description="$L20plus100 Self discern presence of animal or plant type in 20\' path for $L rd"',
+      "Mage's Lucubration":
         'School=Alteration ' +
         'Description="Recall level 1-5 spell uses in prior dy"',
-/**/     "Mage's Magnificent Mansion":
+      "Mage's Magnificent Mansion":
         'School=Alteration ' +
         'Description="R10\' Extra-dimensional refuge for $L hr"',
-      'Magic Font':'School="Greater Divination" Description="TODO"',
-/**/     'Magic Mirror':
+      'Magic Font':
+        'School="Greater Divination" ' +
+        'Description="Scry via touched holy water font for 1 hr/vial"',
+      'Magic Mirror':
         'School=Enchantment ' +
-        'Description="Touched miror becomes scrying device for $L rd"',
-      'Magical Stone':'School=Enchantment Description="TODO"',
-      'Magical Vestment':'School=Enchantment Description="TODO"',
-      'Messenger':'School=Enchantment Description="TODO"',
-      'Meld Into Stone':'School=Alteration Description="TODO"',
-/**/     'Minute Meteors':
+        'Description="Touched mirror becomes scrying device for $L rd"',
+      'Magical Stone':
+        'School=Enchantment ' +
+        'Description="Enchant 3 pebbles (+1 equiv but no bonus, 1d4 dmg, 2d4 vs. undead) for 30 min"',
+      'Magical Vestment':
+        'School=Enchantment ' +
+        'Description="Touched vestment ${7-Math.floor((lvl+1)/3)} for $L5 rd"',
+      'Messenger':
+        'School=Enchantment ' +
+        'Description="R$L20\' Tiny creature delivers note for $L dy"',
+      'Meld Into Stone':
+        'School=Alteration ' +
+        'Description="Self merge into rock for 8+1d8 rd"',
+      'Minute Meteors':
         'School=Evocation ' +
         'Description="R$L10plus70\' $L +2 ranged globes 1d4 HP"',
-/**/     'Mirage Arcana':
+      'Mirage Arcana':
         'School=Illusion ' +
-        'Description="R$L10\' $L10\' radius looks like familiar areafor conc + $Lplus6 tn"',
-/**/     'Mislead':
+        'Description="R$L10\' $L10\' radius looks like familiar area for conc + $Lplus6 tn"',
+      'Mislead':
         'School=Illusion ' +
         'Description="R10\' Self invisible, illusionary double moves and speaks for $L rd"',
-      'Moonbeam':'School=Evocation Description="TODO"',
-/**/     'Mount':
+      'Moonbeam':
+        'School=Evocation ' +
+        'Description="R$L10+60\' Moonlight 5\' radius for $L rd"',
+      'Mount':
         'School=Conjuration ' +
         'Description="R10\' Create obedient mount for $Lplus2 hr"',
-/**/     'Phantom Steed':
+      'Phantom Steed':
         'School=Conjuration ' +
         'Description="R10\' Create obedient mount w/special abilities for $L hr"',
-/**/     'Protection From Cantrips':
+      'Protection From Cantrips':
         'School=Abjuration ' +
         'Description="Touched immune to cantrips for $Lplus5 hr"',
-      'Negative Plane Protection':'School=Abjuration Description="TODO"',
-      'Rainbow':'School=Evocation Description="TODO"',
-/**/     'Rainbow Pattern':
+      'Negative Plane Protection':
+        'School=Abjuration ' +
+        'Description="Touched gains save vs. death magic next draining attack"',
+      'Rainbow':
+        'School=Evocation ' +
+        'Description="R120\' Create magical +2 bow or 3\' x 120 yd bridge for $L rd"',
+      'Rainbow Pattern':
         'School=Alteration ' +
         'Description="R10\' 30\' cu captivates 24 HD (save neg), moves 30\'/rd for conc"',
-      'Reflecting Pool':'School="Lesser Divination" Description="TODO"',
-      'Remove Paralysis':'School=Abjuration Description="TODO"',
-/**/     'Resilient Sphere':
+      'Reflecting Pool':
+        'School="Lesser Divination" ' +
+        'Description="R10\' Use pool to scry for $L rd"',
+      'Remove Paralysis':
+        'School=Abjuration ' +
+        'Description="R$L10\' 1d4 targets in 20\' cu released from magical paralysis"',
+      'Resilient Sphere':
         'School=Alteration ' +
         'Description="R20\' Sphere safely entraps target for $L rd (save neg)"',
-/**/     'Screen':
+      'Screen':
         'School="Greater Divination" ' +
         'Description="Divination of $L30\' cu misleads for $L hr"',
-/**/     'Secret Page':
+      'Secret Page':
         'School=Alteration ' +
         'Description="Overlay page with different contents"',
-/**/     'Secure Shelter':
+      'Secure Shelter':
         'School=Alteration ' +
-        'Description="R20\' $L30\' sq shelter against elements, intrustion for 1d4+$Lplus1 hr"',
-/**/     'Seeming':
+        'Description="R20\' $L30\' sq shelter against elements, intrusion for 1d4+$Lplus1 hr"',
+      'Seeming':
         'School=Illusion ' +
         'Description="Alter appearance of $Ldiv2 w/in 30\'"',
-/**/     'Sending':
+      'Sending':
         'School=Evocation ' +
-        'Description="Send/recieve 25-word message/reply with known recipient"',
-/**/     'Sepia Snake Sigil':
+        'Description="Send/receive 25-word message/reply with known recipient"',
+      'Sepia Snake Sigil':
         'School=Conjuration ' +
         'Description="R5\' Rune becomes $L HD snake when read; bite immobilizes for $L+1d4 dy"',
-/**/     'Sequester':
+      'Sequester':
         'School=Illusion ' +
-        'Description="Touched invisible and unscryablefor $Lplus7 dy"',
-/**/     'Shadow Walk':
+        'Description="Touched invisible and unscryable for $Lplus7 dy"',
+      'Shadow Walk':
         'School=Illusion ' +
         'Description="Self and touched move 7 mi/tn via shadow plane for $L hr"',
-/**/     'Shout':
+      'Shout':
         'School=Evocation ' +
         'Description="Sound in 30\' cone 2d6 HP (save neg) and deafens 2d6 rd (save half)"',
-/**/     'Sink':
+      'Sink':
         'School=Enchantment ' +
         'Description="R$L10\' Target embedded in floor (save neg)"',
-/**/     'Solid Fog':
+      'Solid Fog':
         'School=Alteration ' +
         'Description="R30\' $L10\' cu slows, reduces vision to 2\' for 2d4+$L rd"',
-      'Spike Growth':'School=Alteration Description="TODO"',
-      'Spike Stones':'School=Alteration Description="TODO"',
-/**/     'Spectral Hand':
+      'Spike Growth':
+        'School=Alteration ' +
+        'Description="R60\' Plants in $L10\' sq grow thorns (2d4 HP/10\' move) for 3d4+$L tn"',
+      'Spike Stones':
+        'School=Alteration ' +
+        'Description="R30\' Sharp stone in $L10\' sq 1d4 HP for 3d4+$L tn"',
+      'Spectral Hand':
         'School=Necromancy ' +
         'Description="R$L5plus30 Glowing hand delivers +2 touch attacks for $L2 rd"',
-/**/     'Spell Turning':
+      'Spell Turning':
         'School=Abjuration ' +
         'Description="Spells aimed at self reflect on caster for $L3 rd"',
-/**/     'Spook':
+      'Spook':
         'School=Illusion ' +
         'Description="R10\' Target flees from self (save neg)"',
-      'Starshine':'School=Evocation Description="TODO"',
-/**/     'Stoneskin':
+      'Starshine':
+        'School=Evocation ' +
+        'Description="R$L10\' Soft illumination in $L10\ sq for $L tn"',
+      'Stoneskin':
         'School=Alteration ' +
         'Description="Touched immune to next 1d4+$Ldiv2 blows"',
-/**/     'Succor':
+      'Succor':
         'School=Alteration ' +
         'Description="Breaking item teleports to self abode"',
-/**/     'Summon Swarm':
+      'Summon Swarm':
         'School=Conjuration ' +
         'Description="R60\' Vermin in 10\' cu 1 HP/rd for conc + 2 rd"',
-      'Sunray':'School=Evocation Description="TODO"',
-/**/     'Taunt':
+      'Sunray':
+        'School=Evocation ' +
+        'Description="R10\' 5\' radius blinds 1d3 rd, undead 8d6 HP (3d6 within 20\') for 2-5 rd"',
+      'Taunt':
         'School=Enchantment ' +
         'Description="R60\' Targets in 30\' radius attack caster"',
-/**/     'Telekinetic Sphere':
+      'Telekinetic Sphere':
         'School=Evocation ' +
         'Description="R20\' Sphere safely entraps and floats target for $L rd (save neg)"',
-/**/     'Teleport Without Error':
+      'Teleport Without Error':
         'School=Alteration ' +
         'Description="Instantly transport self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
-/**/     'Transmute Water To Dust':
+      'Transmute Water To Dust':
         'School=Alteration ' +
-        'Description="R60\' RL10\' cu water becomes powder"',
-/**/     'Uncontrollable Hideous Laughter':
+        'Description="R60\' $E water becomes powder" ' +
+        'Effect="$L10\' cu"',
+      'Trip':
+        'Effect="1 HP"',
+      'Uncontrollable Hideous Laughter':
         'School=Enchantment ' +
         'Description="R60\' $Ldiv3 targets in 30\' cu -2 attack and damage for $L rd"',
-/**/     'Vacancy':
+      'Vacancy':
         'School=Illusion ' +
         'Description="R$L10\' $L10\' radius appears abandoned for $L hr"',
-/**/     'Vampiric Touch':
+      'Vampiric Touch':
         'School=Necromancy ' +
         'Description="Touch causes $Ldiv2max6 HP added to self"',
-      'Water Walk':'School=Alteration Description="TODO"',
-/**/     'Weird':
+      'Water Walk':
+        'School=Alteration ' +
+        'Description="${lvl-4} touched walk on liquid for $Lplus1 tn"',
+      'Weird':
         'School=Illusion ' +
         'Description="R30\' Targets in 20\' radius fight nemeses to death (save paralyze 1 rd, -1d4 Str 1 tn)"',
-/**/     'Whispering Wind':
+      'Whispering Wind':
         'School=Alteration ' +
         'Description="R$L mi Self send 25 words or sound to known location"',
-/**/     'Wind Wall':
+      'Wind Wall':
         'School=Alteration ' +
         'Description="R$L10\' Strong wind in $L10\'x5\' area for $L rd"',
-      'Withdraw':'School=Alteration Description="TODO"',
-/**/     'Wizard Mark':
+      'Withdraw':
+        'School=Alteration ' +
+        'Description="Self $Lplus1 rd extra time to think, cast divination or self cure"',
+      'Wizard Mark':
         'School=Alteration ' +
         'Description="Etch item w/personal mark"',
-/**/     'Wraithform':
+      'Wraithform':
         'School=Alteration ' +
         'Description="Self insubstantial, effected only by magical weapons for $L2 rd"',
-      'Wyvern Watch':'School=Evocation Description="TODO"'
+      'Wyvern Watch':
+        'School=Evocation ' +
+        'Description="R30\' First trespasser in 10\' radius paralyzed $L rd (save neg)"'
     },
     'Weapon':{
       // Removed
@@ -3306,6 +3565,8 @@ FirstEdition.RULE_EDITS = {
       'Hallucinatory Terrain I3':
         'Effect="$L10plus40\' sq" ' +
         'Range="$L20plus20\'"',
+      'Heat Metal':
+        'School=Necromancy',
       'Mass Suggestion':
         'Range="$L10\'"',
       'Permanent Illusion':
@@ -5032,19 +5293,13 @@ FirstEdition.ruleNotes = function() {
     '    that it does.\n' +
     '  </li>\n' +
     '  <li>\n' +
-    '    TODO Dispel Magic abjuration instead of alteration in OSRIC\n' +
+    '    2E spell ranges are generally given in yards rather than feet, so,\n' +
+    '    for example, "R10\'" in the W1 Grease spell should be read as 10\n' +
+    '    yards for 2E characters.\n' +
     '  </li>\n' +
     '  <li>\n' +
-    '    TODO Heat Metal alteration instead of necromancy in OSRIC\n' +
-    '  </li>\n' +
-    '  <li>\n' +
-    '    TODO Death Spell conjuration instead of necromancy in OSRIC\n' +
-    '  </li>\n' +
-    '  <li>\n' +
-    '    TODO First-level MU spells, a.k.a. Illusionist Arcane Spells, Level 1\n' +
-    '  </li>\n' +
-    '  <li>\n' +
-    '    TODO 2E spell ranges are yards instead of feet\n' +
+    '    The 2E spell Spiritual Hammer is modified to Spiritual Weapon to\n' +
+    '    match the 1E spell.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
