@@ -1,11 +1,13 @@
 ## 1st Edition plugin for the Quilvyn RPG character sheet generator
 
 The quilvyn-firstedition package bundles modules that extend Quilvyn to work
-with the first edition of D&D, applying the rules of the
+with the first and second editions of D&D, applying the rules of the
 <a href="https://www.drivethrurpg.com/product/17003/Players-Handbook-1e">1st
-edition Players Handbook</a>.
+Edition Players Handbook</a> and
+<a href="https://www.drivethrurpg.com/product/16868/Players-Handbook-Revised-2e">2nd
+Edition Players Handbook</a>.
 
-This package also supports the variant 1st edition rules defined in the
+This package also supports the variant 1st Edition rules defined in the
 <a href="https://www.knights-n-knaves.com/osric/">Old School Reference and
 Index Compilation</a> rule book.
 
@@ -23,5 +25,5 @@ the 'plugins/FirstEdition.js' entry in the PLUGINS definition in quilvyn.html.
 ### Usage
 
 Once the FirstEdition plugin is installed as described above, start Quilvyn and
-choose First Edition from the Rules menu in the editor window. Choosing OSRIC
-in the Rules menu selects the OSRIC variant rules.
+choose First Edition, Second Edition, or OSRIC from the Rules menu in the editor
+window.
