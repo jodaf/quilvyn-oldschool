@@ -72,7 +72,6 @@ function FirstEdition() {
     FirstEdition.identityRules(
       rules, FirstEdition.editedRules(FirstEdition.ALIGNMENTS, 'Alignment'),
       FirstEdition.editedRules(FirstEdition.CLASSES, 'Class'),
-      FirstEdition.editedRules(FirstEdition.GENDERS, 'Gender'),
       FirstEdition.editedRules(FirstEdition.RACES, 'Race'));
     FirstEdition.goodiesRules(rules);
 
@@ -143,8 +142,8 @@ FirstEdition.EDITIONS = {
   'OSRIC':''
 };
 FirstEdition.CHOICES = [
-  'Alignment', 'Armor', 'Class', 'Feature', 'Gender', 'Language', 'Race',
-  'School', 'Shield', 'Spell', 'Weapon'
+  'Alignment', 'Armor', 'Class', 'Feature', 'Language', 'Race', 'School',
+  'Shield', 'Spell', 'Weapon'
 ];
 // Note: the order here reflects dependencies among some of the attributes when
 // generating random characters
@@ -353,10 +352,6 @@ FirstEdition.FEATURES = {
   'Sword Precision':
     'Section=combat Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
   'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
-};
-FirstEdition.GENDERS = {
-  'Female':'',
-  'Male':''
 };
 FirstEdition.LANGUAGES = {
   'Common':'',
@@ -3995,14 +3990,11 @@ FirstEdition.goodiesRules = function(rules) {
 };
 
 /* Defines rules related to basic character identity. */
-FirstEdition.identityRules = function(
-  rules, alignments, classes, genders, races
-) {
+FirstEdition.identityRules = function(rules, alignments, classes, races) {
 
   QuilvynUtils.checkAttrTable(alignments, []);
   QuilvynUtils.checkAttrTable
     (classes, ['Require', 'HitDie', 'Attack', 'WeaponProficiency', 'Breath', 'Death', 'Petrification', 'Spell', 'Wand', 'Features', 'Selectables', 'Experience', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
-  QuilvynUtils.checkAttrTable(genders, []);
   QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Selectables', 'Languages']);
 
   for(var alignment in alignments) {
@@ -4010,9 +4002,6 @@ FirstEdition.identityRules = function(
   }
   for(var clas in classes) {
     rules.choiceRules(rules, 'Class', clas, classes[clas]);
-  }
-  for(var gender in genders) {
-    rules.choiceRules(rules, 'Gender', gender, genders[gender]);
   }
   for(var race in races) {
     rules.choiceRules(rules, 'Race', race, races[race]);
@@ -4278,8 +4267,6 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
     );
-  else if(type == 'Gender')
-    FirstEdition.genderRules(rules, name);
   else if(type == 'Language')
     FirstEdition.languageRules(rules, name);
   else if(type == 'Race') {
@@ -4928,15 +4915,6 @@ FirstEdition.featureRules = function(rules, name, sections, notes) {
   // No changes needed to the rules defined by SRD35 method
 };
 
-/* Defines in #rules# the rules associated with gender #name#. */
-FirstEdition.genderRules = function(rules, name) {
-  if(!name) {
-    console.log('Empty gender name');
-    return;
-  }
-  // No rules pertain to gender
-};
-
 /* Defines in #rules# the rules associated with language #name#. */
 FirstEdition.languageRules = function(rules, name) {
   if(!name) {
@@ -5127,13 +5105,6 @@ FirstEdition.spellRules = function(
     description = description.replaceAll('$E', effect);
   if(range != null)
     description = description.replaceAll('$R', range);
-  if(name == 'Burning Hands') {
-    console.log(name);
-    console.log(school);
-    console.log(casterGroup);
-    console.log(level);
-    console.log(description);
-  }
   SRD35.spellRules(rules, name, school, casterGroup, level, description);
   // No changes needed to the rules defined by SRD35 method
 };
