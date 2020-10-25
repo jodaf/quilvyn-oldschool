@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var FirstEdition_VERSION = '2.0.3.0';
+var FirstEdition_VERSION = '2.1.1.0';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -128,8 +128,8 @@ function FirstEdition() {
     rules.defineSheetElement('Thac10 Ranged', 'Thac10Info/', '%V');
     rules.defineSheetElement('AttackInfo');
     rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
-    rules.defineSheetElement('Understand Spell', 'Spells Per Day', '<b>%N</b>: %V%');
-    rules.defineSheetElement('Maximum Spells Per Level', 'Spells Per Day');
+    rules.defineSheetElement('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
+    rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
 
     Quilvyn.addRuleSet(rules);
 
@@ -155,7 +155,25 @@ FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
   'spells'
 ];
 
-FirstEdition.ALIGNMENTS = Object.assign({}, SRD35.ALIGNMENTS);
+FirstEdition.ABILITIES = {
+  'charisma':'',
+  'constitution':'',
+  'dexterity':'',
+  'intelligence':'',
+  'strength':'',
+  'wisdom':''
+};
+FirstEdition.ALIGNMENTS = {
+  'Chaotic Evil':'',
+  'Chaotic Good':'',
+  'Chaotic Neutral':'',
+  'Neutral Evil':'',
+  'Neutral Good':'',
+  'Neutral':'',
+  'Lawful Evil':'',
+  'Lawful Good':'',
+  'Lawful Neutral':''
+};
 FirstEdition.ARMORS = {
   'None':'AC=0 Move=120 Weight=0',
   'Banded':'AC=6 Move=90 Weight=35',
@@ -336,7 +354,10 @@ FirstEdition.FEATURES = {
     'Section=combat Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
   'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
 };
-FirstEdition.GENDERS = Object.assign({}, SRD35.GENDERS);
+FirstEdition.GENDERS = {
+  'Female':'',
+  'Male':''
+};
 FirstEdition.LANGUAGES = {
   'Common':'',
   "Druids' Cant":'',
@@ -1846,7 +1867,7 @@ FirstEdition.CLASSES = {
       '1800 ' +
     'CasterLevelDivine=levels.Bard ' +
     'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'D1:1=1;2=2;3=3;16=4;19=5,' +
       'D2:4=1;5=2;6=3;17=4;21=5,' +
       'D3:7=1;8=2;9=3;18=4;22=5,' +
@@ -1870,7 +1891,7 @@ FirstEdition.CLASSES = {
       '2250,2475,2700 ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'C1:1=1;2=2;4=3;9=4;11=5;12=6;15=7;17=8;19=9,' +
       'C2:3=1;4=2;5=3;9=4;12=5;13=6;15=7;17=8;19=9,' +
       'C3:5=1;6=2;8=3;11=4;12=5;13=6;15=7;17=8;19=9,' +
@@ -1914,7 +1935,7 @@ FirstEdition.CLASSES = {
     'Experience=0,2,4,7.5,12.5,20,35,60,90,124,200,300,750,1500 ' +
     'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'D1:1=2;3=3;4=4;9=5;13=6,' +
       'D2:2=1;3=2;5=3;7=4;11=5;14=6,' +
       'D3:3=1;4=2;7=3;12=4;13=5;14=6,' +
@@ -1968,7 +1989,7 @@ FirstEdition.CLASSES = {
       '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
       '2200,2420 ' +
     'SpellAbility=intelligence ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'I1:1=1;2=2;4=3;5=4;9=5;24=6;26=7,' +
       'I2:3=1;4=2;6=3;10=4;12=5;24=6;26=7,' +
       'I3:5=1;7=2;9=3;12=4;16=5;24=6;26=7,' +
@@ -2006,7 +2027,7 @@ FirstEdition.CLASSES = {
       '3000,3375,3750 ' +
     'CasterLevelArcane="levels.Magic User" ' +
     'SpellAbility=intelligence ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'M1:1=1;2=2;4=3;5=4;13=5;26=6;29=7,' +
       'M2:3=1;4=2;7=3;10=4;13=5;26=6;29=7,' +
       'M3:5=1;6=2;8=3;11=4;13=5;26=6;29=7,' +
@@ -2100,7 +2121,7 @@ FirstEdition.CLASSES = {
     'CasterLevelDivine=' +
       '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 8)" ' +
     'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'C1:9=1;10=2;14=3;21=4,' +
       'C2:11=1;12=2;16=3;22=4,' +
       'C3:13=1;17=2;18=3;23=4,' +
@@ -2126,7 +2147,7 @@ FirstEdition.CLASSES = {
     'CasterLevelDivine=' +
       '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
       'SpellAbility=wisdom ' +
-      'SpellsPerDay=' +
+      'SpellSlots=' +
         'D1:8=1;10=2;18=3;23=4,' +
         'D2:12=1;14=2;20=3,' +
         'D3:16=1;17=2;22=3,' +
@@ -2184,7 +2205,7 @@ FirstEdition.RULE_EDITS = {
         'CasterLevelArcane=levels.Bard ' +
         'CasterLevelDivine=levels.Bard ? null : null ' +
         'SpellAbility=intelligence ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'W1:2=1;3=2;5=3;16=4,' +
           'W2:4=1;6=2;8=3;17=4,' +
           'W3:7=1;9=2;11=3;18=4,' +
@@ -2192,7 +2213,7 @@ FirstEdition.RULE_EDITS = {
           'W5:13=1;15=2;17=3;20=4,' +
           'W6:16=1;18=2;20=3',
       'Cleric':
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
           'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
           'P3:5=1;6=2;8=3;11=4;12=5;13=6;16=7;18=8;20=9,' +
@@ -2259,7 +2280,7 @@ FirstEdition.RULE_EDITS = {
         'Experience=' +
           '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
           '2250,2475,2700 ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
           'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
           'P3:5=1;6=2;8=3;11=4;12=5;13=6;16=7;18=8;20=9,' +
@@ -2283,7 +2304,7 @@ FirstEdition.RULE_EDITS = {
           '"1:School Opposition (Evocation)",' +
           '"1:School Opposition (Necromancy)",' +
           '"1:School Specialization (Illusion)" ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'W1:1=2;2=3;4=4;5=5;13=6,' +
           'W2:3=2;4=3;7=4;10=5;13=6,' +
           'W3:5=2;6=3;8=4;11=5;13=6,' +
@@ -2298,7 +2319,7 @@ FirstEdition.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"9:Eldritch Craft" ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
           'W2:3=1;4=2;7=3;10=4;13=5,' +
           'W3:5=1;6=2;8=3;11=4;13=5,' +
@@ -2398,7 +2419,7 @@ FirstEdition.RULE_EDITS = {
           '2500,2750,3000 ' +
         'CasterLevelDivine=' +
           '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 9)" ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'P1:9=1;10=2;14=3,' +
           'P2:11=1;12=2;16=3,' +
           'P3:13=1;16=2;17=3,' +
@@ -2418,7 +2439,7 @@ FirstEdition.RULE_EDITS = {
         'CasterLevelArcane=levels.Ranger ? null : null ' +
         'CasterLevelDivine=' +
           '"levels.Ranger < 8 ? null : Math.min(levels.Ranger-7, 9)" ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'P1:8=1;9=2;13=3,' +
           'P2:10=1;11=2;15=3,' +
           'P3:12=1;14=2;16=3',
@@ -3459,7 +3480,7 @@ FirstEdition.RULE_EDITS = {
         'Experience=' +
           '0,2.5,475,9,18,36,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
           '1760,1980,2200,2420 ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'I1:1=1;2=2;4=3;5=4;9=5;17=6,' +
           'I2:3=1;4=2;5=3;10=4;12=5;18=6,' +
           'I3:5=1;6=2;9=3;12=4;16=5;20=6,' +
@@ -3474,7 +3495,7 @@ FirstEdition.RULE_EDITS = {
         'Experience=' +
           '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
           '2625,3000,3375,3750 ' +
-        'SpellsPerDay=' +
+        'SpellSlots=' +
           'M1:1=1;2=2;4=3;5=4;12=5;21=6,' +
           'M2:3=1;4=2;6=3;9=4;13=5;21=6,' +
           'M3:5=1;6=2;8=3;11=4;14=5;22=6,' +
@@ -3680,8 +3701,7 @@ FirstEdition.editedRules = function(base, type) {
 /* Defines rules related to character abilities. */
 FirstEdition.abilityRules = function(rules) {
 
-  for(var ability in SRD35.ABILITIES) {
-    ability = ability.toLowerCase();
+  for(var ability in FirstEdition.ABILITIES) {
     rules.defineRule(ability, ability + 'Adjust', '+', null);
   }
 
@@ -3826,6 +3846,10 @@ FirstEdition.abilityRules = function(rules) {
 /* Defines rules related to combat. */
 FirstEdition.combatRules = function(rules, armors, shields, weapons) {
 
+  QuilvynUtils.checkAttrTable(armors, ['AC', 'Move', 'Weight']);
+  QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight']);
+  QuilvynUtils.checkAttrTable(weapons, ['Category', 'Damage', 'Range']);
+
   for(var armor in armors) {
     rules.choiceRules(rules, 'Armor', armor, armors[armor]);
   }
@@ -3855,7 +3879,7 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
         'source == "None" ? null : source.indexOf("Crossbow") >= 0 ? -0.5 : 0',
       'levels.Fighter', '+', 'source < 7 ? 0.5 : source < 13 ? 1 : 1.5'
     );
-    SRD35.prerequisiteRules
+    QuilvynRules.prerequisiteRules
       (rules, 'validation', 'weaponSpecialization',
        'combatNotes.weaponSpecialization', 'levels.Fighter >= 1');
   } else {
@@ -3954,10 +3978,8 @@ FirstEdition.combatRules = function(rules, armors, shields, weapons) {
       'turnUndeadColumn', '=', '"' + turningTable[i] +'".split(":")[source].trim()'
     );
   }
-  // Get rid of mention of "Buckler" in SRD35 two-handed weapon note
-  var notes = rules.getChoices('notes');
-  if(notes && notes['validationNotes.two-handedWeapon'])
-    delete notes['validationNotes.two-handedWeapon'];
+  // Replace SRD35's two-handeWeapon validation note
+  delete rules.choices.notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
     ('notes', 'validationNotes.two-handedWeapon:Requires shield == "None"');
   rules.defineRule('weapons.Unarmed', '', '=', '1');
@@ -3976,6 +3998,12 @@ FirstEdition.goodiesRules = function(rules) {
 FirstEdition.identityRules = function(
   rules, alignments, classes, genders, races
 ) {
+
+  QuilvynUtils.checkAttrTable(alignments, []);
+  QuilvynUtils.checkAttrTable
+    (classes, ['Require', 'HitDie', 'Attack', 'WeaponProficiency', 'Breath', 'Death', 'Petrification', 'Spell', 'Wand', 'Features', 'Selectables', 'Experience', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
+  QuilvynUtils.checkAttrTable(genders, []);
+  QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Selectables', 'Languages']);
 
   for(var alignment in alignments) {
     rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
@@ -4105,7 +4133,7 @@ FirstEdition.identityRules = function(
   rules.defineRule
     ('skillNotes.rogueSkills.1', 'skillNotes.rogueSkills', '+', 'null');
   rules.defineRule('warriorLevel', '', '=', '0');
-  SRD35.validAllocationRules
+  QuilvynRules.validAllocationRules
     (rules, 'weaponProficiency', 'weaponProficiencyCount', 'Sum "^weaponProficiency\\."');
   rules.defineRule('validationNotes.weaponProficiencyAllocation.2',
     'weaponSpecialization', '+', 'source == "None" ? null : 1',
@@ -4116,16 +4144,25 @@ FirstEdition.identityRules = function(
 
 /* Defines rules related to magic use. */
 FirstEdition.magicRules = function(rules, schools, spells) {
+
+  QuilvynUtils.checkAttrTable(schools, ['Features']);
+  QuilvynUtils.checkAttrTable(spells, ['School', 'Description']);
+
   for(var school in schools) {
     rules.choiceRules(rules, 'School', school, schools[school]);
   }
   for(var spell in spells) {
     rules.choiceRules(rules, 'Spell', spell, spells[spell]);
   }
+
 };
 
 /* Defines rules related to character features, languages, and skills. */
 FirstEdition.talentRules = function(rules, features, languages, skills) {
+
+  QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
+  QuilvynUtils.checkAttrTable(languages, []);
+  QuilvynUtils.checkAttrTable(skills, ['Ability', 'Class']);
 
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
@@ -4194,9 +4231,9 @@ FirstEdition.talentRules = function(rules, features, languages, skills) {
       'skillNotes.armorSkillModifiers', '+', 'null'
     );
   }
-  SRD35.validAllocationRules
+  QuilvynRules.validAllocationRules
     (rules, 'language', 'languageCount', 'Sum "^languages\\."');
-  SRD35.validAllocationRules
+  QuilvynRules.validAllocationRules
     (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
 
 };
@@ -4231,7 +4268,7 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'WeaponProficiency'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelArcane'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
-      QuilvynUtils.getAttrValueArray(attrs, 'SpellsPerDay'),
+      QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
       FirstEdition.editedRules(FirstEdition.SPELLS, 'Spell')
     );
@@ -4250,9 +4287,7 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
-      FirstEdition.editedRules(FirstEdition.SPELLS, 'Spell')
+      QuilvynUtils.getAttrValueArray(attrs, 'Languages')
     );
     FirstEdition.raceRulesExtra(rules, name);
   } else if(type == 'School')
@@ -4372,7 +4407,7 @@ FirstEdition.armorRules = function(rules, name, ac, maxMove, weight) {
  * weapon. #casterLevelArcane# and #casterLevelDivine#, if specified, give the
  * Javascript expression for determining the caster level for the class; these
  * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
- * character level attribute 'level'. #spellsPerDay# lists the number of spells
+ * character level attribute 'level'. #spellSlots# lists the number of spells
  * per level per day that the class can cast, and #spells# lists spells defined
  * by the class. #spellDict# is the dictionary of all spells used to look up
  * individual spell attributes.
@@ -4380,7 +4415,7 @@ FirstEdition.armorRules = function(rules, name, ac, maxMove, weight) {
 FirstEdition.classRules = function(
   rules, name, requires, experience, hitDie, attack, saveBreath, saveDeath,
   savePetrification, saveSpell, saveWand, features, selectables, languages,
-  weaponProficiency, casterLevelArcane, casterLevelDivine, spellsPerDay,
+  weaponProficiency, casterLevelArcane, casterLevelDivine, spellSlots,
   spells, spellDict
 ) {
 
@@ -4442,7 +4477,7 @@ FirstEdition.classRules = function(
     name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(requires.length > 0)
-    SRD35.prerequisiteRules
+    QuilvynRules.prerequisiteRules
       (rules, 'validation', prefix + 'Class', classLevel, requires);
 
   rules.defineChoice('notes', 'experiencePoints.' + name + ':%V/%1');
@@ -4468,7 +4503,7 @@ FirstEdition.classRules = function(
     );
   }
 
-  SRD35.featureListRules(rules, features, name, classLevel, false);
+  QuilvynRules.featureListRules(rules, features, name, classLevel, false);
   for(var i = 0; i < features.length; i++) {
     if(features[i].match(/Armor Proficiency.*\//)) {
       var armors =
@@ -4497,7 +4532,7 @@ FirstEdition.classRules = function(
     'levels.' + name, '^=', weaponProficiency[2]
   );
 
-  if(spellsPerDay.length > 0) {
+  if(spellSlots.length > 0) {
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
@@ -4515,17 +4550,17 @@ FirstEdition.classRules = function(
     if(casterLevelDivine) {
       rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
     }
-    for(var i = 0; i < spellsPerDay.length; i++) {
-      var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
+    for(var i = 0; i < spellSlots.length; i++) {
+      var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
-      var code = spellsPerDay[i].substring(spellTypeAndLevel.length + 1).
+      var code = spellSlots[i].substring(spellTypeAndLevel.length + 1).
                  replace(/=/g, ' ? ').
                  split(/;/).reverse().join(' : source >= ');
       code = 'source >= ' + code + ' : null';
       if(code.indexOf('source >= 1 ?') >= 0) {
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
-      rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+      rules.defineRule('spellSlots.' + spellTypeAndLevel,
         'levels.' + name, '+=', code
       );
       if(spellType != name) {
@@ -4656,13 +4691,13 @@ FirstEdition.classRulesExtra = function(rules, name) {
       rules.defineRule('magicNotes.clericSpellFailure',
         'wisdom', '=', '(13 - source) * 5'
       );
-      rules.defineRule('spellsPerDay.'+t+'6', 'wisdom', '?', 'source > 16');
-      rules.defineRule('spellsPerDay.'+t+'7', 'wisdom', '?', 'source > 17');
+      rules.defineRule('spellSlots.'+t+'6', 'wisdom', '?', 'source > 16');
+      rules.defineRule('spellSlots.'+t+'7', 'wisdom', '?', 'source > 17');
     }
-    rules.defineRule('spellsPerDay.'+t+'1', 'bonusClericSpells.1', '+', null);
-    rules.defineRule('spellsPerDay.'+t+'2', 'bonusClericSpells.2', '+', null);
-    rules.defineRule('spellsPerDay.'+t+'3', 'bonusClericSpells.3', '+', null);
-    rules.defineRule('spellsPerDay.'+t+'4', 'bonusClericSpells.4', '+', null);
+    rules.defineRule('spellSlots.'+t+'1', 'bonusClericSpells.1', '+', null);
+    rules.defineRule('spellSlots.'+t+'2', 'bonusClericSpells.2', '+', null);
+    rules.defineRule('spellSlots.'+t+'3', 'bonusClericSpells.3', '+', null);
+    rules.defineRule('spellSlots.'+t+'4', 'bonusClericSpells.4', '+', null);
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
   } else if(name == 'Druid') {
@@ -4694,10 +4729,10 @@ FirstEdition.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('skillNotes.woodlandLanguages', 'levels.Druid', '=', 'source - 2');
     if(FirstEdition.EDITION != 'Second Edition') {
-      rules.defineRule('spellsPerDay.D1', 'bonusDruidSpells.1', '+', null);
-      rules.defineRule('spellsPerDay.D2', 'bonusDruidSpells.2', '+', null);
-      rules.defineRule('spellsPerDay.D3', 'bonusDruidSpells.3', '+', null);
-      rules.defineRule('spellsPerDay.D4', 'bonusDruidSpells.4', '+', null);
+      rules.defineRule('spellSlots.D1', 'bonusDruidSpells.1', '+', null);
+      rules.defineRule('spellSlots.D2', 'bonusDruidSpells.2', '+', null);
+      rules.defineRule('spellSlots.D3', 'bonusDruidSpells.3', '+', null);
+      rules.defineRule('spellSlots.D4', 'bonusDruidSpells.4', '+', null);
     }
 
   } else if(name == 'Fighter') {
@@ -4914,16 +4949,13 @@ FirstEdition.languageRules = function(rules, name) {
 /*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
- * associated features and #languages# the automatic languages. #spells# lists
- * any natural spells, and #spellDict# is the dictionary of all spells used to
- * look up individual spell attributes.
+ * associated features and #languages# the automatic languages.
  */
 FirstEdition.raceRules = function(
-  rules, name, requires, features, selectables, languages, spells, spellDict
+  rules, name, requires, features, selectables, languages
 ) {
   SRD35.raceRules(
-    rules, name, requires, features, selectables, languages, 'intelligence',
-    spells, spellDict
+    rules, name, requires, features, selectables, languages, null, [], [], null
   );
   // No changes needed to the rules defined by SRD35 method
 };
@@ -5095,6 +5127,13 @@ FirstEdition.spellRules = function(
     description = description.replaceAll('$E', effect);
   if(range != null)
     description = description.replaceAll('$R', range);
+  if(name == 'Burning Hands') {
+    console.log(name);
+    console.log(school);
+    console.log(casterGroup);
+    console.log(level);
+    console.log(description);
+  }
   SRD35.spellRules(rules, name, school, casterGroup, level, description);
   // No changes needed to the rules defined by SRD35 method
 };
@@ -5150,7 +5189,7 @@ FirstEdition.choiceEditorElements = function(rules, type) {
       ['CasterLevelArcane', 'Arcane Level', 'text', [10]],
       ['CasterLevelDivine', 'Divine Level', 'text', [10]],
       ['SpellAbility', 'Spell Ability', 'select-one', ['charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom']],
-      ['SpellsPerDay', 'Spells Per Day', 'text', [40]],
+      ['SpellSlots', 'Spell Slots', 'text', [40]],
       ['Spells', 'Spells', 'text', [40]]
     );
   else if(type == 'Weapon') {
