@@ -60,11 +60,10 @@ function FirstEdition() {
       (rules, FirstEdition.editedRules(FirstEdition.ARMORS, 'Armor'),
        FirstEdition.editedRules(FirstEdition.SHIELDS, 'Shield'),
        FirstEdition.editedRules(FirstEdition.WEAPONS, 'Weapon'));
-    // Spell definition is handled by each individual class and domain. Schools
-    // have to be defined before this can be done.
+    // Most spell definitions are handled by individual classes. Schools must
+    // be defined before this can be done.
     FirstEdition.magicRules
       (rules, FirstEdition.editedRules(FirstEdition.SCHOOLS, 'School'), {});
-    // Feats must be defined before bloodlines
     FirstEdition.talentRules
       (rules, FirstEdition.editedRules(FirstEdition.FEATURES, 'Feature'),
        FirstEdition.editedRules(FirstEdition.LANGUAGES, 'Language'),
@@ -127,7 +126,8 @@ function FirstEdition() {
     rules.defineSheetElement('Thac10 Ranged', 'Thac10Info/', '%V');
     rules.defineSheetElement('AttackInfo');
     rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
-    rules.defineSheetElement('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
+    rules.defineSheetElement
+      ('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
     rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
 
     Quilvyn.addRuleSet(rules);
@@ -135,18 +135,22 @@ function FirstEdition() {
   }
 
 }
+
 FirstEdition.EDITION = 'First Edition';
 FirstEdition.EDITIONS = {
   'First Edition':'',
   'Second Edition':'',
   'OSRIC':''
 };
+/* List of items handled by choiceRules method. */
 FirstEdition.CHOICES = [
   'Alignment', 'Armor', 'Class', 'Feature', 'Language', 'Race', 'School',
   'Shield', 'Spell', 'Weapon'
 ];
-// Note: the order here reflects dependencies among some of the attributes when
-// generating random characters
+/*
+ * List of items handled by randomizeOneAttribute method. The order handles
+ * dependencies among attributes when generating random characters.
+ */
 FirstEdition.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'extraStrength', 'name', 'race', 'gender', 'alignment', 'levels',
@@ -186,7 +190,340 @@ FirstEdition.ARMORS = {
   'Splint':'AC=6 Move=60 Weight=40',
   'Studded Leather':'AC=3 Move=90 Weight=20',
 };
+FirstEdition.CLASSES = {
+  'Assassin':
+    'Require=' +
+      '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
+      '"intelligence >= 11","strength >= 12" ' +
+    'HitDie=d6 Attack=-1,2,4 WeaponProficiency=3,4,2 ' +
+    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
+    'Features=' +
+      '"1:Armor Proficiency (Leather/Studded Leather)",' +
+      '"1:Shield Proficiency (All)",' +
+      '1:Assassination,1:Backstab,1:Disguise,"3:Rogue Skills",' +
+      '"intelligence >= 15? 9:Bonus Languages",' +
+      '"12:Read Scrolls" ' +
+    'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
+  'Bard':
+    'Require=' +
+      '"alignment =~ \'Neutral\'","charisma >= 15","constitution >= 10",' +
+      '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
+      '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
+      '"race =~ \'Human|Half-Elf\'" ' +
+    'HitDie=d6 Attack=0,2,2 WeaponProficiency=2,5,4 ' +
+    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
+    'Features=' +
+      '"1:Armor Proficiency (Leather)",' +
+      '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
+      '"1:Poetic Inspiration","1:Resist Fire","1:Resist Lightning",' +
+      '"3:Nature Knowledge","3:Wilderness Movement","7:Fey Immunity",' +
+      '7:Shapeshift ' +
+    'Experience=' +
+      '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
+      '1800 ' +
+    'CasterLevelDivine=levels.Bard ' +
+    'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'D1:1=1;2=2;3=3;16=4;19=5,' +
+      'D2:4=1;5=2;6=3;17=4;21=5,' +
+      'D3:7=1;8=2;9=3;18=4;22=5,' +
+      'D4:9=1;10=2;11=3;19=4;23=5,' +
+      'D5:9=1;10=2;12=3;13=4;14=5,' +
+      'D6:13=1;14=2;15=3;20=4;23=5',
+  'Cleric':
+    'Require=' +
+      '"wisdom >= 9" ' +
+    'HitDie=d8 Attack=0,2,3 WeaponProficiency=2,4,3 ' +
+    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
+    'Features=' +
+      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+      '"1:Turn Undead",' +
+      '"wisdom >= 16 ? 1:Bonus Cleric Experience",' +
+      '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
+      '"wisdom <= 12 ? 1:Cleric Spell Failure",' +
+      '"9:Attract Followers" ' +
+    'Experience=' +
+      '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
+      '2250,2475,2700 ' +
+    'CasterLevelDivine=levels.Cleric ' +
+    'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'C1:1=1;2=2;4=3;9=4;11=5;12=6;15=7;17=8;19=9,' +
+      'C2:3=1;4=2;5=3;9=4;12=5;13=6;15=7;17=8;19=9,' +
+      'C3:5=1;6=2;8=3;11=4;12=5;13=6;15=7;17=8;19=9,' +
+      'C4:7=1;8=2;10=3;13=4;14=5;16=6;18=7;20=8;21=9,' +
+      'C5:9=1;10=2;14=3;15=4;16=5;18=6;20=7;21=8;22=9,' +
+      'C6:11=1;12=2;16=3;18=4;20=5;21=6;23=7;24=8;26=9,' +
+      'C7:16=1;19=2;22=3;25=4;27=5;28=6;29=7 ' +
+    'Spells=' +
+      '"C1:Bless;Command;Create Water;Cure Light Wounds;Detect Evil;' +
+      'Detect Magic;Light;Protection From Evil;Purify Food And Drink;' +
+      'Remove Fear;Resist Cold;Sanctuary",' +
+      '"C2:Augury;Chant;Detect Charm;Find Traps;Hold Person;Know Alignment;' +
+      "Resist Fire;Silence 15' Radius;Slow Poison;Snake Charm;" +
+      'Speak With Animals;Spiritual Weapon",' +
+      '"C3:Animate Dead;Continual Light;Create Food And Water;' +
+      'Cure Blindness;Cure Disease;Dispel Magic;Feign Death;' +
+      'Glyph Of Warding;Locate Object;Prayer;Remove Curse;' +
+      'Speak With Dead",' +
+      '"C4:Cure Serious Wounds;Detect Lie;Divination;Exorcise;Lower Water;' +
+      "Neutralize Poison;Protection From Evil 10' Radius;" +
+      'Speak With Plants;Sticks To Snakes;Tongues",' +
+      '"C5:Atonement;Commune;Cure Critical Wounds;Dispel Evil;Flame Strike;' +
+      'Insect Plague;Plane Shift;Quest;Raise Dead;True Seeing",' +
+      '"C6:Aerial Servant;Animate Object;Blade Barrier;Conjure Animals;' +
+      'Find The Path;Heal;Part Water;Speak With Monsters;Stone Tell;' +
+      'Word Of Recall",' +
+      '"C7:Astral Spell;Control Weather;Earthquake;Gate;Holy Word;' +
+      'Regenerate;Restoration;Resurrection;Symbol;Wind Walk"',
+  'Druid':
+    'Require=' +
+      '"alignment =~ \'Neutral\'","charisma >= 15","wisdom >= 12" ' +
+    'HitDie=d8 Attack=0,2,3 WeaponProficiency=2,5,4 ' +
+    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
+    'Features=' +
+      '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
+      '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
+      '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
+      '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
+      '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
+      '7:Shapeshift ' +
+    'Experience=0,2,4,7.5,12.5,20,35,60,90,124,200,300,750,1500 ' +
+    'CasterLevelDivine=levels.Druid ' +
+    'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'D1:1=2;3=3;4=4;9=5;13=6,' +
+      'D2:2=1;3=2;5=3;7=4;11=5;14=6,' +
+      'D3:3=1;4=2;7=3;12=4;13=5;14=6,' +
+      'D4:6=1;8=2;10=3;12=4;13=5;14=6,' +
+      'D5:9=1;10=2;12=3;13=4;14=5,' +
+      'D6:11=1;12=2;13=3;14=4,' +
+      'D7:12=1;13=2;14=3 ' +
+    'Spells=' +
+      '"D1:Animal Friendship;Detect Magic;Detect Pits And Snares;Entangle;' +
+      'Faerie Fire;Invisibility To Animals;Locate Animals;' +
+      'Pass Without Trace;Predict Weather;Purify Water;Shillelagh;' +
+      'Speak With Animals",' +
+      '"D2:Barkskin;Charm Person Or Mammal;Create Water;Cure Light Wounds;' +
+      'Feign Death;Fire Trap;Heat Metal;Locate Plants;Obscurement;' +
+      'Produce Flame;Trip;Warp Wood",' +
+      '"D3:Call Lightning;Cure Disease;Hold Animal;Neutralize Poison;' +
+      'Plant Growth;Protection From Fire;Pyrotechnics;Snare;Stone Shape;' +
+      'Summon Insects;Tree;Water Breathing",' +
+      '"D4:Animal Summoning I;Call Woodland Beings;' +
+      "Control Temperature 10' Radius;Cure Serious Wounds;Dispel Magic;" +
+      'Hallucinatory Forest;Hold Plant;Plant Door;Produce Fire;' +
+      'Protection From Lightning;Repel Insects;Speak With Plants",' +
+      '"D5:Animal Growth;Animal Summoning II;Anti-Plant Shell;' +
+      'Commune With Nature;Control Winds;Insect Plague;Pass Plant;' +
+      'Sticks To Snakes;Transmute Rock To Mud;Wall Of Fire",' +
+      '"D6:Animal Summoning III;Anti-Animal Shell;Conjure Fire Elemental;' +
+      'Cure Critical Wounds;Feeblemind;Fire Seeds;Transport Via Plants;' +
+      'Turn Wood;Wall Of Thorns;Weather Summoning",' +
+      '"D7:Animate Rock;Chariot Of Fire;Confusion;Conjure Earth Elemental;' +
+      'Control Weather;Creeping Doom;Finger Of Death;Fire Storm;' +
+      'Reincarnate;Transmute Metal To Wood"',
+  'Fighter':
+    'Require="constitution >= 7","strength >= 9" ' +
+    'HitDie=d10 Attack=0,2,2 WeaponProficiency=4,3,2 ' +
+    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+      '"strength >= 16 ? 1:Bonus Fighter Experience",' +
+      '"2:Fighting The Unskilled","9:Attract Followers" ' +
+    'Experience=' +
+      '0,2,4,8,18,25,70,125,250,500,750,1000,1250,1500,1750,2000,2250,2500,' +
+      '2750,3000',
+  'Illusionist':
+    'Require="dexterity >= 16","intelligence >= 15" ' +
+    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
+    'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+    'Features=' +
+      '"10:Eldritch Craft","12:Attract Followers" ' +
+    'CasterLevelArcane=levels.Illusionist ' +
+    'Experience=' +
+      '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
+      '2200,2420 ' +
+    'SpellAbility=intelligence ' +
+    'SpellSlots=' +
+      'I1:1=1;2=2;4=3;5=4;9=5;24=6;26=7,' +
+      'I2:3=1;4=2;6=3;10=4;12=5;24=6;26=7,' +
+      'I3:5=1;7=2;9=3;12=4;16=5;24=6;26=7,' +
+      'I4:8=1;9=2;11=3;15=4;17=5;24=6;26=7,' +
+      'I5:10=1;11=2;16=3;19=4;21=5;25=6,' +
+      'I6:12=1;13=2;18=3;21=4;22=5;25=6,' +
+      'I7:14=1;15=2;20=3;22=4;23=5;25=6 ' +
+    'Spells=' +
+      '"I1:Audible Glamer;Change Self;Color Spray;Dancing Lights;Darkness;' +
+      'Detect Illusion;Detect Invisibility;Gaze Reflection;Hypnotism;Light;' +
+      'Phantasmal Force;Wall Of Fog",' +
+      '"I2:Blindness;Blur;Deafness;Detect Magic;Fog Cloud;Hypnotic Pattern;' +
+      'Improved Phantasmal Force;Invisibility;Magic Mouth;Mirror Image;' +
+      'Misdirection;Ventriloquism",' +
+      '"I3:Continual Darkness;Continual Light;Dispel Illusion;Fear;' +
+      "Hallucinatory Terrain;Illusionary Script;Invisibility 10' Radius;" +
+      'Non-Detection;Paralyzation;Rope Trick;Spectral Force;Suggestion",' +
+      '"I4:Confusion;Dispel Exhaustion;Emotion;Improved Invisibility;' +
+      'Massmorph;Minor Creation;Phantasmal Killer;Shadow Monsters",' +
+      '"I5:Chaos;Demi-Shadow Monsters;Major Creation;Maze;Project Image;' +
+      'Shadow Door;Shadow Magic;Summon Shadow",' +
+      '"I6:Conjure Animals;Demi-Shadow Magic;Mass Suggestion;' +
+      'Permanent Illusion;Programmed Illusion;Shades;True Sight;Veil",' +
+      '"I7:Alter Reality;Astral Spell;Prismatic Spray;Prismatic Wall;Vision"',
+  'Magic User':
+    'Require="dexterity >= 6","intelligence >= 9" ' +
+    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
+    'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 ' +
+    'Wand=11,2,5 '+
+    'Features=' +
+      '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
+      '"7:Eldritch Craft","11:Attract Followers","12:Eldritch Power" ' +
+    'Experience=' +
+      '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+      '3000,3375,3750 ' +
+    'CasterLevelArcane="levels.Magic User" ' +
+    'SpellAbility=intelligence ' +
+    'SpellSlots=' +
+      'M1:1=1;2=2;4=3;5=4;13=5;26=6;29=7,' +
+      'M2:3=1;4=2;7=3;10=4;13=5;26=6;29=7,' +
+      'M3:5=1;6=2;8=3;11=4;13=5;26=6;29=7,' +
+      'M4:7=1;8=2;11=3;12=4;15=5;26=6;29=7,' +
+      'M5:9=1;10=2;11=3;12=4;15=5;27=6,' +
+      'M6:12=1;13=2;16=3;20=4;22=5;27=6,' +
+      'M7:14=1;16=2;17=3;21=4;23=5;27=6,' +
+      'M8:16=1;17=2;19=3;21=4;23=5;28=6,' +
+      'M9:18=1;20=2;22=3;24=4;25=5;28=6 ' +
+    'Spells=' +
+      '"M1:Affect Normal Fires;Burning Hands;Charm Person;' +
+      'Comprehend Languages;Dancing Lights;Detect Magic;Enlarge;Erase;' +
+      'Feather Fall;Find Familiar;Floating Disk;Friends;Hold Portal;' +
+      'Identify;Jump;Light;Magic Aura;Magic Missile;Mending;Message;' +
+      'Protection From Evil;Push;Read Magic;Shield;Shocking Grasp;Sleep;' +
+      'Spider Climb;Unseen Servant;Ventriloquism;Write",' +
+      '"M2:Audible Glamer;Continual Light;Darkness;Detect Evil;' +
+      "Detect Invisibility;ESP;False Trap;Fool's Gold;Forget;Invisibility;" +
+      'Levitate;Locate Object;Magic Mouth;Mirror Image;' +
+      'Pyrotechnics;Ray Of Enfeeblement;Rope Trick;Scare;Shatter;' +
+      'Stinking Cloud;Strength;Web;Wizard Lock",' +
+      '"M3:Blink;Clairaudience;Clairvoyance;Dispel Magic;Explosive Runes;' +
+      'Feign Death;Fireball;Flame Arrow;Fly;Gust Of Wind;Haste;Hold Person;' +
+      "Infravision;Invisibility 10' Radius;Lightning Bolt;" +
+      'Monster Summoning I;Phantasmal Force;' +
+      "Protection From Evil 10' Radius;Protection From Normal Missiles;" +
+      'Slow;Suggestion;Tiny Hut;Tongues;Water Breathing",' +
+      '"M4:Charm Monster;Confusion;Dig;Dimension Door;Enchanted Weapon;' +
+      'Extension I;Fear;Fire Charm;Fire Shield;Fire Trap;Fumble;' +
+      'Hallucinatory Terrain;Ice Storm;Massmorph;' +
+      'Minor Globe Of Invulnerability;Mnemonic Enhancer;' +
+      'Monster Summoning II;Plant Growth;Polymorph Other;Polymorph Self;' +
+      'Remove Curse;Wall Of Fire;Wall Of Ice;Wizard Eye",' +
+      '"M5:Airy Water;Animal Growth;Animate Dead;Cloudkill;Cone Of Cold;' +
+      'Conjure Elemental;Contact Other Plane;Distance Distortion;' +
+      'Extension II;Feeblemind;Hold Monster;Interposing Hand;' +
+      "Mage's Faithful Hound;Magic Jar;Monster Summoning III;Passwall;" +
+      'Secret Chest;Stone Shape;Telekinesis;Teleport;' +
+      'Transmute Rock To Mud;Wall Of Force;Wall Of Iron;Wall Of Stone",' +
+      '"M6:Anti-Magic Shell;Control Weather;Death Spell;Disintegrate;' +
+      'Enchant An Item;Extension III;Forceful Hand;Freezing Sphere;Geas;' +
+      'Glassee;Globe Of Invulnerability;Guards And Wards;' +
+      'Invisible Stalker;Legend Lore;Lower Water;Monster Summoning IV;' +
+      'Move Earth;Part Water;Project Image;Reincarnation;Repulsion;' +
+      'Spiritwrack;Stone To Flesh;Transformation",' +
+      '"M7:Cacodemon;Charm Plants;Delayed Blast Fireball;Duo-Dimension;' +
+      "Grasping Hand;Instant Summons;Limited Wish;Mage's Sword;" +
+      'Mass Invisibility;Monster Summoning V;Phase Door;Power Word Stun;' +
+      'Reverse Gravity;Simulacrum;Statue;Vanish",' +
+      '"M8:Antipathy/Sympathy;Clenched Fist;Clone;Glassteel;' +
+      'Incendiary Cloud;Irresistible Dance;Mass Charm;Maze;Mind Blank;' +
+      'Monster Summoning VI;Permanency;Polymorph Any Object;Power Word Blind;' +
+      'Spell Immunity;Symbol;Trap The Soul",' +
+      '"M9:Astral Spell;Crushing Hand;Gate;Imprisonment;Meteor Swarm;' +
+      'Monster Summoning VII;Power Word Kill;Prismatic Sphere;Shape Change;' +
+      'Temporal Stasis;Time Stop;Wish"',
+  'Monk':
+    'Require=' +
+      '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
+      '"strength >= 15","wisdom >= 15" ' +
+    'HitDie=d4 Attack=1,2,4 WeaponProficiency=1,2,3 ' +
+    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
+    'Features=' +
+      '"1:Dodge Missiles",1:Evasion,"1:Killing Blow","1:Rogue Skills",' +
+      '1:Spiritual,"1:Stunning Blow",1:Unburdened,2:Aware,' +
+      '"3:Speak With Animals","4:Flurry Of Blows","4:Masked Mind",' +
+      '"4:Slow Fall","5:Controlled Movement","5:Purity Of Body",' +
+      '"6:Feign Death","7:Wholeness Of Body","8:Speak With Plants",' +
+      '"9:Clear Mind","9:Improved Evasion","10:Steel Mind","11:Diamond Body",' +
+      '"12:Free Will","13:Quivering Palm" ' +
+    'Experience=' +
+      '0,2.25,4.75,10,22.5,47.5,98,200,350,500,700,950,1250,1750,2250,2750,' +
+      '3250',
+  'Paladin':
+    'Require=' +
+      '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
+      '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
+    'HitDie=d10 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
+    'Breath=15,1.5,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 ' +
+    'Wand=14,1.5,2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+      '"strength >= 16/wisdom >= 16 ? 1:Bonus Paladin Experience",' +
+      '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
+      '"1:Fighting The Unskilled","1:Lay On Hands",1:Non-Materialist,' +
+      '1:Philanthropist,"1:Protection From Evil","3:Turn Undead",' +
+      '"4:Summon Warhorse" ' +
+    'Experience=' +
+      '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
+      '3500,3850,4200 ' +
+    'CasterLevelDivine=' +
+      '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 8)" ' +
+    'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'C1:9=1;10=2;14=3;21=4,' +
+      'C2:11=1;12=2;16=3;22=4,' +
+      'C3:13=1;17=2;18=3;23=4,' +
+      'C4:15=1;19=2;20=3;24=4',
+  'Ranger':
+    'Require=' +
+      '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
+      '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
+    'HitDie=d8 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
+    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
+    'Wand=16,1.5,2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+      '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
+      '1:Alert,"1:Favored Enemy","1:Fighting The Unskilled",1:Loner,' +
+      '1:Selective,1:Track,"1:Travel Light",10:Scrying,' +
+      '"10:Band Of Followers" ' +
+    'Experience=' +
+      '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
+      '2975,3300,3625 ' +
+    'CasterLevelArcane=' +
+      '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
+    'CasterLevelDivine=' +
+      '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
+      'SpellAbility=wisdom ' +
+      'SpellSlots=' +
+        'D1:8=1;10=2;18=3;23=4,' +
+        'D2:12=1;14=2;20=3,' +
+        'D3:16=1;17=2;22=3,' +
+        'M1:9=1;11=2;19=3;24=4,' +
+        'M2:13=1;15=2;21=3',
+  'Thief':
+    'Require=' +
+      '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
+    'HitDie=d6 Attack=-1,2,4 WeaponProficiency=2,4,3 ' +
+    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
+    'Features=' +
+      '"1:Armor Proficiency (Leather/Studded Leather)",' +
+      '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
+      '1:Backstab,"1:Rogue Skills","10:Read Scrolls" ' +
+    'Experience=' +
+      '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
+      '1760,1980,2200'
+};
 FirstEdition.FEATURES = {
+
   // Class
   'Alert':'Section=combat Note="Surprised 1/6, surprise 1/2"',
   'Assassination':
@@ -217,7 +554,8 @@ FirstEdition.FEATURES = {
   'Charming Music':
     'Section=magic Note="R40\' %V% charm creatures while playing (save 1 rd)"',
   'Clear Mind':
-    'Section=save Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
+    'Section=save ' +
+    'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
   'Cleric Spell Failure':'Section=magic Note="%V%"',
   'Controlled Movement':
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
@@ -237,7 +575,8 @@ FirstEdition.FEATURES = {
   'Double Specialization':
     'Section=combat Note="+3 %V Attack Modifier/+3 %V Damage Modifier"',
   'Eldritch Craft':
-    'Section=magic Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
+    'Section=magic ' +
+    'Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
   'Eldritch Power':'Section=magic Note="May use <i>Enchant An Item</i> spell"',
   'Evasion':
     'Section=save Note="Successful save yields no damage instead of half"',
@@ -258,13 +597,15 @@ FirstEdition.FEATURES = {
   'Loner':'Section=feature Note="Will not work with gt 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Nature Knowledge':
-    'Section=feature Note="Identify plant and animal types, determine water purity"',
+    'Section=feature ' +
+    'Note="Identify plant and animal types, determine water purity"',
   'Non-Materialist':
     'Section=feature Note="Owns le 10 magic items w/1 armor suit and 1 shield"',
   'Philanthropist':
     'Section=feature Note="Donate 10% of gross income, 100% net to LG causes"',
   'Poetic Inspiration':
-    'Section=magic Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
+    'Section=magic ' +
+    'Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
   'Precise Blow':'Section=combat Note="+%V weapon damage"',
   'Protection From Evil':
     'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
@@ -275,7 +616,8 @@ FirstEdition.FEATURES = {
   'Resist Fire':'Section=save Note="+2 vs. fire"',
   'Resist Lightning':'Section=save Note="+2 vs. lightning"',
   'Rogue Skills':
-    'Section=skill Note="+%1 Climb Walls/+%2 Find Traps/+%3 Hear Noise/+%4 Hide In Shadows/+%5 Move Silently/+%6 Open Locks/+%7 Pick Pockets/+%8 Read Languages"',
+    'Section=skill ' +
+    'Note="+%1 Climb Walls/+%2 Find Traps/+%3 Hear Noise/+%4 Hide In Shadows/+%5 Move Silently/+%6 Open Locks/+%7 Pick Pockets/+%8 Read Languages"',
   'Scrying':'Section=magic Note="May use scrying magic items"',
   'Selective':'Section=feature Note="Must employ only good henchmen"',
   'Shapeshift':
@@ -287,7 +629,8 @@ FirstEdition.FEATURES = {
     'Section=feature Note="Must donate net income to religious institution"',
   'Steel Mind':'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Stunning Blow':
-     'Section=combat Note="Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5"',
+     'Section=combat ' +
+    'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5"',
   'Summon Warhorse':
     'Section=feature Note="Call warhorse w/enhanced features"',
   'Track':
@@ -295,19 +638,24 @@ FirstEdition.FEATURES = {
   'Travel Light':
     'Section=feature Note="Will not possess more than can be carried"',
   'Turn Undead':
-    'Section=combat Note="2d6 undead turned, destroyed (good) or controlled (evil)"',
+    'Section=combat ' +
+    'Note="2d6 undead turned, destroyed (good) or controlled (evil)"',
   'Unburdened':'Section=feature Note="Own le 5 magic items"',
   'Weapon Specialization':
-     'Section=combat Note="+%1 %V Attack Modifier/+%2 %V Damage Modifier/+%3 attacks/rd"',
+     'Section=combat ' +
+    'Note="+%1 %V Attack Modifier/+%2 %V Damage Modifier/+%3 attacks/rd"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
   'Wilderness Movement':
      'Section=ability Note="Normal, untrackable move through undergrowth"',
+
   // Race
   'Bow Precision':
-    'Section=combat Note="+1 Composite Long Bow Attack Modifier/+1 Composite Short Bow Attack Modifier/+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
+    'Section=combat ' +
+    'Note="+1 Composite Long Bow Attack Modifier/+1 Composite Short Bow Attack Modifier/+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
   'Deadly Aim':
-    'Section=combat Note="+3 Composite Long Bow Attack Modifier/+3 Composite Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
+    'Section=combat ' +
+    'Note="+3 Composite Long Bow Attack Modifier/+3 Composite Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
   'Direction Sense':'Section=feature Note="50% Determine North underground"',
@@ -316,26 +664,31 @@ FirstEdition.FEATURES = {
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
   'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
   'Dwarf Skill Modifiers':
-    'Section=skill Note="-10 Climb Walls/+15 Find Traps/+10 Open Locks/-5 Read Languages"',
+    'Section=skill ' +
+    'Note="-10 Climb Walls/+15 Find Traps/+10 Open Locks/-5 Read Languages"',
   'Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution"',
   'Elf Skill Modifiers':
-    'Section=skill Note="+5 Hear Noise/+10 Hide In Shadows/+5 Move Silently/-5 Open Locks/+5 Pick Pockets"',
+    'Section=skill ' +
+    'Note="+5 Hear Noise/+10 Hide In Shadows/+5 Move Silently/-5 Open Locks/+5 Pick Pockets"',
   'Gnome Dodge':
     'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
   'Gnome Skill Modifiers':
-    'Section=skill Note="-15 Climb Walls/+10 Find Traps/+10 Hear Noise/+5 Hide In Shadows/+5 Move Silently/+5 Open Locks"',
+    'Section=skill ' +
+    'Note="-15 Climb Walls/+10 Find Traps/+10 Hear Noise/+5 Hide In Shadows/+5 Move Silently/+5 Open Locks"',
   'Half-Elf Skill Modifiers':
     'Section=skill Note="+5 Hide In Shadows/+10 Pick Pockets"',
   'Half-Orc Ability Adjustment':
     'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
   'Half-Orc Skill Modifiers':
-    'Section=skill Note="+5 Climb Walls/+5 Find Traps/+5 Hear Noise/+5 Open Locks/-5 Pick Pockets/-10 Read Languages"',
+    'Section=skill ' +
+    'Note="+5 Climb Walls/+5 Find Traps/+5 Hear Noise/+5 Open Locks/-5 Pick Pockets/-10 Read Languages"',
   'Halfling Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Strength"',
   'Halfling Skill Modifiers':
-    'Section=skill Note="-15 Climb Walls/+5 Find Traps/+5 Hear Noise/+15 Hide In Shadows/+10 Move Silently/+5 Open Locks/+5 Pick Pockets/-5 Read Languages"',
+    'Section=skill ' +
+    'Note="-15 Climb Walls/+5 Find Traps/+5 Hear Noise/+15 Hide In Shadows/+10 Move Silently/+5 Open Locks/+5 Pick Pockets/-5 Read Languages"',
   'Infravision':'Section=feature Note="60\' vision in darkness"',
   'Know Depth':
     'Section=feature Note="%V% Determine approximate depth underground"',
@@ -344,14 +697,17 @@ FirstEdition.FEATURES = {
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
   'Sense Construction':
-    'Section=feature Note="R10\' 75% Detect new construction, 66% sliding walls"',
+    'Section=feature ' +
+    'Note="R10\' 75% Detect new construction, 66% sliding walls"',
   'Sense Hazard':
     'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
   'Sense Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
   'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
   'Sword Precision':
-    'Section=combat Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
+    'Section=combat ' +
+    'Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
   'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
+
 };
 FirstEdition.LANGUAGES = {
   'Common':'',
@@ -1829,338 +2185,6 @@ FirstEdition.WEAPONS = {
   'Unarmed':'Category=Un Damage=d2',
   'Voulge':'Category=2h Damage=2d4'
 };
-FirstEdition.CLASSES = {
-  'Assassin':
-    'Require=' +
-      '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
-      '"intelligence >= 11","strength >= 12" ' +
-    'HitDie=d6 Attack=-1,2,4 WeaponProficiency=3,4,2 ' +
-    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
-    'Features=' +
-      '"1:Armor Proficiency (Leather/Studded Leather)",' +
-      '"1:Shield Proficiency (All)",' +
-      '1:Assassination,1:Backstab,1:Disguise,"3:Rogue Skills",' +
-      '"intelligence >= 15? 9:Bonus Languages",' +
-      '"12:Read Scrolls" ' +
-    'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
-  'Bard':
-    'Require=' +
-      '"alignment =~ \'Neutral\'","charisma >= 15","constitution >= 10",' +
-      '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
-      '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
-      '"race =~ \'Human|Half-Elf\'" ' +
-    'HitDie=d6 Attack=0,2,2 WeaponProficiency=2,5,4 ' +
-    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
-    'Features=' +
-      '"1:Armor Proficiency (Leather)",' +
-      '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
-      '"1:Poetic Inspiration","1:Resist Fire","1:Resist Lightning",' +
-      '"3:Nature Knowledge","3:Wilderness Movement","7:Fey Immunity",' +
-      '7:Shapeshift ' +
-    'Experience=' +
-      '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
-      '1800 ' +
-    'CasterLevelDivine=levels.Bard ' +
-    'SpellAbility=wisdom ' +
-    'SpellSlots=' +
-      'D1:1=1;2=2;3=3;16=4;19=5,' +
-      'D2:4=1;5=2;6=3;17=4;21=5,' +
-      'D3:7=1;8=2;9=3;18=4;22=5,' +
-      'D4:9=1;10=2;11=3;19=4;23=5,' +
-      'D5:9=1;10=2;12=3;13=4;14=5,' +
-      'D6:13=1;14=2;15=3;20=4;23=5',
-  'Cleric':
-    'Require=' +
-      '"wisdom >= 9" ' +
-    'HitDie=d8 Attack=0,2,3 WeaponProficiency=2,4,3 ' +
-    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
-    'Features=' +
-      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-      '"1:Turn Undead",' +
-      '"wisdom >= 16 ? 1:Bonus Cleric Experience",' +
-      '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
-      '"wisdom <= 12 ? 1:Cleric Spell Failure",' +
-      '"9:Attract Followers" ' +
-    'Experience=' +
-      '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
-      '2250,2475,2700 ' +
-    'CasterLevelDivine=levels.Cleric ' +
-    'SpellAbility=wisdom ' +
-    'SpellSlots=' +
-      'C1:1=1;2=2;4=3;9=4;11=5;12=6;15=7;17=8;19=9,' +
-      'C2:3=1;4=2;5=3;9=4;12=5;13=6;15=7;17=8;19=9,' +
-      'C3:5=1;6=2;8=3;11=4;12=5;13=6;15=7;17=8;19=9,' +
-      'C4:7=1;8=2;10=3;13=4;14=5;16=6;18=7;20=8;21=9,' +
-      'C5:9=1;10=2;14=3;15=4;16=5;18=6;20=7;21=8;22=9,' +
-      'C6:11=1;12=2;16=3;18=4;20=5;21=6;23=7;24=8;26=9,' +
-      'C7:16=1;19=2;22=3;25=4;27=5;28=6;29=7 ' +
-    'Spells=' +
-      '"C1:Bless;Command;Create Water;Cure Light Wounds;Detect Evil;' +
-      'Detect Magic;Light;Protection From Evil;Purify Food And Drink;' +
-      'Remove Fear;Resist Cold;Sanctuary",' +
-      '"C2:Augury;Chant;Detect Charm;Find Traps;Hold Person;Know Alignment;' +
-      "Resist Fire;Silence 15' Radius;Slow Poison;Snake Charm;" +
-      'Speak With Animals;Spiritual Weapon",' +
-      '"C3:Animate Dead;Continual Light;Create Food And Water;' +
-      'Cure Blindness;Cure Disease;Dispel Magic;Feign Death;' +
-      'Glyph Of Warding;Locate Object;Prayer;Remove Curse;' +
-      'Speak With Dead",' +
-      '"C4:Cure Serious Wounds;Detect Lie;Divination;Exorcise;Lower Water;' +
-      "Neutralize Poison;Protection From Evil 10' Radius;" +
-      'Speak With Plants;Sticks To Snakes;Tongues",' +
-      '"C5:Atonement;Commune;Cure Critical Wounds;Dispel Evil;Flame Strike;' +
-      'Insect Plague;Plane Shift;Quest;Raise Dead;True Seeing",' +
-      '"C6:Aerial Servant;Animate Object;Blade Barrier;Conjure Animals;' +
-      'Find The Path;Heal;Part Water;Speak With Monsters;Stone Tell;' +
-      'Word Of Recall",' +
-      '"C7:Astral Spell;Control Weather;Earthquake;Gate;Holy Word;' +
-      'Regenerate;Restoration;Resurrection;Symbol;Wind Walk"',
-  'Druid':
-    'Require=' +
-      '"alignment =~ \'Neutral\'","charisma >= 15","wisdom >= 12" ' +
-    'HitDie=d8 Attack=0,2,3 WeaponProficiency=2,5,4 ' +
-    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
-    'Features=' +
-      '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
-      '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
-      '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
-      '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
-      '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
-      '7:Shapeshift ' +
-    'Experience=0,2,4,7.5,12.5,20,35,60,90,124,200,300,750,1500 ' +
-    'CasterLevelDivine=levels.Druid ' +
-    'SpellAbility=wisdom ' +
-    'SpellSlots=' +
-      'D1:1=2;3=3;4=4;9=5;13=6,' +
-      'D2:2=1;3=2;5=3;7=4;11=5;14=6,' +
-      'D3:3=1;4=2;7=3;12=4;13=5;14=6,' +
-      'D4:6=1;8=2;10=3;12=4;13=5;14=6,' +
-      'D5:9=1;10=2;12=3;13=4;14=5,' +
-      'D6:11=1;12=2;13=3;14=4,' +
-      'D7:12=1;13=2;14=3 ' +
-    'Spells=' +
-      '"D1:Animal Friendship;Detect Magic;Detect Pits And Snares;Entangle;' +
-      'Faerie Fire;Invisibility To Animals;Locate Animals;' +
-      'Pass Without Trace;Predict Weather;Purify Water;Shillelagh;' +
-      'Speak With Animals",' +
-      '"D2:Barkskin;Charm Person Or Mammal;Create Water;Cure Light Wounds;' +
-      'Feign Death;Fire Trap;Heat Metal;Locate Plants;Obscurement;' +
-      'Produce Flame;Trip;Warp Wood",' +
-      '"D3:Call Lightning;Cure Disease;Hold Animal;Neutralize Poison;' +
-      'Plant Growth;Protection From Fire;Pyrotechnics;Snare;Stone Shape;' +
-      'Summon Insects;Tree;Water Breathing",' +
-      '"D4:Animal Summoning I;Call Woodland Beings;' +
-      "Control Temperature 10' Radius;Cure Serious Wounds;Dispel Magic;" +
-      'Hallucinatory Forest;Hold Plant;Plant Door;Produce Fire;' +
-      'Protection From Lightning;Repel Insects;Speak With Plants",' +
-      '"D5:Animal Growth;Animal Summoning II;Anti-Plant Shell;' +
-      'Commune With Nature;Control Winds;Insect Plague;Pass Plant;' +
-      'Sticks To Snakes;Transmute Rock To Mud;Wall Of Fire",' +
-      '"D6:Animal Summoning III;Anti-Animal Shell;Conjure Fire Elemental;' +
-      'Cure Critical Wounds;Feeblemind;Fire Seeds;Transport Via Plants;' +
-      'Turn Wood;Wall Of Thorns;Weather Summoning",' +
-      '"D7:Animate Rock;Chariot Of Fire;Confusion;Conjure Earth Elemental;' +
-      'Control Weather;Creeping Doom;Finger Of Death;Fire Storm;' +
-      'Reincarnate;Transmute Metal To Wood"',
-  'Fighter':
-    'Require="constitution >= 7","strength >= 9" ' +
-    'HitDie=d10 Attack=0,2,2 WeaponProficiency=4,3,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
-    'Features=' +
-      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-      '"strength >= 16 ? 1:Bonus Fighter Experience",' +
-      '"2:Fighting The Unskilled","9:Attract Followers" ' +
-    'Experience=' +
-      '0,2,4,8,18,25,70,125,250,500,750,1000,1250,1500,1750,2000,2250,2500,' +
-      '2750,3000',
-  'Illusionist':
-    'Require="dexterity >= 16","intelligence >= 15" ' +
-    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
-    'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
-    'Features=' +
-      '"10:Eldritch Craft","12:Attract Followers" ' +
-    'CasterLevelArcane=levels.Illusionist ' +
-    'Experience=' +
-      '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
-      '2200,2420 ' +
-    'SpellAbility=intelligence ' +
-    'SpellSlots=' +
-      'I1:1=1;2=2;4=3;5=4;9=5;24=6;26=7,' +
-      'I2:3=1;4=2;6=3;10=4;12=5;24=6;26=7,' +
-      'I3:5=1;7=2;9=3;12=4;16=5;24=6;26=7,' +
-      'I4:8=1;9=2;11=3;15=4;17=5;24=6;26=7,' +
-      'I5:10=1;11=2;16=3;19=4;21=5;25=6,' +
-      'I6:12=1;13=2;18=3;21=4;22=5;25=6,' +
-      'I7:14=1;15=2;20=3;22=4;23=5;25=6 ' +
-    'Spells=' +
-      '"I1:Audible Glamer;Change Self;Color Spray;Dancing Lights;Darkness;' +
-      'Detect Illusion;Detect Invisibility;Gaze Reflection;Hypnotism;Light;' +
-      'Phantasmal Force;Wall Of Fog",' +
-      '"I2:Blindness;Blur;Deafness;Detect Magic;Fog Cloud;Hypnotic Pattern;' +
-      'Improved Phantasmal Force;Invisibility;Magic Mouth;Mirror Image;' +
-      'Misdirection;Ventriloquism",' +
-      '"I3:Continual Darkness;Continual Light;Dispel Illusion;Fear;' +
-      "Hallucinatory Terrain;Illusionary Script;Invisibility 10' Radius;" +
-      'Non-Detection;Paralyzation;Rope Trick;Spectral Force;Suggestion",' +
-      '"I4:Confusion;Dispel Exhaustion;Emotion;Improved Invisibility;' +
-      'Massmorph;Minor Creation;Phantasmal Killer;Shadow Monsters",' +
-      '"I5:Chaos;Demi-Shadow Monsters;Major Creation;Maze;Project Image;' +
-      'Shadow Door;Shadow Magic;Summon Shadow",' +
-      '"I6:Conjure Animals;Demi-Shadow Magic;Mass Suggestion;' +
-      'Permanent Illusion;Programmed Illusion;Shades;True Sight;Veil",' +
-      '"I7:Alter Reality;Astral Spell;Prismatic Spray;Prismatic Wall;Vision"',
-  'Magic User':
-    'Require="dexterity >= 6","intelligence >= 9" ' +
-    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
-    'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 ' +
-    'Wand=11,2,5 '+
-    'Features=' +
-      '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-      '"7:Eldritch Craft","11:Attract Followers","12:Eldritch Power" ' +
-    'Experience=' +
-      '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
-      '3000,3375,3750 ' +
-    'CasterLevelArcane="levels.Magic User" ' +
-    'SpellAbility=intelligence ' +
-    'SpellSlots=' +
-      'M1:1=1;2=2;4=3;5=4;13=5;26=6;29=7,' +
-      'M2:3=1;4=2;7=3;10=4;13=5;26=6;29=7,' +
-      'M3:5=1;6=2;8=3;11=4;13=5;26=6;29=7,' +
-      'M4:7=1;8=2;11=3;12=4;15=5;26=6;29=7,' +
-      'M5:9=1;10=2;11=3;12=4;15=5;27=6,' +
-      'M6:12=1;13=2;16=3;20=4;22=5;27=6,' +
-      'M7:14=1;16=2;17=3;21=4;23=5;27=6,' +
-      'M8:16=1;17=2;19=3;21=4;23=5;28=6,' +
-      'M9:18=1;20=2;22=3;24=4;25=5;28=6 ' +
-    'Spells=' +
-      '"M1:Affect Normal Fires;Burning Hands;Charm Person;' +
-      'Comprehend Languages;Dancing Lights;Detect Magic;Enlarge;Erase;' +
-      'Feather Fall;Find Familiar;Floating Disk;Friends;Hold Portal;' +
-      'Identify;Jump;Light;Magic Aura;Magic Missile;Mending;Message;' +
-      'Protection From Evil;Push;Read Magic;Shield;Shocking Grasp;Sleep;' +
-      'Spider Climb;Unseen Servant;Ventriloquism;Write",' +
-      '"M2:Audible Glamer;Continual Light;Darkness;Detect Evil;' +
-      "Detect Invisibility;ESP;False Trap;Fool's Gold;Forget;Invisibility;" +
-      'Levitate;Locate Object;Magic Mouth;Mirror Image;' +
-      'Pyrotechnics;Ray Of Enfeeblement;Rope Trick;Scare;Shatter;' +
-      'Stinking Cloud;Strength;Web;Wizard Lock",' +
-      '"M3:Blink;Clairaudience;Clairvoyance;Dispel Magic;Explosive Runes;' +
-      'Feign Death;Fireball;Flame Arrow;Fly;Gust Of Wind;Haste;Hold Person;' +
-      "Infravision;Invisibility 10' Radius;Lightning Bolt;" +
-      'Monster Summoning I;Phantasmal Force;' +
-      "Protection From Evil 10' Radius;Protection From Normal Missiles;" +
-      'Slow;Suggestion;Tiny Hut;Tongues;Water Breathing",' +
-      '"M4:Charm Monster;Confusion;Dig;Dimension Door;Enchanted Weapon;' +
-      'Extension I;Fear;Fire Charm;Fire Shield;Fire Trap;Fumble;' +
-      'Hallucinatory Terrain;Ice Storm;Massmorph;' +
-      'Minor Globe Of Invulnerability;Mnemonic Enhancer;' +
-      'Monster Summoning II;Plant Growth;Polymorph Other;Polymorph Self;' +
-      'Remove Curse;Wall Of Fire;Wall Of Ice;Wizard Eye",' +
-      '"M5:Airy Water;Animal Growth;Animate Dead;Cloudkill;Cone Of Cold;' +
-      'Conjure Elemental;Contact Other Plane;Distance Distortion;' +
-      'Extension II;Feeblemind;Hold Monster;Interposing Hand;' +
-      "Mage's Faithful Hound;Magic Jar;Monster Summoning III;Passwall;" +
-      'Secret Chest;Stone Shape;Telekinesis;Teleport;' +
-      'Transmute Rock To Mud;Wall Of Force;Wall Of Iron;Wall Of Stone",' +
-      '"M6:Anti-Magic Shell;Control Weather;Death Spell;Disintegrate;' +
-      'Enchant An Item;Extension III;Forceful Hand;Freezing Sphere;Geas;' +
-      'Glassee;Globe Of Invulnerability;Guards And Wards;' +
-      'Invisible Stalker;Legend Lore;Lower Water;Monster Summoning IV;' +
-      'Move Earth;Part Water;Project Image;Reincarnation;Repulsion;' +
-      'Spiritwrack;Stone To Flesh;Transformation",' +
-      '"M7:Cacodemon;Charm Plants;Delayed Blast Fireball;Duo-Dimension;' +
-      "Grasping Hand;Instant Summons;Limited Wish;Mage's Sword;" +
-      'Mass Invisibility;Monster Summoning V;Phase Door;Power Word Stun;' +
-      'Reverse Gravity;Simulacrum;Statue;Vanish",' +
-      '"M8:Antipathy/Sympathy;Clenched Fist;Clone;Glassteel;' +
-      'Incendiary Cloud;Irresistible Dance;Mass Charm;Maze;Mind Blank;' +
-      'Monster Summoning VI;Permanency;Polymorph Any Object;Power Word Blind;' +
-      'Spell Immunity;Symbol;Trap The Soul",' +
-      '"M9:Astral Spell;Crushing Hand;Gate;Imprisonment;Meteor Swarm;' +
-      'Monster Summoning VII;Power Word Kill;Prismatic Sphere;Shape Change;' +
-      'Temporal Stasis;Time Stop;Wish"',
-  'Monk':
-    'Require=' +
-      '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
-      '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=d4 Attack=1,2,4 WeaponProficiency=1,2,3 ' +
-    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
-    'Features=' +
-      '"1:Dodge Missiles",1:Evasion,"1:Killing Blow","1:Rogue Skills",' +
-      '1:Spiritual,"1:Stunning Blow",1:Unburdened,2:Aware,' +
-      '"3:Speak With Animals","4:Flurry Of Blows","4:Masked Mind",' +
-      '"4:Slow Fall","5:Controlled Movement","5:Purity Of Body",' +
-      '"6:Feign Death","7:Wholeness Of Body","8:Speak With Plants",' +
-      '"9:Clear Mind","9:Improved Evasion","10:Steel Mind","11:Diamond Body",' +
-      '"12:Free Will","13:Quivering Palm" ' +
-    'Experience=' +
-      '0,2.25,4.75,10,22.5,47.5,98,200,350,500,700,950,1250,1750,2250,2750,' +
-      '3250',
-  'Paladin':
-    'Require=' +
-      '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
-      '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
-    'HitDie=d10 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
-    'Breath=15,1.5,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 ' +
-    'Wand=14,1.5,2 ' +
-    'Features=' +
-      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-      '"strength >= 16/wisdom >= 16 ? 1:Bonus Paladin Experience",' +
-      '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
-      '"1:Fighting The Unskilled","1:Lay On Hands",1:Non-Materialist,' +
-      '1:Philanthropist,"1:Protection From Evil","3:Turn Undead",' +
-      '"4:Summon Warhorse" ' +
-    'Experience=' +
-      '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
-      '3500,3850,4200 ' +
-    'CasterLevelDivine=' +
-      '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 8)" ' +
-    'SpellAbility=wisdom ' +
-    'SpellSlots=' +
-      'C1:9=1;10=2;14=3;21=4,' +
-      'C2:11=1;12=2;16=3;22=4,' +
-      'C3:13=1;17=2;18=3;23=4,' +
-      'C4:15=1;19=2;20=3;24=4',
-  'Ranger':
-    'Require=' +
-      '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
-      '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
-    'HitDie=d8 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
-    'Wand=16,1.5,2 ' +
-    'Features=' +
-      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-      '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-      '1:Alert,"1:Favored Enemy","1:Fighting The Unskilled",1:Loner,' +
-      '1:Selective,1:Track,"1:Travel Light",10:Scrying,' +
-      '"10:Band Of Followers" ' +
-    'Experience=' +
-      '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
-      '2975,3300,3625 ' +
-    'CasterLevelArcane=' +
-      '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
-    'CasterLevelDivine=' +
-      '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
-      'SpellAbility=wisdom ' +
-      'SpellSlots=' +
-        'D1:8=1;10=2;18=3;23=4,' +
-        'D2:12=1;14=2;20=3,' +
-        'D3:16=1;17=2;22=3,' +
-        'M1:9=1;11=2;19=3;24=4,' +
-        'M2:13=1;15=2;21=3',
-  'Thief':
-    'Require=' +
-      '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
-    'HitDie=d6 Attack=-1,2,4 WeaponProficiency=2,4,3 ' +
-    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
-    'Features=' +
-      '"1:Armor Proficiency (Leather/Studded Leather)",' +
-      '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
-      '1:Backstab,"1:Rogue Skills","10:Read Scrolls" ' +
-    'Experience=' +
-      '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
-      '1760,1980,2200'
-};
 
 /*
  * Changes from 1st Edition to 2nd Edition and OSRIC--see editedRules.
@@ -3439,13 +3463,16 @@ FirstEdition.RULE_EDITS = {
   },
   'OSRIC':{
     'Class':{
+      // Removed
+      'Bard':null,
+      'Monk':null,
+      // Modified
       'Assassin':
         'Require+=' +
           '"wisdom >= 6" ' +
         'WeaponProficiency=3,4,3 ' +
         'Experience=' +
           '0,1.6,3,5.75,12.25,24.75,50,99,200.5,300,400,600,750,1000,1500',
-      'Bard':null,
       'Cleric':
         'Require+=' +
           '"charisma >= 6","constitution >= 6","intelligence >= 6",' +
@@ -3500,7 +3527,6 @@ FirstEdition.RULE_EDITS = {
           'M7:14=1;15=2;17=3;19=4;22=5;24=6,' +
           'M8:16=1;17=2;19=3;21=4;24=5,' +
           'M9:18=1;20=2;23=3',
-      'Monk':null,
       'Paladin':
         'Require+=' +
           '"dexterity >= 6" ' +
@@ -3543,6 +3569,7 @@ FirstEdition.RULE_EDITS = {
       'Slow':'Section=ability Note="-60 Speed"'
     },
     'Race':{
+      // Modified
       'Dwarf':
         'Features+=Slow',
       'Gnome':
@@ -4146,7 +4173,7 @@ FirstEdition.magicRules = function(rules, schools, spells) {
 
 };
 
-/* Defines rules related to character features, languages, and skills. */
+/* Defines rules related to character aptitudes. */
 FirstEdition.talentRules = function(rules, features, languages, skills) {
 
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
@@ -4326,9 +4353,9 @@ FirstEdition.alignmentRules = function(rules, name) {
 };
 
 /*
- * Defines in #rules# the rules associated with armor #name#, which improves
- * the character's armor class by #ac# and imposes a maximum movement speed of
- * #maxMove# and weighs #weight# pounds.
+ * Defines in #rules# the rules associated with armor #name#, which adds #ac#
+ * to the character's armor class, imposes a maximum movement speed of
+ * #maxMove#, and weighs #weight# pounds.
  */
 FirstEdition.armorRules = function(rules, name, ac, maxMove, weight) {
 
@@ -4410,6 +4437,10 @@ FirstEdition.classRules = function(
     console.log('Empty class name');
     return;
   }
+  if(!Array.isArray(requires)) {
+    console.log('Bad requires list "' + requires + '" for class ' + name);
+    return;
+  }
   if(!Array.isArray(experience)) {
     console.log('Bad experience "' + experience + '" for class ' + name);
     return;
@@ -4452,8 +4483,28 @@ FirstEdition.classRules = function(
     console.log('Bad saveWand "' + saveWand + '" for class ' + name);
     return;
   }
+  if(!Array.isArray(features)) {
+    console.log('Bad features list "' + features + '" for class ' + name);
+    return;
+  }
+  if(!Array.isArray(selectables)) {
+    console.log('Bad selectables list "' + selectables + '" for class ' + name);
+    return;
+  }
+  if(!Array.isArray(languages)) {
+    console.log('Bad languages list "' + languages + '" for class ' + name);
+    return;
+  }
   if(!Array.isArray(weaponProficiency) || weaponProficiency.length != 3) {
     console.log('Bad weaponProficiency "' + weaponProficiency + '" for class ' + name);
+    return;
+  }
+  if(!Array.isArray(spellSlots)) {
+    console.log('Bad spellSlots list "' + spellSlots + '" for class ' + name);
+    return;
+  }
+  if(!Array.isArray(spells)) {
+    console.log('Bad spells list "' + spells + '" for class ' + name);
     return;
   }
 
@@ -4491,17 +4542,6 @@ FirstEdition.classRules = function(
   }
 
   QuilvynRules.featureListRules(rules, features, name, classLevel, false);
-  for(var i = 0; i < features.length; i++) {
-    if(features[i].match(/Armor Proficiency.*\//)) {
-      var armors =
-        features[i].replace(/^.*\(/, '').replace(/\)$/, '').split('/');
-      for(var j = 0; j < armors.length; j++) {
-        rules.defineRule('features.Armor Proficiency (' + armors[j] + ')',
-          prefix + 'Features.' + features[i].replace(/^\d+:/, ''), '=', '1'
-        );
-      }
-    }
-  }
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
@@ -4531,33 +4571,23 @@ FirstEdition.classRules = function(
         'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source')
       );
     }
-    if(casterLevelArcane) {
+    if(casterLevelArcane)
       rules.defineRule('casterLevelArcane', 'casterLevels.' + name, '+=', null);
-    }
-    if(casterLevelDivine) {
+    if(casterLevelDivine)
       rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
-    }
-    for(var i = 0; i < spellSlots.length; i++) {
+    QuilvynRules.spellSlotRules(rules, 'casterLevels.' + name, spellSlots);
+    for(var j = 0; j < spellSlots.length; j++) {
       var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
-      var code = spellSlots[i].substring(spellTypeAndLevel.length + 1).
-                 replace(/=/g, ' ? ').
-                 split(/;/).reverse().join(' : source >= ');
-      code = 'source >= ' + code + ' : null';
-      if(code.indexOf('source >= 1 ?') >= 0) {
-        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-      }
-      rules.defineRule('spellSlots.' + spellTypeAndLevel,
-        'levels.' + name, '+=', code
-      );
-      if(spellType != name) {
+      if(spellType != name)
         rules.defineRule('casterLevels.' + spellType,
           'casterLevels.' + name, '=', null
         );
-      }
     }
   }
 
+  // TBD Replace with QuilvynRules.spellSlotRules, handling spell-specific
+  // entries in spellDict.
   for(var i = 0; i < spells.length; i++) {
     var pieces = spells[i].split(':');
     var matchInfo = pieces[0].match(/^(\w+)(\d)$/);
@@ -4592,8 +4622,8 @@ FirstEdition.classRules = function(
 };
 
 /*
- * Defines in #rules# the rules associated with class #name# that are not
- * directly derived from the parameters passed to classRules.
+ * Defines in #rules# the rules associated with class #name# that cannot be
+ * derived directly from the abilities passed to classRules.
  */
 FirstEdition.classRulesExtra = function(rules, name) {
 
@@ -4927,7 +4957,7 @@ FirstEdition.languageRules = function(rules, name) {
 /*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
- * associated features and #languages# the automatic languages.
+ * associated features and #languages# any automatic languages.
  */
 FirstEdition.raceRules = function(
   rules, name, requires, features, selectables, languages
@@ -4939,8 +4969,8 @@ FirstEdition.raceRules = function(
 };
 
 /*
- * Defines in #rules# the rules associated with race #name# that are not
- * directly derived from the parameters passed to raceRules.
+ * Defines in #rules# the rules associated with race #name# that cannot be
+ * derived directly from the abilities passed to raceRules.
  */
 FirstEdition.raceRulesExtra = function(rules, name) {
 
@@ -5014,9 +5044,9 @@ FirstEdition.shieldRules = function(rules, name, ac, weight) {
 
 /*
  * Defines in #rules# the rules associated with skill #name#, associated with
- * #ability# (one of 'strength', 'intelligence', etc.).  #classes# lists the
- * classes for which this is a class skill; a value of "all" indicates that
- * this is a class skill for all classes.
+ * basic ability #ability#.  #classes# lists the classes for which this is a
+ * class skill; a value of "all" indicates that this is a class skill for all
+ * classes.
  */
 FirstEdition.skillRules = function(rules, name, ability, classes) {
 
@@ -5024,9 +5054,16 @@ FirstEdition.skillRules = function(rules, name, ability, classes) {
     console.log('Empty skill name');
     return;
   }
-  if(ability != null &&
-     !ability.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
-    console.log('Bad ability "' + ability + '" for skill ' + name);
+  if(ability) {
+    ability = ability.toLowerCase();
+    if(!(ability in FirstEdition.ABILITIES)) {
+      console.log('Bad ability "' + ability + '" for skill ' + name);
+      return;
+    }
+  }
+  if(!Array.isArray(classes)) {
+    console.log('Bad classes list "' + classes + '" for skill ' + name);
+    return;
   }
 
   rules.defineRule('skillModifier.' + name, 'skills.' + name, '=', null);
