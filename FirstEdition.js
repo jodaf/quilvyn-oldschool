@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var FirstEdition_VERSION = '2.1.1.0';
+var FirstEdition_VERSION = '2.1.1.1';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -3359,7 +3359,7 @@ FirstEdition.RULE_EDITS = {
         'Description="R10\' Target flees from self (save neg)"',
       'Starshine':
         'School=Evocation ' +
-        'Description="R$L10\' Soft illumination in $L10\ sq for $L tn"',
+        'Description="R$L10\' Soft illumination in $L10\' sq for $L tn"',
       'Stoneskin':
         'School=Alteration ' +
         'Description="Touched immune to next 1d4+$Ldiv2 blows"',
@@ -4338,7 +4338,7 @@ FirstEdition.choiceRules = function(rules, type, name, attrs) {
   }
   if(type != 'Feature') {
     type = type == 'Class' ? 'levels' :
-    (type.substring(0,1).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
+    (type.substring(0,1).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
     rules.addChoice(type, name, attrs);
   }
 };
@@ -4512,7 +4512,7 @@ FirstEdition.classRules = function(
 
   var classLevel = 'levels.' + name;
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
 
   if(requires.length > 0)
     QuilvynRules.prerequisiteRules
