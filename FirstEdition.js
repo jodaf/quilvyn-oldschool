@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var FirstEdition_VERSION = '2.1.1.1';
+var FirstEdition_VERSION = '2.1.1.2';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -5332,7 +5332,7 @@ FirstEdition.ruleNotes = function() {
     '  </li>\n' +
     '  <li>\n' +
     '    Quilvyn generally uses the OSRIC names and effects for spells,\n' +
-    '    rather than those found in the 1E PHB.\n',
+    '    rather than those found in the 1E PHB.\n' +
     '  </li>\n' +
     '  <li>\n' +
     '    The OSRIC rules are unclear as to whether or not the Fighting the\n' +
