@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var FirstEdition_VERSION = '2.1.1.2';
+var FirstEdition_VERSION = '2.1.1.3';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -46,6 +46,7 @@ function FirstEdition() {
     rules.choiceRules = FirstEdition.choiceRules;
     rules.editorElements = SRD35.initialEditorElements();
     rules.getFormats = SRD35.getFormats;
+    rules.getPlugins = FirstEdition.getPlugins;
     rules.makeValid = SRD35.makeValid;
     rules.randomizeOneAttribute = FirstEdition.randomizeOneAttribute;
     rules.defineChoice('random', FirstEdition.RANDOMIZABLE_ATTRIBUTES);
@@ -5379,4 +5380,9 @@ FirstEdition.ruleNotes = function() {
     '<ul>\n' +
     '</ul>\n' +
     '</p>\n';
+};
+
+/* Returns an array of plugins upon which this one depends. */
+FirstEdition.getPlugins = function() {
+  return [SRD35];
 };
