@@ -61,19 +61,17 @@ function OldSchool() {
       (rules, OldSchool.editedRules(OldSchool.ARMORS, 'Armor'),
        OldSchool.editedRules(OldSchool.SHIELDS, 'Shield'),
        OldSchool.editedRules(OldSchool.WEAPONS, 'Weapon'));
-    // Most spell definitions are handled by individual classes. Schools must
-    // be defined before this can be done.
     OldSchool.magicRules
       (rules, OldSchool.editedRules(OldSchool.SCHOOLS, 'School'), {});
     OldSchool.talentRules
       (rules, OldSchool.editedRules(OldSchool.FEATURES, 'Feature'),
+       OldSchool.editedRules(OldSchool.GOODIES, 'Goody'),
        OldSchool.editedRules(OldSchool.LANGUAGES, 'Language'),
        OldSchool.editedRules(OldSchool.SKILLS, 'Skill'));
     OldSchool.identityRules(
       rules, OldSchool.editedRules(OldSchool.ALIGNMENTS, 'Alignment'),
       OldSchool.editedRules(OldSchool.CLASSES, 'Class'),
       OldSchool.editedRules(OldSchool.RACES, 'Race'));
-    OldSchool.goodiesRules(rules);
 
     // Remove some editor elements that don't apply
     rules.defineEditorElement('animalCompanion');
@@ -709,6 +707,98 @@ OldSchool.FEATURES = {
     'Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
   'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
 
+};
+OldSchool.GOODIES = {
+  'Armor':
+    'Pattern="([-+]\\d).*(?:armor(?:\\s+class)?|AC)|(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="-$1 || -$2" ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note="%V Armor Class"',
+  'Breath':
+    'Pattern="([-+]\\d)\\s+breath\\s+save|breath\\s+save\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=save.Breath ' +
+    'Section=save Note="%V Breath"',
+  'Charisma':
+    'Pattern="([-+]\\d)\\s+charisma|charisma\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=charisma ' +
+    'Section=ability Note="%V Charisma"',
+  'Constitution':
+    'Pattern="([-+]\\d)\\s+constitution|constitution\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=constitution ' +
+    'Section=ability Note="%V Constitution"',
+  'Death':
+    'Pattern="([-+]\\d)\\s+death\\s+save|death\\s+save\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=save.Death ' +
+    'Section=save Note="%V Death"',
+  'Dexterity':
+    'Pattern="([-+]\\d)\\s+dexterity|dexterity\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=dexterity ' +
+    'Section=ability Note="%V Dexterity"',
+  'Intelligence':
+    'Pattern="([-+]\\d)\\s+intelligence|intelligence\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=intelligence ' +
+    'Section=ability Note="%V Intelligence"',
+  'Petrification':
+    'Pattern="([-+]\\d)\\s+petrification\\s+save|petrification\\s+save\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=save.Petrification ' +
+    'Section=save Note="%V Petrification"',
+  'Protection':
+    'Pattern="([-+]\\d).*protection|protection\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="-$1 || -$2" ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note="%V Armor Class"',
+  'Shield':
+    'Pattern="([-+]\\d).*\\s+shield|shield\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="-$1 || -$2" ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note="%V Armor Class"',
+  'Speed':
+    'Pattern="([-+]\\d+).*\\s+speed|speed\\s+([-+]\\d+)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=speed ' +
+    'Section=ability Note="%V Speed"',
+  'Spell':
+    'Pattern="([-+]\\d)\\s+spell\\s+save|spell\\s+save\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=save.Spell ' +
+    'Section=save Note="%V Spell"',
+  'Strength':
+    'Pattern="([-+]\\d)\\s+strength|strength\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=strength ' +
+    'Section=ability Note="%V Strength"',
+  'Wand':
+    'Pattern="([-+]\\d)\\s+wand\\s+save|wand\\s+save\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=save.Wand ' +
+    'Section=save Note="%V Wand"',
+  'Wisdom':
+    'Pattern="([-+]\\d)\\s+wisdom|wisdom\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=wisdom ' +
+    'Section=ability Note="%V Wisdom"'
 };
 OldSchool.LANGUAGES = {
   'Common':'',
@@ -3880,6 +3970,20 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
     rules.choiceRules(rules, 'Shield', shield, shields[shield]);
   }
   for(var weapon in weapons) {
+    var pattern = weapon.replace(/  */g, '\\s+');
+    var prefix =
+      weapon.charAt(0).toLowerCase() + weapon.substring(1).replaceAll(' ', '');
+    rules.choiceRules(rules, 'Goody', weapon,
+      // To avoid triggering additional weapons with a common suffix (e.g.,
+      // "* punching dagger +2" also makes regular dagger +2), require that
+      // weapon goodies with a trailing value have no preceding word or be
+      // enclosed in parentheses.
+      'Pattern="([-+]\\d)\\s+' + pattern + '|(?:^\\W*|\\()' + pattern + '\\s+([-+]\\d)" ' +
+      'Effect=add ' +
+      'Attribute=' + prefix + 'AttackModifier,' + prefix + 'DamageModifier ' +
+      'Value="$1 || $2" ' +
+      'Section=combat Note="%V Attack and damage"'
+    );
     rules.choiceRules(rules, 'Weapon', weapon, weapons[weapon]);
   }
 
@@ -4009,12 +4113,6 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('weaponProficiencyCount', 'weapons.Unarmed', '=', '1');
   rules.defineRule('weaponProficiency.Unarmed', 'weapons.Unarmed', '=', '1');
 
-};
-
-/* Defines the rules related to goodies included in character notes. */
-OldSchool.goodiesRules = function(rules) {
-  SRD35.goodiesRules(rules);
-  // No changes needed to the rules defined by SRD35 method
 };
 
 /* Defines rules related to basic character identity. */
@@ -4175,19 +4273,31 @@ OldSchool.magicRules = function(rules, schools, spells) {
 };
 
 /* Defines rules related to character aptitudes. */
-OldSchool.talentRules = function(rules, features, languages, skills) {
+OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
 
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
+  QuilvynUtils.checkAttrTable
+    (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
   QuilvynUtils.checkAttrTable(languages, []);
   QuilvynUtils.checkAttrTable(skills, ['Ability', 'Class']);
 
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }
+  for(var goody in goodies) {
+    rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
+  }
   for(var language in languages) {
     rules.choiceRules(rules, 'Language', language, languages[language]);
   }
   for(var skill in skills) {
+    rules.choiceRules(rules, 'Goody', skill,
+      'Pattern="([-+]\\d).*\\s+' + skill + '\\s+Skill|' + skill + '\\s+skill\\s+([-+]\\d)"' +
+      'Effect=add ' +
+      'Value="$1 || $2" ' +
+      'Attribute="skillModifier.' + skill + '" ' +
+      'Section=skill Note="%V ' + skill + '"'
+    );
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
   }
 
@@ -4292,6 +4402,15 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     OldSchool.classRulesExtra(rules, name);
   } else if(type == 'Feature')
     OldSchool.featureRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Section'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Note')
+    );
+  else if(type == 'Goody')
+    OldSchool.goodyRules(rules, name,
+      QuilvynUtils.getAttrValue(attrs, 'Pattern'),
+      QuilvynUtils.getAttrValue(attrs, 'Effect'),
+      QuilvynUtils.getAttrValue(attrs, 'Value'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Attribute'),
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
     );
@@ -4944,6 +5063,25 @@ OldSchool.classRulesExtra = function(rules, name) {
 OldSchool.featureRules = function(rules, name, sections, notes) {
   SRD35.featureRules(rules, name, sections, notes);
   // No changes needed to the rules defined by SRD35 method
+};
+
+/*
+ * Defines in #rules# the rules associated with goody #name#, triggered by
+ * a starred line in the character notes that matches #pattern#. #effect#
+ * specifies the effect of the goody on each attribute in list #attributes#.
+ * This is one of "increment" (adds #value# to the attribute), "set" (replaces
+ * the value of the attribute by #value#), "lower" (decreases the value to
+ * #value#), or "raise" (increases the value to #value#). #value#, if null,
+ * defaults to 1; occurrences of $1, $2, ... in #value# reference capture
+ * groups in #pattern#. #sections# and #notes# list the note sections
+ * ("attribute", "combat", "companion", "feature", "magic", "save", or "skill")
+ * and formats that show the effects of the goody on the character sheet.
+ */
+OldSchool.goodyRules = function(
+  rules, name, pattern, effect, value, attributes, sections, notes
+) {
+  QuilvynRules.goodyRules
+    (rules, name, pattern, effect, value, attributes, sections, notes);
 };
 
 /* Defines in #rules# the rules associated with language #name#. */
