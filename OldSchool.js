@@ -4509,7 +4509,13 @@ OldSchool.magicRules = function(rules, schools, spells) {
   for(var spell in spells) {
     if(spell.match(/\s[A-Z]\d$/))
       continue;
-    rules.choiceRules(rules, 'Spell', spell, spells[spell]);
+    var groupLevels = QuilvynUtils.getAttrValueArray(spells[spell], 'Level');
+    for(var i = 0; i < groupLevels.length; i++) {
+      var groupLevel = groupLevels[i];
+      var attrs =
+        spells[spell] + ' ' + (spells[spell + ' ' + groupLevel] || '');
+      rules.choiceRules(rules, 'Spell', spell, attrs + ' Level=' + groupLevel);
+    }
   }
 
 };
