@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.0';
+var OldSchool_VERSION = '2.2.1.1';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -4096,8 +4096,10 @@ OldSchool.abilityRules = function(rules) {
     'warriorLevel', 'v', 'source == 0 ? 2 : null',
     'level', '*', null
   );
-  rules.defineRule
-    ('hitPoints', 'combatNotes.constitutionHitPointsAdjustment', '+', null);
+  rules.defineRule('hitPoints',
+    'combatNotes.constitutionHitPointsAdjustment', '+', null,
+    'level', '^', null
+  );
 
   // Dexterity
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
@@ -5577,6 +5579,7 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
   var attr;
   var attrs;
   var choices;
+  var matchInfo;
   if(attribute == 'armor') {
     attrs = this.applyRules(attributes);
     choices = [];
@@ -5604,6 +5607,21 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       var which = QuilvynUtils.random(0, choices.length - 1);
       attributes['weaponProficiency.' + choices[which]] = 1;
       choices = choices.slice(0, which).concat(choices.slice(which + 1));
+    }
+  } else if(attribute == 'hitPoints') {
+    // Differs from 3.5 in that per-class level is computed, not chosen, and
+    // characters don't get full HP at level 1.
+    attributes.hitPoints = 0;
+    attrs = this.applyRules(attributes);
+    for(var clas in this.getChoices('levels')) {
+      if((attr = attrs['levels.' + clas]) == null)
+        continue;
+      matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
+      var number = matchInfo == null || matchInfo[2] == null ||
+                   matchInfo[2] == '' ? 1 : matchInfo[2];
+      var sides = matchInfo == null ? 6 : matchInfo[3];
+      while(attr-- > 0)
+        attributes.hitPoints += QuilvynUtils.random(number, number * sides);
     }
   } else if(attribute == 'levels') {
     var classes = this.getChoices('levels');
