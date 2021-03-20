@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.1';
+var OldSchool_VERSION = '2.2.1.2';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -588,10 +588,10 @@ OldSchool.FEATURES = {
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
   'Sense Construction':
-    'Section=feature ' +
-    'Note="R10\' 75% Detect new construction, 66% sliding walls"',
+    'Section=feature Note="R10\' 75% Detect new construction"',
   'Sense Hazard':
     'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
+  'Sense Sliding':'Section=feature Note="R10\' 66% Detect sliding walls"',
   'Sense Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
   'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
   'Sword Precision':
@@ -694,7 +694,6 @@ OldSchool.GOODIES = {
 };
 OldSchool.LANGUAGES = {
   'Common':'',
-  "Druids' Cant":'',
   'Dwarf':'',
   'Elf':'',
   'Gnoll':'',
@@ -713,7 +712,8 @@ OldSchool.RACES = {
     'Features=' +
       '"1:Dwarf Ability Adjustment","1:Dwarf Dodge","1:Dwarf Enmity",' +
       '1:Infravision,"1:Know Depth","1:Resist Magic","1:Resist Poison",' +
-      '"1:Sense Construction","1:Sense Slope","1:Trap Sense",' +
+      '"1:Sense Construction","1:Sense Sliding","1:Sense Slope",' +
+      '"1:Trap Sense",' +
       '"rogueSkillLevel > 0 ? 1:Dwarf Skill Modifiers" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Kobold,Orc',
@@ -2808,8 +2808,7 @@ OldSchool.RULE_EDITS = {
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
-      'Sense Construction':
-        'Note="R10\' 87% Detect new construction, 66% sliding walls"',
+      'Sense Construction':'Note="R10\' 87% Detect new construction"',
       'Stealthy':'Note="Foe -4 surprise roll when traveling quietly"',
       'Track':'Section=skill Note="+%V Tracking"',
       // New
