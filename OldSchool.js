@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.2';
+var OldSchool_VERSION = '2.2.1.3';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -4139,7 +4139,6 @@ OldSchool.abilityRules = function(rules) {
     ('languageCount', 'featureNotes.intelligenceLanguageBonus', '+', null);
 
 
-  if(OldSchool.EDITION == 'Second Edition')
   // Strength
   rules.defineRule('combatNotes.strengthAttackAdjustment',
     'strengthRow', '=', 'source <= 2 ? (source - 3) : ' +
