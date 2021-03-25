@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.5';
+var OldSchool_VERSION = '2.2.1.6';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -364,8 +364,7 @@ OldSchool.CLASSES = {
     'Experience=' +
       '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
       '3500,3850,4200 ' +
-    'CasterLevelDivine=' +
-      '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 8)" ' +
+    'CasterLevelDivine="levels.Paladin >= 9 ? levels.Paladin - 8 : null" ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
       'C1:9=1;10=2;14=3;21=4,' +
@@ -389,9 +388,9 @@ OldSchool.CLASSES = {
       '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
       '2975,3300,3625 ' +
     'CasterLevelArcane=' +
-      '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
+      '"levels.Ranger >= 8 ? Math.floor((levels.Ranger - 6) / 2) : null" ' +
     'CasterLevelDivine=' +
-      '"levels.Ranger<=7?null:Math.min(Math.floor((levels.Ranger-6)/2), 6)" ' +
+      '"levels.Ranger >= 9 ? Math.floor((levels.Ranger - 6) / 2) : null" ' +
       'SpellAbility=wisdom ' +
       'SpellSlots=' +
         'D1:8=1;10=2;18=3;23=4,' +
@@ -4950,7 +4949,7 @@ OldSchool.classRules = function(
       rules.defineRule('casterLevelArcane', 'casterLevels.' + name, '+=', null);
     if(casterLevelDivine)
       rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
-    QuilvynRules.spellSlotRules(rules, 'casterLevels.' + name, spellSlots);
+    QuilvynRules.spellSlotRules(rules, classLevel, spellSlots);
     for(var j = 0; j < spellSlots.length; j++) {
       var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
