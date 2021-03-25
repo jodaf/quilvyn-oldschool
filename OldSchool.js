@@ -4951,7 +4951,7 @@ OldSchool.classRules = function(
       rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
     QuilvynRules.spellSlotRules(rules, classLevel, spellSlots);
     for(var j = 0; j < spellSlots.length; j++) {
-      var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
+      var spellTypeAndLevel = spellSlots[j].split(/:/)[0];
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
       if(spellType != name)
         rules.defineRule('casterLevels.' + spellType,
