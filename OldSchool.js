@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.3';
+var OldSchool_VERSION = '2.2.1.4';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -4890,11 +4890,17 @@ OldSchool.classRules = function(
       (rules, 'validation', prefix + 'Class', classLevel, requires);
 
   rules.defineChoice('notes', 'experiencePoints.' + name + ':%V/%1');
+  for(var i = 0; i < experience.length; i++) {
+    experience[i] *= 1000;
+    // 2E and OSRIC change level at round number; 1E at round number + 1
+    if(OldSchool.EDITION == 'First Edition' && i > 0)
+      experience[i] += 1;
+  }
   rules.defineRule('experiencePoints.' + name + '.1',
-    classLevel, '=', 'source < ' + experience.length + ' ? [' + experience + '][source] * 1000 : ' + (experience[experience.length - 1] * 1000 + 1)
+    classLevel, '=', 'source < ' + experience.length + ' ? [' + experience + '][source] : "-"'
   );
   rules.defineRule(classLevel,
-    'experiencePoints.' + name, '=', 'source >= ' + (experience[experience.length - 1] * 1000) + ' ? ' + experience.length + ' : [' + experience + '].findIndex(item => item * 1000 > source)'
+    'experiencePoints.' + name, '=', 'source >= ' + experience[experience.length - 1] + ' ? ' + experience.length + ' : [' + experience + '].findIndex(item => item > source)'
   );
 
   rules.defineRule('baseAttack',
