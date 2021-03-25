@@ -534,7 +534,7 @@ OldSchool.FEATURES = {
     'Note="+%1 %V Attack Modifier/+%2 %V Damage Modifier/+%3 attacks/rd"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
   'Wilderness Movement':
-     'Section=ability Note="Normal, untrackable move through undergrowth"',
+     'Section=feature Note="Normal, untrackable move through undergrowth"',
 
   // Race
   'Bow Precision':
