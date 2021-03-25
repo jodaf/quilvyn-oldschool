@@ -467,8 +467,7 @@ OldSchool.FEATURES = {
   'Eldritch Power':'Section=magic Note="May use <i>Enchant An Item</i> spell"',
   'Evasion':
     'Section=save Note="Successful save yields no damage instead of half"',
-  'Favored Enemy':
-    'Section=combat Note="+%V melee damage vs. evil humanoids and giant foes"',
+  'Favored Enemy':'Section=combat Note="+%V melee damage vs. giant foes"',
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
   'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
   'Fighting The Unskilled':
@@ -3882,6 +3881,8 @@ OldSchool.RULE_EDITS = {
         'Note="-10 Climb Walls/+15 Find Traps/-5 Move Silently/+15 Open Locks/-5 Read Languages"',
       'Elf Skill Modifiers':
         'Note="-5 Climb Walls/+5 Find Traps/+5 Hear Noise/+10 Hide In Shadows/+5 Move Silently/-5 Open Locks/+5 Pick Pockets/+10 Read Languages"',
+      'Favored Enemy':
+        'Note="+%V melee damage vs. evil humanoids and giant foes"',
       'Gnome Skill Modifiers':
         'Note="-15 Climb Walls/+5 Hear Noise/+10 Open Locks"',
       'Half-Orc Skill Modifiers':
