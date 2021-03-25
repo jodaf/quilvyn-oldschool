@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.4';
+var OldSchool_VERSION = '2.2.1.5';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -240,8 +240,7 @@ OldSchool.CLASSES = {
       '"1:Turn Undead",' +
       '"wisdom >= 16 ? 1:Bonus Cleric Experience",' +
       '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
-      '"wisdom <= 12 ? 1:Cleric Spell Failure",' +
-      '"9:Attract Followers" ' +
+      '"wisdom <= 12 ? 1:Cleric Spell Failure" ' +
     'Experience=' +
       '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
       '2250,2475,2700 ' +
@@ -267,7 +266,7 @@ OldSchool.CLASSES = {
       '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
       '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
       '7:Shapeshift ' +
-    'Experience=0,2,4,7.5,12.5,20,35,60,90,124,200,300,750,1500 ' +
+    'Experience=0,2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500 ' +
     'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -285,7 +284,7 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16 ? 1:Bonus Fighter Experience",' +
-      '"2:Fighting The Unskilled","9:Attract Followers" ' +
+      '"1:Fighting The Unskilled" ' +
     'Experience=' +
       '0,2,4,8,18,25,70,125,250,500,750,1000,1250,1500,1750,2000,2250,2500,' +
       '2750,3000',
@@ -294,7 +293,7 @@ OldSchool.CLASSES = {
     'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
-      '"10:Eldritch Craft","12:Attract Followers" ' +
+      '"10:Eldritch Craft" ' +
     'CasterLevelArcane=levels.Illusionist ' +
     'Experience=' +
       '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
@@ -315,7 +314,7 @@ OldSchool.CLASSES = {
     'Wand=11,2,5 '+
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-      '"7:Eldritch Craft","11:Attract Followers","12:Eldritch Power" ' +
+      '"7:Eldritch Craft","12:Eldritch Power" ' +
     'Experience=' +
       '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
       '3000,3375,3750 ' +
@@ -419,8 +418,6 @@ OldSchool.FEATURES = {
   'Alert':'Section=combat Note="Surprised 1/6, surprise 1/2"',
   'Assassination':
     'Section=combat Note="Strike kills surprised target %V% - 5%/2 foe levels"',
-  'Attract Followers':
-    'Section=feature Note="May build stronghold and attract followers"',
   'Aware':'Section=combat Note="Surprised %V%"',
   'Backstab':
     'Section=combat Note="+4 melee attack, x%V damage when surprising"',
@@ -542,14 +539,14 @@ OldSchool.FEATURES = {
   // Race
   'Bow Precision':
     'Section=combat ' +
-    'Note="+1 Composite Long Bow Attack Modifier/+1 Composite Short Bow Attack Modifier/+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
+    'Note="+1 Composite Longbow Attack Modifier/+1 Composite Shortbow Attack Modifier/+1 Longbow Attack Modifier/+1 Shortbow Attack Modifier"',
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
   'Deadly Aim':
     'Section=combat ' +
-    'Note="+3 Composite Long Bow Attack Modifier/+3 Composite Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
+    'Note="+3 Composite Longbow Attack Modifier/+3 Composite Shortbow Attack Modifier/+3 Longbow Attack Modifier/+3 Shortbow Attack Modifier/+3 Sling Attack Modifier"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Direction Sense':'Section=feature Note="50% Determine North underground"',
+  'Direction Sense':'Section=feature Note="50% Determine direction of travel"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
@@ -761,8 +758,9 @@ OldSchool.RACES = {
       '"constitution >= 10","dexterity >= 8","intelligence >= 6",' +
       '"strength >= 6","wisdom <= 17" ' +
     'Features=' +
-      '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
-      '"1:Resist Magic","1:Resist Poison",1:Stealthy,' +
+      '"1:Deadly Aim","1:Direction Sense","1:Halfling Ability Adjustment",' +
+      '1:Infravision,"1:Resist Magic","1:Resist Poison","1:Sense Slope",' +
+      '1:Stealthy,' +
       '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Halfling,Orc',
@@ -2469,8 +2467,8 @@ OldSchool.WEAPONS = {
   'Bo Stick':'Category=2h Damage=d6',
   'Broad Sword':'Category=1h Damage=2d4', // Best guess on category
   'Club':'Category=1h Damage=d6 Range=10',
-  'Composite Long Bow':'Category=R Damage=d6 Range=60',
-  'Composite Short Bow':'Category=R Damage=d6 Range=50',
+  'Composite Longbow':'Category=R Damage=d6 Range=60',
+  'Composite Shortbow':'Category=R Damage=d6 Range=50',
   'Dagger':'Category=Li Damage=d4 Range=10',
   'Dart':'Category=R Damage=d3 Range=15',
   'Fauchard':'Category=2h Damage=d6',
@@ -2494,7 +2492,7 @@ OldSchool.WEAPONS = {
   'Light Lance':'Category=2h Damage=d6',
   'Light Mace':'Category=Li Damage=d6',
   'Light Pick':'Category=Li Damage=d4+1',
-  'Long Bow':'Category=R Damage=d6 Range=70',
+  'Longbow':'Category=R Damage=d6 Range=70',
   'Long Sword':'Category=1h Damage=d8',
   'Lucern Hammer':'Category=2h Damage=2d4',
   'Medium Lance':'Category=2h Damage=d6+1',
@@ -2505,7 +2503,7 @@ OldSchool.WEAPONS = {
   'Quarterstaff':'Category=2h Damage=d6',
   'Ranseur':'Category=2h Damage=2d4',
   'Scimitar Sword':'Category=1h Damage=d8',
-  'Short Bow':'Category=R Damage=d6 Range=50',
+  'Shortbow':'Category=R Damage=d6 Range=50',
   'Short Sword':'Category=Li Damage=d6',
   'Sling':'Category=R Damage=d4 Range=40',
   'Spear':'Category=2h Damage=d6 Range=10',
@@ -2640,7 +2638,7 @@ OldSchool.RULE_EDITS = {
         'Spells="P1:Animal Friendship"',
       'Fighter':
         'Require="strength >= 9" ' +
-        'Features-="2:Fighting The Unskilled" ' +
+        'Features-="1:Fighting The Unskilled" ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000',
@@ -2895,7 +2893,6 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"constitution >= 10","dexterity >= 7","intelligence >= 6",' +
           '"strength >= 7","wisdom <= 17" ' +
-        'Features+="1:Sense Slope" ' +
         'Languages=Common,Halfling'
     },
     'School':{
@@ -3904,7 +3901,10 @@ OldSchool.RULE_EDITS = {
       'Gnome':
         'Features+=Slow',
       'Halfling':
-        'Features+=Slow',
+        'Features=' +
+          '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
+          '"1:Resist Magic","1:Resist Poison","1:Slow",1:Stealthy,' +
+          '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers"',
       'Human':
         'Features="rogueSkillLevel > 0 ? 1:Human Skill Modifiers"'
     },
@@ -4274,9 +4274,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule('rangedAttack',
     'baseAttack', '=', null,
-    'combatNotes.dexterityAttackAdjustment', '+', null,
-    // Note: the rules seem to indicate that strength affects ranged attacks
-    'combatNotes.strengthAttackAdjustment', '+', null
+    'combatNotes.dexterityAttackAdjustment', '+', null
   );
   rules.defineRule
     ('thac0Melee', 'meleeAttack', '=', 'Math.min(20 - source, 20)');
@@ -5355,6 +5353,8 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('featureNotes.senseSlope',
       'gnomeLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '80'
     );
+  } else if(name == 'Halfling') {
+    rules.defineRule('featureNotes.senseSlope', 'halflingLevel', '+=', '75');
   }
 
 };
@@ -5704,31 +5704,21 @@ OldSchool.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    Although the 1E PHB doesn\'t discuss strongholds for illusionists,\n' +
-    '    the description notes that the class mostly conforms to the\n' +
-    '    characteristics of magic-users. The latter may build strongholds\n' +
-    '    at level 12, and Quilvyn treats illusionists similarly.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
     '    The OSRIC rules discuss illusionist scrolls, but does not give\n' +
     '    the minimum level required to create them. Quilvyn uses the 1E PHB\n' +
     '    limit of level 10.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    Quilvyn generally uses the OSRIC names and effects for spells,\n' +
     '    rather than those found in the 1E PHB.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    The OSRIC rules are unclear as to whether or not the Fighting the\n' +
     '    Unskilled feature applies to Paladins and Rangers. Quilvyn assumes\n' +
     '    that it does.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    2E spell ranges are generally given in yards rather than feet, so,\n' +
     '    for example, "R10\'" in the W1 Grease spell should be read as 10\n' +
     '    yards for 2E characters.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    The 2E spell Spiritual Hammer is modified to Spiritual Weapon to\n' +
     '    match the 1E spell.\n' +
     '  </li>\n' +
@@ -5740,19 +5730,27 @@ OldSchool.ruleNotes = function() {
     '<ul>\n' +
     '  <li>\n' +
     '    Quilvyn does not note racial restrictions on class and level.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    Quilvyn does not note class restrictions on weapon choice.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
+    '    Quilvyn does not note the First Edition prohibition on Neutral\n' +
+    '    clerics.\n' +
+    '  </li><li>\n' +
+    '    Quilvyn does not note the First Edition lower strength maximum\n' +
+    '    for female characters.\n' +
+    '  </li><li>\n' +
+    '    Quilvyn assumes that Halfling characters are of pure Stoutish\n' +
+    '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
+    '  </li><li>\n' +
+    '    Minimum levels for building strongholds and attracting followers\n' +
+    '    are not reported.\n' +
+    '  </li><li>\n' +
     '    In Second Edition, Quilvyn does not consider sphere limitations\n' +
     '    to priest spell sections.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    Quilvyn does not note Halfling characters with a strength of 18,\n' +
     '    nor (OSRIC rules) Elf characters with a constitution of 18.\n' +
-    '  </li>\n' +
-    '  <li>\n' +
+    '  </li><li>\n' +
     '    Quilvyn does not report the chance of extraordinary success on\n' +
     '    strength tests for characters with strength 18/91 and higher.\n' +
     '  </li>\n' +
