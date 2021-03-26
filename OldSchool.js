@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.6';
+var OldSchool_VERSION = '2.2.1.7';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -352,15 +352,15 @@ OldSchool.CLASSES = {
       '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
       '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
     'HitDie=d10 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
-    'Breath=15,1.5,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 ' +
+    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
     'Wand=14,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/wisdom >= 16 ? 1:Bonus Paladin Experience",' +
       '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
-      '"1:Fighting The Unskilled","1:Lay On Hands",1:Non-Materialist,' +
-      '1:Philanthropist,"1:Protection From Evil","3:Turn Undead",' +
-      '"4:Summon Warhorse" ' +
+      '"1:Divine Protection","1:Fighting The Unskilled","1:Lay On Hands",' +
+      '1:Non-Materialist,1:Philanthropist,"1:Protection From Evil",' +
+      '"3:Turn Undead","4:Summon Warhorse" ' +
     'Experience=' +
       '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
       '3500,3850,4200 ' +
@@ -456,7 +456,7 @@ OldSchool.FEATURES = {
   'Disguise':'Section=feature Note="92%+ successful disguise"',
   'Divine Health':'Section=save Note="Immune to disease"',
   'Divine Protection':
-    'Section=save Note="+2 Breath/+2 Death/+2 Petrification/+2 Spell/+2 Wand"',
+    'Section=save Note="-2 Breath/-2 Death/-2 Petrification/-2 Spell/-2 Wand"',
   'Dodge Missiles':
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
   'Double Specialization':
@@ -588,7 +588,9 @@ OldSchool.FEATURES = {
     'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
   'Sense Sliding':'Section=feature Note="R10\' 66% Detect sliding walls"',
   'Sense Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
-  'Stealthy':'Section=combat Note="4in6 surprise when traveling quietly"',
+  'Stealthy':
+    'Section=combat ' +
+    'Note="4in6 surprise when traveling quietly, 2in6 opening doors"',
   'Sword Precision':
     'Section=combat ' +
     'Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
@@ -729,7 +731,7 @@ OldSchool.RACES = {
     'Features=' +
       '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
       '"1:Gnome Enmity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
-      '"1:Resist Poison","1:Sense Hazard","1:Sense Slope",' +
+      '"1:Sense Hazard","1:Sense Slope",' +
       '"rogueSkillLevel > 0 ? 1:Gnome Skill Modifiers" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Halfling,Kobold',
@@ -761,7 +763,7 @@ OldSchool.RACES = {
       '1:Stealthy,' +
       '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers" ' +
     'Languages=' +
-      'Common,Dwarf,Gnome,Goblin,Halfling,Orc',
+      'Common,Dwarf,Elf,Gnome,Goblin,Halfling,Orc',
   'Human':
     'Languages=' +
       'Common'
@@ -2805,7 +2807,8 @@ OldSchool.RULE_EDITS = {
       'Poetic Inspiration':
         'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Sense Construction':'Note="R10\' 87% Detect new construction"',
-      'Stealthy':'Note="Foe -4 surprise roll when traveling quietly"',
+      'Stealthy':
+        'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
       'Track':'Section=skill Note="+%V Tracking"',
       // New
       'Ambidextrous':'Section=combat Note="No penalty for two-handed fighting"',
@@ -3897,14 +3900,15 @@ OldSchool.RULE_EDITS = {
     'Race':{
       // Modified
       'Dwarf':
-        'Features+=Slow',
+        'Features+=1:Slow',
       'Gnome':
-        'Features+=Slow',
+        'Features+=1:Slow,"1:Resist Poison"',
       'Halfling':
         'Features=' +
           '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
           '"1:Resist Magic","1:Resist Poison","1:Slow",1:Stealthy,' +
-          '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers"',
+          '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers" ' +
+        'Languages-=Elf',
       'Human':
         'Features="rogueSkillLevel > 0 ? 1:Human Skill Modifiers"'
     },
@@ -4128,11 +4132,7 @@ OldSchool.abilityRules = function(rules) {
   } else {
     rules.defineRule('featureNotes.intelligenceLanguageBonus',
       'intelligence', '=',
-        'source<=7 ? null : source<=15 ? Math.floor((source-6)/2) : (source-11)',
-      'race', 'v',
-        'source == "Human" ? null : ' +
-        'source == "Half-Elf" ? 2 : ' +
-        'source.indexOf("Elf") >= 0 ? 3 : 2'
+        'source<=7 ? null : source<=15 ? Math.floor((source-6)/2) : (source-11)'
     );
   }
   rules.defineRule
@@ -5085,8 +5085,9 @@ OldSchool.classRulesExtra = function(rules, name) {
       'features.Bonus Druid Spells', '?', null,
       'wisdom', '=', 'source <= 17 ? 0 : 1'
     );
-    rules.defineRule
-      ('skillNotes.woodlandLanguages', 'levels.Druid', '=', 'source - 2');
+    rules.defineRule('skillNotes.woodlandLanguages',
+      'levels.Druid', '=', 'source > 2 ? source - 2 : null'
+    );
     if(OldSchool.EDITION != 'Second Edition') {
       rules.defineRule('spellSlots.D1', 'bonusDruidSpells.1', '+', null);
       rules.defineRule('spellSlots.D2', 'bonusDruidSpells.2', '+', null);
@@ -5335,17 +5336,24 @@ OldSchool.raceRules = function(
  */
 OldSchool.raceRulesExtra = function(rules, name) {
 
-  if(name == 'Half-Elf') {
-    rules.defineRule('saveNotes.resistCharm', 'half-ElfLevel', '+=', '30');
-    rules.defineRule('saveNotes.resistSleep', 'half-ElfLevel', '+=', '30');
-  } else if(name == 'Dwarf') {
+  if(name == 'Dwarf') {
     rules.defineRule('featureNotes.knowDepth', 'dwarfLevel', '+=', '50');
     rules.defineRule('featureNotes.senseSlope',
       'dwarfLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '75'
     );
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+        'dwarfLevel', 'v', '2',
+        '', '^', '0'
+      );
   } else if(name == 'Elf') {
     rules.defineRule('saveNotes.resistCharm', 'elfLevel', '+=', '90');
     rules.defineRule('saveNotes.resistSleep', 'elfLevel', '+=', '90');
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+        'elfLevel', '+', '-4',
+        '', '^', '0'
+      );
   } else if(name == 'Gnome') {
     rules.defineRule('featureNotes.knowDepth',
       'gnomeLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '50' : '60'
@@ -5353,8 +5361,32 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('featureNotes.senseSlope',
       'gnomeLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '80'
     );
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+        'gnomeLevel', 'v', '2',
+        '', '^', '0'
+      );
+  } else if(name == 'Half-Elf') {
+    rules.defineRule('saveNotes.resistCharm', 'half-ElfLevel', '+=', '30');
+    rules.defineRule('saveNotes.resistSleep', 'half-ElfLevel', '+=', '30');
+    if(OldSchool.EDITION == 'First Edition')
+      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+        'half-ElfLevel', '+', '-5',
+        '', '^', '0'
+      );
+  } else if(name == 'Half-Orc') {
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+        'half-OrcLevel', 'v', '2',
+        '', '^', '0'
+      );
   } else if(name == 'Halfling') {
     rules.defineRule('featureNotes.senseSlope', 'halflingLevel', '+=', '75');
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+        'halflingLevel', '+', '-5',
+        '', '^', '0'
+      );
   }
 
 };
