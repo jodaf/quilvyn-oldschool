@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.7';
+var OldSchool_VERSION = '2.2.1.8';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -293,7 +293,7 @@ OldSchool.CLASSES = {
     'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
-      '"10:Eldritch Craft" ' +
+      '"10:Craft Minor Magic" ' +
     'CasterLevelArcane=levels.Illusionist ' +
     'Experience=' +
       '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
@@ -314,7 +314,7 @@ OldSchool.CLASSES = {
     'Wand=11,2,5 '+
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-      '"7:Eldritch Craft","12:Eldritch Power" ' +
+      '"7:Craft Minor Magic" ' +
     'Experience=' +
       '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
       '3000,3375,3750 ' +
@@ -446,6 +446,9 @@ OldSchool.FEATURES = {
   'Cleric Spell Failure':'Section=magic Note="%V%"',
   'Controlled Movement':
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
+  'Craft Minor Magic':
+    'Section=magic ' +
+    'Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
   'Cure Disease':'Section=magic Note="<i>Cure Disease</i> %V/wk"',
   'Defensive Song':
     'Section=magic Note="Counteract song attacks, soothe shriekers"',
@@ -461,10 +464,6 @@ OldSchool.FEATURES = {
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
   'Double Specialization':
     'Section=combat Note="+3 %V Attack Modifier/+3 %V Damage Modifier"',
-  'Eldritch Craft':
-    'Section=magic ' +
-    'Note="May create magical potions and scrolls and recharge rods, staves, and wands"',
-  'Eldritch Power':'Section=magic Note="May use <i>Enchant An Item</i> spell"',
   'Evasion':
     'Section=save Note="Successful save yields no damage instead of half"',
   'Favored Enemy':'Section=combat Note="+%V melee damage vs. giant foes"',
@@ -498,7 +497,8 @@ OldSchool.FEATURES = {
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
   'Quivering Palm':
     'Section=combat Note="Touched w/fewer hit dice dies w/in %V dy 1/wk"',
-  'Read Scrolls':'Section=magic Note="Cast arcane spells from scrolls"',
+  'Read Scrolls':
+    'Section=magic Note="75% cast arcane or druidic spell from scroll"',
   'Resist Fire':'Section=save Note="+2 vs. fire"',
   'Resist Lightning':'Section=save Note="+2 vs. lightning"',
   'Rogue Skills':
@@ -2647,6 +2647,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"Intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
           '"1:Empowered Illusions","1:Illusion Resistance",' +
+          '"9:Craft Minor Magic",' +
           '"1:School Opposition (Abjuration)",' +
           '"1:School Opposition (Evocation)",' +
           '"1:School Opposition (Necromancy)",' +
@@ -2665,7 +2666,7 @@ OldSchool.RULE_EDITS = {
       'Magic User':
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-          '"9:Eldritch Craft" ' +
+          '"9:Craft Minor Magic" ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
           'W2:3=1;4=2;7=3;10=4;13=5,' +
@@ -2806,6 +2807,7 @@ OldSchool.RULE_EDITS = {
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
+      'Read Scrolls':'Note="75% cast any spell from scroll"',
       'Sense Construction':'Note="R10\' 87% Detect new construction"',
       'Stealthy':
         'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
@@ -3840,6 +3842,7 @@ OldSchool.RULE_EDITS = {
       'Magic User':
         'Require+=' +
           '"charisma >= 6","constitution >= 6","wisdom >= 6" ' +
+        'Features="7:Craft Minor Magic" ' +
         'WeaponProficiency=1,5,5 ' +
         'Experience=' +
           '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
@@ -3891,7 +3894,8 @@ OldSchool.RULE_EDITS = {
       'Half-Orc Skill Modifiers':
         'Note="+5 Climb Walls/+5 Find Traps/+5 Hear Noise/+5 Open Locks/-5 Pick Pockets/-10 Read Languages"',
       'Halfling Skill Modifiers':
-        'Section=skill Note="-15 Climb Walls/+5 Hear Noise/+15 Hide In Shadows/+15 Move Silently/+5 Pick Pockets/-5 Read Languages"',
+        'Note="-15 Climb Walls/+5 Hear Noise/+15 Hide In Shadows/+15 Move Silently/+5 Pick Pockets/-5 Read Languages"',
+      'Read Scrolls':'Note="%V% cast arcane spell from scroll"',
       // New
       'Human Skill Modifiers':
         'Section=skill Note="+5 Climb Walls/+5 Open Locks"',
@@ -4983,8 +4987,20 @@ OldSchool.classRulesExtra = function(rules, name) {
       'intelligence', '=', 'source - 14',
       'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0'
     );
-    rules.defineRule
-      ('rogueSkillLevel', 'levels.Assassin', '+=', 'Math.max(source - 2, 1)');
+    if(OldSchool.EDITION == 'OSRIC') {
+      // Override level at which Rogue Skills is awarded
+      rules.defineRule
+        ('assassinFeatures.Rogue Skills', 'levels.Assassin', '=', '1');
+      rules.defineRule
+        ('rogueSkillLevel', 'levels.Assassin', '+=', 'Math.max(source - 2, 1)');
+      // Unclear whether Assassins have same chance of failure as Thieves
+      rules.defineRule
+        ('magicNotes.readScrolls', 'intelligence', '=', 'source * 5 - 10');
+   } else {
+      rules.defineRule('rogueSkillLevel',
+        'levels.Assassin', '+=', 'source > 2 ? source - 2 : null'
+      );
+   }
 
   } else if(name == 'Bard') {
 
@@ -5134,13 +5150,14 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
     } else {
       rules.defineRule('intelligenceRow',
-        'levels.Magic User', '?', null,
         'intelligence', '=', 'source < 10 ? 0 : source < 13 ? 1 : source < 15 ? 2 : source < 17 ? 3 : (source - 13)'
       );
       rules.defineRule('maximumSpellsPerLevel',
+        'levels.Magic User', '?', null,
         'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? 1 : source < 4 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
       );
       rules.defineRule('understandSpell',
+        'levels.Magic User', '?', null,
         'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
       );
     }
@@ -5273,6 +5290,9 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('languageCount', 'levels.Thief', '+', '1');
     rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
     rules.defineRule('rogueSkillLevel', 'levels.Thief', '+=', null);
+    if(OldSchool.EDITION == 'OSRIC')
+      rules.defineRule
+        ('magicNotes.readScrolls', 'intelligence', '=', 'source * 5 - 10');
 
   }
 
@@ -5743,6 +5763,12 @@ OldSchool.ruleNotes = function() {
     '    Quilvyn generally uses the OSRIC names and effects for spells,\n' +
     '    rather than those found in the 1E PHB.\n' +
     '  </li><li>\n' +
+    '    The 1E DMG and OSRIC rules mention that Magic Users of levels 7\n' +
+    '    through 10 can create scrolls and potions only with the aid of an\n' +
+    '    alchemist; at level 11 they can do such crafting unaided. The 1E\n' +
+    '    DMG also mentions that higher-level Clerics and Druids can create\n' +
+    '    potions and scrolls of their own spells.\n' +
+    '  </li><li>\n' +
     '    The OSRIC rules are unclear as to whether or not the Fighting the\n' +
     '    Unskilled feature applies to Paladins and Rangers. Quilvyn assumes\n' +
     '    that it does.\n' +
@@ -5773,6 +5799,9 @@ OldSchool.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn assumes that Halfling characters are of pure Stoutish\n' +
     '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
+    '  </li><li>\n' +
+    '    Fractional percentages for First Edition Thief skills are not\n' +
+    '    reported.\n' +
     '  </li><li>\n' +
     '    Minimum levels for building strongholds and attracting followers\n' +
     '    are not reported.\n' +
