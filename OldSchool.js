@@ -487,7 +487,8 @@ OldSchool.FEATURES = {
   'Non-Materialist':
     'Section=feature Note="Owns le 10 magic items w/1 armor suit and 1 shield"',
   'Philanthropist':
-    'Section=feature Note="Donate 10% of gross income, 100% net to LG causes"',
+    'Section=feature ' +
+    'Note="Must donate 10% of income plus 100% after expenses to LG causes"',
   'Poetic Inspiration':
     'Section=magic ' +
     'Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
@@ -512,7 +513,8 @@ OldSchool.FEATURES = {
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
   'Spiritual':
-    'Section=feature Note="Must donate net income to religious institution"',
+    'Section=feature ' +
+    'Note="Must donate 100% after expenses to religious institution"',
   'Steel Mind':'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Stunning Blow':
      'Section=combat ' +
