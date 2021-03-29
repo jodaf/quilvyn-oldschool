@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.8';
+var OldSchool_VERSION = '2.2.1.9';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -2776,6 +2776,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
+        'HitDie=d10 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
@@ -5666,7 +5667,7 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'hitPoints') {
     // Differs from 3.5 in that per-class level is computed, not chosen, and
-    // characters don't get full HP at level 1.
+    // characters don't automatically get full HP at level 1.
     attributes.hitPoints = 0;
     attrs = this.applyRules(attributes);
     for(var clas in this.getChoices('levels')) {
@@ -5674,9 +5675,12 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
         continue;
       matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ||
-                   matchInfo[2] == '' ? 1 : matchInfo[2];
-      var sides = matchInfo == null ? 6 : matchInfo[3];
+                   matchInfo[2] == '' ? 1 : (matchInfo[2] * 1);
+      var sides = matchInfo == null ? 6 : (matchInfo[3] * 1);
       while(attr-- > 0)
+        attributes.hitPoints += QuilvynUtils.random(number, number * sides);
+      // Monks and 1E/OSRIC Rangers get an extra die at 1st level
+      if(clas == 'Monk' || (clas == 'Ranger' && sides == 8))
         attributes.hitPoints += QuilvynUtils.random(number, number * sides);
     }
   } else if(attribute == 'levels') {
