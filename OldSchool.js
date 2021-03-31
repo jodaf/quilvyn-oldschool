@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.9';
+var OldSchool_VERSION = '2.2.1.10';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -581,7 +581,7 @@ OldSchool.FEATURES = {
   'Know Depth':
     'Section=feature Note="%V% Determine approximate depth underground"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
-  'Resist Magic':'Section=save Note="+%V Spell/+%V Wand"',
+  'Resist Magic':'Section=save Note="-%V Spell/-%V Wand"',
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
   'Sense Construction':
@@ -609,7 +609,7 @@ OldSchool.GOODIES = {
   'Breath':
     'Pattern="([-+]\\d)\\s+breath\\s+save|breath\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
-    'Value="$1 || $2" ' +
+    'Value="-$1 || -$2" ' +
     'Attribute=save.Breath ' +
     'Section=save Note="%V Breath"',
   'Charisma':
@@ -627,7 +627,7 @@ OldSchool.GOODIES = {
   'Death':
     'Pattern="([-+]\\d)\\s+death\\s+save|death\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
-    'Value="$1 || $2" ' +
+    'Value="-$1 || -$2" ' +
     'Attribute=save.Death ' +
     'Section=save Note="%V Death"',
   'Dexterity':
@@ -645,7 +645,7 @@ OldSchool.GOODIES = {
   'Petrification':
     'Pattern="([-+]\\d)\\s+petrification\\s+save|petrification\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
-    'Value="$1 || $2" ' +
+    'Value="-$1 || -$2" ' +
     'Attribute=save.Petrification ' +
     'Section=save Note="%V Petrification"',
   'Protection':
@@ -669,7 +669,7 @@ OldSchool.GOODIES = {
   'Spell':
     'Pattern="([-+]\\d)\\s+spell\\s+save|spell\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
-    'Value="$1 || $2" ' +
+    'Value="-$1 || -$2" ' +
     'Attribute=save.Spell ' +
     'Section=save Note="%V Spell"',
   'Strength':
@@ -681,7 +681,7 @@ OldSchool.GOODIES = {
   'Wand':
     'Pattern="([-+]\\d)\\s+wand\\s+save|wand\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
-    'Value="$1 || $2" ' +
+    'Value="-$1 || -$2" ' +
     'Attribute=save.Wand ' +
     'Section=save Note="%V Wand"',
   'Wisdom':
@@ -5240,9 +5240,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('magicNotes.layOnHands', 'levels.Paladin', '=', '2 * source');
-    rules.defineRule('save.Breath', 'levels.Paladin', '^', '2');
-    rules.defineRule('save.Death', 'levels.Paladin', '^', '2');
-    rules.defineRule('save.Petrification', 'levels.Paladin', '^', '2');
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule('saveNotes.circleOfPower', 'levels.Paladin', '=', null);
     }
