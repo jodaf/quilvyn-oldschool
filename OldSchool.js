@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.11';
+var OldSchool_VERSION = '2.2.1.12';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -87,7 +87,7 @@ function OldSchool() {
 
     // Add additional elements to editor and sheet
     rules.defineEditorElement
-      ('extraStrength', 'Extra Strength', 'text', [4], 'intelligence');
+      ('extraStrength', 'Extra Strength', 'text', [4], 'dexterity');
     rules.defineEditorElement
       ('experiencePoints', 'Experience', 'bag', 'levels', 'imageUrl');
     rules.defineEditorElement
