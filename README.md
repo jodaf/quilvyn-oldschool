@@ -1,4 +1,4 @@
-## 1st Edition plugin for the Quilvyn RPG character sheet generator
+## 1st and 2nd Edition plugin for the Quilvyn RPG character sheet generator
 
 The quilvyn-oldschool package bundles modules that extend Quilvyn to work
 with the first and second editions of D&D, applying the rules of the
