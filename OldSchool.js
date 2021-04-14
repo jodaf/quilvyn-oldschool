@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.12';
+var OldSchool_VERSION = '2.2.1.13';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -54,7 +54,8 @@ function OldSchool() {
 
     SRD35.createViewers(rules, SRD35.VIEWERS);
     rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
-    rules.defineChoice('preset', 'race');
+    rules.defineChoice
+      ('preset', 'race:Race,select-one,races','levels:Class Levels,bag,levels');
 
     OldSchool.abilityRules(rules);
     OldSchool.combatRules
@@ -5428,8 +5429,6 @@ OldSchool.classRules = function(
     return;
   }
 
-  rules.defineChoice('preset', name);
-
   var classLevel = 'levels.' + name;
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
@@ -6236,21 +6235,19 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
     var classes = this.getChoices('levels');
     var classAttrSet = false;
     for(attr in classes) {
-      if(attr in attributes)
+      if('levels.' + attr in attributes)
         classAttrSet = true;
     }
     if(!classAttrSet) {
       // Add a random class of level 1..4
-      attributes[QuilvynUtils.randomKey(classes)] = QuilvynUtils.random(1, 4);
+      attributes['levels.' + QuilvynUtils.randomKey(classes)] =
+        QuilvynUtils.random(1, 4);
     }
     for(attr in classes) {
-      if(!(attr in attributes))
+      if(!('levels.' + attr in attributes))
         continue;
-      // Delete the level attribute (from the random character preset);
-      // calculate experience needed for this and prior levels to assign a
+      // Calculate experience needed for this and prior levels to assign a
       // random experience value that will yield this level.
-      attributes['levels.' + attr] = attributes[attr];
-      delete attributes[attr];
       attrs = this.applyRules(attributes);
       var max = attrs['experiencePoints.' + attr + '.1'] - 1;
       attributes['levels.' + attr]--;
