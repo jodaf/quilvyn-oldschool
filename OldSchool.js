@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.13';
+var OldSchool_VERSION = '2.2.1.14';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -44,7 +44,7 @@ function OldSchool() {
     rules.defineChoice('choices', OldSchool.CHOICES);
     rules.choiceEditorElements = OldSchool.choiceEditorElements;
     rules.choiceRules = OldSchool.choiceRules;
-    rules.editorElements = SRD35.initialEditorElements();
+    rules.editorElements = OldSchool.initialEditorElements();
     rules.getFormats = SRD35.getFormats;
     rules.getPlugins = OldSchool.getPlugins;
     rules.makeValid = SRD35.makeValid;
@@ -75,32 +75,8 @@ function OldSchool() {
       OldSchool.editedRules(OldSchool.CLASSES, 'Class'),
       OldSchool.editedRules(OldSchool.RACES, 'Race'));
 
-    // Remove some editor elements that don't apply
-    rules.defineEditorElement('animalCompanion');
-    rules.defineEditorElement('animalCompanionName');
-    rules.defineEditorElement('experience');
-    rules.defineEditorElement('familiar');
-    rules.defineEditorElement('familiarName');
-    rules.defineEditorElement('familiarEnhancement');
-    rules.defineEditorElement('levels');
-    if(OldSchool.EDITION != 'Second Edition')
-      rules.defineEditorElement('skills');
 
-    // Add additional elements to editor and sheet
-    rules.defineEditorElement
-      ('extraStrength', 'Extra Strength', 'text', [4], 'dexterity');
-    rules.defineEditorElement
-      ('experiencePoints', 'Experience', 'bag', 'levels', 'imageUrl');
-    rules.defineEditorElement
-      ('weaponProficiency', 'Weapon Proficiency', 'set', 'weapons', 'spells');
-    if(OldSchool.EDITION != 'First Edition') {
-      rules.defineEditorElement
-        ('weaponSpecialization', 'Specialization', 'select-one',
-         ['None'].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))),
-         'spells');
-      rules.defineEditorElement
-        ('doubleSpecialization', '', 'checkbox', ['Doubled'], 'spells');
-    }
+    // Add additional elements to sheet
     rules.defineSheetElement
       ('Experience Points', 'Level', '<b>Experience/Needed</b>: %V', '; ');
     rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
@@ -6177,6 +6153,56 @@ OldSchool.choiceEditorElements = function(rules, type) {
   } else
     result = SRD35.choiceEditorElements(rules, type);
   return result;
+};
+
+/* Returns the elements in a basic OldSchool character editor. */
+OldSchool.initialEditorElements = function() {
+  var abilityChoices = [
+    3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+  ];
+  var editorElements = [
+    ['name', 'Name', 'text', [20]],
+    ['race', 'Race', 'select-one', 'races'],
+    ['imageUrl', 'Image URL', 'text', [20]],
+    ['experiencePoints', 'Experience', 'bag', 'levels'],
+    ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
+    ['strengthAdjust', '', 'text', [3]],
+    ['extraStrength', 'Extra Strength', 'text', [4]],
+    ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
+    ['dexterityAdjust', '', 'text', [3]],
+    ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
+    ['constitutionAdjust', '', 'text', [3]],
+    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
+    ['intelligenceAdjust', '', 'text', [3]],
+    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
+    ['wisdomAdjust', '', 'text', [3]],
+    ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
+    ['charismaAdjust', '', 'text', [3]],
+    ['player', 'Player', 'text', [20]],
+    ['alignment', 'Alignment', 'select-one', 'alignments'],
+    ['gender', 'Gender', 'text', [10]],
+    ['origin', 'Origin', 'text', [20]],
+    ['skills', 'Skills', 'bag', 'skills'],
+    ['languages', 'Languages', 'set', 'languages'],
+    ['hitPoints', 'Hit Points', 'text', [4]],
+    ['armor', 'Armor', 'select-one', 'armors'],
+    ['shield', 'Shield', 'select-one', 'shields'],
+    ['weapons', 'Weapons', 'bag', 'weapons'],
+    ['weaponProficiency', 'Weapon Proficiency', 'set', 'weapons']
+  ];
+  if(OldSchool.EDITION != 'First Edition') {
+    editorElements.push(
+      ['weaponSpecialization', 'Specialization', 'select-one',
+       ['None'].concat(QuilvynUtils.getKeys(OldSchool.WEAPONS))],
+      ['doubleSpecialization', '', 'checkbox', ['Doubled']]
+    );
+  }
+  editorElements.push(
+    ['spells', 'Spells', 'fset', 'spells'],
+    ['notes', 'Notes', 'textarea', [40,10]],
+    ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
+  );
+  return editorElements;
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
