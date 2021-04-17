@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.14';
+var OldSchool_VERSION = '2.2.1.15';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -177,7 +177,7 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"1:Shield Proficiency (All)",' +
-      '1:Assassination,1:Backstab,1:Disguise,"3:Rogue Skills",' +
+      '1:Assassination,1:Backstab,1:Disguise,"1:Poison Use","3:Rogue Skills",' +
       '"intelligence >= 15? 9:Bonus Languages",' +
       '"12:Read Scrolls" ' +
     'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
@@ -406,7 +406,9 @@ OldSchool.FEATURES = {
   'Bonus Druid Spells':'Section=magic Note="%1/%2/%3/%4"',
   'Bonus Fighter Experience':
     'Section=ability Note="10% added to awarded experience"',
-  'Bonus Languages':'Section=feature Note="+%V Language Count"',
+  'Bonus Languages':
+    'Section=skill ' +
+    'Note="Can learn %V additional choices from alignment languages, druidic, or thieves\' cant"',
   'Bonus Magic User Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Bonus Paladin Experience':
@@ -469,6 +471,9 @@ OldSchool.FEATURES = {
   'Poetic Inspiration':
     'Section=magic ' +
     'Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
+  'Poison Use':
+    'Section=combat ' +
+    'Note="Familiar with ingested poisons and poisoned weapon use"',
   'Precise Blow':'Section=combat Note="+%V weapon damage"',
   'Protection From Evil':
     'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
@@ -5131,11 +5136,11 @@ OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
     rules.defineRule('skillNotes.armorSkillModifiers.1',
       'skillNotes.armorSkillModifiers', '+', 'null'
     );
+    QuilvynRules.validAllocationRules
+      (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
   }
   QuilvynRules.validAllocationRules
     (rules, 'language', 'languageCount', 'Sum "^languages\\."');
-  QuilvynRules.validAllocationRules
-    (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
 
 };
 
@@ -5505,9 +5510,8 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.backstab',
       'levels.Assassin', '+=', '2 + Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('featureNotes.bonusLanguages',
-      'intelligence', '=', 'source - 14',
-      'levels.Assassin', 'v', 'source >= 9 ? source - 8 : 0'
+    rules.defineRule('skillNotes.bonusLanguages',
+      'intelligence', '=', 'source>14 ? source - 14 : null'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       // Override level at which Rogue Skills is awarded
@@ -6325,13 +6329,18 @@ OldSchool.getPlugins = function() {
 /* Returns HTML body content for user notes associated with this rule set. */
 OldSchool.ruleNotes = function() {
   return '' +
-    '<h2>OldSchool Quilvyn Module Notes</h2>\n' +
-    'OldSchool Quilvyn Module Version ' + OldSchool_VERSION + '\n' +
+    '<h2>OldSchool Quilvyn Plugin Notes</h2>\n' +
+    'OldSchool Quilvyn Plugin Version ' + OldSchool_VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
+    '    For convenience, Quilvyn reports THAC0 values for First Edition\n' +
+    '    and OSRIC characters. It also reports THAC10 ("To Hit Armor Class\n' +
+    '    10"), which can be more useful with characters who need a 20 to\n' +
+    '    hit AC 0.\n' +
+    '  </li><li>\n' +
     '    The OSRIC rules discuss illusionist scrolls, but does not give\n' +
     '    the minimum level required to create them. Quilvyn uses the 1E PHB\n' +
     '    limit of level 10.\n' +
@@ -6353,6 +6362,9 @@ OldSchool.ruleNotes = function() {
     '    for example, "R10\'" in the W1 Grease spell should be read as 10\n' +
     '    yards for 2E characters.\n' +
     '  </li><li>\n' +
+    '    Quilvyn assumes that Halfling characters are of pure Stoutish blood\n'+
+    '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
+    '  </li><li>\n' +
     '    The 2E spell Spiritual Hammer is modified to Spiritual Weapon to\n' +
     '    match the 1E spell.\n' +
     '  </li>\n' +
@@ -6373,9 +6385,6 @@ OldSchool.ruleNotes = function() {
     '    Quilvyn does not note the First Edition lower strength maximum\n' +
     '    for female characters.\n' +
     '  </li><li>\n' +
-    '    Quilvyn assumes that Halfling characters are of pure Stoutish\n' +
-    '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
-    '  </li><li>\n' +
     '    Fractional percentages for First Edition Thief skills are not\n' +
     '    reported.\n' +
     '  </li><li>\n' +
@@ -6383,7 +6392,7 @@ OldSchool.ruleNotes = function() {
     '    are not reported.\n' +
     '  </li><li>\n' +
     '    In Second Edition, Quilvyn does not consider sphere limitations\n' +
-    '    to priest spell sections.\n' +
+    '    on priest spell selections.\n' +
     '  </li><li>\n' +
     '    Quilvyn does not note Halfling characters with a strength of 18,\n' +
     '    nor (OSRIC rules) Elf characters with a constitution of 18.\n' +
@@ -6391,11 +6400,6 @@ OldSchool.ruleNotes = function() {
     '    Quilvyn does not report the chance of extraordinary success on\n' +
     '    strength tests for characters with strength 18/91 and higher.\n' +
     '  </li>\n' +
-    '</ul>\n' +
-    '</p>\n' +
-    '\n' +
-    '<h3>Known Bugs</h3>\n' +
-    '<ul>\n' +
     '</ul>\n' +
     '</p>\n';
 };
