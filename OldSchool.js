@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.15';
+var OldSchool_VERSION = '2.2.1.16';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -4616,6 +4616,11 @@ OldSchool.abilityRules = function(rules) {
   }
 
   // Constitution
+  rules.defineRule('conHPAdjPerDie',
+    'constitution', '=',
+      'source<=3 ? -2 : source<=6 ? -1 : source<=14 ? null : (source - 14)',
+    'warriorLevel', 'v', 'source == 0 ? 2 : null'
+  );
   rules.defineRule('surviveResurrection',
     'constitution', '=',
     'source <= 13 ? source * 5 + 25 : source <= 18 ? source * 2 + 64 : 100'
@@ -4627,14 +4632,17 @@ OldSchool.abilityRules = function(rules) {
     'source <= 17 ? source * 3 + 46 : 99'
   );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
-    'constitution', '=',
-    'source <= 3 ? -2 : source <= 6 ? -1 : source <= 14 ? null : (source - 14)',
-    'warriorLevel', 'v', 'source == 0 ? 2 : null',
-    'level', '*', null
+    'conHPAdjPerDie', '=', null,
+    'hitDice', '*', null
+  );
+  rules.defineRule('hitDice',
+    'level', '=', null,
+    'levels.Monk', '+', '1',
+    'levels.Ranger', '+', '1'
   );
   rules.defineRule('hitPoints',
     'combatNotes.constitutionHitPointsAdjustment', '+', null,
-    'level', '^', null
+    'hitDice', '^', null
   );
 
   // Dexterity
