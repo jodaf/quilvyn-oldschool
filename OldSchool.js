@@ -595,13 +595,13 @@ OldSchool.GOODIES = {
     'Attribute=save.Breath ' +
     'Section=save Note="%V Breath"',
   'Charisma':
-    'Pattern="([-+]\\d)\\s+charisma|charisma\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+cha(?:risma)?|cha(?:risma)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=charisma ' +
     'Section=ability Note="%V Charisma"',
   'Constitution':
-    'Pattern="([-+]\\d)\\s+constitution|constitution\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+con(?:stitution)?|con(?:stitution)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=constitution ' +
@@ -613,13 +613,13 @@ OldSchool.GOODIES = {
     'Attribute=save.Death ' +
     'Section=save Note="%V Death"',
   'Dexterity':
-    'Pattern="([-+]\\d)\\s+dexterity|dexterity\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+dex(?:terity)?|dex(?:terity)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=dexterity ' +
     'Section=ability Note="%V Dexterity"',
   'Intelligence':
-    'Pattern="([-+]\\d)\\s+intelligence|intelligence\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+int(?:elligence)?|int(?:elligence)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=intelligence ' +
@@ -655,7 +655,7 @@ OldSchool.GOODIES = {
     'Attribute=save.Spell ' +
     'Section=save Note="%V Spell"',
   'Strength':
-    'Pattern="([-+]\\d)\\s+strength|strength\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+str(?:ength)?|str(?:ength)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=strength ' +
@@ -667,7 +667,7 @@ OldSchool.GOODIES = {
     'Attribute=save.Wand ' +
     'Section=save Note="%V Wand"',
   'Wisdom':
-    'Pattern="([-+]\\d)\\s+wisdom|wisdom\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+wis(?:dom)?|wis(?:dom)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=wisdom ' +
