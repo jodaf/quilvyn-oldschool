@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.16';
+var OldSchool_VERSION = '2.2.1.17';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -93,6 +93,7 @@ function OldSchool() {
     rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
     rules.defineSheetElement
       ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+    rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
     rules.defineSheetElement
       ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
     rules.defineSheetElement('Thac0 Melee', 'Thac0Info/', '%V');
@@ -155,17 +156,27 @@ OldSchool.ALIGNMENTS = {
   'Lawful Neutral':''
 };
 OldSchool.ARMORS = {
-  'None':'AC=0 Move=120 Weight=0',
+  'None':
+    'AC=0 Move=120 Weight=0 ' +
+    'Skill="+10% Climb Walls/+5% Hide In Shadows/+10% Move Silently/+5% Pick Pockets"',
   'Banded':'AC=6 Move=90 Weight=35',
-  'Chain':'AC=5 Move=90 Weight=30',
-  'Elven Chain':'AC=5 Move=120 Weight=15',
+  'Chain':
+    'AC=5 Move=90 Weight=30 ' +
+    'Skill="-25% Climb Walls/-10% Find Traps/-10% Hear Noise/-15% Hide In Shadows/-15% Move Silently/-10% Open Locks/-25% Pick Pockets"',
+  'Elven Chain':
+    'AC=5 Move=120 Weight=15 ' +
+    'Skill="-20% Climb Walls/-5% Find Traps/-5% Hear Noise/-10% Hide In Shadows/-10% Move Silently/-5% Open Locks/-20% Pick Pockets"',
   'Leather':'AC=2 Move=120 Weight=15',
-  'Padded':'AC=2 Move=90 Weight=10',
+  'Padded':
+    'AC=2 Move=90 Weight=10 ' +
+    'Skill="-30% Climb Walls/-10% Find Traps/-10% Hear Noise/-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/-30% Pick Pockets"',
   'Plate':'AC=7 Move=60 Weight=45',
   'Ring':'AC=3 Move=90 Weight=35',
   'Scale Mail':'AC=4 Move=60 Weight=40',
   'Splint':'AC=6 Move=60 Weight=40',
-  'Studded Leather':'AC=3 Move=90 Weight=20',
+  'Studded Leather':
+    'AC=3 Move=90 Weight=20 ' +
+    'Skill="-30% Climb Walls/-10% Find Traps/-10% Hear Noise/-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/-30% Pick Pockets"'
 };
 OldSchool.CLASSES = {
   'Assassin':
@@ -177,7 +188,7 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"1:Shield Proficiency (All)",' +
-      '1:Assassination,1:Backstab,1:Disguise,"1:Poison Use","3:Rogue Skills",' +
+      '1:Assassination,1:Backstab,1:Disguise,"1:Poison Use","3:Thief Skills",' +
       '"intelligence >= 15? 9:Bonus Languages",' +
       '"12:Read Scrolls" ' +
     'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
@@ -314,7 +325,7 @@ OldSchool.CLASSES = {
     'HitDie=d4 Attack=1,2,4 WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
-      '"1:Dodge Missiles",1:Evasion,"1:Killing Blow","1:Rogue Skills",' +
+      '"1:Dodge Missiles",1:Evasion,"1:Killing Blow","1:Monk Skills",' +
       '1:Spiritual,"1:Stunning Blow",1:Unburdened,2:Aware,' +
       '"3:Speak With Animals","4:Flurry Of Blows","4:Masked Mind",' +
       '"4:Slow Fall","5:Controlled Movement","5:Purity Of Body",' +
@@ -383,7 +394,7 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
-      '1:Backstab,"1:Rogue Skills","10:Read Scrolls" ' +
+      '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
     'Experience=' +
       '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
       '1760,1980,2200'
@@ -460,6 +471,9 @@ OldSchool.FEATURES = {
     'Section=feature Note="%V% info about legendary item, person, place"',
   'Loner':'Section=feature Note="Will not work with gt 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
+  'Monk Skills':
+    'Section=skill ' +
+    'Note="Climb Walls, Find Traps, Hear Noise, Hide In Shadows, Move Silently, Open Locks"',
   'Nature Knowledge':
     'Section=feature ' +
     'Note="Identify plant and animal types, determine water purity"',
@@ -484,9 +498,6 @@ OldSchool.FEATURES = {
     'Section=magic Note="75% cast arcane or druidic spell from scroll"',
   'Resist Fire':'Section=save Note="+2 vs. fire"',
   'Resist Lightning':'Section=save Note="+2 vs. lightning"',
-  'Rogue Skills':
-    'Section=skill ' +
-    'Note="+%1 Climb Walls/+%2 Find Traps/+%3 Hear Noise/+%4 Hide In Shadows/+%5 Move Silently/+%6 Open Locks/+%7 Pick Pockets/+%8 Read Languages"',
   'Scrying':'Section=magic Note="May use scrying magic items"',
   'Selective':'Section=feature Note="Must employ only good henchmen"',
   'Shapeshift':
@@ -503,6 +514,9 @@ OldSchool.FEATURES = {
     'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5"',
   'Summon Warhorse':
     'Section=feature Note="Call warhorse w/enhanced features"',
+  'Thief Skills':
+    'Section=skill ' +
+    'Note="Climb Walls, Find Traps, Hear Noise, Hide In Shadows, Move Silently, Open Locks, Pick Pockets, Read Languages"',
   'Track':
     'Section=feature Note="90% rural, 65%+ urban or dungeon creature tracking"',
   'Travel Light':
@@ -533,32 +547,15 @@ OldSchool.FEATURES = {
     'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
   'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
-  'Dwarf Skill Modifiers':
-    'Section=skill ' +
-    'Note="-10 Climb Walls/+15 Find Traps/+10 Open Locks/-5 Read Languages"',
   'Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution"',
-  'Elf Skill Modifiers':
-    'Section=skill ' +
-    'Note="+5 Hear Noise/+10 Hide In Shadows/+5 Move Silently/-5 Open Locks/+5 Pick Pockets"',
   'Gnome Dodge':
     'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
-  'Gnome Skill Modifiers':
-    'Section=skill ' +
-    'Note="-15 Climb Walls/+10 Find Traps/+10 Hear Noise/+5 Hide In Shadows/+5 Move Silently/+5 Open Locks"',
-  'Half-Elf Skill Modifiers':
-    'Section=skill Note="+5 Hide In Shadows/+10 Pick Pockets"',
   'Half-Orc Ability Adjustment':
     'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
-  'Half-Orc Skill Modifiers':
-    'Section=skill ' +
-    'Note="+5 Climb Walls/+5 Find Traps/+5 Hear Noise/+5 Open Locks/-5 Pick Pockets/-10 Read Languages"',
   'Halfling Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Strength"',
-  'Halfling Skill Modifiers':
-    'Section=skill ' +
-    'Note="-15 Climb Walls/+5 Find Traps/+5 Hear Noise/+15 Hide In Shadows/+10 Move Silently/+5 Open Locks/+5 Pick Pockets/-5 Read Languages"',
   'Infravision':'Section=feature Note="60\' vision in darkness"',
   'Know Depth':
     'Section=feature Note="%V% Determine approximate depth underground"',
@@ -694,8 +691,7 @@ OldSchool.RACES = {
       '"1:Dwarf Ability Adjustment","1:Dwarf Dodge","1:Dwarf Enmity",' +
       '1:Infravision,"1:Know Depth","1:Resist Magic","1:Resist Poison",' +
       '"1:Sense Construction","1:Sense Sliding","1:Sense Slope",' +
-      '"1:Trap Sense",' +
-      '"rogueSkillLevel > 0 ? 1:Dwarf Skill Modifiers" ' +
+      '"1:Trap Sense" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Kobold,Orc',
   'Elf':
@@ -705,8 +701,7 @@ OldSchool.RACES = {
     'Features=' +
       '"1:Bow Precision","1:Detect Secret Doors","1:Elf Ability Adjustment",' +
       '1:Infravision,"1:Resist Charm","1:Resist Sleep",1:Stealthy,' +
-      '"1:Sword Precision",' +
-      '"rogueSkillLevel > 0 ? 1:Elf Skill Modifiers" ' +
+      '"1:Sword Precision" ' +
     'Languages=' +
       'Common,Elf,Gnoll,Gnome,Goblin,Halfling,Hobgoblin,Orc',
   'Gnome':
@@ -715,8 +710,7 @@ OldSchool.RACES = {
     'Features=' +
       '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
       '"1:Gnome Enmity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
-      '"1:Sense Hazard","1:Sense Slope",' +
-      '"rogueSkillLevel > 0 ? 1:Gnome Skill Modifiers" ' +
+      '"1:Sense Hazard","1:Sense Slope" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Halfling,Kobold',
   'Half-Elf':
@@ -724,8 +718,7 @@ OldSchool.RACES = {
       '"constitution >= 6","dexterity >= 6","intelligence >= 4" ' +
     'Features=' +
       '"1:Detect Secret Doors",1:Infravision,"1:Resist Charm",' +
-      '"1:Resist Sleep",' +
-      '"rogueSkillLevel > 0 ? 1:Half-Elf Skill Modifiers" ' +
+      '"1:Resist Sleep" ' +
     'Languages=' +
       'Common,Elf,Gnoll,Gnome,Goblin,Halfling,Hobgoblin,Orc',
   'Half-Orc':
@@ -733,8 +726,7 @@ OldSchool.RACES = {
       '"charisma <= 12","constitution >= 13","dexterity <= 17",' +
       '"intelligence <= 17","strength >= 6","wisdom <= 14" ' +
     'Features=' +
-      '"1:Half-Orc Ability Adjustment",1:Infravision,' +
-      '"rogueSkillLevel > 0 ? 1:Half-Orc Skill Modifiers" ' +
+      '"1:Half-Orc Ability Adjustment",1:Infravision ' +
     'Languages=' +
       'Common,Orc',
   'Halfling':
@@ -744,8 +736,7 @@ OldSchool.RACES = {
     'Features=' +
       '"1:Deadly Aim","1:Direction Sense","1:Halfling Ability Adjustment",' +
       '1:Infravision,"1:Resist Magic","1:Resist Poison","1:Sense Slope",' +
-      '1:Stealthy,' +
-      '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers" ' +
+      '1:Stealthy ' +
     'Languages=' +
       'Common,Dwarf,Elf,Gnome,Goblin,Halfling,Orc',
   'Human':
@@ -769,14 +760,14 @@ OldSchool.SHIELDS = {
   'Small Shield':'AC=1 Weight=5'
 };
 OldSchool.SKILLS = {
-  'Climb Walls':'Ability=strength Class=Assassin,Monk,Thief',
-  'Find Traps':'Ability=dexterity Class=Assassin,Monk,Thief',
-  'Hear Noise':'Ability=wisdom Class=Assassin,Monk,Thief',
-  'Hide In Shadows':'Ability=dexterity Class=Assassin,Monk,Thief',
-  'Move Silently':'Ability=dexterity Class=Assassin,Monk,Thief',
-  'Open Locks':'Ability=dexterity Class=Assassin,Monk,Thief',
-  'Pick Pockets':'Ability=dexterity Class=Assassin,Thief',
-  'Read Languages':'Ability=intelligence Class=Assassin,Thief'
+  'Climb Walls':'Class=Assassin,Monk,Thief',
+  'Find Traps':'Class=Assassin,Monk,Thief',
+  'Hear Noise':'Class=Assassin,Monk,Thief',
+  'Hide In Shadows':'Class=Assassin,Monk,Thief',
+  'Move Silently':'Class=Assassin,Monk,Thief',
+  'Open Locks':'Class=Assassin,Monk,Thief',
+  'Pick Pockets':'Class=Assassin,Thief',
+  'Read Languages':'Class=Assassin,Thief'
 };
 // To support class- and version-based differences in spell description, spell
 // attributes may include values for Duration, Effect, and Range that are
@@ -2526,10 +2517,11 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Neutral\'","charisma >= 15","dexterity >= 12",' +
           '"intelligence >= 13" ' +
+        'NonweaponProficiency=3,4 ' +
         'Features=' +
           '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain)",' +
           '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
-          '"1:Poetic Inspiration","1:Rogue Skills" ' +
+          '"1:Poetic Inspiration","1:Bard Skills" ' +
         'Experience=' +
           '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
           '1760,1980,2200 ' +
@@ -2544,6 +2536,7 @@ OldSchool.RULE_EDITS = {
           'W5:13=1;15=2;17=3;20=4,' +
           'W6:16=1;18=2;20=3',
       'Cleric':
+        'NonweaponProficiency=4,3 ' +
         'SpellSlots=' +
           'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
           'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
@@ -2555,6 +2548,7 @@ OldSchool.RULE_EDITS = {
       'Druid':
         'Require=' +
           '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
+        'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
           '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
@@ -2574,12 +2568,14 @@ OldSchool.RULE_EDITS = {
           'P7:14=1;17=2',
       'Fighter':
         'Require="strength >= 9" ' +
+        'NonweaponProficiency=3,3 ' +
         'Features-="1:Fighting The Unskilled" ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000',
       'Illusionist':
         'Require="dexterity >= 16","intelligence >= 9" ' +
+        'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"Intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
           '"1:Empowered Illusions","1:Illusion Resistance",' +
@@ -2599,6 +2595,7 @@ OldSchool.RULE_EDITS = {
           'W8:16=2;17=3;19=4,' +
           'W9:18=2;20=3',
       'Magic User':
+        'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"9:Craft Minor Magic" ' +
@@ -2616,6 +2613,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment == \'Lawful Good\'","charisma >= 17",' +
           '"constitution >= 9","strength >= 12","wisdom >= 13" ' +
+        'NonweaponProficiency=3,3 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/charisma >= 16 ? 1:Bonus Paladin Experience",' +
@@ -2637,6 +2635,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
+        'NonweaponProficiency=3,3 ' +
         'HitDie=d10 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -2655,7 +2654,8 @@ OldSchool.RULE_EDITS = {
           'P3:12=1;14=2;16=3',
        'Thief':
          'Require=' +
-           '"alignment != \'Lawful Good\'","dexterity >= 9"'
+           '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
+         'NonweaponProficiency=3,4'
     },
     'Feature':{
       // Modified
@@ -2678,6 +2678,9 @@ OldSchool.RULE_EDITS = {
       'Ambidextrous':'Section=combat Note="No penalty for two-handed fighting"',
       'Animal Empathy':
         'Section=skill Note="Automatic friend to domestic animals, shift wild reaction one category (%V Wand save neg)"',
+      'Bard Skills':
+        'Section=skill ' +
+        'Note="Climb Walls, Hear Noise, Pick Pockets, Read Languages"',
       'Bonus Illusionist Experience':
         'Section=ability Note="10% added to awarded experience"',
       'Circle Of Power':
@@ -2693,7 +2696,7 @@ OldSchool.RULE_EDITS = {
       'Magic Mismatch':
         'Section=feature Note="20% magic item malfunction"',
       'Ranger Skills':
-        'Section=skill Note="%1 Hide In Shadows/%2 Move Silently"',
+        'Section=skill Note="Hide In Shadows, Move Silently"',
       'School Opposition (Abjuration)':
         'Section=magic Note="Cannot learn or cast Abjuration spells"',
       'School Opposition (Alteration)':
@@ -2749,8 +2752,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
           '"1:Gnome Enmity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
-          '"1:Magic Mismatch","1:Sense Hazard","1:Sense Slope",' +
-          '"rogueSkillLevel > 0 ? 1:Gnome Skill Modifiers" ' +
+          '"1:Magic Mismatch","1:Sense Hazard","1:Sense Slope" ' +
         'Languages=Common,Gnome',
       'Half-Elf':
         'Languages=Common',
@@ -2802,7 +2804,7 @@ OldSchool.RULE_EDITS = {
       'Astrology':
         'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
       'Blacksmithing':'Ability=strength Class=all',
-      'Blind-Fighting':'Class=Bard,Fighter,Paladin,Ranger,Thief',
+      'Blind-Fighting':'Class=Bard,Fighter,Paladin,Ranger,Thief Ability=N/A',
       'Bowyer':'Ability=dexterity Class=Fighter,Paladin,Ranger',
       'Brewing':'Ability=intelligence Class=all',
       'Carpentry':'Ability=strength Class=all',
@@ -2834,7 +2836,7 @@ OldSchool.RULE_EDITS = {
       'Local History':'Ability=charisma Class=Bard,Cleric,Druid,Thief',
       'Mining':'Ability=wisdom Class=all',
       'Modern Languages':'Ability=intelligence Class=all',
-      'Mountaineering':'Class=Fighter,Paladin,Ranger',
+      'Mountaineering':'Class=Fighter,Paladin,Ranger Ability=N/A',
       'Musical Instrument':'Ability=dexterity Class=Cleric,Druid',
       'Navigation':
         'Ability=intelligence Class=Fighter,Illusionist,"Magic User",Paladin,Ranger',
@@ -4410,22 +4412,10 @@ OldSchool.RULE_EDITS = {
     },
     'Feature':{
       // Modified
-      'Dwarf Skill Modifiers':
-        'Note="-10 Climb Walls/+15 Find Traps/-5 Move Silently/+15 Open Locks/-5 Read Languages"',
-      'Elf Skill Modifiers':
-        'Note="-5 Climb Walls/+5 Find Traps/+5 Hear Noise/+10 Hide In Shadows/+5 Move Silently/-5 Open Locks/+5 Pick Pockets/+10 Read Languages"',
       'Favored Enemy':
         'Note="+%V melee damage vs. evil humanoids and giant foes"',
-      'Gnome Skill Modifiers':
-        'Note="-15 Climb Walls/+5 Hear Noise/+10 Open Locks"',
-      'Half-Orc Skill Modifiers':
-        'Note="+5 Climb Walls/+5 Find Traps/+5 Hear Noise/+5 Open Locks/-5 Pick Pockets/-10 Read Languages"',
-      'Halfling Skill Modifiers':
-        'Note="-15 Climb Walls/+5 Hear Noise/+15 Hide In Shadows/+15 Move Silently/+5 Pick Pockets/-5 Read Languages"',
       'Read Scrolls':'Note="%V% cast arcane spell from scroll"',
       // New
-      'Human Skill Modifiers':
-        'Section=skill Note="+5 Climb Walls/+5 Open Locks"',
       'Slow':'Section=ability Note="-60 Speed"'
     },
     'Race':{
@@ -4437,11 +4427,8 @@ OldSchool.RULE_EDITS = {
       'Halfling':
         'Features=' +
           '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
-          '"1:Resist Magic","1:Resist Poison","1:Slow",1:Stealthy,' +
-          '"rogueSkillLevel > 0 ? 1:Halfling Skill Modifiers" ' +
+          '"1:Resist Magic","1:Resist Poison","1:Slow",1:Stealthy ' +
         'Languages-=Elf',
-      'Human':
-        'Features="rogueSkillLevel > 0 ? 1:Human Skill Modifiers"'
     },
     'Spell':{
       // Modified
@@ -4663,6 +4650,41 @@ OldSchool.abilityRules = function(rules) {
     'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
     'source <= 18 ? source - 15 : 3'
   );
+  if(OldSchool.EDITION == 'OSRIC')
+    rules.defineRule('skillNotes.dexteritySkillModifiers',
+      'dexterity', '=',
+        '[' +
+          'source<12 ? (source - 12) * 5 + "% Find Traps" : "",' +
+          'source>16 ? "+" + (source - 16) * 5 + "% Find Traps" : "",' +
+          'source<11 ? (source - 11) * 5 + "% Hide In Shadows" : "",' +
+          'source>16 ? "+" + (source - 16) * 5 + "% Hide In Shadows" : "",' +
+          'source<13 ? (source - 13) * 5 + "% Move Silently" : "",' +
+          'source>16 ? "+" + (source - 16) * 5 + "% Move Silently" : "",' +
+          'source<11 ? (source - 11) * 5 + "% Open Locks" : "",' +
+          'source>15 ? "+" + (source - 15) * 5 + "% Open Locks" : "",' +
+          'source<12 ? (source - 12) * 5 + "% Pick Pockets" : "",' +
+          'source>17 ? "+" + (source - 17) * 5 + "% Pick Pockets" : "",' +
+        '].filter(x => x != "").join("/")'
+    );
+  else
+    rules.defineRule('skillNotes.dexteritySkillModifiers',
+      'dexterity', '=',
+        '[' +
+          'source<11 ? "-10% Find Traps" : "",' +
+          'source==11 ? "-5% Find Traps" : "",' +
+          'source>17 ? "+" + (source - 17) * 5 + "% Find Traps" : "",' +
+          'source<11 ? (source - 11) * 5 + "% Hide In Shadows" : "",' +
+          'source>16 ? "+" + (source - 16) * 5 + "% Hide In Shadows" : "",' +
+          'source<13 ? (source - 13) * 5 + "% Move Silently" : "",' +
+          'source>16 ? "+" + (source - 16) * 5 + "% Move Silently" : "",' +
+          'source<11 ? (source - 11) * 5 + "% Open Locks" : "",' +
+          'source>15 ? "+" + (source - 15) * 5 + "% Open Locks" : "",' +
+          'source<12 ? (source - 12) * 5 + "% Pick Pockets" : "",' +
+          'source>16 ? "+" + (source - 16) * 5 + "% Pick Pockets" : "",' +
+        '].filter(x => x != "").join("/")'
+    );
+  rules.defineRule
+    ('skillNotes.dexteritySkillModifiers', 'skillCount', '?', null);
 
   // Intelligence
   if(OldSchool.EDITION == 'Second Edition') {
@@ -4739,7 +4761,7 @@ OldSchool.abilityRules = function(rules) {
 /* Defines rules related to combat. */
 OldSchool.combatRules = function(rules, armors, shields, weapons) {
 
-  QuilvynUtils.checkAttrTable(armors, ['AC', 'Move', 'Weight']);
+  QuilvynUtils.checkAttrTable(armors, ['AC', 'Move', 'Weight', 'Skill']);
   QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight']);
   QuilvynUtils.checkAttrTable(weapons, ['Category', 'Damage', 'Range']);
 
@@ -4898,7 +4920,7 @@ OldSchool.identityRules = function(rules, alignments, classes, races) {
 
   QuilvynUtils.checkAttrTable(alignments, []);
   QuilvynUtils.checkAttrTable
-    (classes, ['Require', 'HitDie', 'Attack', 'WeaponProficiency', 'Breath', 'Death', 'Petrification', 'Spell', 'Wand', 'Features', 'Selectables', 'Experience', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
+    (classes, ['Require', 'HitDie', 'Attack', 'WeaponProficiency', 'NonweaponProficiency', 'Breath', 'Death', 'Petrification', 'Spell', 'Wand', 'Features', 'Selectables', 'Experience', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
   QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Selectables', 'Languages']);
 
   for(var alignment in alignments) {
@@ -4932,99 +4954,6 @@ OldSchool.identityRules = function(rules, alignments, classes, races) {
     ('saveNotes.resistMagic', 'constitution', '=', 'Math.floor(source / 3.5)');
   rules.defineRule
     ('saveNotes.resistPoison', 'constitution', '=', 'Math.floor(source / 3.5)');
-  if(OldSchool.EDITION == 'First Edition') {
-    rules.defineRule('skillNotes.rogueSkills.1',
-      'rogueSkillLevel', '=', 'source<=4 ? source+84 : Math.min(2*source+80, 99)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.2',
-      'rogueSkillLevel', '+=', 'Math.min(5*source + 15, 99)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.3',
-      'rogueSkillLevel', '=', '5*Math.floor((source-1)/2) + (source>=15 ? 15 : 10)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.4',
-      'rogueSkillLevel', '=', 'source<5 ? 5*source + 5 : source < 9 ? 6*source + 1 : source<13 ? 7*source - 7 : Math.min(8*source - 19, 99)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.5',
-      'rogueSkillLevel', '=', 'source<5 ? 6*source + 9 : source<7 ? 7*source + 5 : source==7 ? 55 : Math.min(8*source - 2, 99)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.6',
-      'rogueSkillLevel', '=', 'source<5 ? 4*source + 21 : Math.min(5*source+17, 99)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.7',
-      'rogueSkillLevel', '=', 'source < 10 ? 5*source+25 : source<13 ? 10*source-20 : source<16 ? 5*source+40 : 125'
-    );
-    rules.defineRule('skillNotes.rogueSkills.8',
-      'rogueSkillLevel', '=', 'source > 3 ? Math.min(5 * source, 80) : 0'
-    );
-  } else if(OldSchool.EDITION == 'OSRIC') {
-    rules.defineRule('skillNotes.rogueSkills.1',
-      'rogueSkillLevel', '=', 'source<7 ? 2*source + 78 : Math.min(source + 84, 99)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.2',
-      'rogueSkillLevel', '=', 'source<18 ? 4*source+21 : Math.min(2*source+55, 99)'
-    );
-    rules.defineRule
-      ('skillNotes.rogueSkills.3', 'rogueSkillLevel', '+=', '3* source + 7');
-    rules.defineRule('skillNotes.rogueSkills.4',
-      'rogueSkillLevel', '=', 'source < 16 ? 5 * source + 15 : (source + 75)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.5',
-      'rogueSkillLevel', '=', 'source < 16 ? 5 * source + 15 : (source + 75)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.6',
-      'rogueSkillLevel', '=', 'source < 17 ? 4 * source + 26 : (source + 75)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.7',
-      'rogueSkillLevel', '=', 'source < 15 ? 4 * source + 31 : (source + 75)'
-    );
-    rules.defineRule('skillNotes.rogueSkills.8',
-      'rogueSkillLevel', '=', 'source<20 ? Math.max(5*source-5, 1) : Math.min(2*source+52, 99)'
-    );
-  } else { // Second Edition
-    rules.defineRule('maxAllowedSkillAllocation',
-      'skillPoints', '=', 'Math.min(Math.floor(source / 2), 95)'
-    );
-    rules.defineRule('skillPoints',
-      'levels.Bard', '+=', '15 * source + 5',
-      'levels.Thief', '+=', '30 * source + 30'
-    );
-    rules.defineRule('skillNotes.rogueSkills.1',
-      'levels.Bard', '+=', '50',
-      'levels.Thief', '+=', '60'
-    );
-    rules.defineRule('skillNotes.rogueSkills.2',
-      'levels.Bard', '+=', '0',
-      'levels.Thief', '+=', '5'
-    );
-    rules.defineRule('skillNotes.rogueSkills.3',
-      'levels.Bard', '+=', '20',
-      'levels.Thief', '+=', '15'
-    );
-    rules.defineRule('skillNotes.rogueSkills.4',
-      'levels.Bard', '+=', '0',
-      'levels.Thief', '+=', '5'
-    );
-    rules.defineRule('skillNotes.rogueSkills.5',
-      'levels.Bard', '+=', '0',
-      'levels.Thief', '+=', '10'
-    );
-    rules.defineRule('skillNotes.rogueSkills.6',
-      'levels.Bard', '+=', '0',
-      'levels.Thief', '+=', '10'
-    );
-    rules.defineRule('skillNotes.rogueSkills.7',
-      'levels.Bard', '+=', '10',
-      'levels.Thief', '+=', '15'
-    );
-    rules.defineRule('skillNotes.rogueSkills.8',
-      'levels.Bard', '+=', '5',
-      'levels.Thief', '+=', '0'
-    );
-  }
-  // No-op to get Rogue Skills note to appear in italics
-  rules.defineRule
-    ('skillNotes.rogueSkills.1', 'skillNotes.rogueSkills', '+', 'null');
   rules.defineRule('warriorLevel', '', '=', '0');
   QuilvynRules.validAllocationRules
     (rules, 'weaponProficiency', 'weaponProficiencyCount', 'Sum "^weaponProficiency\\."');
@@ -5087,66 +5016,9 @@ OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
     );
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
   }
-
-  var rogueSkills = [
-    '', 'Climb Walls', 'Find Traps', 'Hear Noise', 'Hide In Shadows',
-    'Move Silently', 'Open Locks', 'Pick Pockets', 'Read Languages'
-  ];
-  for(var i = 1; i < rogueSkills.length; i++) {
-    var skill = rogueSkills[i];
-    if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule('skills.' + skill, 'skillNotes.rogueSkills', '^=', '0');
-      rules.defineRule
-        ('skillModifier.' + skill, 'skillNotes.rogueSkills.' + i, '+', null);
-    } else {
-      rules.defineRule
-        ('skills.' + skill, 'skillNotes.rogueSkills.' + i, '+=', null);
-    }
-  }
-  if(OldSchool.EDITION == 'Second Edition') {
-    rules.defineChoice('notes', 'skillNotes.armorSkillModifiers:%1 Climb Walls/%2 Find Traps/%3 Hear Noise/%4 Hide In Shadows/%5 Move Silently/%6 Open Locks/%7 Pick Pockets');
-    rules.defineRule
-      ('skillNotes.armorSkillModifiers', 'rogueSkillLevel', '=', '1');
-    for(var i = 1; i < rogueSkills.length; i++) {
-      var skill = rogueSkills[i];
-      if(skill == 'Read Languages')
-        continue;
-      rules.defineRule('skillNotes.armorSkillModifiers.' + i,
-        'skills.' + skill, '?', '1',
-        '', '=', '"+0"'
-      );
-      rules.defineRule('skillModifier.' + skill,
-        'skillNotes.armorSkillModifiers.' + i, '+', null
-      );
-    }
-    rules.defineRule('skillNotes.armorSkillModifiers.1',
-      'armor', '=', '{"None":"+10", "Elven Chain":-20, "Chain":-25, "Padded":-30, "Studded Leather":-30}[source]'
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.2',
-      'armor', '=', '{"Elven Chain":-5, "Chain":-10, "Padded":-10, "Studded Leather":-10}[source]'
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.3',
-      'armor', '=', '{"Elven Chain":-5, "Chain":-10, "Padded":-10, "Studded Leather":-10}[source]'
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.4',
-      'armor', '=', '{"None":"+5", "Elven Chain":-10, "Chain":-15, "Padded":-20, "Studded Leather":-20}[source]'
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.5',
-      'armor', '=', '{"None":"+10", "Elven Chain":-10, "Chain":-15, "Padded":-20, "Studded Leather":-20}[source]'
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.6',
-      'armor', '=', '{"Elven Chain":-5, "Chain":-10, "Padded":-10, "Studded Leather":-10}[source]'
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.7',
-      'armor', '=', '{"None":"+5", "Elven Chain":-20, "Chain":-25, "Padded":-30, "Studded Leather":-30}[source]'
-    );
-    // No-op to get Armor Skill Modifiers note to appear in italics
-    rules.defineRule('skillNotes.armorSkillModifiers.1',
-      'skillNotes.armorSkillModifiers', '+', 'null'
-    );
+  if(OldSchool.EDITION == 'Second Edition')
     QuilvynRules.validAllocationRules
       (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
-  }
   QuilvynRules.validAllocationRules
     (rules, 'language', 'languageCount', 'Sum "^languages\\."');
 
@@ -5163,7 +5035,8 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     OldSchool.armorRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
       QuilvynUtils.getAttrValue(attrs, 'Move'),
-      QuilvynUtils.getAttrValue(attrs, 'Weight')
+      QuilvynUtils.getAttrValue(attrs, 'Weight'),
+      QuilvynUtils.getAttrValue(attrs, 'Skill')
     );
   else if(type == 'Class') {
     OldSchool.classRules(rules, name,
@@ -5180,6 +5053,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
       QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
       QuilvynUtils.getAttrValueArray(attrs, 'WeaponProficiency'),
+      QuilvynUtils.getAttrValueArray(attrs, 'NonweaponProficiency'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelArcane'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
       QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
@@ -5216,12 +5090,13 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'AC'),
       QuilvynUtils.getAttrValue(attrs, 'Weight')
     );
-  else if(type == 'Skill')
+  else if(type == 'Skill') {
     OldSchool.skillRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Ability'),
       QuilvynUtils.getAttrValueArray(attrs, 'Class')
     );
-  else if(type == 'Spell') {
+    OldSchool.skillRulesExtra(rules, name);
+  } else if(type == 'Spell') {
     var description = QuilvynUtils.getAttrValue(attrs, 'Description');
     var duration = QuilvynUtils.getAttrValue(attrs, 'Duration');
     var effect =  QuilvynUtils.getAttrValue(attrs, 'Effect');
@@ -5272,9 +5147,10 @@ OldSchool.alignmentRules = function(rules, name) {
 /*
  * Defines in #rules# the rules associated with armor #name#, which adds #ac#
  * to the character's armor class, imposes a maximum movement speed of
- * #maxMove#, and weighs #weight# pounds.
+ * #maxMove#, weighs #weight# pounds, and modifies skills as specified in
+ * #skill#.
  */
-OldSchool.armorRules = function(rules, name, ac, maxMove, weight) {
+OldSchool.armorRules = function(rules, name, ac, maxMove, weight, skill) {
 
   if(!name) {
     console.log('Empty armor name');
@@ -5292,19 +5168,29 @@ OldSchool.armorRules = function(rules, name, ac, maxMove, weight) {
     console.log('Bad weight "' + weight + '" for armor ' + name);
     return;
   }
+  if(skill && typeof skill != 'string') {
+    console.log('Bad skill "' + skill + '" for armor ' + name);
+    return;
+  }
 
   if(rules.armorStats == null) {
     rules.armorStats = {
       ac:{},
       move:{},
-      weight:{}
+      weight:{},
+      skill:{}
     };
   }
   rules.armorStats.ac[name] = ac;
   rules.armorStats.move[name] = maxMove;
   rules.armorStats.weight[name] = weight;
+  rules.armorStats.skill[name] = skill;
 
-  if(OldSchool.EDITION != 'Second Edition') {
+  if(OldSchool.EDITION == 'Second Edition') {
+    rules.defineRule('skillNotes.armorSkillModifiers',
+      'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
+    );
+  } else {
     rules.defineRule('abilityNotes.armorSpeedMaximum',
       'armor', '+', QuilvynUtils.dictLit(rules.armorStats.move) + '[source]'
     );
@@ -5335,16 +5221,20 @@ OldSchool.armorRules = function(rules, name, ac, maxMove, weight) {
  * #weaponProficiency# is a triplet indicating: the number of weapon
  * proficiencies for a level 1 character; the number of levels between
  * increments of weapon proficiencies; the penalty for using a non-proficient
- * weapon. #casterLevelArcane# and #casterLevelDivine#, if specified, give the
- * Javascript expression for determining the caster level for the class; these
- * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
- * character level attribute 'level'. If the class grants spell slots,
- * #spellSlots# lists the number of spells per level per day granted.
+ * weapon. #weaponProficiency# is a pair indicating the number of nonweapon
+ * proficiencies for a level 1 character and the number of levels between
+ * increments of nonweapon proficiencies. #casterLevelArcane# and
+ * #casterLevelDivine#, if specified, give the Javascript expression for
+ * determining the caster level for the class; these can incorporate a class
+ * level attribute (e.g., 'levels.Cleric') or the character level attribute
+ * 'level'. If the class grants spell slots, #spellSlots# lists the number of
+ * spells per level per day granted.
  */
 OldSchool.classRules = function(
   rules, name, requires, experience, hitDie, attack, saveBreath, saveDeath,
   savePetrification, saveSpell, saveWand, features, selectables, languages,
-  weaponProficiency, casterLevelArcane, casterLevelDivine, spellSlots
+  weaponProficiency, nonweaponProficiency, casterLevelArcane,
+  casterLevelDivine, spellSlots
 ) {
 
   if(!name) {
@@ -5413,6 +5303,11 @@ OldSchool.classRules = function(
     console.log('Bad weaponProficiency "' + weaponProficiency + '" for class ' + name);
     return;
   }
+  if(!Array.isArray(nonweaponProficiency) ||
+     (nonweaponProficiency.length != 2 && nonweaponProficiency.length != 0)) {
+    console.log('Bad nonweaponProficiency "' + nonweaponProficiency + '" for class ' + name);
+    return;
+  }
   if(!Array.isArray(spellSlots)) {
     console.log('Bad spellSlots list "' + spellSlots + '" for class ' + name);
     return;
@@ -5472,6 +5367,10 @@ OldSchool.classRules = function(
   rules.defineRule('weaponNonProficiencyPenalty',
     'levels.' + name, '^=', weaponProficiency[2]
   );
+  if(nonweaponProficiency.length == 2)
+    rules.defineRule('nonweaponProficiencyCount',
+      'levels.' + name, '+=', nonweaponProficiency[0] + ' + Math.floor(source / ' + nonweaponProficiency[1] + ')'
+    );
 
   if(spellSlots.length > 0) {
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
@@ -5508,61 +5407,72 @@ OldSchool.classRules = function(
  */
 OldSchool.classRulesExtra = function(rules, name) {
 
+  var classLevel = 'levels.' + name;
+
   if(name == 'Assassin') {
 
-    rules.defineRule('classBaseAttackAdjustment',
-      'levels.Assassin', '+=', 'source > 8 ? 1 : null'
-    );
     rules.defineRule
-      ('combatNotes.assassination', 'levels.Assassin', '=', '5 * source + 50');
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source > 8 ? 1 : null');
+    rules.defineRule
+      ('combatNotes.assassination', classLevel, '=', '5 * source + 50');
     rules.defineRule('combatNotes.backstab',
-      'levels.Assassin', '+=', '2 + Math.floor((source - 1) / 4)'
+      classLevel, '+=', '2 + Math.floor((source - 1) / 4)'
     );
     rules.defineRule('skillNotes.bonusLanguages',
       'intelligence', '=', 'source>14 ? source - 14 : null'
     );
     if(OldSchool.EDITION == 'OSRIC') {
-      // Override level at which Rogue Skills is awarded
-      rules.defineRule
-        ('assassinFeatures.Rogue Skills', 'levels.Assassin', '=', '1');
-      rules.defineRule
-        ('rogueSkillLevel', 'levels.Assassin', '+=', 'Math.max(source - 2, 1)');
+      // Override 1E's level at which assassins get Thief skills
+      rules.defineRule('assassinFeatures.Thief Skills', classLevel, '=', null);
       // Unclear whether Assassins have same chance of failure as Thieves
       rules.defineRule
         ('magicNotes.readScrolls', 'intelligence', '=', 'source * 5 - 10');
-   } else {
-      rules.defineRule('rogueSkillLevel',
-        'levels.Assassin', '+=', 'source > 2 ? source - 2 : null'
-      );
-   }
+    }
+    var skillLevel =
+      'source>2 ? source - 2 : ' + (OldSchool.EDITION=='OSRIC' ? '1' : 'null');
+    rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', skillLevel);
+    rules.defineRule('skillLevel.Find Traps', classLevel, '+=', skillLevel);
+    rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', skillLevel);
+    rules.defineRule
+      ('skillLevel.Hide In Shadows', classLevel, '+=', skillLevel);
+    rules.defineRule('skillLevel.Move Silently', classLevel, '+=', skillLevel);
+    rules.defineRule('skillLevel.Open Locks', classLevel, '+=', skillLevel);
+    rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', skillLevel);
+    rules.defineRule('skillLevel.Read Language', classLevel, '+=', null);
 
   } else if(name == 'Bard') {
 
-    rules.defineRule('classBaseAttackAdjustment',
-      'levels.Bard', '+=', 'source > 18 ? -1 : null'
-    );
+    rules.defineRule
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
     rules.defineRule('classSaveAdjustment',
-      'levels.Bard', '=', 'source >= 19 ? -2 : source >= 7 ? -1 : null'
+      classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
     rules.defineRule('languageCount',
-      'levels.Bard', '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
+      classLevel, '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
     );
-    rules.defineRule("languages.Druids' Cant", 'levels.Bard', '=', '1');
+    rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule
-        ('featureNotes.legendLore', 'levels.Bard', '=', 'source * 5');
+        ('featureNotes.legendLore', classLevel, '=', 'source * 5');
       rules.defineRule('featureNotes.charmingMusic.1',
-        'levels.Bard', '=', 'Math.floor(source / 3)'
+        classLevel, '=', 'Math.floor(source / 3)'
       );
-      rules.defineRule
-       ('magicNotes.poeticInspiration', 'levels.Bard', '=', null);
-      rules.defineRule('rogueSkillLevel', 'levels.Bard', '=', null);
+      rules.defineRule('magicNotes.poeticInspiration', classLevel, '=', null);
+      rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
+      rules.defineRule('skillModifier.Climb Walls', classLevel, '+=', '50',);
+      rules.defineRule('skillModifier.Hear Noise', classLevel, '+=', '20');
+      rules.defineRule('skillModifier.Pick Pockets', classLevel, '+=', '10');
+      rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
+      rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
       rules.defineRule('featureNotes.legendLore',
-        'levels.Bard', '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
+        classLevel, '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
       );
       rules.defineRule('magicNotes.charmingMusic',
-        'levels.Bard', '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
+        classLevel, '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
       );
     }
 
@@ -5570,11 +5480,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'C';
 
-    rules.defineRule('classBaseAttackAdjustment',
-      'levels.Cleric', '+=', 'source > 18 ? -1 : null'
-    );
+    rules.defineRule
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
     rules.defineRule('classSaveAdjustment',
-      'levels.Cleric', '=', 'source >= 19 ? -2 : source >= 7 ? -1 : null'
+      classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
     rules.defineRule('magicNotes.bonusClericSpells.1',
       'features.Bonus Cleric Spells', '?', null,
@@ -5611,13 +5520,12 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Druid') {
 
-    rules.defineRule('classBaseAttackAdjustment',
-      'levels.Druid', '+=', 'source > 18 ? -1 : null'
-    );
+    rules.defineRule
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
     rules.defineRule('classSaveAdjustment',
-      'levels.Druid', '=', 'source >= 19 ? -2 : source >= 7 ? -1 : null'
+      classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
-    rules.defineRule('languageCount', 'levels.Druid', '+', '1');
+    rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Druids' Cant", 'levels.Druid', '=', '1');
     rules.defineRule('magicNotes.bonusDruidSpells.1',
       'features.Bonus Druid Spells', '?', null,
@@ -5636,7 +5544,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       'wisdom', '=', 'source <= 17 ? 0 : 1'
     );
     rules.defineRule('skillNotes.woodlandLanguages',
-      'levels.Druid', '=', 'source > 2 ? source - 2 : null'
+      classLevel, '=', 'source>2 ? source - 2 : null'
     );
     if(OldSchool.EDITION != 'Second Edition') {
       rules.defineRule('spellSlots.D1', 'bonusDruidSpells.1', '+', null);
@@ -5648,21 +5556,20 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Fighter') {
 
     rules.defineRule('attacksPerRound',
-      'levels.Fighter', '+', 'source < 7 ? null : source < 13 ? 0.5 : 1'
+      classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
     );
     rules.defineRule('classBreathSaveAdjustment',
-      'levels.Fighter', '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
+      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('classSaveAdjustment',
-      'levels.Fighter', '=', 'source >= 17 ? 1 : null'
-    );
-    rules.defineRule('warriorLevel', 'levels.Fighter', '+', null);
+    rules.defineRule
+      ('classSaveAdjustment', classLevel, '=', 'source>=17 ? 1 : null');
+    rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Illusionist') {
 
     if(OldSchool.EDITION != 'OSRIC') {
       rules.defineRule('classBaseAttackAdjustment',
-        'levels.Illusionist', '+=', 'source > 15 ? 2 : source > 10 ? 1 : null'
+        classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
       );
     }
 
@@ -5670,166 +5577,182 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     if(OldSchool.EDITION != 'OSRIC') {
       rules.defineRule('classBaseAttackAdjustment',
-        'levels.Magic User', '+=', 'source > 15 ? 2 : source > 10 ? 1 : null'
+        classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
       );
     }
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule('maximumSpellsPerLevel',
-        'levels.Magic User', '?', null,
+        classLevel, '?', null,
         'intelligence', '=', 'source==9 ? 6 : source<13 ? 7 : source<15 ? 9 : source<17 ? 11 : source==17 ? 14 : source==18 ? 18 : "all"'
       );
       rules.defineRule('understandSpell',
-        'levels.Magic User', '?', null,
+        classLevel, '?', null,
         'intelligence', '=', 'source * 5 - 10'
       );
     } else {
       rules.defineRule('intelligenceRow',
-        'intelligence', '=', 'source < 10 ? 0 : source < 13 ? 1 : source < 15 ? 2 : source < 17 ? 3 : (source - 13)'
+        'intelligence', '=', 'source<10 ? 0 : source<13 ? 1 : source<15 ? 2 : source<17 ? 3 : (source - 13)'
       );
       rules.defineRule('maximumSpellsPerLevel',
-        'levels.Magic User', '?', null,
+        classLevel, '?', null,
         'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? 1 : source < 4 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
       );
       rules.defineRule('understandSpell',
-        'levels.Magic User', '?', null,
+        classLevel, '?', null,
         'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
       );
     }
     rules.defineRule('magicNotes.craftMinorMagic.1', '', '=', '""');
     if(OldSchool.EDITION != 'Second Edition') {
       rules.defineRule('magicNotes.craftMinorMagic.1',
-        'levels.Magic User', '=', 'source < 11 ? " with aid of an alchemist" : null'
+        classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
       );
     }
 
   } else if(name == 'Monk') {
 
-    rules.defineRule('armorClass',
-      'levels.Monk', '=', '11 - source + Math.floor(source / 5)'
-    );
-    rules.defineRule('classBaseAttackAdjustment',
-      'levels.Monk', '+=', 'source > 8 ? 1 : null'
-    );
     rules.defineRule
-      ('combatNotes.aware', 'levels.Monk', '=', '34 - source * 2');
+      ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
-      ('combatNotes.dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source > 8 ? 1 : null');
+    rules.defineRule
+      ('combatNotes.aware', classLevel, '=', '34 - source * 2');
+    rules.defineRule
+      ('combatNotes.dexterityArmorClassAdjustment', classLevel, '*', '0');
     rules.defineRule('combatNotes.flurryOfBlows',
-      'levels.Monk', '=', 'source < 6 ? 1.25 : source < 9 ? 1.5 : source < 11 ? 2 : source < 14 ? 2.5 : source < 16 ? 3 : 4'
+      classLevel, '=', 'source<6 ? 1.25 : source<9 ? 1.5 : source<11 ? 2 : source<14 ? 2.5 : source<16 ? 3 : 4'
     );
+    rules.defineRule('combatNotes.killingBlow', classLevel, '=', 'source - 7');
     rules.defineRule
-      ('combatNotes.killingBlow', 'levels.Monk', '=', 'source - 7');
+      ('combatNotes.preciseBlow', classLevel, '=', 'Math.floor(source / 2)');
+    rules.defineRule('combatNotes.quiveringPalm', classLevel, '=', null);
     rules.defineRule
-      ('combatNotes.preciseBlow', 'levels.Monk', '=', 'Math.floor(source / 2)');
-    rules.defineRule('combatNotes.quiveringPalm', 'levels.Monk', '=', null);
+      ('combatNotes.strengthAttackAdjustment', classLevel, '*', '0');
     rules.defineRule
-      ('combatNotes.strengthAttackAdjustment', 'levels.Monk', '*', '0');
+      ('combatNotes.strengthDamageAdjustment', classLevel, '*', '0');
+    rules.defineRule('featureNotes.feignDeath', classLevel, '=', 'source * 2');
     rules.defineRule
-      ('combatNotes.strengthDamageAdjustment', 'levels.Monk', '*', '0');
-    rules.defineRule('dexterityArmorClassAdjustment', 'levels.Monk', '*', '0');
+      ('magicNotes.wholenessOfBody', classLevel, '=', 'source - 6');
     rules.defineRule
-      ('featureNotes.feignDeath', 'levels.Monk', '=', 'source * 2');
+      ('maximumHenchmen', classLevel, 'v', 'source<6 ? 0 : source - 4');
+    rules.defineRule('saveNotes.clearMind', classLevel, '=', '95 - source * 5');
     rules.defineRule
-      ('magicNotes.wholenessOfBody', 'levels.Monk', '=', 'source - 6');
-    rules.defineRule
-      ('maximumHenchmen', 'levels.Monk', 'v', 'source < 6 ? 0 : source - 4');
-    rules.defineRule
-      ('saveNotes.clearMind', 'levels.Monk', '=', '95 - source * 5');
-    rules.defineRule
-      ('saveNotes.maskedMind', 'levels.Monk', '=', '38 - source * 2');
+      ('saveNotes.maskedMind', classLevel, '=', '38 - source * 2');
     rules.defineRule('saveNotes.slowFall.1',
-      'levels.Monk', '=', 'source < 6 ? "20\'" : source < 13 ? "30\'" : "any distance"'
+      classLevel, '=', 'source<6 ? "20\'" : source<13 ? "30\'" : "any distance"'
     );
     rules.defineRule('saveNotes.slowFall.2',
-      'levels.Monk', '=', 'source < 6 ? 1 : source < 13 ? 4 : 8'
+      classLevel, '=', 'source<6 ? 1 : source<13 ? 4 : 8'
     );
-    rules.defineRule('skills.Pick Pockets', 'levels.Monk', '*', '0');
+    if(OldSchool.EDITION == 'First Edition') {
+      rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Open Locks', classLevel, '+=', null);
+    }
     rules.defineRule
-      ('speed', 'levels.Monk', '+', 'source * 10 + (source > 16 ? 30 : 20)');
-    rules.defineRule('rogueSkillLevel', 'levels.Monk', '+=', null);
-    rules.defineRule('skillModifier.Pick Pockets', 'levels.Monk', '*', '0');
-    rules.defineRule('skillModifier.Read Languages', 'levels.Monk', '*', '0');
-    rules.defineRule('skills.Pick Pockets', 'levels.Monk', '*', '0');
-    rules.defineRule('skills.Read Languages', 'levels.Monk', '*', '0');
+      ('speed', classLevel, '+', 'source * 10 + (source>16 ? 30 : 20)');
     rules.defineRule('weapons.Unarmed.2',
-      'levels.Monk', '=', 'OldSchool.monkUnarmedDamage[source]'
+      classLevel, '=', 'OldSchool.monkUnarmedDamage[source]'
     );
 
   } else if(name == 'Paladin') {
 
     if(OldSchool.EDITION == 'OSRIC') {
       rules.defineRule('attacksPerRound',
-        'levels.Paladin', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
+        classLevel, '+', 'source<8 ? null : source<15 ? 0.5 : 1'
       );
     } else {
       rules.defineRule('attacksPerRound',
-        'levels.Paladin', '+', 'source < 7 ? null : source < 13 ? 0.5 : 1'
+        classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
       );
     }
     rules.defineRule('classBreathSaveAdjustment',
-      'levels.Paladin', '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
-    );
-    rules.defineRule('classSaveAdjustment',
-      'levels.Paladin', '=', 'source >= 17 ? 1 : null'
-    );
-    rules.defineRule('magicNotes.cureDisease',
-      'levels.Paladin', '=', 'Math.floor(source / 5) + 1'
+      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
     rules.defineRule
-      ('magicNotes.layOnHands', 'levels.Paladin', '=', '2 * source');
+      ('classSaveAdjustment', classLevel, '=', 'source>=17 ? 1 : null');
+    rules.defineRule
+      ('magicNotes.cureDisease', classLevel, '=', 'Math.floor(source / 5) + 1');
+    rules.defineRule('magicNotes.layOnHands', classLevel, '=', '2 * source');
     if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule('saveNotes.circleOfPower', 'levels.Paladin', '=', null);
+      rules.defineRule('saveNotes.circleOfPower', classLevel, '=', null);
     }
-    rules.defineRule('turningLevel',
-      'levels.Paladin', '+=', 'source > 2 ? source - 2 : null'
-    );
-    rules.defineRule('warriorLevel', 'levels.Paladin', '+', null);
+    rules.defineRule
+      ('turningLevel', classLevel, '+=', 'source>2 ? source - 2 : null');
+    rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Ranger') {
 
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule('attacksPerRound',
-        'levels.Ranger', '+', 'source < 7 ? null : source < 13 ? 0.5 : 1'
+        classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
       );
+      rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
+      rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
       rules.defineRule('skillNotes.animalEmpathy',
-        'levels.Ranger', '=', '-Math.floor((source + 2) / 3)'
+        classLevel, '=', '-Math.floor((source + 2) / 3)'
       );
       rules.defineRule
-        ('skillNotes.track', 'levels.Ranger', '=', 'Math.floor(source / 3)');
-      rules.defineRule('skillNotes.rangerSkills.1',
-        'levels.Ranger', '+=', 'source < 5 ? source * 5 + 5 : source < 9 ? source * 6 + 1 : source < 13 ? source * 7 - 7 : source < 15 ? source * 8 - 19 : 99'
+        ('skillNotes.track', classLevel, '=', 'Math.floor(source / 3)');
+      rules.defineRule('skillModifier.Hide In Shadows',
+        classLevel, '+=', 'source<5 ? source * 5 + 5 : source<9 ? source * 6 + 1 : source<13 ? source * 7 - 7 : source<15 ? source * 8 - 19 : 99'
       );
-      rules.defineRule('skillNotes.rangerSkills.2',
-        'levels.Ranger', '+=', 'source < 5 ? source * 6 + 9 : source < 7 ? source * 7 + 5 : source == 7 ? 55 : source == 8 ? 62 : source < 13 ? source * 8 - 2 : 99'
+      rules.defineRule('skillModifier.Move Silently',
+        classLevel, '+=', 'source<5 ? source * 6 + 9 : source<7 ? source * 7 + 5 : source==7 ? 55 : source==8 ? 62 : source<13 ? source * 8 - 2 : 99'
       );
+      rules.defineRule('skillPoints', classLevel, '+=', '0');
     } else {
       rules.defineRule('attacksPerRound',
-        'levels.Ranger', '+', 'source < 8 ? null : source < 15 ? 0.5 : 1'
+        classLevel, '+', 'source<8 ? null : source<15 ? 0.5 : 1'
       );
-      rules.defineRule('combatNotes.favoredEnemy', 'levels.Ranger', '=', null);
+      rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
     rules.defineRule('classBreathSaveAdjustment',
-      'levels.Ranger', '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
+      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('classSaveAdjustment',
-      'levels.Ranger', '=', 'source >= 17 ? 1 : null'
-    );
-    rules.defineRule('warriorLevel', 'levels.Ranger', '+', null);
+    rules.defineRule
+      ('classSaveAdjustment', classLevel, '=', 'source>=17 ? 1 : null');
+    rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Thief') {
 
-    rules.defineRule('classBaseAttackAdjustment',
-      'levels.Thief', '+=', 'source > 8 ? 1 : null'
-    );
+    rules.defineRule
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source>8 ? 1 : null');
     rules.defineRule('combatNotes.backstab',
-      'levels.Thief', '+=', '2 + Math.floor((source - 1) / 4)'
+      classLevel, '+=', '2 + Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('languageCount', 'levels.Thief', '+', '1');
-    rules.defineRule("languages.Thieves' Cant", 'levels.Thief', '=', '1');
-    rules.defineRule('rogueSkillLevel', 'levels.Thief', '+=', null);
+    rules.defineRule('languageCount', classLevel, '+', '1');
+    rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
     if(OldSchool.EDITION == 'OSRIC')
       rules.defineRule
         ('magicNotes.readScrolls', 'intelligence', '=', 'source * 5 - 10');
+
+    rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Open Locks', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Read Language', classLevel, '+=', null);
+
+    if(OldSchool.EDITION == 'Second Edition') {
+      rules.defineRule('maxAllowedSkillAllocation',
+        'skillPoints', '=', 'Math.min(Math.floor(source / 2), 95)'
+      );
+      rules.defineRule('skillModifier.Climb Walls', classLevel, '+=', '60',);
+      rules.defineRule('skillModifier.Find Traps', classLevel, '+=', '5');
+      rules.defineRule('skillModifier.Hear Noise', classLevel, '+=', '15');
+      rules.defineRule('skillModifier.Hide In Shadows', classLevel, '+=', '5');
+      rules.defineRule('skillModifier.Move Silently', classLevel, '+=', '10');
+      rules.defineRule('skillModifier.Open Locks', classLevel, '+=', '10');
+      rules.defineRule('skillModifier.Pick Pockets', classLevel, '+=', '15');
+      rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '0');
+      rules.defineRule('skillPoints', 'levels.Thief', '+=', '30 * source + 30');
+    }
 
   }
 
@@ -5885,6 +5808,7 @@ OldSchool.raceRules = function(
     rules, name, requires, features, selectables, languages, null, [], [], null
   );
   // No changes needed to the rules defined by SRD35 method
+  rules.defineRule('skillNotes.raceSkillModifiers', 'skillCount', '?', null);
 };
 
 /*
@@ -5893,56 +5817,97 @@ OldSchool.raceRules = function(
  */
 OldSchool.raceRulesExtra = function(rules, name) {
 
+  var raceLevel =
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
+
   if(name == 'Dwarf') {
-    rules.defineRule('featureNotes.knowDepth', 'dwarfLevel', '+=', '50');
+    rules.defineRule('featureNotes.knowDepth', raceLevel, '+=', '50');
     rules.defineRule('featureNotes.senseSlope',
-      'dwarfLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '75'
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '75'
     );
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
-        'dwarfLevel', 'v', '2',
+        raceLevel, 'v', '2',
         '', '^', '0'
       );
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        OldSchool.EDITION == 'OSRIC' ?
+          '"-10% Climb Walls/+15% Find Traps/-5% Move Silently/+15% Open Locks/-5% Read Languages"'
+        : '"-10% Climb Walls/+15% Find Traps/+10% Open Locks/-5% Read Languages"'
+      );
   } else if(name == 'Elf') {
-    rules.defineRule('saveNotes.resistCharm', 'elfLevel', '+=', '90');
-    rules.defineRule('saveNotes.resistSleep', 'elfLevel', '+=', '90');
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
-        'elfLevel', '+', '-4',
+        raceLevel, '+', '-4',
         '', '^', '0'
+      );
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        OldSchool.EDITION == 'OSRIC' ?
+          '"-5% Climb Walls/+5% Find Traps/+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets/+10% Read Languages"'
+        : '"+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets"'
       );
   } else if(name == 'Gnome') {
     rules.defineRule('featureNotes.knowDepth',
-      'gnomeLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '50' : '60'
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '50' : '60'
     );
     rules.defineRule('featureNotes.senseSlope',
-      'gnomeLevel', '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '80'
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '80'
     );
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
-        'gnomeLevel', 'v', '2',
+        raceLevel, 'v', '2',
         '', '^', '0'
+      );
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        OldSchool.EDITION == 'OSRIC' ?
+          '"-15% Climb Walls/+5% Hear Noise/+10% Open Locks"'
+        : '"-15% Climb Walls/+10% Find Traps/+10% Hear Noise/+5% Hide In Shadows/+5% Move Silently/+5% Open Locks"'
       );
   } else if(name == 'Half-Elf') {
-    rules.defineRule('saveNotes.resistCharm', 'half-ElfLevel', '+=', '30');
-    rules.defineRule('saveNotes.resistSleep', 'half-ElfLevel', '+=', '30');
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '30');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '30');
     if(OldSchool.EDITION == 'First Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
-        'half-ElfLevel', '+', '-5',
+        raceLevel, '+', '-5',
         '', '^', '0'
       );
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=', '"+5% Hide In Shadows/+10% Pick Pockets"'
+    );
   } else if(name == 'Half-Orc') {
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
-        'half-OrcLevel', 'v', '2',
+        raceLevel, 'v', '2',
         '', '^', '0'
       );
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        OldSchool.EDITION == 'OSRIC' ?
+          '"+5% Climb Walls/+5% Find Traps/+5% Hear Noise/+5% Open Locks/-5% Pick Pockets/-10% Read Languages"'
+        : '"+5% Climb Walls/+5% Find Traps/+5% Hear Noise/+5% Open Locks/-5% Pick Pockets/-10% Read Languages"'
+      );
   } else if(name == 'Halfling') {
-    rules.defineRule('featureNotes.senseSlope', 'halflingLevel', '+=', '75');
+    rules.defineRule('featureNotes.senseSlope', raceLevel, '+=', '75');
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
-        'halflingLevel', '+', '-5',
+        raceLevel, '+', '-5',
         '', '^', '0'
+      );
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        OldSchool.EDITION == 'OSRIC' ?
+          '"-15% Climb Walls/+5% Hear Noise/+15% Hide In Shadows/+15% Move Silently/+5% Pick Pockets/-5% Read Languages"'
+        : '"-15% Climb Walls/+5% Find Traps/+5% Hear Noise/+15% Hide In Shadows/+10% Move Silently/+5% Open Locks/+5% Pick Pockets/-5% Read Languages"'
+      );
+  } else if(name == 'Human') {
+    if(OldSchool.EDITION == 'OSRIC')
+      rules.defineRule('skillNotes.raceSkillModifiers',
+        raceLevel, '=', '"+5% Climb Walls/+5% Open Locks"',
       );
   }
 
@@ -6008,7 +5973,7 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
   }
   if(ability) {
     ability = ability.toLowerCase();
-    if(!(ability in OldSchool.ABILITIES)) {
+    if(!(ability in OldSchool.ABILITIES) && ability != 'n/a') {
       console.log('Bad ability "' + ability + '" for skill ' + name);
       return;
     }
@@ -6018,65 +5983,119 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
     return;
   }
 
-  rules.defineRule('skillModifier.' + name, 'skills.' + name, '=', null);
-  rules.defineChoice('notes', 'skillNotes.dexteritySkillModifiers:%1 Find Traps/%2 Hide In Shadows/%3 Move Silently/%4 Open Locks/%5 Pick Pockets');
-  if(OldSchool.EDITION == 'OSRIC') {
-    rules.defineRule('skillNotes.dexteritySkillModifiers.1',
-      'skills.Find Traps', '?', '1',
-      'dexterity', '=', 'QuilvynUtils.signed(5*(source<12 ? source-12 : source>16 ? source-16 : 0))'
-    );
-    rules.defineRule('skillNotes.dexteritySkillModifiers.5',
-      'skills.Pick Pockets', '?', '1',
-      'dexterity', '=', 'QuilvynUtils.signed(5*(source<12 ? source-12 : source>17 ? 2*(source-18)+1 : 0))'
-    );
-  } else {
-    rules.defineRule('skillNotes.dexteritySkillModifiers.1',
-      'skills.Find Traps', '?', '1',
-      'dexterity', '=', 'QuilvynUtils.signed(5*(source<11 ? -2 : source==11 ? -1 : source>17 ? source-17 : 0))'
-    );
-    rules.defineRule('skillNotes.dexteritySkillModifiers.5',
-      'skills.Pick Pockets', '?', '1',
-      'dexterity', '=', 'QuilvynUtils.signed(5*(source<12 ? source-12 : source>16 ? source-16 : 0))'
-    );
+  for(var i = 0; i < classes.length; i++) {
+    var clas = classes[i];
+    if(clas == 'all')
+      rules.defineRule('classSkill.' + name, 'level', '=', '1');
+    else
+      rules.defineRule('classSkill.' + name, 'levels.' + clas, '=', '1');
   }
-  rules.defineRule('skillNotes.dexteritySkillModifiers.2',
-    'skills.Hide In Shadows', '?', '1',
-    'dexterity', '=', 'QuilvynUtils.signed(5*(source<11 ? source-11 : source>16 ? source-16 : 0))'
+  rules.defineRule('skillCount', 'skills.' + name, '+=', '1');
+  rules.defineRule('skillModifier.' + name,
+    'skills.' + name, '=', null,
+    'skillNotes.armorSkillModifiers', '+',
+      'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null',
+    'skillNotes.raceSkillModifiers', '+',
+      'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null',
+    'skillNotes.dexteritySkillModifiers', '+',
+      'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null'
   );
-  rules.defineRule('skillNotes.dexteritySkillModifiers.3',
-    'skills.Climb Walls', '?', '1',
-    'dexterity', '=', 'QuilvynUtils.signed(5*(source<13 ? source-13 : source>16 ? source-16 : 0))'
-  );
-  rules.defineRule('skillNotes.dexteritySkillModifiers.4',
-    'skills.Open Locks', '?', '1',
-    'dexterity', '=', 'QuilvynUtils.signed(5*(source<11 ? source-11 : source>15 ? source-15 : 0))'
-  );
-  rules.defineRule('skillNotes.dexteritySkillModifiers',
-    'rogueSkillLevel', '?', null,
-    'dexterity', '=', 'source < 13 || source > 15 ? 1 : null'
-  );
-  rules.defineRule('skillModifier.Find Traps',
-    'skillNotes.dexteritySkillModifiers.1', '+', null
-  );
-  rules.defineRule('skillModifier.Hide In Shadows',
-    'skillNotes.dexteritySkillModifiers.2', '+', null
-  );
-  rules.defineRule('skillModifier.Move Silently',
-    'skillNotes.dexteritySkillModifiers.3', '+', null
-  );
-  rules.defineRule('skillModifier.Open Locks',
-    'skillNotes.dexteritySkillModifiers.4', '+', null
-  );
-  rules.defineRule('skillModifier.Pick Pockets',
-    'skillNotes.dexteritySkillModifiers.5', '+', null
-  );
-  // No-op to get Dexterity Skill Modifiers note to appear in italics
-  rules.defineRule('skillNotes.dexteritySkillModifiers.1',
-    'skillNotes.dexteritySkillModifiers', '+', 'null'
-  );
-  rules.defineChoice('notes', 'skills.' + name + ':%V (%1)');
+  if(ability) {
+    rules.defineChoice
+      ('notes', 'skills.' + name + ': (' + ability.substring(0, 3) + ') %V (%1)');
+    if(ability != 'n/a')
+      rules.defineRule('skillModifier.' + name, ability, '+', null);
+  } else if(OldSchool.EDITION == 'Second Edition') {
+    rules.defineChoice('notes', 'skills.' + name + ':%V (%1%)');
+  } else {
+    rules.defineChoice('notes', 'skills.' + name + ':%1%');
+  }
   rules.defineRule('skills.' + name + '.1', 'skillModifier.' + name, '=', null);
 
+};
+
+/*
+ * Defines in #rules# the rules associated with skill #name# that cannot be
+ * derived directly from the abilities passed to skillRules.
+ */
+OldSchool.skillRulesExtra = function(rules, name) {
+  if(name == 'Climb Walls') {
+    rules.defineRule('skills.Climb Walls',
+      'skillLevel.Climb Walls', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'source<=4 ? source + 84 : Math.min(2 * source + 80, 99)'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<7 ? 2 * source + 78 : Math.min(source + 84, 99)'
+        : '0'
+    );
+  } else if(name == 'Find Traps') {
+    rules.defineRule('skills.Find Traps',
+      'skillLevel.Find Traps', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'Math.min(5 * source + 15, 99)'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<18 ? 4 * source + 21 : Math.min(2 * source + 55, 99)'
+        : '0'
+    );
+  } else if(name == 'Hear Noise') {
+    rules.defineRule('skills.Hear Noise',
+      'skillLevel.Hear Noise', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          '5 * Math.floor((source - 1) / 2) + (source>=15 ? 15 : 10)'
+        : OldSchool.EDITION == 'OSRIC' ?
+          '3 * source + 7'
+        : '0'
+    );
+  } else if(name == 'Hide In Shadows') {
+    rules.defineRule('skills.Hide In Shadows',
+      'skillLevel.Hide In Shadows', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'source<5 ? 5 * source + 5 : source<9 ? 6 * source + 1 : ' +
+          'source<13 ? 7 * source - 7 : Math.min(8 * source - 19, 99)'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<16 ? 5 * source + 15 : (source + 75)'
+        : '0'
+    );
+  } else if(name == 'Move Silently') {
+    rules.defineRule('skills.Move Silently',
+      'skillLevel.Move Silently', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'source<5 ? 6 * source + 9 : source<7 ? 7 * source + 5 : ' +
+          'source==7 ? 55 : Math.min(8 * source - 2, 99)'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<16 ? 5 * source + 15 : (source + 75)'
+        : '0'
+    );
+  } else if(name == 'Open Locks') {
+    rules.defineRule('skills.Open Locks',
+      'skillLevel.Open Locks', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'source<5 ? 4 * source + 21 : Math.min(5 * source + 17, 99)'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<17 ? 4 * source + 26 : (source + 75)'
+        : '0'
+    );
+  } else if(name == 'Pick Pockets') {
+    rules.defineRule('skills.Pick Pockets',
+      'skillLevel.Pick Pockets', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'source<10 ? 5 * source + 25 : source<13 ? 10 * source - 20 : ' +
+          'source<16 ? 5 * source + 40 : 125'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<15 ? 4 * source + 31 : (source + 75)'
+        : '0'
+    );
+  } else if(name == 'Read Languages') {
+    rules.defineRule('skills.Read Languages',
+      'skillLevel.Read Languages', '+=',
+        OldSchool.EDITION == 'First Edition' ?
+          'source>3 ? Math.min(5 * source, 80) : null'
+        : OldSchool.EDITION == 'OSRIC' ?
+          'source<20 ? Math.max(5 * source - 5, 1) : ' +
+          'Math.min(2 * source + 52, 99)'
+        : '0'
+    );
+  }
 };
 
 /*
@@ -6194,14 +6213,20 @@ OldSchool.initialEditorElements = function() {
     ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['gender', 'Gender', 'text', [10]],
     ['origin', 'Origin', 'text', [20]],
-    ['skills', 'Skills', 'bag', 'skills'],
+  ];
+  if(OldSchool.EDITION == 'Second Edition') {
+    editorElements.push(
+      ['skills', 'Skills', 'bag', 'skills'],
+    );
+  }
+  editorElements.push(
     ['languages', 'Languages', 'set', 'languages'],
     ['hitPoints', 'Hit Points', 'text', [4]],
     ['armor', 'Armor', 'select-one', 'armors'],
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'bag', 'weapons'],
     ['weaponProficiency', 'Weapon Proficiency', 'set', 'weapons']
-  ];
+  );
   if(OldSchool.EDITION != 'First Edition') {
     editorElements.push(
       ['weaponSpecialization', 'Specialization', 'select-one',
@@ -6237,19 +6262,52 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'proficiencies') {
     attrs = this.applyRules(attributes);
+    // Weapon proficiencies
     choices = [];
     var howMany = attrs.weaponProficiencyCount;
     for(attr in this.getChoices('weapons')) {
-      if(attrs['weaponProficiency.' + attr] != null) {
+      if(attributes['weaponProficiency.' + attr] != null)
         howMany--;
-      } else {
+      else
         choices[choices.length] = attr;
-      }
     }
     for( ; howMany > 0; howMany--) {
       var which = QuilvynUtils.random(0, choices.length - 1);
       attributes['weaponProficiency.' + choices[which]] = 1;
       choices = choices.slice(0, which).concat(choices.slice(which + 1));
+    }
+    // Nonweapon proficiencies
+    choices = [];
+    howMany = attrs.nonweaponProficiencyCount || 0;
+    var allSkills = this.getChoices('skills');
+    for(attr in allSkills) {
+      if(!allSkills[attr].match(/Ability/))
+        continue; // Thief skill
+      if(attributes['skills.' + attr] != null)
+        howMany -= attrs['skills.' + attr];
+      else
+        choices[choices.length] = attr;
+    }
+    for( ; howMany > 0; howMany--) {
+      var which = QuilvynUtils.random(0, choices.length - 1);
+      attributes['skills.' + choices[which]] = 1;
+      choices = choices.slice(0, which).concat(choices.slice(which + 1));
+    }
+    // Thief skills
+    choices = [];
+    howMany = attrs.skillPoints || 0;
+    for(attr in allSkills) {
+      if(allSkills[attr].match(/Ability/))
+        continue; // Nonweapon proficiency
+      if(attributes['skills.' + attr] != null)
+        howMany -= attrs['skills.' + attr];
+      choices[choices.length] = attr;
+    }
+    for( ; howMany > 0; howMany--) {
+      var which = QuilvynUtils.random(0, choices.length - 1);
+      if(!attributes['skills.' + choices[which]])
+        attributes['skills.' + choices[which]] = 0;
+      attributes['skills.' + choices[which]]++;
     }
   } else if(attribute == 'hitPoints') {
     // Differs from 3.5 in that per-class level is computed, not chosen, and
