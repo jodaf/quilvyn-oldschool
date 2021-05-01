@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.17';
+var OldSchool_VERSION = '2.2.1.18';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -204,8 +204,8 @@ OldSchool.CLASSES = {
       '"1:Armor Proficiency (Leather)",' +
       '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
       '"1:Poetic Inspiration","1:Resist Fire","1:Resist Lightning",' +
-      '"3:Nature Knowledge","3:Wilderness Movement","7:Fey Immunity",' +
-      '7:Shapeshift ' +
+      '"3:Nature Knowledge","3:Wilderness Movement","4:Additional Languages",' +
+      '"7:Fey Immunity",7:Shapeshift ' +
     'Experience=' +
       '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
       '1800 ' +
@@ -215,9 +215,8 @@ OldSchool.CLASSES = {
       'D1:1=1;2=2;3=3;16=4;19=5,' +
       'D2:4=1;5=2;6=3;17=4;21=5,' +
       'D3:7=1;8=2;9=3;18=4;22=5,' +
-      'D4:9=1;10=2;11=3;19=4;23=5,' +
-      'D5:9=1;10=2;12=3;13=4;14=5,' +
-      'D6:13=1;14=2;15=3;20=4;23=5',
+      'D4:10=1;11=2;12=3;19=4;23=5,' +
+      'D5:13=1;14=2;15=3;20=4;23=5',
   'Cleric':
     'Require=' +
       '"wisdom >= 9" ' +
@@ -322,11 +321,11 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=d4 Attack=1,2,4 WeaponProficiency=1,2,3 ' +
+    'HitDie=d4 Attack=0,2,3 WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Dodge Missiles",1:Evasion,"1:Killing Blow","1:Monk Skills",' +
-      '1:Spiritual,"1:Stunning Blow",1:Unburdened,2:Aware,' +
+      '"1:Precise Blow",1:Spiritual,"1:Stunning Blow",1:Unburdened,2:Aware,' +
       '"3:Speak With Animals","4:Flurry Of Blows","4:Masked Mind",' +
       '"4:Slow Fall","5:Controlled Movement","5:Purity Of Body",' +
       '"6:Feign Death","7:Wholeness Of Body","8:Speak With Plants",' +
@@ -402,6 +401,7 @@ OldSchool.CLASSES = {
 OldSchool.FEATURES = {
 
   // Class
+  'Additional Languages':'Section=skill Note="+%V Language Count"',
   'Alert':'Section=combat Note="Surprised 1/6, surprise 1/2"',
   'Assassination':
     'Section=combat Note="Strike kills surprised target %V% - 5%/2 foe levels"',
@@ -429,7 +429,8 @@ OldSchool.FEATURES = {
   'Bonus Thief Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Charming Music':
-    'Section=magic Note="R40\' %V% charm creatures while playing (save 1 rd)"',
+    'Section=magic ' +
+    'Note="R40\' %V% charm creatures while playing (save 1 rd), make suggestion to charmed (-2 save neg)"',
   'Clear Mind':
     'Section=save ' +
     'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
@@ -484,14 +485,14 @@ OldSchool.FEATURES = {
     'Note="Must donate 10% of income plus 100% after expenses to LG causes"',
   'Poetic Inspiration':
     'Section=magic ' +
-    'Note="Performance gives allies +1 attack, +10% morale for 1 tn after 2 rd"',
+    'Note="Performance gives allies +1 attack and +10% morale for 1 tn after 2 rd"',
   'Poison Use':
     'Section=combat ' +
     'Note="Familiar with ingested poisons and poisoned weapon use"',
   'Precise Blow':'Section=combat Note="+%V weapon damage"',
   'Protection From Evil':
     'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
-  'Purity Of Body':'Section=save Note="Immune to normal disease"',
+  'Purity Of Body':'Section=save Note="Immune to disease"',
   'Quivering Palm':
     'Section=combat Note="Touched w/fewer hit dice dies w/in %V dy 1/wk"',
   'Read Scrolls':
@@ -5474,6 +5475,9 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('magicNotes.charmingMusic',
         classLevel, '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
       );
+      rules.defineRule('skillNotes.additionalLanguages',
+        classLevel, '=', 'source - 3 - Math.floor((source - 2) / 3)'
+      );
     }
 
   } else if(name == 'Cleric') {
@@ -5614,7 +5618,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source > 8 ? 1 : null');
+      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
     rules.defineRule
       ('combatNotes.aware', classLevel, '=', '34 - source * 2');
     rules.defineRule
