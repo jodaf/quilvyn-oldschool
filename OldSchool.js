@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.19';
+var OldSchool_VERSION = '2.2.1.20';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -546,12 +546,14 @@ OldSchool.FEATURES = {
   'Direction Sense':'Section=feature Note="50% Determine direction of travel"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+1 Constitution/-1 Charisma"',
-  'Dwarf Dodge':'Section=combat Note="-4 AC vs. giant, ogre, titan, troll"',
-  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
+  'Dwarf Dodge':
+    'Section=combat Note="-4 AC vs. giants, ogres, titans, and trolls"',
+  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoids and orcs"',
   'Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution"',
   'Gnome Dodge':
-    'Section=combat Note="-4 AC vs. bugbear, giant, gnoll, ogre, titan, troll"',
+    'Section=combat ' +
+    'Note="-4 AC vs. bugbears, giants, gnolls, ogres, titans, and trolls"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
   'Half-Orc Ability Adjustment':
     'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
@@ -561,7 +563,7 @@ OldSchool.FEATURES = {
   'Know Depth':
     'Section=feature Note="%V% Determine approximate depth underground"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
-  'Resist Magic':'Section=save Note="-%V Spell/-%V Wand"',
+  'Resist Magic':'Section=save Note="+%V vs. spells and wands"',
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
   'Sense Construction':
@@ -2671,7 +2673,7 @@ OldSchool.RULE_EDITS = {
       'Poetic Inspiration':
         'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Read Scrolls':'Note="75% cast any spell from scroll"',
-      'Sense Construction':'Note="R10\' 87% Detect new construction"',
+      'Sense Construction':'Note="R10\' 83% Detect new construction"',
       'Stealthy':
         'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
       'Track':'Section=skill Note="+%V Tracking"',
@@ -2688,14 +2690,11 @@ OldSchool.RULE_EDITS = {
         'Section=save Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
       'Empowered Illusions':
         'Section=magic Note="Foes -1 save vs. illusion spells"',
-      'Illusion Focus':
-        'Section=magic Note="+1 illusion spell each level"',
-      'Illusion Resistance':
-        'Section=save Note="+1 vs. illusions"',
+      'Illusion Focus':'Section=magic Note="+1 illusion spell each level"',
+      'Illusion Resistance':'Section=save Note="+1 vs. illusions"',
       'Gnome Ability Adjustment':
         'Section=ability Note="+1 Intelligence/-1 Wisdom"',
-      'Magic Mismatch':
-        'Section=feature Note="20% magic item malfunction"',
+      'Magic Mismatch':'Section=feature Note="20% magic item malfunction"',
       'Ranger Skills':
         'Section=skill Note="Hide In Shadows, Move Silently"',
       'School Opposition (Abjuration)':
@@ -2751,9 +2750,10 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"constitution >= 8","intelligence >= 6","strength >= 6" ' +
         'Features=' +
-          '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
-          '"1:Gnome Enmity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
-          '"1:Magic Mismatch","1:Sense Hazard","1:Sense Slope" ' +
+          '"1:Burrow Tongue","1:Direction Sense",' +
+          '"1:Gnome Ability Adjustment","1:Gnome Dodge","1:Gnome Enmity",' +
+          '1:Infravision,"1:Know Depth","1:Resist Magic","1:Magic Mismatch",' +
+          '"1:Sense Hazard","1:Sense Slope" ' +
         'Languages=Gnome',
       'Half-Elf':
         'Languages=Common',
@@ -5832,7 +5832,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
   if(name == 'Dwarf') {
     rules.defineRule('featureNotes.knowDepth', raceLevel, '+=', '50');
     rules.defineRule('featureNotes.senseSlope',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '75'
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '75'
     );
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
@@ -5861,10 +5861,10 @@ OldSchool.raceRulesExtra = function(rules, name) {
       );
   } else if(name == 'Gnome') {
     rules.defineRule('featureNotes.knowDepth',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '50' : '60'
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '67' : '60'
     );
     rules.defineRule('featureNotes.senseSlope',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '87' : '80'
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '80'
     );
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('featureNotes.intelligenceLanguageBonus',
