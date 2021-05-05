@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.18';
+var OldSchool_VERSION = '2.2.1.19';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -2741,12 +2741,12 @@ OldSchool.RULE_EDITS = {
           '"charisma <= 17","constitution >= 11","dexterity <= 17",' +
           '"strength >= 8" ' +
         'Features+="1:Magic Mismatch" ' +
-        'Languages=Common,Dwarf',
+        'Languages=Dwarf',
       'Elf':
         'Require=' +
           '"charisma >= 8","constitution >= 7","dexterity >= 6",' +
           '"intelligence >= 8" ' +
-        'Languages=Common,Elf',
+        'Languages=Elf',
       'Gnome':
         'Require=' +
           '"constitution >= 8","intelligence >= 6","strength >= 6" ' +
@@ -2754,14 +2754,14 @@ OldSchool.RULE_EDITS = {
           '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
           '"1:Gnome Enmity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
           '"1:Magic Mismatch","1:Sense Hazard","1:Sense Slope" ' +
-        'Languages=Common,Gnome',
+        'Languages=Gnome',
       'Half-Elf':
         'Languages=Common',
       'Halfling':
         'Require=' +
           '"constitution >= 10","dexterity >= 7","intelligence >= 6",' +
           '"strength >= 7","wisdom <= 17" ' +
-        'Languages=Common,Halfling'
+        'Languages=Halfling'
     },
     'School':{
       // Removed
@@ -4691,7 +4691,7 @@ OldSchool.abilityRules = function(rules) {
   if(OldSchool.EDITION == 'Second Edition') {
     rules.defineRule('featureNotes.intelligenceLanguageBonus',
       'intelligence', '=',
-        'source<=9 ? 1 : source == 9 ? 2 : source<=15 ? Math.floor((source-6)/2) : (source-11)'
+        'source<9 ? 1 : source == 9 ? 2 : source<=15 ? Math.floor((source-6)/2) : (source-11)'
     );
   } else {
     rules.defineRule('featureNotes.intelligenceLanguageBonus',
@@ -4754,7 +4754,8 @@ OldSchool.abilityRules = function(rules) {
   // Wisdom
   rules.defineRule('saveNotes.wisdomMentalSavingThrowAdjustment',
     'wisdom', '=',
-    'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : (source-14)'
+      'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : ' +
+      'Math.min(source-14, 4)'
   );
 
 };
@@ -5448,10 +5449,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
-    rules.defineRule('languageCount',
-      classLevel, '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
-    );
-    rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule
         ('featureNotes.legendLore', classLevel, '=', 'source * 5');
@@ -5472,6 +5469,10 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('featureNotes.legendLore',
         classLevel, '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
       );
+      rules.defineRule('languageCount',
+        classLevel, '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
+      );
+      rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
       rules.defineRule('magicNotes.charmingMusic',
         classLevel, '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
       );
@@ -5495,15 +5496,15 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('magicNotes.bonusClericSpells.2',
       'features.Bonus Cleric Spells', '?', null,
-      'wisdom', '=', 'source <= 14 ? 0 : source == 15 ? 1 : 2'
+      'wisdom', '=', 'source<=14 ? 0 : source == 15 ? 1 : 2'
     );
     rules.defineRule('magicNotes.bonusClericSpells.3',
       'features.Bonus Cleric Spells', '?', null,
-      'wisdom', '=', 'source <= 16 ? 0 : 1'
+      'wisdom', '=', 'source<=16 ? 0 : 1'
     );
     rules.defineRule('magicNotes.bonusClericSpells.4',
       'features.Bonus Cleric Spells', '?', null,
-      'wisdom', '=', 'source <= 17 ? 0 : 1'
+      'wisdom', '=', 'source<=17 ? 0 : source<=18 ? 1 : 2'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       rules.defineRule('magicNotes.clericSpellFailure',
@@ -5516,10 +5517,14 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('spellSlots.'+t+'6', 'wisdom', '?', 'source > 16');
       rules.defineRule('spellSlots.'+t+'7', 'wisdom', '?', 'source > 17');
     }
-    rules.defineRule('spellSlots.'+t+'1', 'bonusClericSpells.1', '+', null);
-    rules.defineRule('spellSlots.'+t+'2', 'bonusClericSpells.2', '+', null);
-    rules.defineRule('spellSlots.'+t+'3', 'bonusClericSpells.3', '+', null);
-    rules.defineRule('spellSlots.'+t+'4', 'bonusClericSpells.4', '+', null);
+    rules.defineRule
+      ('spellSlots.'+t+'1', 'magicNotes.bonusClericSpells.1', '+', null);
+    rules.defineRule
+      ('spellSlots.'+t+'2', 'magicNotes.bonusClericSpells.2', '+', null);
+    rules.defineRule
+      ('spellSlots.'+t+'3', 'magicNotes.bonusClericSpells.3', '+', null);
+    rules.defineRule
+      ('spellSlots.'+t+'4', 'magicNotes.bonusClericSpells.4', '+', null);
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
   } else if(name == 'Druid') {
@@ -5591,7 +5596,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
       rules.defineRule('understandSpell',
         classLevel, '?', null,
-        'intelligence', '=', 'source * 5 - 10'
+        'intelligence', '=', 'source==19 ? 95 : source==18 ? 85 : source * 5 - 10'
       );
     } else {
       rules.defineRule('intelligenceRow',
