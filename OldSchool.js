@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.20';
+var OldSchool_VERSION = '2.2.1.21';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -132,8 +132,8 @@ OldSchool.CHOICES = [
 OldSchool.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'extraStrength', 'name', 'race', 'gender', 'alignment', 'levels',
-  'languages', 'hitPoints', 'proficiencies', 'armor', 'shield', 'weapons',
-  'spells'
+  'languages', 'hitPoints', 'proficiencies', 'skills', 'armor', 'shield',
+  'weapons', 'spells'
 ];
 
 OldSchool.ABILITIES = {
@@ -4685,7 +4685,7 @@ OldSchool.abilityRules = function(rules) {
         '].filter(x => x != "").join("/")'
     );
   rules.defineRule
-    ('skillNotes.dexteritySkillModifiers', 'skillCount', '?', null);
+    ('skillNotes.dexteritySkillModifiers', 'sumThiefSkills', '?', null);
 
   // Intelligence
   if(OldSchool.EDITION == 'Second Edition') {
@@ -4800,10 +4800,10 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   );
   if(OldSchool.EDITION == 'Second Edition') {
     rules.defineRule('combatNotes.weaponSpecialization.1',
-      'weaponSpecialization', '=', 'source.indexOf("Bow") >= 0 ? 2 : 1'
+      'weaponSpecialization', '=', 'source.match(/bow/i) ? 2 : 1'
     );
     rules.defineRule('combatNotes.weaponSpecialization.2',
-      'weaponSpecialization', '=', 'source.indexOf("Bow") >= 0 ? 0 : 2'
+      'weaponSpecialization', '=', 'source.match(/bow/i) ? 0 : 2'
     );
     rules.defineRule('combatNotes.weaponSpecialization.3',
       'weaponSpecialization', '=',
@@ -4907,6 +4907,8 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
       'turnUndeadColumn', '=', '"' + turningTable[i] +'".split(":")[source].trim()'
     );
   }
+  rules.defineRule
+    ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', null);
   // Replace SRD35's two-handeWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
@@ -5020,9 +5022,11 @@ OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
   }
   if(OldSchool.EDITION == 'Second Edition')
     QuilvynRules.validAllocationRules
-      (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
+      (rules, 'skill', 'skillPoints', 'sumThiefSkills');
   QuilvynRules.validAllocationRules
     (rules, 'language', 'languageCount', 'Sum "^languages\\."');
+  QuilvynRules.validAllocationRules
+    (rules, 'nonweaponProficiency', 'nonweaponProficiencyCount', 'sumNonThiefSkills');
 
 };
 
@@ -5817,7 +5821,8 @@ OldSchool.raceRules = function(
     rules, name, requires, features, selectables, languages, null, [], [], null
   );
   // No changes needed to the rules defined by SRD35 method
-  rules.defineRule('skillNotes.raceSkillModifiers', 'skillCount', '?', null);
+  rules.defineRule
+    ('skillNotes.raceSkillModifiers', 'sumThiefSkills', '?', null);
 };
 
 /*
@@ -5999,7 +6004,6 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
     else
       rules.defineRule('classSkill.' + name, 'levels.' + clas, '=', '1');
   }
-  rules.defineRule('skillCount', 'skills.' + name, '+=', '1');
   rules.defineRule('skillModifier.' + name,
     'skills.' + name, '=', null,
     'skillNotes.armorSkillModifiers', '+',
@@ -6009,6 +6013,10 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
     'skillNotes.dexteritySkillModifiers', '+',
       'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null'
   );
+  if(ability)
+    rules.defineRule('sumNonThiefSkills', 'skills.' + name, '+=', null);
+  else
+    rules.defineRule('sumThiefSkills', 'skills.' + name, '+=', null);
   if(ability) {
     rules.defineChoice
       ('notes', 'skills.' + name + ': (' + ability.substring(0, 3) + ') %V (%1)');
@@ -6134,10 +6142,24 @@ OldSchool.spellRules = function(
  * increment of #range# feet.
  */
 OldSchool.weaponRules = function(rules, name, category, damage, range) {
+  var prefix =
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
   SRD35.weaponRules(rules, name, 0, category, damage, 20, 2, range);
   delete rules.getChoices('notes')['weapons.' + name];
   rules.defineChoice
     ('notes', 'weapons.' + name + ':%V (%1 %2%3' + (range ? ' R%5\')' : ')'));
+  var specializationAttackBonus =
+    OldSchool.EDITION == 'Second Edition' && name.match(/bow/i) ? 2 : 1;
+  var specializationDamageBonus =
+    OldSchool.EDITION == 'Second Edition' && name.match(/bow/i) ? 0 : 2;
+  rules.defineRule(prefix + 'AttackModifier',
+    'combatNotes.weaponSpecialization', '+',
+      'source == "' + name + '" ? ' + specializationAttackBonus + ' : null'
+  );
+  rules.defineRule(prefix + 'DamageModifier',
+    'combatNotes.weaponSpecialization', '+',
+      'source == "' + name + '" ? ' + specializationDamageBonus + ' : null'
+  );
   rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + name,
     'weapons.' + name, '?', null,
     'weaponProficiencyLevelShortfall.' + name, '?', 'source > 0',
@@ -6239,9 +6261,12 @@ OldSchool.initialEditorElements = function() {
   if(OldSchool.EDITION != 'First Edition') {
     editorElements.push(
       ['weaponSpecialization', 'Specialization', 'select-one',
-       ['None'].concat(QuilvynUtils.getKeys(OldSchool.WEAPONS))],
-      ['doubleSpecialization', '', 'checkbox', ['Doubled']]
+       ['None'].concat(QuilvynUtils.getKeys(OldSchool.WEAPONS))]
     );
+    if(OldSchool.EDITION == 'OSRIC')
+      editorElements.push(
+        ['doubleSpecialization', '', 'checkbox', ['Doubled']]
+      );
   }
   editorElements.push(
     ['spells', 'Spells', 'fset', 'spells'],
@@ -6256,6 +6281,7 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
   var attr;
   var attrs;
   var choices;
+  var howMany;
   var matchInfo;
   if(attribute == 'armor') {
     attrs = this.applyRules(attributes);
@@ -6264,60 +6290,11 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       if(attr == 'None' ||
          attrs['features.Armor Proficiency (All)'] != null ||
          attrs['features.Armor Proficiency (' + attr + ')'] != null) {
-        choices[choices.length] = attr;
+        choices.push(attr);
       }
     }
     attributes.armor = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
-  } else if(attribute == 'proficiencies') {
-    attrs = this.applyRules(attributes);
-    // Weapon proficiencies
-    choices = [];
-    var howMany = attrs.weaponProficiencyCount;
-    for(attr in this.getChoices('weapons')) {
-      if(attributes['weaponProficiency.' + attr] != null)
-        howMany--;
-      else
-        choices[choices.length] = attr;
-    }
-    for( ; howMany > 0; howMany--) {
-      var which = QuilvynUtils.random(0, choices.length - 1);
-      attributes['weaponProficiency.' + choices[which]] = 1;
-      choices = choices.slice(0, which).concat(choices.slice(which + 1));
-    }
-    // Nonweapon proficiencies
-    choices = [];
-    howMany = attrs.nonweaponProficiencyCount || 0;
-    var allSkills = this.getChoices('skills');
-    for(attr in allSkills) {
-      if(!allSkills[attr].match(/Ability/))
-        continue; // Thief skill
-      if(attributes['skills.' + attr] != null)
-        howMany -= attrs['skills.' + attr];
-      else
-        choices[choices.length] = attr;
-    }
-    for( ; howMany > 0; howMany--) {
-      var which = QuilvynUtils.random(0, choices.length - 1);
-      attributes['skills.' + choices[which]] = 1;
-      choices = choices.slice(0, which).concat(choices.slice(which + 1));
-    }
-    // Thief skills
-    choices = [];
-    howMany = attrs.skillPoints || 0;
-    for(attr in allSkills) {
-      if(allSkills[attr].match(/Ability/))
-        continue; // Nonweapon proficiency
-      if(attributes['skills.' + attr] != null)
-        howMany -= attrs['skills.' + attr];
-      choices[choices.length] = attr;
-    }
-    for( ; howMany > 0; howMany--) {
-      var which = QuilvynUtils.random(0, choices.length - 1);
-      if(!attributes['skills.' + choices[which]])
-        attributes['skills.' + choices[which]] = 0;
-      attributes['skills.' + choices[which]]++;
-    }
   } else if(attribute == 'hitPoints') {
     // Differs from 3.5 in that per-class level is computed, not chosen, and
     // characters don't automatically get full HP at level 1.
@@ -6354,12 +6331,29 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       // Calculate experience needed for this and prior levels to assign a
       // random experience value that will yield this level.
       attrs = this.applyRules(attributes);
-      var max = attrs['experiencePoints.' + attr + '.1'] - 1;
+      var max = attrs['experiencePoints.' + attr + '.1'];
       attributes['levels.' + attr]--;
       attrs = this.applyRules(attributes);
       var min = attrs['experiencePoints.' + attr + '.1'];
+      max = max != '-' ? max - 1 : min;
       delete attributes['levels.' + attr];
       attributes['experiencePoints.' + attr] = QuilvynUtils.random(min, max);
+    }
+  } else if(attribute == 'proficiencies') {
+    // Weapon proficiencies
+    attrs = this.applyRules(attributes);
+    choices = [];
+    howMany = attrs.weaponProficiencyCount;
+    for(attr in this.getChoices('weapons')) {
+      if(attributes['weaponProficiency.' + attr] != null)
+        howMany--;
+      else
+        choices.push(attr);
+    }
+    for( ; howMany > 0; howMany--) {
+      var which = QuilvynUtils.random(0, choices.length - 1);
+      attributes['weaponProficiency.' + choices[which]] = 1;
+      choices = choices.slice(0, which).concat(choices.slice(which + 1));
     }
   } else if(attribute == 'shield') {
     attrs = this.applyRules(attributes);
@@ -6368,20 +6362,55 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       if(attr == 'None' ||
          attrs['features.Shield Proficiency (All)'] != null ||
          attrs['features.Shield Proficiency (' + attr + ')'] != null) {
-        choices[choices.length] = attr;
+        choices.push(attr);
       }
     }
     attributes.shield = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
+  } else if(attribute == 'skills') {
+    // Nonweapon proficiencies
+    attrs = this.applyRules(attributes);
+    choices = [];
+    howMany = attrs.nonweaponProficiencyCount || 0;
+    var allSkills = this.getChoices('skills');
+    for(attr in allSkills) {
+      if(!allSkills[attr].match(/Ability/))
+        continue; // Thief skill
+      if(attributes['skills.' + attr] != null)
+        howMany -= attrs['skills.' + attr];
+      else
+        choices.push(attr);
+    }
+    for( ; howMany > 0; howMany--) {
+      var which = QuilvynUtils.random(0, choices.length - 1);
+      attributes['skills.' + choices[which]] = 1;
+      choices = choices.slice(0, which).concat(choices.slice(which + 1));
+    }
+    // Thief skills
+    choices = [];
+    howMany = attrs.skillPoints || 0;
+    for(attr in allSkills) {
+      if(allSkills[attr].match(/Ability/))
+        continue; // Nonweapon proficiency
+      if(attributes['skills.' + attr] != null)
+        howMany -= attrs['skills.' + attr];
+      choices.push(attr);
+    }
+    for( ; howMany > 0; howMany--) {
+      var which = QuilvynUtils.random(0, choices.length - 1);
+      if(!attributes['skills.' + choices[which]])
+        attributes['skills.' + choices[which]] = 0;
+      attributes['skills.' + choices[which]]++;
+    }
   } else if(attribute == 'weapons') {
-    var howMany = 3;
+    howMany = 3;
     attrs = this.applyRules(attributes);
     choices = [];
     for(attr in this.getChoices('weapons')) {
       if(attrs['weapons.' + attr] != null) {
         howMany--;
       } else if(attrs['weaponProficiency.' + attr] != null) {
-        choices[choices.length] = attr;
+        choices.push(attr);
       }
     }
     if(howMany > choices.length)
