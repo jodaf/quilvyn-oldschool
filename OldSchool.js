@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.21';
+var OldSchool_VERSION = '2.2.1.22';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -340,7 +340,7 @@ OldSchool.CLASSES = {
       '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
     'HitDie=d10 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
-    'Wand=14,1.5,2 ' +
+    'Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/wisdom >= 16 ? 1:Bonus Paladin Experience",' +
@@ -449,8 +449,7 @@ OldSchool.FEATURES = {
     'Section=feature Note="Must not associate w/non-good characters"',
   'Disguise':'Section=feature Note="92%+ successful disguise"',
   'Divine Health':'Section=save Note="Immune to disease"',
-  'Divine Protection':
-    'Section=save Note="-2 Breath/-2 Death/-2 Petrification/-2 Spell/-2 Wand"',
+  'Divine Protection':'Section=save Note="+2 all saves"',
   'Dodge Missiles':
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
   'Double Specialization':
@@ -469,7 +468,7 @@ OldSchool.FEATURES = {
     'Section=combat Note="%V+foe AC% kill w/Stunning Blow"',
   'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
   'Legend Lore':
-    'Section=feature Note="%V% info about legendary item, person, place"',
+    'Section=skill Note="%V% info about legendary item, person, place"',
   'Loner':'Section=feature Note="Will not work with gt 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Monk Skills':
@@ -2520,6 +2519,8 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Neutral\'","charisma >= 15","dexterity >= 12",' +
           '"intelligence >= 13" ' +
+        'Attack=0,1,2 ' +
+        'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
         'NonweaponProficiency=3,4 ' +
         'Features=' +
           '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain)",' +
@@ -2571,16 +2572,17 @@ OldSchool.RULE_EDITS = {
           'P7:14=1;17=2',
       'Fighter':
         'Require="strength >= 9" ' +
-        'NonweaponProficiency=3,3 ' +
+        'Attack=0,1,1 NonweaponProficiency=3,3 ' +
         'Features-="1:Fighting The Unskilled" ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000',
       'Illusionist':
         'Require="dexterity >= 16","intelligence >= 9" ' +
+        'Attack=0,1,3 ' +
         'NonweaponProficiency=4,3 ' +
         'Features=' +
-          '"Intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
+          '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
           '"1:Empowered Illusions","1:Illusion Resistance",' +
           '"9:Craft Minor Magic",' +
           '"1:School Opposition (Abjuration)",' +
@@ -2599,6 +2601,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=2;20=3',
       'Magic User':
         'NonweaponProficiency=4,3 ' +
+        'Attack=0,1,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"9:Craft Minor Magic" ' +
@@ -2616,17 +2619,17 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment == \'Lawful Good\'","charisma >= 17",' +
           '"constitution >= 9","strength >= 12","wisdom >= 13" ' +
-        'NonweaponProficiency=3,3 ' +
+        'Attack=0,1,1 NonweaponProficiency=3,3 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/charisma >= 16 ? 1:Bonus Paladin Experience",' +
-          '"1:Cure Disease","1:Detect Evil",1:Discriminating,' +
-          '"1:Divine Health","1:Divine Protection","1:Lay On Hands",' +
-          '1:Non-Materialist,1:Philanthropist,"1:Protection From Evil",' +
-          '"3:Turn Undead","4:Summon Warhorse" ' +
+          '"1:Circle Of Power","1:Cure Disease","1:Detect Evil",' +
+          '1:Discriminating,"1:Divine Health","1:Divine Protection",' +
+          '"1:Lay On Hands",1:Non-Materialist,1:Philanthropist,' +
+          '"1:Protection From Evil","3:Turn Undead","4:Summon Warhorse" ' +
         'Experience=' +
-          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
-          '2500,2750,3000 ' +
+          '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
+          '2700,3000,3300,3600 ' +
         'CasterLevelDivine=' +
           '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 9)" ' +
         'SpellSlots=' +
@@ -2638,16 +2641,16 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
-        'NonweaponProficiency=3,3 ' +
+        'Attack=0,1,1 NonweaponProficiency=3,3 ' +
         'HitDie=d10 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
           '"1:Animal Empathy","1:Ranger Skills","1:Track","1:Travel Light",' +
-          '"2:Favored Enemy","10:Band Of Followers" ' +
+          '"1:Two-Handed Fighting","2:Favored Enemy","10:Band Of Followers" ' +
         'Experience=' +
-          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
-          '2500,2750,3000 ' +
+          '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
+          '2700,3000,3300,3600 ' +
         'CasterLevelArcane=levels.Ranger ? null : null ' +
         'CasterLevelDivine=' +
           '"levels.Ranger < 8 ? null : Math.min(levels.Ranger-7, 9)" ' +
@@ -2658,12 +2661,17 @@ OldSchool.RULE_EDITS = {
        'Thief':
          'Require=' +
            '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
+         'Attack=0,1,2 ' +
+         'Features=' +
+           '"1:Armor Proficiency (Elven Chain/Leather/Padded/Studded Leather)",' +
+           '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
+           '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
          'NonweaponProficiency=3,4'
     },
     'Feature':{
       // Modified
       'Charming Music':
-        'Section=feature Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
+        'Section=magic Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
       'Deadly Aim':
         'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
       'Defensive Song':
@@ -2687,7 +2695,8 @@ OldSchool.RULE_EDITS = {
       'Bonus Illusionist Experience':
         'Section=ability Note="10% added to awarded experience"',
       'Circle Of Power':
-        'Section=save Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
+        'Section=magic ' +
+        'Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
       'Empowered Illusions':
         'Section=magic Note="Foes -1 save vs. illusion spells"',
       'Illusion Focus':'Section=magic Note="+1 illusion spell each level"',
@@ -2729,6 +2738,8 @@ OldSchool.RULE_EDITS = {
         'Section=magic,save Note="Extra Illusion spell/dy each spell level","+1 vs. Abjuration spells"',
       'School Specialization (Necromancy)':
         'Section=magic,save Note="Extra Necromancy spell/dy each spell level","+1 vs. Abjuration spells"',
+      'Two-Handed Fighting':
+        'Section=combat Note="Fight w/two weapons w/no penalty in light or no armor"',
       'Woodland Languages':'Section=skill Note="+%V Language Count"'
     },
     'Race':{
@@ -5448,15 +5459,9 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Bard') {
 
-    rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
-    rules.defineRule('classSaveAdjustment',
-      classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
-    );
     if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule
-        ('featureNotes.legendLore', classLevel, '=', 'source * 5');
-      rules.defineRule('featureNotes.charmingMusic.1',
+      rules.defineRule('skillNotes.legendLore', classLevel, '=', 'source * 5');
+      rules.defineRule('magicNotes.charmingMusic.1',
         classLevel, '=', 'Math.floor(source / 3)'
       );
       rules.defineRule('magicNotes.poeticInspiration', classLevel, '=', null);
@@ -5470,7 +5475,13 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
       rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
-      rules.defineRule('featureNotes.legendLore',
+      rules.defineRule('classBaseAttackAdjustment',
+        classLevel, '+=', 'source>18 ? -1 : null'
+      );
+      rules.defineRule('classSaveAdjustment',
+        classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
+      );
+      rules.defineRule('skillNotes.legendLore',
         classLevel, '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
       );
       rules.defineRule('languageCount',
@@ -5489,8 +5500,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'C';
 
-    rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('classBaseAttackAdjustment',
+        classLevel, '+=', 'source>18 ? -1 : null'
+      );
     rules.defineRule('classSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
@@ -5533,8 +5546,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Druid') {
 
-    rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule('classBaseAttackAdjustment',
+        classLevel, '+=', 'source>18 ? -1 : null'
+      );
     rules.defineRule('classSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
@@ -5574,13 +5589,17 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule
-      ('classSaveAdjustment', classLevel, '=', 'source>=17 ? 1 : null');
+    rules.defineRule('classSaveAdjustment',
+      classLevel, '=',
+        'source<17 ? null : ' +
+        (OldSchool.EDITION == 'Second Edition' ? 'source>18 ? 2 : ' : '') +
+        '1'
+    );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Illusionist') {
 
-    if(OldSchool.EDITION != 'OSRIC') {
+    if(OldSchool.EDITION == 'First Edition') {
       rules.defineRule('classBaseAttackAdjustment',
         classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
       );
@@ -5588,7 +5607,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Magic User') {
 
-    if(OldSchool.EDITION != 'OSRIC') {
+    if(OldSchool.EDITION == 'First Edition') {
       rules.defineRule('classBaseAttackAdjustment',
         classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
       );
@@ -5685,14 +5704,18 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule
-      ('classSaveAdjustment', classLevel, '=', 'source>=17 ? 1 : null');
-    rules.defineRule
-      ('magicNotes.cureDisease', classLevel, '=', 'Math.floor(source / 5) + 1');
-    rules.defineRule('magicNotes.layOnHands', classLevel, '=', '2 * source');
+    rules.defineRule('classSaveAdjustment',
+      classLevel, '=',
+        'source<17 ? null : ' +
+        (OldSchool.EDITION == 'Second Edition' ? 'source>18 ? 2 : ' : '') +
+        '1'
+    );
     if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule('saveNotes.circleOfPower', classLevel, '=', null);
+      rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
     }
+    rules.defineRule
+      ('magicNotes.cureDisease', classLevel, '=', 'Math.floor(source / 5)');
+    rules.defineRule('magicNotes.layOnHands', classLevel, '=', '2 * source');
     rules.defineRule
       ('turningLevel', classLevel, '+=', 'source>2 ? source - 2 : null');
     rules.defineRule('warriorLevel', classLevel, '+', null);
@@ -5703,6 +5726,8 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('attacksPerRound',
         classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
       );
+      // Suppress v3.5 Track sanity note
+      rules.defineRule('sanityNotes.track', classLevel, '?', '0');
       rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
       rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
       rules.defineRule('skillNotes.animalEmpathy',
@@ -5710,6 +5735,9 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
       rules.defineRule
         ('skillNotes.track', classLevel, '=', 'Math.floor(source / 3)');
+      rules.defineRule
+        ('skillModifier.Tracking', 'skillNotes.track', '+=', null);
+      rules.defineRule('skills.Tracking', 'skillNotes.track', '+=', '0');
       rules.defineRule('skillModifier.Hide In Shadows',
         classLevel, '+=', 'source<5 ? source * 5 + 5 : source<9 ? source * 6 + 1 : source<13 ? source * 7 - 7 : source<15 ? source * 8 - 19 : 99'
       );
@@ -5726,14 +5754,19 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule
-      ('classSaveAdjustment', classLevel, '=', 'source>=17 ? 1 : null');
+    rules.defineRule('classSaveAdjustment',
+      classLevel, '=',
+        'source<17 ? null : ' +
+        (OldSchool.EDITION == 'Second Edition' ? 'source>18 ? 2 : ' : '') +
+        '1'
+    );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Thief') {
 
-    rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source>8 ? 1 : null');
+    if(OldSchool.EDITION != 'Second Edition')
+      rules.defineRule
+        ('classBaseAttackAdjustment', classLevel, '+=', 'source>8 ? 1 : null');
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', '2 + Math.floor((source - 1) / 4)'
     );
