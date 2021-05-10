@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.23';
+var OldSchool_VERSION = '2.2.1.24';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -3000,8 +3000,6 @@ OldSchool.RULE_EDITS = {
       'Color Spray':
         'Level=W1 ' +
         'Effect="20\' cone"',
-      'Combine':
-        'Level=P1',
       'Command':
         'Level=P1 ' +
         'Range="30\'"',
@@ -3489,6 +3487,8 @@ OldSchool.RULE_EDITS = {
       'Permanent Illusion':
         'Level=W6 ' +
         'Effect="$L10plus20\' cu"',
+      'Phase Door':
+        'Level=W7',
       'Phantasmal Force':
         'Level=W1',
       'Phantasmal Killer':
@@ -3671,6 +3671,8 @@ OldSchool.RULE_EDITS = {
       'Sticks To Snakes':
         'Level=P4 ' +
         'Effect="1d4+$L sticks"',
+      'Stinking Cloud':
+        'Level=W2',
       'Stone Shape':
         'Level=P3,W5',
       'Stone Shape P3':
@@ -3723,9 +3725,6 @@ OldSchool.RULE_EDITS = {
       'Transmute Rock To Mud P5':
         'Level=P5 ' +
         'Range="160\'"',
-      'Transmute Water To Dust':
-        'Level=P6,W6 ' +
-        'Effect="$L3\' cu"',
       'Transport Via Plants':
         'Level=P6',
       'Tree':
@@ -3847,6 +3846,10 @@ OldSchool.RULE_EDITS = {
         'Level=W4 ' +
         'School=Conjuration ' +
         'Description="R30\' Many 10\' tentacles in 30\' sq AC 4, $L HP, Damage 2d4-3d4 (save 1d4)"',
+      'Cantrip':
+        'Level=W1 ' +
+        'School=All ' +
+        'Description="R10\' Minor magical effects for $L hr"',
       'Changestaff':
         'Level=P7 ' +
         'School=Evocation ' +
@@ -3864,6 +3867,7 @@ OldSchool.RULE_EDITS = {
         'School=Conjuration ' +
         'Description="1-4 touched +4-1 vs. fear (rev touched 3\' fear aura)"',
       'Combine':
+        'Level=P1 ' +
         'School=Evocation ' +
         'Description="2-4 Assistants give focus priest +2-4 level spellcasting and turning"',
       'Contagion':
@@ -3927,6 +3931,7 @@ OldSchool.RULE_EDITS = {
         'School=Enchantment ' +
         'Description="R$L10\' Self control target actions until save"',
       'Dream':
+        'Level=W5 ' +
         'School=Evocation ' +
         'Description="Touched sends message to named recipient in dream"',
       'Dust Devil':
@@ -4240,9 +4245,12 @@ OldSchool.RULE_EDITS = {
         'School=Alteration ' +
         'Description="Instantly transport self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
       'Transmute Water To Dust':
+        'Level=W6,P6 ' +
         'School=Alteration ' +
         'Description="R60\' $E water becomes powder" ' +
         'Effect="$L10\' cu"',
+      'Transmute Water To Dust P6':
+        'Effect="$L3\' cu"',
       'Trip':
         'Level=P2 ' +
         'Effect="1 HP"',
@@ -6161,6 +6169,8 @@ OldSchool.spellRules = function(
     description = description.replaceAll('$E', effect);
   if(range != null)
     description = description.replaceAll('$R', range);
+  if(school == 'All') // Cantrip spell
+    school = 'Conjuration';
   SRD35.spellRules(rules, name, school, casterGroup, level, description, false);
   // No changes needed to the rules defined by SRD35 method
 };
