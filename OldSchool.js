@@ -5514,19 +5514,19 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
     rules.defineRule('magicNotes.bonusClericSpells.1',
-      'features.Bonus Cleric Spells', '?', null,
+      'magicNotes.bonusClericSpells', '?', null,
       'wisdom', '=', 'source<=12 ? 0 : source==13 ? 1 : source<=18 ? 2 : 3'
     );
     rules.defineRule('magicNotes.bonusClericSpells.2',
-      'features.Bonus Cleric Spells', '?', null,
+      'magicNotes.bonusClericSpells', '?', null,
       'wisdom', '=', 'source<=14 ? 0 : source == 15 ? 1 : 2'
     );
     rules.defineRule('magicNotes.bonusClericSpells.3',
-      'features.Bonus Cleric Spells', '?', null,
+      'magicNotes.bonusClericSpells', '?', null,
       'wisdom', '=', 'source<=16 ? 0 : 1'
     );
     rules.defineRule('magicNotes.bonusClericSpells.4',
-      'features.Bonus Cleric Spells', '?', null,
+      'magicNotes.bonusClericSpells', '?', null,
       'wisdom', '=', 'source<=17 ? 0 : source<=18 ? 1 : 2'
     );
     if(OldSchool.EDITION == 'OSRIC') {
