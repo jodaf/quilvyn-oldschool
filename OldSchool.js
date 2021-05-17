@@ -132,6 +132,7 @@ OldSchool.CHOICES = [
  * dependencies among attributes when generating random characters.
  */
 OldSchool.RANDOMIZABLE_ATTRIBUTES = [
+  'abilities',
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'extraStrength', 'name', 'race', 'gender', 'alignment', 'levels',
   'languages', 'hitPoints', 'proficiencies', 'skills', 'armor', 'shield',
