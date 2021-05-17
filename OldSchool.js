@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.24';
+var OldSchool_VERSION = '2.2.1.25';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -78,8 +78,10 @@ function OldSchool() {
 
     // Add additional elements to sheet
     rules.defineSheetElement
-      ('Experience Points', 'Level', '<b>Experience/Needed</b>: %V', '; ');
+      ('Experience Points', 'Level', '<b>Experience</b>: %V', '; ');
     rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
+    rules.defineSheetElement('SpeedInfo');
+    rules.defineSheetElement('Speed', 'LoadInfo', '<b>%N</b>: %V');
     rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
     var strengthMinorDie = OldSchool.EDITION == 'Second Edition' ? 20 : 6;
     rules.defineSheetElement
@@ -6265,9 +6267,6 @@ OldSchool.initialEditorElements = function() {
   ];
   var editorElements = [
     ['name', 'Name', 'text', [20]],
-    ['race', 'Race', 'select-one', 'races'],
-    ['imageUrl', 'Image URL', 'text', [20]],
-    ['experiencePoints', 'Experience', 'bag', 'levels'],
     ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
     ['strengthAdjust', '', 'text', [3]],
     ['extraStrength', 'Extra Strength', 'text', [4]],
@@ -6281,10 +6280,13 @@ OldSchool.initialEditorElements = function() {
     ['wisdomAdjust', '', 'text', [3]],
     ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
     ['charismaAdjust', '', 'text', [3]],
-    ['player', 'Player', 'text', [20]],
-    ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['gender', 'Gender', 'text', [10]],
+    ['race', 'Race', 'select-one', 'races'],
+    ['experiencePoints', 'Experience', 'bag', 'levels'],
+    ['imageUrl', 'Image URL', 'text', [20]],
+    ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['origin', 'Origin', 'text', [20]],
+    ['player', 'Player', 'text', [20]]
   ];
   if(OldSchool.EDITION == 'Second Edition') {
     editorElements.push(
