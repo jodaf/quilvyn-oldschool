@@ -6269,6 +6269,7 @@ OldSchool.initialEditorElements = function() {
   ];
   var editorElements = [
     ['name', 'Name', 'text', [20]],
+    ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
     ['strengthAdjust', '', 'text', [3]],
     ['extraStrength', 'Extra Strength', 'text', [4]],
@@ -6285,7 +6286,6 @@ OldSchool.initialEditorElements = function() {
     ['gender', 'Gender', 'text', [10]],
     ['race', 'Race', 'select-one', 'races'],
     ['experiencePoints', 'Experience', 'bag', 'levels'],
-    ['imageUrl', 'Image URL', 'text', [20]],
     ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['origin', 'Origin', 'text', [20]],
     ['player', 'Player', 'text', [20]]
