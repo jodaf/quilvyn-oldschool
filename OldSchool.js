@@ -5526,11 +5526,12 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('magicNotes.bonusClericSpells.3',
       'magicNotes.bonusClericSpells', '?', null,
-      'wisdom', '=', 'source<=16 ? 0 : 1'
+      'wisdom', '=', 'source<=16 ? 0 : source<=18 ? 1 : ' +
+        (OldSchool.EDITION == 'Second Edition' ? '2' : '1')
     );
     rules.defineRule('magicNotes.bonusClericSpells.4',
       'magicNotes.bonusClericSpells', '?', null,
-      'wisdom', '=', 'source<=17 ? 0 : source<=18 ? 1 : 2'
+      'wisdom', '=', 'source<=17 ? 0 : 1'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       rules.defineRule('magicNotes.clericSpellFailure',
