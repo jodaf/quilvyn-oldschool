@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.25';
+var OldSchool_VERSION = '2.2.1.26';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -28,16 +28,24 @@ var OldSchool_VERSION = '2.2.1.25';
  * magicRules for spells, etc. These member methods can be called independently
  * in order to use a subset of the OldSchool rules. Similarly, the constant
  * fields of OldSchool (LANGUAGES, RACES, etc.) can be manipulated to modify
- * the choices.
+ * the choices. If matches one of the values of OldSchool.EDITIONS, only that
+ * rule set is generated; otherwise, all three rule sets are.
  */
-function OldSchool() {
+function OldSchool(edition) {
 
   if(window.SRD35 == null) {
     alert('The OldSchool module requires use of the SRD35 module');
     return;
   }
 
-  for(OldSchool.EDITION in OldSchool.EDITIONS) {
+  var editions = OldSchool.EDITIONS;
+
+  if(edition in OldSchool.EDITIONS) {
+    editions = {};
+    editions[edition] = '';
+  }
+
+  for(OldSchool.EDITION in editions) {
 
     var rules = new QuilvynRules(OldSchool.EDITION, OldSchool_VERSION);
 
@@ -122,6 +130,7 @@ OldSchool.EDITIONS = {
   'Second Edition':'',
   'OSRIC':''
 };
+
 /* List of items handled by choiceRules method. */
 OldSchool.CHOICES = [
   'Alignment', 'Armor', 'Class', 'Feature', 'Language', 'Race', 'School',
