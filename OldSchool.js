@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.26';
+var OldSchool_VERSION = '2.2.1.27';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -4718,18 +4718,18 @@ OldSchool.abilityRules = function(rules) {
 
   // Intelligence
   if(OldSchool.EDITION == 'Second Edition') {
-    rules.defineRule('featureNotes.intelligenceLanguageBonus',
+    rules.defineRule('skillNotes.intelligenceLanguageBonus',
       'intelligence', '=',
         'source<9 ? 1 : source == 9 ? 2 : source<=15 ? Math.floor((source-6)/2) : (source-11)'
     );
   } else {
-    rules.defineRule('featureNotes.intelligenceLanguageBonus',
+    rules.defineRule('skillNotes.intelligenceLanguageBonus',
       'intelligence', '=',
         'source<=7 ? null : source<=15 ? Math.floor((source-6)/2) : (source-11)'
     );
   }
   rules.defineRule
-    ('languageCount', 'featureNotes.intelligenceLanguageBonus', '+', null);
+    ('languageCount', 'skillNotes.intelligenceLanguageBonus', '+', null);
 
 
   // Strength
@@ -4784,7 +4784,7 @@ OldSchool.abilityRules = function(rules) {
   rules.defineRule('saveNotes.wisdomMentalSavingThrowAdjustment',
     'wisdom', '=',
       'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : ' +
-      'Math.min(source-14, 4)'
+      'Math.min(source-14, ' + (OldSchool.EDITION == 'OSRIC' ? '5)' : '4)')
   );
 
 };
