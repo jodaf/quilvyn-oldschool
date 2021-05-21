@@ -582,8 +582,7 @@ OldSchool.FEATURES = {
     'Section=combat ' +
     'Note="4in6 surprise when traveling quietly, 2in6 opening doors"',
   'Sword Precision':
-    'Section=combat ' +
-    'Note="+1 Long Sword Attack Modifier/+1 Short Sword Attack Modifier"',
+    'Section=combat Note="+1 attack w/Long Sword and Short Sword"',
   'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
 
 };
@@ -2743,6 +2742,7 @@ OldSchool.RULE_EDITS = {
         'Section=magic,save Note="Extra Illusion spell/dy each spell level","+1 vs. Abjuration spells"',
       'School Specialization (Necromancy)':
         'Section=magic,save Note="Extra Necromancy spell/dy each spell level","+1 vs. Abjuration spells"',
+      'Slow':'Section=ability Note="-60 Speed"',
       'Two-Handed Fighting':
         'Section=combat Note="Fight w/two weapons w/no penalty in light or no armor"',
       'Woodland Languages':'Section=skill Note="+%V Language Count"'
@@ -2755,7 +2755,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"charisma <= 17","constitution >= 11","dexterity <= 17",' +
           '"strength >= 8" ' +
-        'Features+="1:Magic Mismatch" ' +
+        'Features+="1:Magic Mismatch",1:Slow ' +
         'Languages=Dwarf',
       'Elf':
         'Require=' +
@@ -2769,7 +2769,7 @@ OldSchool.RULE_EDITS = {
           '"1:Burrow Tongue","1:Direction Sense",' +
           '"1:Gnome Ability Adjustment","1:Gnome Dodge","1:Gnome Enmity",' +
           '1:Infravision,"1:Know Depth","1:Resist Magic","1:Magic Mismatch",' +
-          '"1:Sense Hazard","1:Sense Slope" ' +
+          '"1:Sense Hazard","1:Sense Slope",1:Slow ' +
         'Languages=Gnome',
       'Half-Elf':
         'Languages=Common',
@@ -2777,7 +2777,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"constitution >= 10","dexterity >= 7","intelligence >= 6",' +
           '"strength >= 7","wisdom <= 17" ' +
-        'Features+="1:Deadly Aim" ' +
+        'Features+="1:Deadly Aim",1:Slow ' +
         'Languages=Halfling'
     },
     'School':{
@@ -4441,7 +4441,7 @@ OldSchool.RULE_EDITS = {
       'Read Scrolls':'Note="%V% cast arcane spell from scroll"',
       // New
       'Deadly Aim':'Section=combat Note="+3 attack w/bows and slings"',
-      'Slow':'Section=ability Note="-60 Speed"'
+      'Slow':'Section=ability Note="-30 Speed"'
     },
     'Race':{
       // Modified
@@ -6208,6 +6208,10 @@ OldSchool.weaponRules = function(rules, name, category, damage, range) {
   if(name.match(/Bow/)) {
     rules.defineRule
       (prefix + 'AttackModifier', 'combatNotes.bowPrecision', '+', '1');
+  }
+  if(name == 'Long Sword' || name == 'Short Sword') {
+    rules.defineRule
+      (prefix + 'AttackModifier', 'combatNotes.swordPrecision', '+', '1');
   }
   if(OldSchool.EDITION == 'OSRIC' && name.match(/Bow|Sling/)) {
     rules.defineRule
