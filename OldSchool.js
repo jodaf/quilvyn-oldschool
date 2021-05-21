@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.27';
+var OldSchool_VERSION = '2.2.1.28';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -545,13 +545,8 @@ OldSchool.FEATURES = {
      'Section=feature Note="Normal, untrackable move through undergrowth"',
 
   // Race
-  'Bow Precision':
-    'Section=combat ' +
-    'Note="+1 Composite Long Bow Attack Modifier/+1 Composite Short Bow Attack Modifier/+1 Long Bow Attack Modifier/+1 Short Bow Attack Modifier"',
+  'Bow Precision':'Section=combat Note="+1 attack w/bows"',
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
-  'Deadly Aim':
-    'Section=combat ' +
-    'Note="+3 Composite Long Bow Attack Modifier/+3 Composite Short Bow Attack Modifier/+3 Long Bow Attack Modifier/+3 Short Bow Attack Modifier/+3 Sling Attack Modifier"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
   'Direction Sense':'Section=feature Note="50% Determine direction of travel"',
@@ -748,9 +743,8 @@ OldSchool.RACES = {
       '"constitution >= 10","dexterity >= 8","intelligence >= 6",' +
       '"strength >= 6","wisdom <= 17" ' +
     'Features=' +
-      '"1:Deadly Aim","1:Direction Sense","1:Halfling Ability Adjustment",' +
-      '1:Infravision,"1:Resist Magic","1:Resist Poison","1:Sense Slope",' +
-      '1:Stealthy ' +
+      '"1:Direction Sense","1:Halfling Ability Adjustment",1:Infravision,' +
+      '"1:Resist Magic","1:Resist Poison","1:Sense Slope",1:Stealthy ' +
     'Languages=' +
       'Common,Dwarf,Elf,Gnome,Goblin,Halfling,Orc',
   'Human':
@@ -2684,8 +2678,6 @@ OldSchool.RULE_EDITS = {
       // Modified
       'Charming Music':
         'Section=magic Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
-      'Deadly Aim':
-        'Note="+1 Sling Attack Modifier/+1 Staff Sling Attack Modifier/+1 thrown weapon attack"',
       'Defensive Song':
         'Note="Spell save to counteract magical song and poetry attacks"',
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
@@ -2709,6 +2701,7 @@ OldSchool.RULE_EDITS = {
       'Circle Of Power':
         'Section=magic ' +
         'Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
+      'Deadly Aim':'Section=combat Note="+1 attack w/slings and thrown"',
       'Empowered Illusions':
         'Section=magic Note="Foes -1 save vs. illusion spells"',
       'Illusion Focus':'Section=magic Note="+1 illusion spell each level"',
@@ -2784,6 +2777,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"constitution >= 10","dexterity >= 7","intelligence >= 6",' +
           '"strength >= 7","wisdom <= 17" ' +
+        'Features+="1:Deadly Aim" ' +
         'Languages=Halfling'
     },
     'School':{
@@ -4446,6 +4440,7 @@ OldSchool.RULE_EDITS = {
         'Note="+%V melee damage vs. evil humanoids and giant foes"',
       'Read Scrolls':'Note="%V% cast arcane spell from scroll"',
       // New
+      'Deadly Aim':'Section=combat Note="+3 attack w/bows and slings"',
       'Slow':'Section=ability Note="-60 Speed"'
     },
     'Race':{
@@ -4456,9 +4451,9 @@ OldSchool.RULE_EDITS = {
         'Features+=1:Slow,"1:Resist Poison"',
       'Halfling':
         'Features=' +
-          '"1:Deadly Aim","1:Halfling Ability Adjustment",1:Infravision,' +
-          '"1:Resist Magic","1:Resist Poison","1:Slow",1:Stealthy ' +
-        'Languages-=Elf',
+          '"1:Deadly Aim","1:Halfling Ability Adjustment","1:Resist Magic",' +
+          '"1:Resist Poison",1:Slow,1:Stealthy ' +
+        'Languages-=Elf'
     },
     'Spell':{
       // Modified
@@ -6210,6 +6205,18 @@ OldSchool.weaponRules = function(rules, name, category, damage, range) {
     'combatNotes.weaponSpecialization', '+',
       'source == "' + name + '" ? ' + specializationAttackBonus + ' : null'
   );
+  if(name.match(/Bow/)) {
+    rules.defineRule
+      (prefix + 'AttackModifier', 'combatNotes.bowPrecision', '+', '1');
+  }
+  if(OldSchool.EDITION == 'OSRIC' && name.match(/Bow|Sling/)) {
+    rules.defineRule
+      (prefix + 'AttackModifier', 'combatNotes.deadlyAim', '+', '3');
+  } else if(OldSchool.EDITION == 'Second Edition' &&
+            range != null && !name.match(/bow|gun|arquebus/i)) {
+    rules.defineRule
+      (prefix + 'AttackModifier', 'combatNotes.deadlyAim', '+', '1');
+  }
   rules.defineRule(prefix + 'DamageModifier',
     'combatNotes.weaponSpecialization', '+',
       'source == "' + name + '" ? ' + specializationDamageBonus + ' : null'
