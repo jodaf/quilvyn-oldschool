@@ -4714,7 +4714,7 @@ OldSchool.abilityRules = function(rules) {
         '].filter(x => x != "").join("/")'
     );
   rules.defineRule
-    ('skillNotes.dexteritySkillModifiers', 'sumThiefSkills', '?', null);
+    ('skillNotes.dexteritySkillModifiers', 'sumThiefSkills', '?', '1');
 
   // Intelligence
   if(OldSchool.EDITION == 'Second Edition') {
@@ -4937,7 +4937,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
     );
   }
   rules.defineRule
-    ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', null);
+    ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', '1');
   // Replace SRD35's two-handeWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
@@ -5874,7 +5874,7 @@ OldSchool.raceRules = function(
   );
   // No changes needed to the rules defined by SRD35 method
   rules.defineRule
-    ('skillNotes.raceSkillModifiers', 'sumThiefSkills', '?', null);
+    ('skillNotes.raceSkillModifiers', 'sumThiefSkills', '?', '1');
 };
 
 /*
