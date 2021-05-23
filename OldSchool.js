@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.28';
+var OldSchool_VERSION = '2.2.1.29';
 
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
@@ -437,7 +437,7 @@ OldSchool.FEATURES = {
   'Bonus Paladin Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Bonus Ranger Experience':
-    'Section=feature Note="10% added to awarded experience"',
+    'Section=ability Note="10% added to awarded experience"',
   'Bonus Thief Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Charming Music':
@@ -2588,22 +2588,18 @@ OldSchool.RULE_EDITS = {
         'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
-          '"1:Empowered Illusions","1:Illusion Resistance",' +
-          '"9:Craft Minor Magic",' +
-          '"1:School Opposition (Abjuration)",' +
-          '"1:School Opposition (Evocation)",' +
-          '"1:School Opposition (Necromancy)",' +
-          '"1:School Specialization (Illusion)" ' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
         'SpellSlots=' +
-          'W1:1=2;2=3;4=4;5=5;13=6,' +
-          'W2:3=2;4=3;7=4;10=5;13=6,' +
-          'W3:5=2;6=3;8=4;11=5;13=6,' +
-          'W4:7=2;8=3;11=4;12=5;15=6,' +
-          'W5:9=2;10=3;11=4;12=5;15=6,' +
-          'W6:12=2;13=3;16=4;20=5,' +
-          'W7:14=2;16=3;17=4,' +
-          'W8:16=2;17=3;19=4,' +
-          'W9:18=2;20=3',
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
       'Magic User':
         'NonweaponProficiency=4,3 ' +
         'Attack=0,1,3 ' +
@@ -2651,7 +2647,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-          '"1:Animal Empathy","1:Ranger Skills","1:Track","1:Travel Light",' +
+          '"1:Animal Empathy","1:Ranger Skills",1:Track,"1:Travel Light",' +
           '"1:Two-Handed Fighting","2:Favored Enemy","10:Band Of Followers" ' +
         'Experience=' +
           '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
@@ -2671,18 +2667,187 @@ OldSchool.RULE_EDITS = {
            '"1:Armor Proficiency (Elven Chain/Leather/Padded/Studded Leather)",' +
            '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
            '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
-         'NonweaponProficiency=3,4'
+         'NonweaponProficiency=3,4',
+      // New
+      'Abjurer':
+        'Require="wisdom >= 15","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Abjurer Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Abjurer ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
+      'Conjurer':
+        'Require="constitution >= 15","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Conjurer Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Conjurer ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
+      'Diviner':
+        'Require="wisdom >= 16","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Diviner Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Diviner ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
+      'Enchanter':
+        'Require="charisma >= 16","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Enchanter Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Enchanter ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
+      'Invoker':
+        'Require="constitution >= 16","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Invoker Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Invoker ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
+      'Necromancer':
+        'Require="wisdom >= 16","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Necromancer Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Necromancer ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2',
+      'Transmuter':
+        'Require="dexterity >= 15","intelligence >= 9" ' +
+        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+        'NonweaponProficiency=4,3 ' +
+        'Features=' +
+          '"intelligence >= 16 ? 1:Bonus Transmuter Experience",' +
+          '"1:School Expertise","1:School Focus","1:School Opposition",' +
+          '"1:School Specialization","9:Craft Minor Magic" ' +
+        'CasterLevelArcane=levels.Transmuter ' +
+        'Experience=' +
+          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
+          '1980,2200,2420 ' +
+        'SpellAbility=intelligence ' +
+        'SpellSlots=' +
+          'W1:1=1;2=2;4=3;5=4;13=5,' +
+          'W2:3=1;4=2;7=3;10=4;13=5,' +
+          'W3:5=1;6=2;8=3;11=4;13=5,' +
+          'W4:7=1;8=2;11=3;12=4;15=5,' +
+          'W5:9=1;10=2;11=3;12=4;15=5,' +
+          'W6:12=1;13=2;16=3;20=4,' +
+          'W7:14=1;16=2;17=3,' +
+          'W8:16=1;17=2;19=3,' +
+          'W9:18=1;20=2'
     },
     'Feature':{
       // Modified
       'Charming Music':
         'Section=magic Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
       'Defensive Song':
-        'Note="Spell save to counteract magical song and poetry attacks"',
+        'Note="R30\' Spell save to counteract magical song and poetry attacks"',
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
-        'Note="3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
+        'Note="R%1\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Read Scrolls':'Note="75% cast any spell from scroll"',
       'Sense Construction':'Note="R10\' 83% Detect new construction"',
       'Stealthy':
@@ -2691,57 +2856,44 @@ OldSchool.RULE_EDITS = {
       // New
       'Ambidextrous':'Section=combat Note="No penalty for two-handed fighting"',
       'Animal Empathy':
-        'Section=skill Note="Automatic friend to domestic animals, shift wild reaction one category (%V Wand save neg)"',
+        'Section=skill ' +
+        'Note="Befriend domestic animals, shift wild reaction one category (%V Wand save neg)"',
       'Bard Skills':
         'Section=skill ' +
         'Note="Climb Walls, Hear Noise, Pick Pockets, Read Languages"',
+      'Bonus Abjurer Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Bonus Conjurer Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Bonus Diviner Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Bonus Enchanter Experience':
+        'Section=ability Note="10% added to awarded experience"',
       'Bonus Illusionist Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Bonus Invoker Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Bonus Necromancer Experience':
+        'Section=ability Note="10% added to awarded experience"',
+      'Bonus Transmuter Experience':
         'Section=ability Note="10% added to awarded experience"',
       'Circle Of Power':
         'Section=magic ' +
         'Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
       'Deadly Aim':'Section=combat Note="+1 attack w/slings and thrown"',
-      'Empowered Illusions':
-        'Section=magic Note="Foes -1 save vs. illusion spells"',
-      'Illusion Focus':'Section=magic Note="+1 illusion spell each level"',
-      'Illusion Resistance':'Section=save Note="+1 vs. illusions"',
       'Gnome Ability Adjustment':
         'Section=ability Note="+1 Intelligence/-1 Wisdom"',
       'Magic Mismatch':'Section=feature Note="20% magic item malfunction"',
       'Ranger Skills':
         'Section=skill Note="Hide In Shadows, Move Silently"',
-      'School Opposition (Abjuration)':
-        'Section=magic Note="Cannot learn or cast Abjuration spells"',
-      'School Opposition (Alteration)':
-        'Section=magic Note="Cannot learn or cast Alteration spells"',
-      'School Opposition (Conjuration)':
-        'Section=magic Note="Cannot learn or cast Conjuration spells"',
-      'School Opposition (Divination)':
-        'Section=magic Note="Cannot learn or cast Greater Divination spells"',
-      'School Opposition (Enchantment)':
-        'Section=magic Note="Cannot learn or cast Enchantment spells"',
-      'School Opposition (Evocation)':
-        'Section=magic Note="Cannot learn or cast Evocation spells"',
-      'School Opposition (Illusion)':
-        'Section=magic Note="Cannot learn or cast Illusion spells"',
-      'School Opposition (Necromancy)':
-        'Section=magic Note="Cannot learn or cast Necromancy spells"',
-      'School Specialization (Abjuration)':
-        'Section=magic,save Note="Extra Abjuration spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Alteration)':
-        'Section=magic,save Note="Extra Alteration spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Conjuration)':
-        'Section=magic,save Note="Extra Conjuration spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Divination)':
-        'Section=magic,save Note="Extra Divination spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Enchantment)':
-        'Section=magic,save Note="Extra Enchantment spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Evocation)':
-        'Section=magic,save Note="Extra Evocation spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Illusion)':
-        'Section=magic,save Note="Extra Illusion spell/dy each spell level","+1 vs. Abjuration spells"',
-      'School Specialization (Necromancy)':
-        'Section=magic,save Note="Extra Necromancy spell/dy each spell level","+1 vs. Abjuration spells"',
+      'School Expertise':
+        'Section=magic,save ' +
+        'Note="Foes -1 save vs. %V spells","+1 vs. %V spells"',
+      'School Focus':
+        'Section=magic Note="+15% understand %V spells, -15% others"',
+      'School Opposition':'Section=magic Note="Cannot learn or cast %V spells"',
+      'School Specialization':
+        'Section=magic Note="Extra %V spell/dy each spell level"',
       'Slow':'Section=ability Note="-60 Speed"',
       'Two-Handed Fighting':
         'Section=combat Note="Fight w/two weapons w/no penalty in light or no armor"',
@@ -5002,6 +5154,10 @@ OldSchool.magicRules = function(rules, schools, spells) {
   for(var school in schools) {
     rules.choiceRules(rules, 'School', school, schools[school]);
   }
+  for(var level = 1; level <= 9; level++) {
+    rules.defineRule
+      ('spellSlots.W' + level, 'magicNotes.schoolSpecialization', '+', '1');
+  }
   for(var spell in spells) {
     if(spell.match(/\s[A-Z]\d$/))
       continue;
@@ -5439,14 +5595,28 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   var classLevel = 'levels.' + name;
 
-  if(name == 'Assassin') {
+  if(name == 'Abjurer') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Abjuration"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Alteration or Illusion"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Abjuration"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
+
+  } else if(name == 'Assassin') {
 
     rules.defineRule
       ('classBaseAttackAdjustment', classLevel, '+=', 'source > 8 ? 1 : null');
     rules.defineRule
       ('combatNotes.assassination', classLevel, '=', '5 * source + 50');
     rules.defineRule('combatNotes.backstab',
-      classLevel, '+=', '2 + Math.floor((source - 1) / 4)'
+      classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
     rules.defineRule('skillNotes.bonusLanguages',
       'intelligence', '=', 'source>14 ? source - 14 : null'
@@ -5478,6 +5648,8 @@ OldSchool.classRulesExtra = function(rules, name) {
         classLevel, '=', 'Math.floor(source / 3)'
       );
       rules.defineRule('magicNotes.poeticInspiration', classLevel, '=', null);
+      rules.defineRule
+        ('magicNotes.poeticInspiration.1', classLevel, '=', 'source * 10');
       rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
       rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
       rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
@@ -5558,6 +5730,34 @@ OldSchool.classRulesExtra = function(rules, name) {
       ('spellSlots.'+t+'4', 'magicNotes.bonusClericSpells.4', '+', null);
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
+  } else if(name == 'Conjurer') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
+    rules.defineRule
+      ('magicNotes.schoolFocus', classLevel, '=', '"Conjuration"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Divination or Evocation"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Conjuration"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
+
+  } else if(name == 'Diviner') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Divination"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Divination"');
+    rules.defineRule
+      ('magicNotes.schoolOpposition', classLevel, '=', '"Conjuration"');
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Divination"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Divination"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
+
   } else if(name == 'Druid') {
 
     if(OldSchool.EDITION != 'Second Edition')
@@ -5595,6 +5795,21 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('spellSlots.D4', 'bonusDruidSpells.4', '+', null);
     }
 
+  } else if(name == 'Enchanter') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
+    rules.defineRule
+      ('magicNotes.schoolFocus', classLevel, '=', '"Enchantment"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Evocation or Necromancy"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Enchantment"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
+
   } else if(name == 'Fighter') {
 
     rules.defineRule('attacksPerRound',
@@ -5617,7 +5832,33 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('classBaseAttackAdjustment',
         classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
       );
+    } else if(OldSchool.EDITION == 'Second Edition') {
+      rules.defineRule
+        ('magicNotes.schoolExpertise', classLevel, '=', '"Illusion"');
+      rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Illusion"');
+      rules.defineRule('magicNotes.schoolOpposition',
+        classLevel, '=', '"Abjuration, Evocation, or Necromancy"'
+      );
+      rules.defineRule
+        ('magicNotes.schoolSpecialization', classLevel, '=', '"Illusion"');
+      rules.defineRule
+        ('saveNotes.schoolExpertise', classLevel, '=', '"Illusion"');
+      rules.defineRule('wizardLevel', classLevel, '+=', null);
     }
+
+  } else if(name == 'Invoker') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Evocation"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Evocation"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Conjuration or Enchantment"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Evocation"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Evocation"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
 
   } else if(name == 'Magic User') {
 
@@ -5627,12 +5868,13 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
     }
     if(OldSchool.EDITION == 'Second Edition') {
+      rules.defineRule('wizardLevel', classLevel, '+=', null);
       rules.defineRule('maximumSpellsPerLevel',
-        classLevel, '?', null,
+        'wizardLevel', '?', null,
         'intelligence', '=', 'source==9 ? 6 : source<13 ? 7 : source<15 ? 9 : source<17 ? 11 : source==17 ? 14 : source==18 ? 18 : "all"'
       );
       rules.defineRule('understandSpell',
-        classLevel, '?', null,
+        'wizardLevel', '?', null,
         'intelligence', '=', 'source==19 ? 95 : source==18 ? 85 : source * 5 - 10'
       );
     } else {
@@ -5704,6 +5946,20 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '=', 'OldSchool.monkUnarmedDamage[source]'
     );
 
+  } else if(name == 'Necromancer') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Necromancy"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Enchantment or Illusion"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Necromancy"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
+
   } else if(name == 'Paladin') {
 
     if(OldSchool.EDITION == 'OSRIC') {
@@ -5728,7 +5984,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
     }
     rules.defineRule
-      ('magicNotes.cureDisease', classLevel, '=', 'Math.floor(source / 5)');
+      ('magicNotes.cureDisease', classLevel, '=', 'Math.ceil(source / 5)');
     rules.defineRule('magicNotes.layOnHands', classLevel, '=', '2 * source');
     rules.defineRule
       ('turningLevel', classLevel, '+=', 'source>2 ? source - 2 : null');
@@ -5782,7 +6038,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule
         ('classBaseAttackAdjustment', classLevel, '+=', 'source>8 ? 1 : null');
     rules.defineRule('combatNotes.backstab',
-      classLevel, '+=', '2 + Math.floor((source - 1) / 4)'
+      classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
     rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
@@ -5813,6 +6069,20 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '0');
       rules.defineRule('skillPoints', 'levels.Thief', '+=', '30 * source + 30');
     }
+
+  } else if(name == 'Transmuter') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Alteration"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Alteration"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Abjuration or Necromancy"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Alteration"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Alteration"');
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
 
   }
 
