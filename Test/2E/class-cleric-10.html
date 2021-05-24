@@ -6,23 +6,21 @@
   <title>Class-Cleric 10</title>
   <script>
 var attributes = {
-  "_path":"ztest/2e/class/cleric 10", "_timestamp":1620420422165, 
+  "_path":"ztest/2e/class/cleric 10", "_timestamp":1621817463632, 
   "alignment":"Neutral Good", "armor":"Banded", "charisma":10, "constitution":13, "dexterity":11, 
   "experiencePoints.Cleric":552742, "gender":"Female", "hitPoints":40, "intelligence":13, "languages.Elf":1, 
   "languages.Gnoll":1, "languages.Kobold":1, "name":"Class-Cleric 10", "race":"Human", 
-  "shield":"None", "skills.Agriculture":1, "skills.Astrology":1, "skills.Dancing":1, 
-  "skills.Healing":1, "skills.Heraldry":1, "skills.Herbalism":1, "skills.Tailoring":1, 
-  "spells.Animate Dead(P3 Necr)":1, "spells.Chant(P2 Conj)":1, 
-  "spells.Control Temperature 10' Radius(P4 Alte)":1, "spells.Cure Blindness Or Deafness(P3 Abju)":1, 
-  "spells.Detect Magic(P1 Less)":1, "spells.Detect Poison(P1 Less)":1, "spells.Dispel Evil(P5 Abju)":1, 
-  "spells.Endure Cold(P1 Alte)":1, "spells.Entangle(P1 Alte)":1, "spells.Fire Trap(P2 Abju)":1, 
-  "spells.Goodberry(P2 Alte)":1, "spells.Hallucinatory Forest(P4 Illu)":1, "spells.Hold Plant(P4 Ench)":1, 
-  "spells.Light(P1 Alte)":1, "spells.Magical Vestment(P3 Ench)":1, "spells.Messenger(P2 Ench)":1, 
-  "spells.Plane Shift(P5 Alte)":1, "spells.Protection From Evil(P1 Abju)":1, 
-  "spells.Speak With Animals(P2 Alte)":1, "spells.Speak With Plants(P4 Alte)":1, "spells.Stone Shape(P3 Alte)":1, 
-  "spells.Wyvern Watch(P2 Evoc)":1, "strength":9, "weaponProficiency.Javelin":1, 
-  "weaponProficiency.Morning Star":1, "weaponProficiency.Quarterstaff":1, "weaponProficiency.Sling":1, 
-  "weapons.Javelin":1, "weapons.Morning Star":1, "wisdom":18
+  "shield":"None", "spells.Augury(P2 Less)":1, "spells.Chant(P2 Conj)":1, 
+  "spells.Command(P1 Ench)":1, "spells.Commune(P5 Grea)":1, "spells.Create Water(P1 Alte)":1, 
+  "spells.Cure Disease(P3 Abju)":1, "spells.Cure Light Wounds(P1 Necr)":1, 
+  "spells.Cure Serious Wounds(P4 Necr)":1, "spells.Detect Evil(P1 Less)":1, "spells.Detect Magic(P1 Less)":1, 
+  "spells.Flame Strike(P5 Evoc)":1, "spells.Know Alignment(P2 Less)":1, "spells.Light(P1 Alte)":1, 
+  "spells.Locate Object(P3 Less)":1, "spells.Lower Water(P4 Alte)":1, "spells.Prayer(P3 Conj)":1, 
+  "spells.Protection From Evil 10' Radius(P4 Abju)":1, "spells.Remove Curse(P3 Abju)":1, "spells.Slow Poison(P2 Necr)":1, 
+  "spells.Speak With Animals(P2 Alte)":1, "spells.Spiritual Weapon(P2 Evoc)":1, "spells.Sticks To Snakes(P4 Alte)":1, 
+  "strength":9, "weaponProficiency.Javelin":1, "weaponProficiency.Morning Star":1, 
+  "weaponProficiency.Quarterstaff":1, "weaponProficiency.Sling":1, "weapons.Javelin":1, "weapons.Morning Star":1, 
+  "wisdom":18
 };
   </script>
 </head>
@@ -84,25 +82,6 @@ var attributes = {
     <td>    <table id="SkillPart" width="100%">
     <tr align="center">
       <td><b>Nonweapon Proficiency Count</b>: 7</td>
-    </tr><tr align="center">
-      <td>      <table id="Skills" width="100%">
-      <col width="33%"/>
-      <col width="33%"/>
-      <col width="34%"/>
-      <tr align="left">
-        <td>Agriculture:  (int) 1 (14)</td>
-        <td>Healing:  (wis) 1 (19)</td>
-        <td>Tailoring:  (dex) 1 (12)</td>
-      </tr><tr align="left">
-        <td>Astrology:  (int) 1 (14)</td>
-        <td>Heraldry:  (int) 1 (14)</td>
-        <td></td>
-      </tr><tr align="left">
-        <td>Dancing:  (dex) 1 (12)</td>
-        <td>Herbalism:  (int) 1 (14)</td>
-        <td></td>
-      </tr></table>
-</td>
     </tr><tr align="center">
       <td><b>Languages</b>: Common; Elf; Gnoll; Kobold</td>
     </tr><tr align="center">
@@ -187,53 +166,63 @@ var attributes = {
   </tr><tr align="center">
     <td><b>Spells</b>:     <table id="Spells" width="100%">
     <tr align="left">
-      <td>Animate Dead (P3 Necr): R10' Animated humanoid remains totaling 10 HD obey simple commands</td>
+      <td>Augury (P2 Less): Self 80% determine weal or woe of action in next 3 tn</td>
     </tr><tr align="left">
       <td>Chant (P2 Conj): R30' Allies +1 attack, damage, saves (foes -1) during chant</td>
     </tr><tr align="left">
-      <td>Control Temperature 10' Radius (P4 Alte): Change temperature in 10' radius by 100F for 14 tn</td>
+      <td>Command (P1 Ench): R30' Target obeys single-word command (save neg for Int 13+/HD 6+)</td>
     </tr><tr align="left">
-      <td>Cure Blindness Or Deafness (P3 Abju): Touch cures (rev causes, save neg) non-organic blindness or deafness</td>
+      <td>Commune (P5 Grea): Self deity answers 10 yes/no questions</td>
+    </tr><tr align="left">
+      <td>Create Water (P1 Alte): R30' Creates (rev destroys) 40 gallons potable water</td>
+    </tr><tr align="left">
+      <td>Cure Disease (P3 Abju): Touched cured of disease (rev infects) (save neg)</td>
+    </tr><tr align="left">
+      <td>Cure Light Wounds (P1 Necr): Touched heals 1d8 HP (rev inflicts)</td>
+    </tr><tr align="left">
+      <td>Cure Serious Wounds (P4 Necr): Touched heals 2d8+1 HP (rev inflicts)</td>
+    </tr><tr align="left">
+      <td>Detect Evil (P1 Less): Self discern evil (rev good) in 10'x120' path for 60 rd</td>
     </tr><tr align="left">
       <td>Detect Magic (P1 Less): Self discern magical auras in 10'x30' path for 1 tn</td>
     </tr><tr align="left">
-      <td>Detect Poison (P1 Less): Detect whether object has been poisoned, 50% type, for 20 rd</td>
+      <td>Flame Strike (P5 Evoc): R60' 5' radius fire column 6d8 HP (save half)</td>
     </tr><tr align="left">
-      <td>Dispel Evil (P5 Abju): Return evil (rev good) creatures to home plane (save neg, -7 attack caster for 10 rd)</td>
-    </tr><tr align="left">
-      <td>Endure Cold (P1 Alte): Touched withstand -30F for 300 min</td>
-    </tr><tr align="left">
-      <td>Entangle (P1 Alte): R80' Plants in 40' cu hold passers (save move half) for 1 tn</td>
-    </tr><tr align="left">
-      <td>Fire Trap (P2 Abju): Touched causes 1d4+10 HP (save half) in 5' radius when opened</td>
-    </tr><tr align="left">
-      <td>Goodberry (P2 Alte): 2d4 berries provide full meal, heal 1 HP (rev 1 HP poison) for 11 day</td>
-    </tr><tr align="left">
-      <td>Hallucinatory Forest (P4 Illu): R80' Illusion of 400' sq forest</td>
-    </tr><tr align="left">
-      <td>Hold Plant (P4 Ench): R80' Mobile plants in 16 sq yd immobile for 10 rd</td>
+      <td>Know Alignment (P2 Less): Self discern aura of 1 target/rd for 1 tn (rev obscures)</td>
     </tr><tr align="left">
       <td>Light (P1 Alte): R120' Target spot radiates 20' radius light for 16 tn (rev darkness half duration)</td>
     </tr><tr align="left">
-      <td>Magical Vestment (P3 Ench): Touched vestment 4 for 50 rd</td>
+      <td>Locate Object (P3 Less): R160' Self find desired object for 10 rd (rev obscures)</td>
     </tr><tr align="left">
-      <td>Messenger (P2 Ench): R200' Tiny creature delivers note for 10 dy</td>
+      <td>Lower Water (P4 Alte): R120' 100' sq fluid subsides by 20' for 10 tn (rev raises)</td>
     </tr><tr align="left">
-      <td>Plane Shift (P5 Alte): Touched plus 7 touching travel to another plane (save neg)</td>
+      <td>Prayer (P3 Conj): R60' Allies +1 attack, damage, saves (foes -1) for 10 rd</td>
     </tr><tr align="left">
-      <td>Protection From Evil (P1 Abju): Touched untouchable by evil outsiders, -2 evil attacks, +2 saves for 30 rd (rev good)</td>
+      <td>Protection From Evil 10' Radius (P4 Abju): Touched 10' radius untouchable by evil outsiders, -2 evil attacks, +2 saves for 10 tn (rev good)</td>
+    </tr><tr align="left">
+      <td>Remove Curse (P3 Abju): Touched uncursed (rev cursed for 10 tn)</td>
+    </tr><tr align="left">
+      <td>Slow Poison (P2 Necr): Touched takes only 1 HP/tn from poison, protected from death for 10 hr</td>
     </tr><tr align="left">
       <td>Speak With Animals (P2 Alte): R30' Self converse w/1 type of animal for 20 rd</td>
     </tr><tr align="left">
-      <td>Speak With Plants (P4 Alte): Self converse w/plants in 30' radius for 10 rd</td>
+      <td>Spiritual Weapon (P2 Evoc): R100' magical force attacks for conc or 10 rd</td>
     </tr><tr align="left">
-      <td>Stone Shape (P3 Alte): Touched 13' cu rock reshaped</td>
-    </tr><tr align="left">
-      <td>Wyvern Watch (P2 Evoc): R30' First trespasser in 10' radius paralyzed 10 rd (save neg)</td>
+      <td>Sticks To Snakes (P4 Alte): R30' 1d4+10 sticks in 10' cu become snakes (50% venomous) (rev) for 20 rd</td>
     </tr></table>
 </td>
   </tr><tr align="center">
     <td><b>Magic Notes</b>: <i>Bonus Cleric Spells: 2/2/1/1</i></td>
+  </tr></table>
+</td>
+</tr><tr align="center">
+  <td><b>Notes</b><br/>  <table id="Notes Area" width="100%">
+  <tr align="center">
+    <td>    <table id="ValidationPart" width="100%">
+    <tr align="center">
+      <td><b>Validation Notes</b>: Nonweapon Proficiency Allocation: 7 available vs. 0 allocated</td>
+    </tr></table>
+</td>
   </tr></table>
 </td>
 </tr></table>

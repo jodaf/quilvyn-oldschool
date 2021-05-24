@@ -6,22 +6,18 @@
   <title>Class-Paladin 20</title>
   <script>
 var attributes = {
-  "_path":"ztest/2e/class/paladin 20", "_timestamp":1621711762414, 
+  "_path":"ztest/2e/class/paladin 20", "_timestamp":1621876281452, 
   "alignment":"Lawful Good", "armor":"Chain", "charisma":17, "constitution":12, "dexterity":15, 
   "doubleSpecialization":1, "experiencePoints.Paladin":3600000, "gender":"Female", "hitPoints":98, 
   "intelligence":13, "languages.Gnoll":1, "languages.Halfling":1, "languages.Orc":1, 
-  "name":"Class-Paladin 20", "race":"Human", "shield":"None", "skills.Astrology":1, "skills.Brewing":1, 
-  "skills.Carpentry":1, "skills.Dancing":1, "skills.Fire-Building":1, "skills.Singing":1, 
-  "skills.Stonemasonry":1, "skills.Swimming":1, "skills.Weather Sense":1, 
-  "spells.Call Lightning(P3 Alte)":1, "spells.Detect Poison(P1 Less)":1, "spells.Endure Heat(P1 Alte)":1, 
-  "spells.Find Traps(P2 Less)":1, "spells.Giant Insect(P4 Alte)":1, "spells.Heat Metal(P2 Necr)":1, 
-  "spells.Hold Animal(P3 Ench)":1, "spells.Produce Flame(P2 Alte)":1, 
-  "spells.Protection From Lightning(P4 Abju)":1, "spells.Reflecting Pool(P4 Less)":1, "spells.Sanctuary(P1 Abju)":1, 
-  "spells.Speak With Dead(P3 Necr)":1, "strength":16, "weaponProficiency.Bastard Sword":1, 
-  "weaponProficiency.Club":1, "weaponProficiency.Dagger":1, "weaponProficiency.Light Crossbow":1, 
-  "weaponProficiency.Long Sword":1, "weaponProficiency.Quarterstaff":1, "weaponProficiency.Short Bow":1, 
-  "weaponProficiency.Sling":1, "weaponSpecialization":"None", "weapons.Bastard Sword":1, "weapons.Sling":1, 
-  "wisdom":16
+  "name":"Class-Paladin 20", "race":"Human", "shield":"None", "spells.Command(P1 Ench)":1, 
+  "spells.Continual Light(P3 Alte)":1, "spells.Create Water(P1 Alte)":1, "spells.Detect Evil(P1 Less)":1, 
+  "spells.Find Traps(P2 Less)":1, "spells.Glyph Of Warding(P3 Abju)":1, "spells.Hold Person(P2 Ench)":1, 
+  "spells.Protection From Evil 10' Radius(P4 Abju)":1, "spells.Remove Curse(P3 Abju)":1, "spells.Spiritual Weapon(P2 Evoc)":1, 
+  "strength":16, "weaponProficiency.Bastard Sword":1, "weaponProficiency.Club":1, 
+  "weaponProficiency.Dagger":1, "weaponProficiency.Light Crossbow":1, "weaponProficiency.Long Sword":1, 
+  "weaponProficiency.Quarterstaff":1, "weaponProficiency.Short Bow":1, "weaponProficiency.Sling":1, 
+  "weaponSpecialization":"None", "weapons.Bastard Sword":1, "weapons.Sling":1, "wisdom":16
 };
   </script>
 </head>
@@ -103,25 +99,6 @@ var attributes = {
     <td>    <table id="SkillPart" width="100%">
     <tr align="center">
       <td><b>Nonweapon Proficiency Count</b>: 9</td>
-    </tr><tr align="center">
-      <td>      <table id="Skills" width="100%">
-      <col width="33%"/>
-      <col width="33%"/>
-      <col width="34%"/>
-      <tr align="left">
-        <td>Astrology:  (int) 1 (14)</td>
-        <td>Dancing:  (dex) 1 (16)</td>
-        <td>Stonemasonry:  (str) 1 (17)</td>
-      </tr><tr align="left">
-        <td>Brewing:  (int) 1 (14)</td>
-        <td>Fire-Building:  (wis) 1 (17)</td>
-        <td>Swimming:  (str) 1 (17)</td>
-      </tr><tr align="left">
-        <td>Carpentry:  (str) 1 (17)</td>
-        <td>Singing:  (cha) 1 (18)</td>
-        <td>Weather Sense:  (wis) 1 (17)</td>
-      </tr></table>
-</td>
     </tr><tr align="center">
       <td><b>Languages</b>: Common; Gnoll; Halfling; Orc</td>
     </tr><tr align="center">
@@ -222,29 +199,25 @@ var attributes = {
   </tr><tr align="center">
     <td><b>Spells</b>:     <table id="Spells" width="100%">
     <tr align="left">
-      <td>Call Lightning (P3 Alte): R360' Clouds release 11d8 (save half) 10' bolt 1/tn for 9 tn</td>
+      <td>Command (P1 Ench): R30' Target obeys single-word command (save neg for Int 13+/HD 6+)</td>
     </tr><tr align="left">
-      <td>Detect Poison (P1 Less): Detect whether object has been poisoned, 45% type, for 19 rd</td>
+      <td>Continual Light (P3 Alte): R120' Target centers 60' radius light (rev darkness) until dispelled</td>
     </tr><tr align="left">
-      <td>Endure Heat (P1 Alte): Touched withstand 130F for 270 min</td>
+      <td>Create Water (P1 Alte): R30' Creates (rev destroys) 36 gallons potable water</td>
+    </tr><tr align="left">
+      <td>Detect Evil (P1 Less): Self discern evil (rev good) in 10'x120' path for 55 rd</td>
     </tr><tr align="left">
       <td>Find Traps (P2 Less): Detect traps in 10'x30' area for 3 tn</td>
     </tr><tr align="left">
-      <td>Giant Insect (P4 Alte): R20' 1-6 insects become 3 HD giant version</td>
+      <td>Glyph Of Warding (P3 Abju): Touching 9' sq causes 9d4 HP energy (save half or neg)</td>
     </tr><tr align="left">
-      <td>Heat Metal (P2 Necr): R40' Metal dangerously hot (rev cold) for 7 rd</td>
+      <td>Hold Person (P2 Ench): R120' Immobilize 1-4 medium targets (save neg) for 18 rd</td>
     </tr><tr align="left">
-      <td>Hold Animal (P3 Ench): R80' Immobilize 4 animals for 18 rd</td>
+      <td>Protection From Evil 10' Radius (P4 Abju): Touched 10' radius untouchable by evil outsiders, -2 evil attacks, +2 saves for 9 tn (rev good)</td>
     </tr><tr align="left">
-      <td>Produce Flame (P2 Alte): Flame from burning hand can be thrown 40' for 9 rd</td>
+      <td>Remove Curse (P3 Abju): Touched uncursed (rev cursed for 9 tn)</td>
     </tr><tr align="left">
-      <td>Protection From Lightning (P4 Abju): Self immune normal, ignore 108 HP magic electricity or touched immune normal, +4 save and half damage vs magic electricity for 9 tn</td>
-    </tr><tr align="left">
-      <td>Reflecting Pool (P4 Less): R10' Use pool to scry for 9 rd</td>
-    </tr><tr align="left">
-      <td>Sanctuary (P1 Abju): Touched foes save vs. magic to attack for 11 rd</td>
-    </tr><tr align="left">
-      <td>Speak With Dead (P3 Necr): R10' Self question corpse</td>
+      <td>Spiritual Weapon (P2 Evoc): R90' magical force attacks for conc or 9 rd</td>
     </tr></table>
 </td>
   </tr><tr align="center">
@@ -259,6 +232,16 @@ var attributes = {
       <td>Lay On Hands: Touch heals 40 HP 1/dy</td>
     </tr><tr align="center">
       <td>Protection From Evil: Continuous <i>Protection From Evil</i> 10' radius</td>
+    </tr></table>
+</td>
+  </tr></table>
+</td>
+</tr><tr align="center">
+  <td><b>Notes</b><br/>  <table id="Notes Area" width="100%">
+  <tr align="center">
+    <td>    <table id="ValidationPart" width="100%">
+    <tr align="center">
+      <td><b>Validation Notes</b>: Nonweapon Proficiency Allocation: 9 available vs. 0 allocated</td>
     </tr></table>
 </td>
   </tr></table>
