@@ -18,8 +18,6 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var OldSchool_VERSION = '2.2.1.29';
-
 /*
  * This module loads the rules from the 1st Edition and 2nd Edition core rules,
  * and those from the Old School Reference and Index Compilation adaptation of
@@ -47,7 +45,7 @@ function OldSchool(edition) {
 
   for(OldSchool.EDITION in editions) {
 
-    var rules = new QuilvynRules(OldSchool.EDITION, OldSchool_VERSION);
+    var rules = new QuilvynRules(OldSchool.EDITION, OldSchool.VERSION);
 
     rules.defineChoice('choices', OldSchool.CHOICES);
     rules.choiceEditorElements = OldSchool.choiceEditorElements;
@@ -123,6 +121,8 @@ function OldSchool(edition) {
   }
 
 }
+
+OldSchool.VERSION = '2.2.1.29';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -6769,7 +6769,7 @@ OldSchool.getPlugins = function() {
 OldSchool.ruleNotes = function() {
   return '' +
     '<h2>OldSchool Quilvyn Plugin Notes</h2>\n' +
-    'OldSchool Quilvyn Plugin Version ' + OldSchool_VERSION + '\n' +
+    'OldSchool Quilvyn Plugin Version ' + OldSchool.VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +
