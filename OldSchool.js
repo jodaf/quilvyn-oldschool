@@ -122,7 +122,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.29';
+OldSchool.VERSION = '2.2.1.30';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -2647,8 +2647,9 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-          '"1:Animal Empathy","1:Ranger Skills",1:Track,"1:Travel Light",' +
-          '"1:Two-Handed Fighting","2:Favored Enemy","10:Band Of Followers" ' +
+          '1:Ambidextrous,"1:Animal Empathy","1:Ranger Skills",1:Track,' +
+          '"1:Travel Light","1:Two-Handed Fighting","2:Favored Enemy",' +
+          '"10:Band Of Followers" ' +
         'Experience=' +
           '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
           '2700,3000,3300,3600 ' +
@@ -4519,6 +4520,7 @@ OldSchool.RULE_EDITS = {
         'Require+=' +
           '"constitution >= 6","dexterity >= 6","intelligence >= 6",' +
           '"strength >= 6" ' +
+        'Features-="3:Woodland Languages" ' +
         'WeaponProficiency=2,3,4 ' +
         'Experience=' +
           '0,2,4,8,12,20,35,60,90,125,200,300,750,1500',
@@ -4565,15 +4567,16 @@ OldSchool.RULE_EDITS = {
       'Paladin':
         'Require+=' +
           '"dexterity >= 6" ' +
-        'Features+="1:Circle Of Power" ' +
+        'Features-="1:Divine Protection" ' +
         'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
+        'Breath=15,1.5,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 '+
+        'Wand=14,1.5,2 ' +
         'Experience=' +
           '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,' +
           '2750,3100,3450,3800,4150',
       'Ranger':
         'Require+=' +
           '"charisma >= 6" ' +
-        'Features+="1:Ambidextrous" ' +
         'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
         'Experience=' +
           '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
@@ -4740,6 +4743,7 @@ OldSchool.editedRules = function(base, type) {
             result[a].replace(attr + '=', attr + '=' + valuesText + ',');
         } else if(op == '-=') {
           for(var j = 0; j < values.length; j++) {
+            values[j] = values[j].replaceAll('"', '[\'"]?');
             var pat = new RegExp(',' + values[j] + '|(?<==)' + values[j] + ',?');
             result[a] = result[a].replace(pat, '');
           }
@@ -5623,7 +5627,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     if(OldSchool.EDITION == 'OSRIC') {
       // Override 1E's level at which assassins get Thief skills
-      rules.defineRule('assassinFeatures.Thief Skills', classLevel, '=', null);
+      rules.defineRule('assassinFeatures.Thief Skills', classLevel, '=', '1');
       // Unclear whether Assassins have same chance of failure as Thieves
       rules.defineRule
         ('magicNotes.readScrolls', 'intelligence', '=', 'source * 5 - 10');
@@ -5770,29 +5774,35 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Druids' Cant", 'levels.Druid', '=', '1');
     rules.defineRule('magicNotes.bonusDruidSpells.1',
-      'features.Bonus Druid Spells', '?', null,
+      'magicNotes.bonusDruidSpells', '?', null,
       'wisdom', '=', 'source<=12 ? 0 : source==13 ? 1 : source<=18 ? 2 : 3'
     );
     rules.defineRule('magicNotes.bonusDruidSpells.2',
-      'features.Bonus Druid Spells', '?', null,
+      'magicNotes.bonusDruidSpells', '?', null,
       'wisdom', '=', 'source <= 14 ? 0 : source == 15 ? 1 : 2'
     );
     rules.defineRule('magicNotes.bonusDruidSpells.3',
-      'features.Bonus Druid Spells', '?', null,
+      'magicNotes.bonusDruidSpells', '?', null,
       'wisdom', '=', 'source <= 16 ? 0 : 1'
     );
     rules.defineRule('magicNotes.bonusDruidSpells.4',
-      'features.Bonus Druid Spells', '?', null,
+      'magicNotes.bonusDruidSpells', '?', null,
       'wisdom', '=', 'source <= 17 ? 0 : 1'
     );
-    rules.defineRule('skillNotes.woodlandLanguages',
-      classLevel, '=', 'source>2 ? source - 2 : null'
-    );
+    if(OldSchool.EDITION != 'OSRIC') {
+      rules.defineRule('skillNotes.woodlandLanguages',
+        classLevel, '=', 'source>2 ? source - 2 : null'
+      );
+    }
     if(OldSchool.EDITION != 'Second Edition') {
-      rules.defineRule('spellSlots.D1', 'bonusDruidSpells.1', '+', null);
-      rules.defineRule('spellSlots.D2', 'bonusDruidSpells.2', '+', null);
-      rules.defineRule('spellSlots.D3', 'bonusDruidSpells.3', '+', null);
-      rules.defineRule('spellSlots.D4', 'bonusDruidSpells.4', '+', null);
+      rules.defineRule
+        ('spellSlots.D1', 'magicNotes.bonusDruidSpells.1', '+', null);
+      rules.defineRule
+        ('spellSlots.D2', 'magicNotes.bonusDruidSpells.2', '+', null);
+      rules.defineRule
+        ('spellSlots.D3', 'magicNotes.bonusDruidSpells.3', '+', null);
+      rules.defineRule
+        ('spellSlots.D4', 'magicNotes.bonusDruidSpells.4', '+', null);
     }
 
   } else if(name == 'Enchanter') {
@@ -5966,6 +5976,10 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('attacksPerRound',
         classLevel, '+', 'source<8 ? null : source<15 ? 0.5 : 1'
       );
+      rules.defineRule('paladinSaveMin', classLevel, '=', '2');
+      rules.defineRule('save.Breath', 'paladinSaveMin', '^', null);
+      rules.defineRule('save.Death', 'paladinSaveMin', '^', null);
+      rules.defineRule('save.Petrification', 'paladinSaveMin', '^', null);
     } else {
       rules.defineRule('attacksPerRound',
         classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
@@ -6157,7 +6171,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
       raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '75'
     );
     if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
         '', '^', '0'
       );
@@ -6171,7 +6185,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
     if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-4',
         '', '^', '0'
       );
@@ -6189,7 +6203,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
       raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '80'
     );
     if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
         '', '^', '0'
       );
@@ -6203,7 +6217,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '30');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '30');
     if(OldSchool.EDITION == 'First Edition')
-      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-5',
         '', '^', '0'
       );
@@ -6212,7 +6226,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     );
   } else if(name == 'Half-Orc') {
     if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
         '', '^', '0'
       );
@@ -6225,7 +6239,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
   } else if(name == 'Halfling') {
     rules.defineRule('featureNotes.senseSlope', raceLevel, '+=', '75');
     if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('featureNotes.intelligenceLanguageBonus',
+      rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-5',
         '', '^', '0'
       );
