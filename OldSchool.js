@@ -122,7 +122,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.30';
+OldSchool.VERSION = '2.2.1.31';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -4744,8 +4744,8 @@ OldSchool.editedRules = function(base, type) {
         } else if(op == '-=') {
           for(var j = 0; j < values.length; j++) {
             values[j] = values[j].replaceAll('"', '[\'"]?');
-            var pat = new RegExp(',' + values[j] + '|(?<==)' + values[j] + ',?');
-            result[a] = result[a].replace(pat, '');
+            result[a] = result[a].replace(new RegExp(',' + values[j]), '')
+                                 .replace(new RegExp('=' + values[j] + ',?'), '=');
           }
         }
       }
