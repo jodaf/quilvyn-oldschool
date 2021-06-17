@@ -553,7 +553,8 @@ OldSchool.FEATURES = {
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Direction Sense':'Section=feature Note="50% Determine direction of travel"',
+  'Direction Sense':
+    'Section=feature Note="50% Determine direction underground"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+1 Constitution/-1 Charisma"',
   'Dwarf Dodge':
@@ -6707,7 +6708,7 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     howMany = attrs.weaponProficiencyCount;
     for(attr in this.getChoices('weapons')) {
-      if(attributes['weaponProficiency.' + attr] != null)
+      if(attrs['weaponProficiency.' + attr] != null)
         howMany--;
       else
         choices.push(attr);
