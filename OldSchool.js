@@ -83,9 +83,13 @@ function OldSchool(edition) {
 
 
     // Add additional elements to sheet
+    rules.defineSheetElement('Strength');
+    rules.defineSheetElement
+      ('StrengthInfo', 'Dexterity', '<b>Strength</b>: %V', OldSchool.EDITION == 'OSRIC' ? '.' : '/');
+    rules.defineSheetElement('Strength', 'StrengthInfo/', '%V');
+    rules.defineSheetElement('Extra Strength', 'StrengthInfo/', '%V');
     rules.defineSheetElement
       ('Experience Points', 'Level', '<b>Experience</b>: %V', '; ');
-    rules.defineSheetElement('Extra Strength', 'Strength+', '/%V');
     rules.defineSheetElement('SpeedInfo');
     rules.defineSheetElement('Speed', 'LoadInfo', '<b>%N</b>: %V');
     rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
@@ -122,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.31';
+OldSchool.VERSION = '2.2.1.32';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -414,7 +418,7 @@ OldSchool.FEATURES = {
 
   // Class
   'Additional Languages':'Section=skill Note="+%V Language Count"',
-  'Alert':'Section=combat Note="Surprised 1/6, surprise 1/2"',
+  'Alert':'Section=combat Note="Surprised 1in6, surprise 3in6"',
   'Assassination':
     'Section=combat Note="Strike kills surprised target %V% - 5%/2 foe levels"',
   'Aware':'Section=combat Note="Surprised %V%"',
@@ -580,7 +584,7 @@ OldSchool.FEATURES = {
   'Sense Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
   'Stealthy':
     'Section=combat ' +
-    'Note="4in6 surprise when traveling quietly, 2in6 opening doors"',
+    'Note="Surprise 4in6 when traveling quietly, 2in6 when opening doors"',
   'Sword Precision':
     'Section=combat Note="+1 attack w/Long Sword and Short Sword"',
   'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
@@ -704,7 +708,7 @@ OldSchool.RACES = {
       'Common,Dwarf,Gnome,Goblin,Kobold,Orc',
   'Elf':
     'Require=' +
-      '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
+      '"charisma >= 8","constitution >= 6","dexterity >= 7",' +
       '"intelligence >= 8" ' +
     'Features=' +
       '"1:Bow Precision","1:Detect Secret Doors","1:Elf Ability Adjustment",' +
@@ -2905,19 +2909,11 @@ OldSchool.RULE_EDITS = {
       'Half-Orc':null,
       // Modified
       'Dwarf':
-        'Require=' +
-          '"charisma <= 17","constitution >= 11","dexterity <= 17",' +
-          '"strength >= 8" ' +
         'Features+="1:Magic Mismatch",1:Slow ' +
         'Languages=Dwarf',
       'Elf':
-        'Require=' +
-          '"charisma >= 8","constitution >= 7","dexterity >= 6",' +
-          '"intelligence >= 8" ' +
         'Languages=Elf',
       'Gnome':
-        'Require=' +
-          '"constitution >= 8","intelligence >= 6","strength >= 6" ' +
         'Features=' +
           '"1:Burrow Tongue","1:Direction Sense",' +
           '"1:Gnome Ability Adjustment","1:Gnome Dodge","1:Gnome Enmity",' +
@@ -2927,9 +2923,6 @@ OldSchool.RULE_EDITS = {
       'Half-Elf':
         'Languages=Common',
       'Halfling':
-        'Require=' +
-          '"constitution >= 10","dexterity >= 7","intelligence >= 6",' +
-          '"strength >= 7","wisdom <= 17" ' +
         'Features+="1:Deadly Aim",1:Slow ' +
         'Languages=Halfling'
     },
@@ -4602,6 +4595,10 @@ OldSchool.RULE_EDITS = {
       // Modified
       'Dwarf':
         'Features+=1:Slow',
+      'Elf':
+        'Require=' +
+          '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
+          '"intelligence >= 8"',
       'Gnome':
         'Features+=1:Slow,"1:Resist Poison"',
       'Halfling':
@@ -4929,6 +4926,22 @@ OldSchool.abilityRules = function(rules) {
     'strength', '=', 'source >= 16 ? source - 9 : Math.floor((source - 2) / 2)',
     'extraStrength', '+', 'source <= 50 ? 1 : source <= 75 ? 2 : ' +
                           'source <= 90 ? 3 : source <= 99 ? 4 : 5'
+  );
+  rules.defineChoice('notes',
+    'validationNotes.extraStrength:Characters with strength less than 18 cannot have extra strength',
+    'validationNotes.extraStrengthClass:Only fighters may have extra strength',
+    'validationNotes.extraStrengthRange:Extra strength value must be in the range 1..100'
+  );
+  rules.defineRule('validationNotes.extraStrength',
+    'extraStrength', '?', null,
+    'strength', '=', 'source==18 ? null : 1'
+  );
+  rules.defineRule('validationNotes.extraStrengthClass',
+    'extraStrength', '=', '1',
+    'levels.Fighter', 'v', '0'
+  );
+  rules.defineRule('validationNotes.extraStrengthRange',
+    'extraStrength', '=', 'source>=1 && source<=100 ? null : 1'
   );
 
   // Wisdom
