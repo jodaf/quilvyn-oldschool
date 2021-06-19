@@ -5639,7 +5639,8 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
     rules.defineRule('skillNotes.bonusLanguages',
-      'intelligence', '=', 'source>14 ? source - 14 : null'
+      'intelligence', '=', 'source>14 ? source - 14 : null',
+      'levels.Assassin', 'v', 'Math.min(source - 8, 4)'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       // Override 1E's level at which assassins get Thief skills
