@@ -5658,7 +5658,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Move Silently', classLevel, '+=', skillLevel);
     rules.defineRule('skillLevel.Open Locks', classLevel, '+=', skillLevel);
     rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', skillLevel);
-    rules.defineRule('skillLevel.Read Language', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
 
   } else if(name == 'Bard') {
 
@@ -6074,7 +6074,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
     rules.defineRule('skillLevel.Open Locks', classLevel, '+=', null);
     rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
-    rules.defineRule('skillLevel.Read Language', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
 
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule('maxAllowedSkillAllocation',
