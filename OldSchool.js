@@ -108,12 +108,12 @@ function OldSchool(edition) {
     rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
     rules.defineSheetElement
       ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
-    rules.defineSheetElement('Thac0 Melee', 'Thac0Info/', '%V');
-    rules.defineSheetElement('Thac0 Ranged', 'Thac0Info/', '%V');
+    rules.defineSheetElement('Thac0Melee', 'Thac0Info/', '%V');
+    rules.defineSheetElement('Thac0Ranged', 'Thac0Info/', '%V');
     rules.defineSheetElement
       ('Thac10Info', 'AttackInfo', '<b>THAC10 Melee/Ranged</b>: %V', '/');
-    rules.defineSheetElement('Thac10 Melee', 'Thac10Info/', '%V');
-    rules.defineSheetElement('Thac10 Ranged', 'Thac10Info/', '%V');
+    rules.defineSheetElement('Thac10Melee', 'Thac10Info/', '%V');
+    rules.defineSheetElement('Thac10Ranged', 'Thac10Info/', '%V');
     rules.defineSheetElement('AttackInfo');
     rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
     rules.defineSheetElement
