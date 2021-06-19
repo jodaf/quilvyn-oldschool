@@ -4930,7 +4930,7 @@ OldSchool.abilityRules = function(rules) {
   );
   rules.defineChoice('notes',
     'validationNotes.extraStrength:Characters with strength less than 18 cannot have extra strength',
-    'validationNotes.extraStrengthClass:Only fighters may have extra strength',
+    'validationNotes.extraStrengthClass:Only fighters, paladins, and rangers may have extra strength',
     'validationNotes.extraStrengthRange:Extra strength value must be in the range 1..100'
   );
   rules.defineRule('validationNotes.extraStrength',
@@ -4939,7 +4939,9 @@ OldSchool.abilityRules = function(rules) {
   );
   rules.defineRule('validationNotes.extraStrengthClass',
     'extraStrength', '=', '1',
-    'levels.Fighter', 'v', '0'
+    'levels.Fighter', 'v', '0',
+    'levels.Paladin', 'v', '0',
+    'levels.Ranger', 'v', '0'
   );
   rules.defineRule('validationNotes.extraStrengthRange',
     'extraStrength', '=', 'source>=1 && source<=100 ? null : 1'
