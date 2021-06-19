@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.32';
+OldSchool.VERSION = '2.2.1.33';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -5847,13 +5847,13 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classSaveAdjustment',
       classLevel, '=',
         'source<17 ? null : ' +
-        (OldSchool.EDITION == 'Second Edition' ? 'source>18 ? 2 : ' : '') +
-        '1'
+        (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
     );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Illusionist') {
 
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
     if(OldSchool.EDITION == 'First Edition') {
       rules.defineRule('classBaseAttackAdjustment',
         classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
@@ -5869,7 +5869,6 @@ OldSchool.classRulesExtra = function(rules, name) {
         ('magicNotes.schoolSpecialization', classLevel, '=', '"Illusion"');
       rules.defineRule
         ('saveNotes.schoolExpertise', classLevel, '=', '"Illusion"');
-      rules.defineRule('wizardLevel', classLevel, '+=', null);
     }
 
   } else if(name == 'Invoker') {
@@ -5893,29 +5892,23 @@ OldSchool.classRulesExtra = function(rules, name) {
         classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
       );
     }
-    if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule('wizardLevel', classLevel, '+=', null);
-      rules.defineRule('maximumSpellsPerLevel',
-        'wizardLevel', '?', null,
-        'intelligence', '=', 'source==9 ? 6 : source<13 ? 7 : source<15 ? 9 : source<17 ? 11 : source==17 ? 14 : source==18 ? 18 : "all"'
-      );
-      rules.defineRule('understandSpell',
-        'wizardLevel', '?', null,
-        'intelligence', '=', 'source==19 ? 95 : source==18 ? 85 : source * 5 - 10'
-      );
-    } else {
-      rules.defineRule('intelligenceRow',
-        'intelligence', '=', 'source<10 ? 0 : source<13 ? 1 : source<15 ? 2 : source<17 ? 3 : (source - 13)'
-      );
-      rules.defineRule('maximumSpellsPerLevel',
-        classLevel, '?', null,
-        'intelligenceRow', '=', 'source * 2 + 5 + (source == 0 ? 1 : source < 4 ? 0 : source == 4 ? 1 : source == 5 ? 3 : 5)'
-      );
-      rules.defineRule('understandSpell',
-        classLevel, '?', null,
-        'intelligenceRow', '=', 'Math.min(35 + source * 10, 90)'
-      );
-    }
+    rules.defineRule('wizardLevel', classLevel, '+=', null);
+    rules.defineRule('maximumSpellsPerLevel',
+      'wizardLevel', '?', null,
+      'intelligence', '=',
+        'source==9 ? 6 : source<=12 ? 7 : source<=14 ? 9 : source<=16 ? 11 : ' +
+        'source==17 ? 14 : source==18 ? 18 : ' +
+        (OldSchool.EDITION == 'OSRIC' ? '22' : '"all"')
+    );
+    rules.defineRule('understandSpell',
+      'wizardLevel', '?', null,
+      'intelligence', '=',
+      OldSchool.EDITION != 'Second Edition' ?
+        'source>=19 ? ' + (OldSchool.EDITION == 'OSRIC' ? '90' : '95') + ' : ' +
+          'source==18 ? 85 : source==17 ? 75 : source>=15 ? 65 : ' +
+          'source>=13 ? 55 : source>=10 ? 45 : 35' :
+        'source>=19 ? 95 : source==18 ? 85 : source * 5 - 10'
+    );
     rules.defineRule('magicNotes.craftMinorMagic.1', '', '=', '""');
     if(OldSchool.EDITION != 'Second Edition') {
       rules.defineRule('magicNotes.craftMinorMagic.1',
@@ -6007,8 +6000,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classSaveAdjustment',
       classLevel, '=',
         'source<17 ? null : ' +
-        (OldSchool.EDITION == 'Second Edition' ? 'source>18 ? 2 : ' : '') +
-        '1'
+        (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
     );
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
@@ -6057,8 +6049,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classSaveAdjustment',
       classLevel, '=',
         'source<17 ? null : ' +
-        (OldSchool.EDITION == 'Second Edition' ? 'source>18 ? 2 : ' : '') +
-        '1'
+        (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
     );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
