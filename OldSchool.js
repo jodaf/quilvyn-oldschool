@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.33';
+OldSchool.VERSION = '2.2.1.34';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -6486,6 +6486,12 @@ OldSchool.weaponRules = function(rules, name, category, damage, range) {
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
   SRD35.weaponRules(rules, name, 0, category, damage, 20, 2, range);
+  // Override effect of melee/rangedAttack, since those values are incorporated
+  // into THACO/THAc10.
+  if(category.match(/^R/i))
+    rules.defineRule(prefix + 'AttackModifier', 'rangedAttack', '=', '0');
+  else
+    rules.defineRule(prefix + 'AttackModifier', 'meleeAttack', '=', '0');
   delete rules.getChoices('notes')['weapons.' + name];
   rules.defineChoice
     ('notes', 'weapons.' + name + ':%V (%1 %2%3' + (range ? ' R%5\')' : ')'));
