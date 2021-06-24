@@ -476,7 +476,7 @@ OldSchool.FEATURES = {
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
   'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
   'Fighting The Unskilled':
-    'Section=combat Note="%V attacks/rd vs. creatures with lt 1d8 hit die"',
+    'Section=combat Note="%V attacks/rd vs. creatures with w/HD less than 1d8"',
   'Flurry Of Blows':'Section=combat Note="%V unarmed attacks/rd"',
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
@@ -485,7 +485,7 @@ OldSchool.FEATURES = {
   'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
   'Legend Lore':
     'Section=skill Note="%V% info about legendary item, person, place"',
-  'Loner':'Section=feature Note="Will not work with gt 2 other rangers"',
+  'Loner':'Section=feature Note="Will not work with more than 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Monk Skills':
     'Section=skill ' +
@@ -494,7 +494,7 @@ OldSchool.FEATURES = {
     'Section=feature ' +
     'Note="Identify plant and animal types, determine water purity"',
   'Non-Materialist':
-    'Section=feature Note="Owns le 10 magic items w/1 armor suit and 1 shield"',
+    'Section=feature Note="Owns at most 10 magic items w/1 armor suit and 1 shield"',
   'Philanthropist':
     'Section=feature ' +
     'Note="Must donate 10% of income plus 100% after expenses to LG causes"',
@@ -527,7 +527,7 @@ OldSchool.FEATURES = {
   'Steel Mind':'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Stunning Blow':
      'Section=combat ' +
-    'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by ge 5"',
+    'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by at least 5"',
   'Summon Warhorse':
     'Section=feature Note="Call warhorse w/enhanced features"',
   'Thief Skills':
@@ -540,7 +540,7 @@ OldSchool.FEATURES = {
   'Turn Undead':
     'Section=combat ' +
     'Note="2d6 undead turned, destroyed (good) or controlled (evil)"',
-  'Unburdened':'Section=feature Note="Own le 5 magic items"',
+  'Unburdened':'Section=feature Note="Own at most 5 magic items"',
   'Weapon Specialization':
      'Section=combat ' +
     'Note="+%1 %V Attack Modifier/+%2 %V Damage Modifier/+%3 attacks/rd"',
@@ -982,7 +982,7 @@ OldSchool.SPELLS = {
   'Color Spray':
     'School=Alteration ' +
     'Level=I1 ' +
-    'Description=" 6 targets in $E unconscious (lt $Lplus1 HD), blinded 1d4 rd ($Lplus1-$Lplus2) or stunned 2d4 seg (gt $Lplus2) (save neg)" ' +
+    'Description=" 6 targets in $E unconscious (fewer than $Lplus1 HD), blinded 1d4 rd ($Lplus1-$Lplus2 HD) or stunned 2d4 seg (greater than $Lplus2 HD) (save neg)" ' +
     'Effect="$L10\' cone"',
   'Command':
     'School=Enchantment ' +
@@ -1137,7 +1137,7 @@ OldSchool.SPELLS = {
   'Death Spell':
     'School=Conjuration ' +
     'Level=M6 ' +
-    'Description="R$L10\' Kills 4d20 points of creatures lt 9 HD in $E" ' +
+    'Description="R$L10\' Kills 4d20 points of creatures w/fewer than 9 HD in $E" ' +
     'Effect="$L5\' sq"',
   'Delayed Blast Fireball':
     'School=Evocation ' +
@@ -1524,7 +1524,7 @@ OldSchool.SPELLS = {
   'Holy Word':
     'School=Conjuration ' +
     'Level=C7 ' +
-    'Description="30\' radius banishes evil extraplanar, kills (lt 4 HD), paralyzes (4-7 HD), stuns (8-11 HD), deafens (gt 11 HD) non-good creatures (rev good)"',
+    'Description="30\' radius banishes evil extraplanar, kills (fewer than 4 HD), paralyzes (4-7 HD), stuns (8-11 HD), deafens (greater than 11 HD) non-good creatures (rev good)"',
   'Hypnotic Pattern':
     'School=Illusion ' +
     'Level=I2 ' +
@@ -1572,7 +1572,7 @@ OldSchool.SPELLS = {
   'Insect Plague':
     'School=Conjuration ' +
     'Level=C5,D5 ' +
-    'Description="R$R Stinging insects fill $E (lt 2 HD flee, 3-4 HD check morale) for $L tn" ' +
+    'Description="R$R Stinging insects fill $E (targets w/fewer than 2 HD flee, 3-4 HD check morale) for $L tn" ' +
     'Effect="180\' radius" ' +
     'Range="360\'"',
   'Insect Plague D5':
@@ -2024,11 +2024,11 @@ OldSchool.SPELLS = {
   'Reincarnate':
     'School=Necromancy ' +
     'Level=D7 ' +
-    'Description="Soul dead le 7 dy inhabits new body"',
+    'Description="Soul dead at most 7 dy inhabits new body"',
   'Reincarnation':
     'School=Necromancy ' +
     'Level=M6 ' +
-    'Description="Soul dead le $L dy inhabits new body"',
+    'Description="Soul dead at most $L dy inhabits new body"',
   'Remove Curse':
     'School=Abjuration ' +
     'Level=C3,M4 ' +
@@ -2080,7 +2080,7 @@ OldSchool.SPELLS = {
   'Scare':
     'School=Enchantment ' +
     'Level=M2 ' +
-    'Description="R$R Target lt 6 HD frozen in terror (save neg) for $D" ' +
+    'Description="R$R Target w/fewer than 6 HD frozen in terror (save neg) for $D" ' +
     'Duration="3d4 rd" ' +
     'Range="10\'"',
   'Secret Chest':
