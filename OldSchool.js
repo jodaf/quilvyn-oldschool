@@ -6070,7 +6070,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('maximumHenchmen',
       // Noop to show Delayed Henchmen note in italics
-      'abilityNotes.delayedHenchmen', '?', '1',
+      'abilityNotes.delayedHenchmen', '+', 'null',
       'levels.Ranger', 'v', 'source<8 ? 0 : null'
     );
     rules.defineRule('warriorLevel', classLevel, '+', null);
