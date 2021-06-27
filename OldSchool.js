@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.34';
+OldSchool.VERSION = '2.2.1.35';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -204,8 +204,9 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"1:Shield Proficiency (All)",' +
-      '1:Assassination,1:Backstab,1:Disguise,"1:Poison Use","3:Thief Skills",' +
-      '"intelligence >= 15? 9:Bonus Languages",' +
+      '1:Assassination,1:Backstab,"1:Delayed Henchmen",1:Disguise,' +
+      '"1:Poison Use","3:Thief Skills","4:Limited Henchmen Classes",' +
+      '"intelligence >= 15 ? 9:Bonus Languages",' +
       '"12:Read Scrolls" ' +
     'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
   'Bard':
@@ -340,13 +341,14 @@ OldSchool.CLASSES = {
     'HitDie=d4 Attack=0,2,3 WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
-      '"1:Dodge Missiles",1:Evasion,"1:Killing Blow","1:Monk Skills",' +
-      '"1:Precise Blow",1:Spiritual,"1:Stunning Blow",1:Unburdened,2:Aware,' +
-      '"3:Speak With Animals","4:Flurry Of Blows","4:Masked Mind",' +
-      '"4:Slow Fall","5:Controlled Movement","5:Purity Of Body",' +
-      '"6:Feign Death","7:Wholeness Of Body","8:Speak With Plants",' +
-      '"9:Clear Mind","9:Improved Evasion","10:Steel Mind","11:Diamond Body",' +
-      '"12:Free Will","13:Quivering Palm" ' +
+      '"1:Delayed Henchmen","1:Dodge Missiles",1:Evasion,"1:Killing Blow",' +
+      '"1:Monk Skills","1:Precise Blow",1:Spiritual,"1:Stunning Blow",' +
+      '1:Unburdened,2:Aware,"3:Speak With Animals","4:Flurry Of Blows",' +
+      '"4:Masked Mind","4:Slow Fall","5:Controlled Movement",' +
+      '"5:Purity Of Body","6:Feign Death","6:Limited Henchmen Classes",' +
+      '"7:Wholeness Of Body","8:Speak With Plants","9:Clear Mind",' +
+      '"9:Improved Evasion","10:Steel Mind","11:Diamond Body","12:Free Will",' +
+      '"13:Quivering Palm" ' +
     'Experience=' +
       '0,2.25,4.75,10,22.5,47.5,98,200,350,500,700,950,1250,1750,2250,2750,' +
       '3250',
@@ -384,9 +386,9 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-      '1:Alert,"1:Favored Enemy","1:Fighting The Unskilled",1:Loner,' +
-      '1:Selective,1:Track,"1:Travel Light",10:Scrying,' +
-      '"10:Band Of Followers" ' +
+      '1:Alert,"1:Delayed Henchmen","1:Favored Enemy",' +
+      '"1:Fighting The Unskilled",1:Loner,1:Selective,1:Track,' +
+      '"1:Travel Light",10:Scrying ' +
     'Experience=' +
       '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
       '2975,3300,3625 ' +
@@ -424,7 +426,6 @@ OldSchool.FEATURES = {
   'Aware':'Section=combat Note="Surprised %V%"',
   'Backstab':
     'Section=combat Note="+4 melee attack, x%V damage when surprising"',
-  'Band Of Followers':'Section=feature Note="Will attract followers"',
   'Bonus Cleric Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Bonus Cleric Spells':'Section=magic Note="%1/%2/%3/%4"',
@@ -459,6 +460,8 @@ OldSchool.FEATURES = {
   'Cure Disease':'Section=magic Note="<i>Cure Disease</i> %V/wk"',
   'Defensive Song':
     'Section=magic Note="Counteract song attacks, soothe shriekers"',
+  'Delayed Henchmen':
+    'Section=ability Note="May not hire henchmen until level %V"',
   'Detect Evil':'Section=magic Note="R60\' <i>Detect Evil</i> at will"',
   'Diamond Body':'Section=save Note="Immune to poison"',
   'Discriminating':
@@ -485,6 +488,7 @@ OldSchool.FEATURES = {
   'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
   'Legend Lore':
     'Section=skill Note="%V% info about legendary item, person, place"',
+  'Limited Henchmen Classes':'Section=ability Note="Henchmen must be %V"',
   'Loner':'Section=feature Note="Will not work with more than 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Monk Skills':
@@ -2652,9 +2656,9 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-          '1:Ambidextrous,"1:Animal Empathy","1:Ranger Skills",1:Track,' +
-          '"1:Travel Light","1:Two-Handed Fighting","2:Favored Enemy",' +
-          '"10:Band Of Followers" ' +
+          '1:Ambidextrous,"1:Animal Empathy","1:Delayed Henchmen",1:Loner,' +
+          '"1:Ranger Skills",1:Track,"1:Travel Light",' +
+          '"1:Two-Handed Fighting","2:Favored Enemy" ' +
         'Experience=' +
           '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
           '2700,3000,3300,3600 ' +
@@ -5631,6 +5635,11 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
+    rules.defineRule('abilityNotes.limitedHenchmenClasses',
+      'levels.Assassin', '=', 'source<8 ? "assassins" : source<12 ? "assassins and thieves" : "any class"'
+    );
+    rules.defineRule
+      ('abilityNotes.delayedHenchmen', 'levels.Assassin', '=', '4');
     rules.defineRule
       ('classBaseAttackAdjustment', classLevel, '+=', 'source > 8 ? 1 : null');
     rules.defineRule
@@ -5638,6 +5647,8 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
+    rules.defineRule
+      ('maximumHenchmen', 'levels.Assassin', 'v', 'source<4 ? 0 : null');
     rules.defineRule('skillNotes.bonusLanguages',
       'intelligence', '=', 'source>14 ? source - 14 : null',
       'levels.Assassin', 'v', 'Math.min(source - 8, 4)'
@@ -5919,6 +5930,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Monk') {
 
+    rules.defineRule('abilityNotes.limitedHenchmenClasses',
+      'levels.Monk', '=', '"assassins, fighters, and thieves"'
+    );
+    rules.defineRule('abilityNotes.delayedHenchmen', 'levels.Monk', '=', '6');
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
@@ -5942,7 +5957,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('magicNotes.wholenessOfBody', classLevel, '=', 'source - 6');
     rules.defineRule
-      ('maximumHenchmen', classLevel, 'v', 'source<6 ? 0 : source - 4');
+      ('maximumHenchmen', classLevel, 'v', 'source>=6 ? source - 4 : 0');
     rules.defineRule('saveNotes.clearMind', classLevel, '=', '95 - source * 5');
     rules.defineRule
       ('saveNotes.maskedMind', classLevel, '=', '38 - source * 2');
@@ -6044,6 +6059,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
       rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
+    rules.defineRule('abilityNotes.delayedHenchmen', 'levels.Ranger', '=', '8');
     rules.defineRule('classBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
@@ -6051,6 +6067,11 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '=',
         'source<17 ? null : ' +
         (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
+    );
+    rules.defineRule('maximumHenchmen',
+      // Noop to show Delayed Henchmen note in italics
+      'abilityNotes.delayedHenchmen', '?', '1',
+      'levels.Ranger', 'v', 'source<8 ? 0 : null'
     );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
