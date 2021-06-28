@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.35';
+OldSchool.VERSION = '2.2.1.36';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -428,10 +428,10 @@ OldSchool.FEATURES = {
     'Section=combat Note="+4 melee attack, x%V damage when surprising"',
   'Bonus Cleric Experience':
     'Section=ability Note="10% added to awarded experience"',
-  'Bonus Cleric Spells':'Section=magic Note="%1/%2/%3/%4"',
+  'Bonus Cleric Spells':'Section=magic Note="%V"',
   'Bonus Druid Experience':
     'Section=ability Note="10% added to awarded experience"',
-  'Bonus Druid Spells':'Section=magic Note="%1/%2/%3/%4"',
+  'Bonus Druid Spells':'Section=magic Note="%V"',
   'Bonus Fighter Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Bonus Languages':
@@ -5724,22 +5724,15 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
-    rules.defineRule('magicNotes.bonusClericSpells.1',
-      'magicNotes.bonusClericSpells', '?', null,
-      'wisdom', '=', 'source<=12 ? 0 : source==13 ? 1 : source<=18 ? 2 : 3'
-    );
-    rules.defineRule('magicNotes.bonusClericSpells.2',
-      'magicNotes.bonusClericSpells', '?', null,
-      'wisdom', '=', 'source<=14 ? 0 : source == 15 ? 1 : 2'
-    );
-    rules.defineRule('magicNotes.bonusClericSpells.3',
-      'magicNotes.bonusClericSpells', '?', null,
-      'wisdom', '=', 'source<=16 ? 0 : source<=18 ? 1 : ' +
-        (OldSchool.EDITION == 'Second Edition' ? '2' : '1')
-    );
-    rules.defineRule('magicNotes.bonusClericSpells.4',
-      'magicNotes.bonusClericSpells', '?', null,
-      'wisdom', '=', 'source<=17 ? 0 : 1'
+    rules.defineRule('magicNotes.bonusClericSpells',
+      'wisdom', '=',
+       '"Spell level 1" + ' +
+       '(source>=14 ? source>=19 ? "x3" : "x2" : "") + ' +
+       '(source>=15 ? ", 2" : "") + ' +
+       '(source>=16 ? "x2"  : "") + ' +
+       '(source>=17 ? ", 3" : "") + ' +
+       (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
+       '(source>=18 ? ", 4" : "")'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       rules.defineRule('magicNotes.clericSpellFailure',
@@ -5752,14 +5745,11 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('spellSlots.'+t+'6', 'wisdom', '?', 'source > 16');
       rules.defineRule('spellSlots.'+t+'7', 'wisdom', '?', 'source > 17');
     }
-    rules.defineRule
-      ('spellSlots.'+t+'1', 'magicNotes.bonusClericSpells.1', '+', null);
-    rules.defineRule
-      ('spellSlots.'+t+'2', 'magicNotes.bonusClericSpells.2', '+', null);
-    rules.defineRule
-      ('spellSlots.'+t+'3', 'magicNotes.bonusClericSpells.3', '+', null);
-    rules.defineRule
-      ('spellSlots.'+t+'4', 'magicNotes.bonusClericSpells.4', '+', null);
+    for(var level = 1; level <= 4; level++) {
+      rules.defineRule('spellSlots.' + t + level,
+        'magicNotes.bonusClericSpells', '+', 'source.match(/' + level + 'x3/) ? 3 : source.match(/' + level + 'x2/) ? 2 : source.match(/(level|,) ' + level + '/) ? 1 : 0'
+      );
+    }
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
   } else if(name == 'Conjurer') {
@@ -5792,6 +5782,8 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Druid') {
 
+    var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'D';
+
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('classBaseAttackAdjustment',
         classLevel, '+=', 'source>18 ? -1 : null'
@@ -5801,36 +5793,25 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Druids' Cant", 'levels.Druid', '=', '1');
-    rules.defineRule('magicNotes.bonusDruidSpells.1',
-      'magicNotes.bonusDruidSpells', '?', null,
-      'wisdom', '=', 'source<=12 ? 0 : source==13 ? 1 : source<=18 ? 2 : 3'
-    );
-    rules.defineRule('magicNotes.bonusDruidSpells.2',
-      'magicNotes.bonusDruidSpells', '?', null,
-      'wisdom', '=', 'source <= 14 ? 0 : source == 15 ? 1 : 2'
-    );
-    rules.defineRule('magicNotes.bonusDruidSpells.3',
-      'magicNotes.bonusDruidSpells', '?', null,
-      'wisdom', '=', 'source <= 16 ? 0 : 1'
-    );
-    rules.defineRule('magicNotes.bonusDruidSpells.4',
-      'magicNotes.bonusDruidSpells', '?', null,
-      'wisdom', '=', 'source <= 17 ? 0 : 1'
+    rules.defineRule('magicNotes.bonusDruidSpells',
+      'wisdom', '=',
+       '"Spell level 1" + ' +
+       '(source>=14 ? source>=19 ? "x3" : "x2" : "") + ' +
+       '(source>=15 ? ", 2" : "") + ' +
+       '(source>=16 ? "x2"  : "") + ' +
+       '(source>=17 ? ", 3" : "") + ' +
+       (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
+       '(source>=18 ? ", 4" : "")'
     );
     if(OldSchool.EDITION != 'OSRIC') {
       rules.defineRule('skillNotes.woodlandLanguages',
         classLevel, '=', 'source>2 ? source - 2 : null'
       );
     }
-    if(OldSchool.EDITION != 'Second Edition') {
-      rules.defineRule
-        ('spellSlots.D1', 'magicNotes.bonusDruidSpells.1', '+', null);
-      rules.defineRule
-        ('spellSlots.D2', 'magicNotes.bonusDruidSpells.2', '+', null);
-      rules.defineRule
-        ('spellSlots.D3', 'magicNotes.bonusDruidSpells.3', '+', null);
-      rules.defineRule
-        ('spellSlots.D4', 'magicNotes.bonusDruidSpells.4', '+', null);
+    for(var level = 1; level <= 4; level++) {
+      rules.defineRule('spellSlots.' + t + level,
+        'magicNotes.bonusDruidSpells', '+', 'source.match(/' + level + 'x3/) ? 3 : source.match(/' + level + 'x2/) ? 2 : source.match(/(level|,) ' + level + '/) ? 1 : 0'
+      );
     }
 
   } else if(name == 'Enchanter') {
