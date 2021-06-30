@@ -5033,22 +5033,24 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   }
   rules.defineRule
     ('features.Weapon Specialization', 'weaponSpecialization', '=', null);
-  rules.defineRule('meleeAttack',
-    'baseAttack', '=', null,
-    'combatNotes.strengthAttackAdjustment', '+', null
+  rules.defineRule('meleeAttack', 'baseAttack', '=', null);
+  rules.defineRule('rangedAttack', 'baseAttack', '=', null);
+  rules.defineRule('thac0Melee',
+    'meleeAttack', '=', 'Math.min(20 - source, 20)',
+    'combatNotes.strengthAttackAdjustment', '+', '-source'
   );
-  rules.defineRule('rangedAttack',
-    'baseAttack', '=', null,
-    'combatNotes.dexterityAttackAdjustment', '+', null
+  rules.defineRule('thac0Ranged',
+    'rangedAttack', '=', 'Math.min(20 - source, 20)',
+    'combatNotes.dexterityAttackAdjustment', '+', '-source'
   );
-  rules.defineRule
-    ('thac0Melee', 'meleeAttack', '=', 'Math.min(20 - source, 20)');
-  rules.defineRule
-    ('thac0Ranged', 'rangedAttack', '=', 'Math.min(20 - source, 20)');
-  rules.defineRule
-    ('thac10Melee', 'meleeAttack', '=', 'Math.min(10 - source, 20)');
-  rules.defineRule
-    ('thac10Ranged', 'rangedAttack', '=', 'Math.min(10 - source, 20)');
+  rules.defineRule('thac10Melee',
+    'meleeAttack', '=', '10 - source',
+    'combatNotes.strengthAttackAdjustment', '+', '-source'
+  );
+  rules.defineRule('thac10Ranged',
+    'rangedAttack', '=', '10 - source',
+    'combatNotes.dexterityAttackAdjustment', '+', '-source'
+  );
   if(OldSchool.EDITION == 'Second Edition')
     rules.defineRule('turnUndeadColumn',
       'turningLevel', '=',
