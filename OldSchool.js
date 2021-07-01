@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.36';
+OldSchool.VERSION = '2.2.1.37';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -199,7 +199,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
       '"intelligence >= 11","strength >= 12" ' +
-    'HitDie=d6 Attack=-1,2,4 WeaponProficiency=3,4,2 ' +
+    'HitDie=d6 Attack=-1,2,4,+1@9 WeaponProficiency=3,4,2 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
@@ -215,7 +215,7 @@ OldSchool.CLASSES = {
       '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
       '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
       '"race =~ \'Human|Half-Elf\'" ' +
-    'HitDie=d6 Attack=0,2,2 WeaponProficiency=2,5,4 ' +
+    'HitDie=d6 Attack=0,2,2,-2@19 WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)",' +
@@ -237,7 +237,7 @@ OldSchool.CLASSES = {
   'Cleric':
     'Require=' +
       '"wisdom >= 9" ' +
-    'HitDie=d8 Attack=0,2,3 WeaponProficiency=2,4,3 ' +
+    'HitDie=d8 Attack=0,2,3,-1@19 WeaponProficiency=2,4,3 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -261,7 +261,7 @@ OldSchool.CLASSES = {
   'Druid':
     'Require=' +
       '"alignment =~ \'Neutral\'","charisma >= 15","wisdom >= 12" ' +
-    'HitDie=d8 Attack=0,2,3 WeaponProficiency=2,5,4 ' +
+    'HitDie=d8 Attack=0,2,3,- WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
@@ -283,7 +283,7 @@ OldSchool.CLASSES = {
       'D7:12=1;13=2;14=3',
   'Fighter':
     'Require="constitution >= 7","strength >= 9" ' +
-    'HitDie=d10 Attack=0,2,2 WeaponProficiency=4,3,2 ' +
+    'HitDie=d10 Attack=0,2,2,-2@19 WeaponProficiency=4,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -294,7 +294,7 @@ OldSchool.CLASSES = {
       '2750,3000',
   'Illusionist':
     'Require="dexterity >= 16","intelligence >= 15" ' +
-    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
+    'HitDie=d4 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
       '"10:Craft Minor Magic" ' +
@@ -313,7 +313,7 @@ OldSchool.CLASSES = {
       'I7:14=1;15=2;20=3;22=4;23=5;25=6',
   'Magic User':
     'Require="dexterity >= 6","intelligence >= 9" ' +
-    'HitDie=d4 Attack=-1,2,5 WeaponProficiency=1,6,5 ' +
+    'HitDie=d4 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 ' +
     'Wand=11,2,5 '+
     'Features=' +
@@ -338,7 +338,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=d4 Attack=0,2,3 WeaponProficiency=1,2,3 ' +
+    'HitDie=d4 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Delayed Henchmen","1:Dodge Missiles",1:Evasion,"1:Killing Blow",' +
@@ -356,7 +356,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
       '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
-    'HitDie=d10 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
+    'HitDie=d10 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
@@ -380,7 +380,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
       '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
-    'HitDie=d8 Attack=0,2,2 WeaponProficiency=3,3,2 ' +
+    'HitDie=d8 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
@@ -406,7 +406,7 @@ OldSchool.CLASSES = {
   'Thief':
     'Require=' +
       '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
-    'HitDie=d6 Attack=-1,2,4 WeaponProficiency=2,4,3 ' +
+    'HitDie=d6 Attack=-1,2,4,+1@9 WeaponProficiency=2,4,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
@@ -2533,7 +2533,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Neutral\'","charisma >= 15","dexterity >= 12",' +
           '"intelligence >= 13" ' +
-        'Attack=0,1,2 ' +
+        'Attack=0,1,2,- ' +
         'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
         'NonweaponProficiency=3,4 ' +
         'Features=' +
@@ -2554,7 +2554,7 @@ OldSchool.RULE_EDITS = {
           'W5:13=1;15=2;17=3;20=4,' +
           'W6:16=1;18=2;20=3',
       'Cleric':
-        'NonweaponProficiency=4,3 ' +
+        'Attack=0,2,3,- NonweaponProficiency=4,3 ' +
         'SpellSlots=' +
           'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
           'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
@@ -2566,7 +2566,7 @@ OldSchool.RULE_EDITS = {
       'Druid':
         'Require=' +
           '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
-        'NonweaponProficiency=4,3 ' +
+        'Attack=0,2,3,- NonweaponProficiency=4,3 ' +
         'Features=' +
           '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
           '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
@@ -2586,14 +2586,14 @@ OldSchool.RULE_EDITS = {
           'P7:14=1;17=2',
       'Fighter':
         'Require="strength >= 9" ' +
-        'Attack=0,1,1 NonweaponProficiency=3,3 ' +
+        'Attack=0,1,1,- NonweaponProficiency=3,3 ' +
         'Features-="1:Fighting The Unskilled" ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000',
       'Illusionist':
         'Require="dexterity >= 16","intelligence >= 9" ' +
-        'Attack=0,1,3 ' +
+        'Attack=0,1,3,- ' +
         'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
@@ -2611,7 +2611,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Magic User':
         'NonweaponProficiency=4,3 ' +
-        'Attack=0,1,3 ' +
+        'Attack=0,1,3,- ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"9:Craft Minor Magic" ' +
@@ -2629,7 +2629,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment == \'Lawful Good\'","charisma >= 17",' +
           '"constitution >= 9","strength >= 12","wisdom >= 13" ' +
-        'Attack=0,1,1 NonweaponProficiency=3,3 ' +
+        'Attack=0,1,1,- NonweaponProficiency=3,3 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/charisma >= 16 ? 1:Bonus Paladin Experience",' +
@@ -2651,7 +2651,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
-        'Attack=0,1,1 NonweaponProficiency=3,3 ' +
+        'Attack=0,1,1,- NonweaponProficiency=3,3 ' +
         'HitDie=d10 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -2672,7 +2672,7 @@ OldSchool.RULE_EDITS = {
        'Thief':
          'Require=' +
            '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
-         'Attack=0,1,2 ' +
+         'Attack=0,1,2,- ' +
          'Features=' +
            '"1:Armor Proficiency (Elven Chain/Leather/Padded/Studded Leather)",' +
            '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
@@ -2681,7 +2681,7 @@ OldSchool.RULE_EDITS = {
       // New
       'Abjurer':
         'Require="wisdom >= 15","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2705,7 +2705,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Conjurer':
         'Require="constitution >= 15","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2729,7 +2729,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Diviner':
         'Require="wisdom >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2753,7 +2753,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Enchanter':
         'Require="charisma >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2777,7 +2777,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Invoker':
         'Require="constitution >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2801,7 +2801,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Necromancer':
         'Require="wisdom >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2825,7 +2825,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Transmuter':
         'Require="dexterity >= 15","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3 WeaponProficiency=1,6,5 ' +
+        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -4525,14 +4525,14 @@ OldSchool.RULE_EDITS = {
       'Fighter':
         'Require+=' +
           '"charisma >= 6","dexterity >= 6","wisdom >= 6" ' +
-        'Attack=0,1,1 WeaponProficiency=4,2,2 ' +
+        'Attack=0,1,1,- WeaponProficiency=4,2,2 ' +
         'Experience=' +
           '0,1.9,4.25,7.75,16,35,75,125,250,500,750,1000,1250,1500,1750,2000,' +
           '2250,2500,2750,3000',
       'Illusionist':
         'Require+=' +
           '"charisma >= 6","strength >= 6","wisdom >= 6" ' +
-        'WeaponProficiency=1,5,5 ' +
+        'Attack=-1,2,5,- WeaponProficiency=1,5,5 ' +
         'Experience=' +
           '0,2.5,4.75,9,18,36,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
           '1760,1980,2200,2420 ' +
@@ -4547,7 +4547,7 @@ OldSchool.RULE_EDITS = {
       'Magic User':
         'Require+=' +
           '"charisma >= 6","constitution >= 6","wisdom >= 6" ' +
-        'Features="7:Craft Minor Magic" ' +
+        'Attack=-1,2,5,- Features="7:Craft Minor Magic" ' +
         'WeaponProficiency=1,5,5 ' +
         'Experience=' +
           '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
@@ -4566,7 +4566,7 @@ OldSchool.RULE_EDITS = {
         'Require+=' +
           '"dexterity >= 6" ' +
         'Features-="1:Divine Protection" ' +
-        'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
+        'Attack=0,1,1,- WeaponProficiency=3,2,2 ' +
         'Breath=15,1.5,2 Death=12,1.5,2 Petrification=13,1.5,2 Spell=15,1.5,2 '+
         'Wand=14,1.5,2 ' +
         'Experience=' +
@@ -4575,7 +4575,7 @@ OldSchool.RULE_EDITS = {
       'Ranger':
         'Require+=' +
           '"charisma >= 6" ' +
-        'Attack=0,1,1 WeaponProficiency=3,2,2 ' +
+        'Attack=0,1,1,- WeaponProficiency=3,2,2 ' +
         'Experience=' +
           '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
           '2600,2925,3250,3575',
@@ -4994,7 +4994,6 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule
     ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
   rules.defineRule('attacksPerRound', '', '=', '1');
-  rules.defineRule('baseAttack', '', '=', '0');
   rules.defineRule('combatNotes.weaponSpecialization',
     'weaponSpecialization', '=', 'source == "None" ? null : source'
   );
@@ -5422,9 +5421,10 @@ OldSchool.armorRules = function(rules, name, ac, maxMove, weight, skill) {
  * of hard prerequisites #requires#. #experience# lists the experience point
  * progression required to advance levels in the class. The class grants
  * #hitDie# (format [n]'d'n) additional hit points with each level advance.
- * #attack# is a triplet indicating: the attack bonus for a level 1 character;
- * the amount this increases as the character gains levels; the number of levels
- * between increases. Similarly, #saveBreath#, #saveDeath#, #savePetrification#,
+ * #attack# is a quadruplet indicating: the attack bonus for a level 1
+ * character; the amount this increases as the character gains levels; the
+ * number of levels between increases; any adjustment in this pattern at a
+ * specific level. Similarly, #saveBreath#, #saveDeath#, #savePetrification#,
  * #saveSpell#, and #saveWand# are each triplets indicating: the saving throw
  * for a level 1 character; the amount this decreases as the character gains
  * levels; the number of levels between decreases. #features# and #selectables#
@@ -5465,7 +5465,7 @@ OldSchool.classRules = function(
     console.log('Bad hitDie "' + hitDie + '" for class ' + name);
     return;
   }
-  if(!Array.isArray(attack) || attack.length != 3) {
+  if(!Array.isArray(attack) || attack.length != 4) {
     console.log('Bad attack "' + attack + '" for class ' + name);
     return;
   }
@@ -5547,9 +5547,14 @@ OldSchool.classRules = function(
     'experiencePoints.' + name, '=', 'source >= ' + experience[experience.length - 1] + ' ? ' + experience.length + ' : [' + experience + '].findIndex(item => item > source)'
   );
 
+  var attackStep = '';
+  if(attack[3].includes('@')) {
+    attackStep = attack[3].split('@');
+    attackStep =
+      ' + (source>=' + attackStep[1] + ' ? ' + attackStep[0] + ' : 0)';
+  }
   rules.defineRule('baseAttack',
-    classLevel, '+', attack[0] + ' + Math.floor((source - 1) / ' + attack[2] + ') * ' + attack[1],
-    'classBaseAttackAdjustment', '+', null
+    classLevel, '^=', attack[0] + ' + Math.floor((source - 1) / ' + attack[2] + ') * ' + attack[1] + attackStep
   );
 
   var saves = {
@@ -5643,8 +5648,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('abilityNotes.delayedHenchmen', 'levels.Assassin', '=', '4');
     rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source > 8 ? 1 : null');
-    rules.defineRule
       ('combatNotes.assassination', classLevel, '=', '5 * source + 50');
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
@@ -5694,9 +5697,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
       rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
-      rules.defineRule('classBaseAttackAdjustment',
-        classLevel, '+=', 'source>18 ? -1 : null'
-      );
       rules.defineRule('classSaveAdjustment',
         classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
       );
@@ -5719,10 +5719,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'C';
 
-    if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('classBaseAttackAdjustment',
-        classLevel, '+=', 'source>18 ? -1 : null'
-      );
     rules.defineRule('classSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
@@ -5786,10 +5782,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'D';
 
-    if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule('classBaseAttackAdjustment',
-        classLevel, '+=', 'source>18 ? -1 : null'
-      );
     rules.defineRule('classSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
@@ -5849,11 +5841,7 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Illusionist') {
 
     rules.defineRule('wizardLevel', classLevel, '+=', null);
-    if(OldSchool.EDITION == 'First Edition') {
-      rules.defineRule('classBaseAttackAdjustment',
-        classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
-      );
-    } else if(OldSchool.EDITION == 'Second Edition') {
+    if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule
         ('magicNotes.schoolExpertise', classLevel, '=', '"Illusion"');
       rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Illusion"');
@@ -5882,11 +5870,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Magic User') {
 
-    if(OldSchool.EDITION == 'First Edition') {
-      rules.defineRule('classBaseAttackAdjustment',
-        classLevel, '+=', 'source>15 ? 2 : source>10 ? 1 : null'
-      );
-    }
     rules.defineRule('wizardLevel', classLevel, '+=', null);
     rules.defineRule('maximumSpellsPerLevel',
       'wizardLevel', '?', null,
@@ -5919,8 +5902,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.delayedHenchmen', 'levels.Monk', '=', '6');
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
-    rules.defineRule
-      ('classBaseAttackAdjustment', classLevel, '+=', 'source>18 ? -1 : null');
     rules.defineRule
       ('combatNotes.aware', classLevel, '=', '34 - source * 2');
     rules.defineRule
@@ -6060,9 +6041,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Thief') {
 
-    if(OldSchool.EDITION != 'Second Edition')
-      rules.defineRule
-        ('classBaseAttackAdjustment', classLevel, '+=', 'source>8 ? 1 : null');
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
