@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.37';
+OldSchool.VERSION = '2.2.1.38';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -199,7 +199,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
       '"intelligence >= 11","strength >= 12" ' +
-    'HitDie=d6 Attack=-1,2,4,+1@9 WeaponProficiency=3,4,2 ' +
+    'HitDie=d6,15,1 Attack=-1,2,4,+1@9 WeaponProficiency=3,4,2 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
@@ -215,7 +215,7 @@ OldSchool.CLASSES = {
       '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
       '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
       '"race =~ \'Human|Half-Elf\'" ' +
-    'HitDie=d6 Attack=0,2,2,-2@19 WeaponProficiency=2,5,4 ' +
+    'HitDie=d6,10,1 Attack=0,2,2,-2@19 WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)",' +
@@ -237,7 +237,7 @@ OldSchool.CLASSES = {
   'Cleric':
     'Require=' +
       '"wisdom >= 9" ' +
-    'HitDie=d8 Attack=0,2,3,-1@19 WeaponProficiency=2,4,3 ' +
+    'HitDie=d8,9,2 Attack=0,2,3,-1@19 WeaponProficiency=2,4,3 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -261,7 +261,7 @@ OldSchool.CLASSES = {
   'Druid':
     'Require=' +
       '"alignment =~ \'Neutral\'","charisma >= 15","wisdom >= 12" ' +
-    'HitDie=d8 Attack=0,2,3,- WeaponProficiency=2,5,4 ' +
+    'HitDie=d8,14,1 Attack=0,2,3,- WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
@@ -283,7 +283,7 @@ OldSchool.CLASSES = {
       'D7:12=1;13=2;14=3',
   'Fighter':
     'Require="constitution >= 7","strength >= 9" ' +
-    'HitDie=d10 Attack=0,2,2,-2@19 WeaponProficiency=4,3,2 ' +
+    'HitDie=d10,9,3 Attack=0,2,2,-2@19 WeaponProficiency=4,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -294,7 +294,7 @@ OldSchool.CLASSES = {
       '2750,3000',
   'Illusionist':
     'Require="dexterity >= 16","intelligence >= 15" ' +
-    'HitDie=d4 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
+    'HitDie=d4,10,1 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
       '"10:Craft Minor Magic" ' +
@@ -313,7 +313,7 @@ OldSchool.CLASSES = {
       'I7:14=1;15=2;20=3;22=4;23=5;25=6',
   'Magic User':
     'Require="dexterity >= 6","intelligence >= 9" ' +
-    'HitDie=d4 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
+    'HitDie=d4,11,1 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 ' +
     'Wand=11,2,5 '+
     'Features=' +
@@ -338,7 +338,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=d4 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
+    'HitDie=d4,17,1 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Delayed Henchmen","1:Dodge Missiles",1:Evasion,"1:Killing Blow",' +
@@ -356,7 +356,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
       '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
-    'HitDie=d10 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
+    'HitDie=d10,9,3 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
@@ -380,7 +380,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
       '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
-    'HitDie=d8 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
+    'HitDie=d8,10,2 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
@@ -406,7 +406,7 @@ OldSchool.CLASSES = {
   'Thief':
     'Require=' +
       '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
-    'HitDie=d6 Attack=-1,2,4,+1@9 WeaponProficiency=2,4,3 ' +
+    'HitDie=d6,10,2 Attack=-1,2,4,+1@9 WeaponProficiency=2,4,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
@@ -2533,7 +2533,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Neutral\'","charisma >= 15","dexterity >= 12",' +
           '"intelligence >= 13" ' +
-        'Attack=0,1,2,- ' +
+        'HitDie=d6,10,2 Attack=0,1,2,- ' +
         'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
         'NonweaponProficiency=3,4 ' +
         'Features=' +
@@ -2566,7 +2566,7 @@ OldSchool.RULE_EDITS = {
       'Druid':
         'Require=' +
           '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
-        'Attack=0,2,3,- NonweaponProficiency=4,3 ' +
+        'HitDie=d8,9,2 Attack=0,2,3,- NonweaponProficiency=4,3 ' +
         'Features=' +
           '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
           '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
@@ -2611,7 +2611,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Magic User':
         'NonweaponProficiency=4,3 ' +
-        'Attack=0,1,3,- ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"9:Craft Minor Magic" ' +
@@ -2651,8 +2651,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
-        'Attack=0,1,1,- NonweaponProficiency=3,3 ' +
-        'HitDie=d10 ' +
+        'HitDie=10,9,3 Attack=0,1,1,- NonweaponProficiency=3,3 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
@@ -2681,7 +2680,7 @@ OldSchool.RULE_EDITS = {
       // New
       'Abjurer':
         'Require="wisdom >= 15","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2705,7 +2704,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Conjurer':
         'Require="constitution >= 15","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2729,7 +2728,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Diviner':
         'Require="wisdom >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2753,7 +2752,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Enchanter':
         'Require="charisma >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2777,7 +2776,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Invoker':
         'Require="constitution >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2801,7 +2800,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Necromancer':
         'Require="wisdom >= 16","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -2825,7 +2824,7 @@ OldSchool.RULE_EDITS = {
           'W9:18=1;20=2',
       'Transmuter':
         'Require="dexterity >= 15","intelligence >= 9" ' +
-        'HitDie=d4 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
+        'HitDie=d4,10,1 Attack=0,1,3,- WeaponProficiency=1,6,5 ' +
         'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
         'NonweaponProficiency=4,3 ' +
         'Features=' +
@@ -5253,7 +5252,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     OldSchool.classRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Experience'),
-      QuilvynUtils.getAttrValue(attrs, 'HitDie'),
+      QuilvynUtils.getAttrValueArray(attrs, 'HitDie'),
       QuilvynUtils.getAttrValueArray(attrs, 'Attack'),
       QuilvynUtils.getAttrValueArray(attrs, 'Breath'),
       QuilvynUtils.getAttrValueArray(attrs, 'Death'),
@@ -5461,7 +5460,7 @@ OldSchool.classRules = function(
     console.log('Bad experience "' + experience + '" for class ' + name);
     return;
   }
-  if(!hitDie.match(/^(\d+)?d\d+$/)) {
+  if(!Array.isArray(hitDie) || hitDie.length != 3) {
     console.log('Bad hitDie "' + hitDie + '" for class ' + name);
     return;
   }
@@ -6641,23 +6640,36 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
     attributes.armor = choices.length == 0 ? 'None' :
       choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'hitPoints') {
-    // Differs from 3.5 in that per-class level is computed, not chosen, and
-    // characters don't automatically get full HP at level 1.
+    // Differs from 3.5 in that per-class level is computed, not chosen,
+    // characters don't automatically get full HP at level 1, and most classes
+    // have a cap on HD after which they receive fixed HP each level.
     attributes.hitPoints = 0;
+    var allClasses = this.getChoices('levels');
+    var classCount = 0;
     attrs = this.applyRules(attributes);
-    for(var clas in this.getChoices('levels')) {
+    for(var clas in allClasses) {
+      if((attr = attrs['levels.' + clas]) != null)
+        classCount++;
+    }
+    for(var clas in allClasses) {
       if((attr = attrs['levels.' + clas]) == null)
         continue;
-      matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
+      var hitDie = QuilvynUtils.getAttrValueArray(allClasses[clas], 'HitDie');
+      matchInfo = hitDie[0].match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ||
                    matchInfo[2] == '' ? 1 : (matchInfo[2] * 1);
       var sides = matchInfo == null ? 6 : (matchInfo[3] * 1);
-      while(attr-- > 0)
+      for( ; attr > hitDie[1]; attr--)
+        attributes.hitPoints += hitDie[2];
+      for( ; attr > 0; attr--)
         attributes.hitPoints += QuilvynUtils.random(number, number * sides);
       // Monks and 1E/OSRIC Rangers get an extra die at 1st level
-      if(clas == 'Monk' || (clas == 'Ranger' && sides == 8))
+      if(clas == 'Monk' ||
+        (clas == 'Ranger' && OSRIC.EDITION != 'Second Edition'))
         attributes.hitPoints += QuilvynUtils.random(number, number * sides);
     }
+    if(classCount > 1)
+      attributes.hitPoints = Math.floor(attributes.hitPoints / classCount);
   } else if(attribute == 'levels') {
     var classes = this.getChoices('levels');
     var classAttrSet = false;
