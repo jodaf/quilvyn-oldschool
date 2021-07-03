@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.38';
+OldSchool.VERSION = '2.2.1.39';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -225,7 +225,7 @@ OldSchool.CLASSES = {
       '"7:Fey Immunity",7:Shapeshift ' +
     'Experience=' +
       '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
-      '1800 ' +
+      '1800,2000,2200,3000 ' +
     'CasterLevelDivine=levels.Bard ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -247,7 +247,7 @@ OldSchool.CLASSES = {
       '"wisdom <= 12 ? 1:Cleric Spell Failure" ' +
     'Experience=' +
       '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
-      '2250,2475,2700 ' +
+      '2250,2475,2700,2925,3150,3375,3600,3825,4050,4275,4500,4725 ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -291,7 +291,7 @@ OldSchool.CLASSES = {
       '"1:Fighting The Unskilled" ' +
     'Experience=' +
       '0,2,4,8,18,25,70,125,250,500,750,1000,1250,1500,1750,2000,2250,2500,' +
-      '2750,3000',
+      '2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250',
   'Illusionist':
     'Require="dexterity >= 16","intelligence >= 15" ' +
     'HitDie=d4,10,1 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
@@ -301,7 +301,7 @@ OldSchool.CLASSES = {
     'CasterLevelArcane=levels.Illusionist ' +
     'Experience=' +
       '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
-      '2200,2420 ' +
+      '2200,2420,2640,2860,3080,3300,3520,3740,3960,4180,4400 ' +
     'SpellAbility=intelligence ' +
     'SpellSlots=' +
       'I1:1=1;2=2;4=3;5=4;9=5;24=6;26=7,' +
@@ -321,7 +321,7 @@ OldSchool.CLASSES = {
       '"7:Craft Minor Magic" ' +
     'Experience=' +
       '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
-      '3000,3375,3750 ' +
+      '3000,3375,3750,4125,4500,4875,4250,4625,5000,5375,5750,6125 ' +
     'CasterLevelArcane="levels.Magic User" ' +
     'SpellAbility=intelligence ' +
     'SpellSlots=' +
@@ -338,7 +338,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=d4,17,1 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
+    'HitDie=2d4,17,1 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Delayed Henchmen","1:Dodge Missiles",1:Evasion,"1:Killing Blow",' +
@@ -368,7 +368,7 @@ OldSchool.CLASSES = {
       '"3:Turn Undead","4:Summon Warhorse" ' +
     'Experience=' +
       '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
-      '3500,3850,4200 ' +
+      '3500,3850,4200,4550,4900,5250,5600,5950,6300,6650,7000,7350 ' +
     'CasterLevelDivine="levels.Paladin >= 9 ? levels.Paladin - 8 : null" ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -380,7 +380,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
       '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
-    'HitDie=d8,10,2 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
+    'HitDie=2d8,10,2 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
@@ -391,7 +391,7 @@ OldSchool.CLASSES = {
       '"1:Travel Light",10:Scrying ' +
     'Experience=' +
       '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
-      '2975,3300,3625 ' +
+      '2975,3300,3625,3950,4275,4600,4925,5250,5575,5900,6225,6550 ' +
     'CasterLevelArcane=' +
       '"levels.Ranger >= 8 ? Math.floor((levels.Ranger - 6) / 2) : null" ' +
     'CasterLevelDivine=' +
@@ -414,7 +414,7 @@ OldSchool.CLASSES = {
       '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
     'Experience=' +
       '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
-      '1760,1980,2200'
+      '1760,1980,2200,2420,2640,2860,3080,3300,3520,3740,3960,4180'
 };
 OldSchool.FEATURES = {
 
@@ -2555,6 +2555,9 @@ OldSchool.RULE_EDITS = {
           'W6:16=1;18=2;20=3',
       'Cleric':
         'Attack=0,2,3,- NonweaponProficiency=4,3 ' +
+        'Experience=' +
+          '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
+          '2250,2475,2700 ' +
         'SpellSlots=' +
           'P1:1=1;2=2;4=3;9=4;11=5;12=6;16=7;18=8;19=9,' +
           'P2:3=1;4=2;5=3;9=4;12=5;13=6;16=7;18=8;19=9,' +
@@ -2599,6 +2602,9 @@ OldSchool.RULE_EDITS = {
           '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
           '"1:School Specialization","9:Craft Minor Magic" ' +
+        'Experience=' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
           'W2:3=1;4=2;7=3;10=4;13=5,' +
@@ -2615,6 +2621,9 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"9:Craft Minor Magic" ' +
+        'Experience=' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
           'W2:3=1;4=2;7=3;10=4;13=5,' +
@@ -2638,8 +2647,8 @@ OldSchool.RULE_EDITS = {
           '"1:Lay On Hands",1:Non-Materialist,1:Philanthropist,' +
           '"1:Protection From Evil","3:Turn Undead","4:Summon Warhorse" ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
-          '2700,3000,3300,3600 ' +
+          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
+          '2500,2750,3000 ' +
         'CasterLevelDivine=' +
           '"levels.Paladin < 9 ? null : Math.min(levels.Paladin - 8, 9)" ' +
         'SpellSlots=' +
@@ -2659,8 +2668,8 @@ OldSchool.RULE_EDITS = {
           '"1:Ranger Skills",1:Track,"1:Travel Light",' +
           '"1:Two-Handed Fighting","2:Favored Enemy" ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,36,75,150,300,600,900,1200,1500,1800,2100,2400,' +
-          '2700,3000,3300,3600 ' +
+          '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
+          '2500,2750,3000 ' +
         'CasterLevelArcane=levels.Ranger ? null : null ' +
         'CasterLevelDivine=' +
           '"levels.Ranger < 8 ? null : Math.min(levels.Ranger-7, 9)" ' +
@@ -2668,15 +2677,18 @@ OldSchool.RULE_EDITS = {
           'P1:8=1;9=2;13=3,' +
           'P2:10=1;11=2;15=3,' +
           'P3:12=1;14=2;16=3',
-       'Thief':
-         'Require=' +
-           '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
-         'Attack=0,1,2,- ' +
-         'Features=' +
-           '"1:Armor Proficiency (Elven Chain/Leather/Padded/Studded Leather)",' +
-           '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
-           '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
-         'NonweaponProficiency=3,4',
+      'Thief':
+        'Require=' +
+          '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
+        'Attack=0,1,2,- ' +
+        'Features=' +
+          '"1:Armor Proficiency (Elven Chain/Leather/Padded/Studded Leather)",' +
+          '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
+          '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
+         'Experience=' +
+           '0,1.25,2.5,5,10,20,40,70,110,160,220,440,660,880,1100,1320,1540,' +
+           '1760,1980,2200 ' +
+        'NonweaponProficiency=3,4',
       // New
       'Abjurer':
         'Require="wisdom >= 15","intelligence >= 9" ' +
@@ -2689,8 +2701,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Abjurer ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -2713,8 +2725,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Conjurer ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -2737,8 +2749,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Diviner ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -2761,8 +2773,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Enchanter ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -2785,8 +2797,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Invoker ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -2809,8 +2821,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Necromancer ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -2833,8 +2845,8 @@ OldSchool.RULE_EDITS = {
           '"1:School Specialization","9:Craft Minor Magic" ' +
         'CasterLevelArcane=levels.Transmuter ' +
         'Experience=' +
-          '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,' +
-          '1980,2200,2420 ' +
+          '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
+          '3000,3375,3750 ' +
         'SpellAbility=intelligence ' +
         'SpellSlots=' +
           'W1:1=1;2=2;4=3;5=4;13=5,' +
@@ -4512,7 +4524,7 @@ OldSchool.RULE_EDITS = {
         'WeaponProficiency=2,3,3 ' +
         'Experience=' +
           '0,1.55,2.9,6,13.25,27,55,110,220,450,675,900,1125,1350,1575,1800,' +
-          '2025,2250,2475,2700',
+          '2025,2250,2475,2700,2925,3150,3375,3600',
       'Druid':
         'Require+=' +
           '"constitution >= 6","dexterity >= 6","intelligence >= 6",' +
@@ -4527,14 +4539,14 @@ OldSchool.RULE_EDITS = {
         'Attack=0,1,1,- WeaponProficiency=4,2,2 ' +
         'Experience=' +
           '0,1.9,4.25,7.75,16,35,75,125,250,500,750,1000,1250,1500,1750,2000,' +
-          '2250,2500,2750,3000',
+          '2250,2500,2750,3000,3250,3500,3750,4000',
       'Illusionist':
         'Require+=' +
           '"charisma >= 6","strength >= 6","wisdom >= 6" ' +
         'Attack=-1,2,5,- WeaponProficiency=1,5,5 ' +
         'Experience=' +
-          '0,2.5,4.75,9,18,36,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
-          '1760,1980,2200,2420 ' +
+          '0,2.5,4.75,9,18,35,60.25,95,144.5,220,440,660,880,1100,1320,1540,' +
+          '1760,1980,2200,2420,2640,3080,3300 ' +
         'SpellSlots=' +
           'I1:1=1;2=2;4=3;5=4;9=5;17=6,' +
           'I2:3=1;4=2;5=3;10=4;12=5;18=6,' +
@@ -4550,7 +4562,7 @@ OldSchool.RULE_EDITS = {
         'WeaponProficiency=1,5,5 ' +
         'Experience=' +
           '0,2.4,4.8,10.25,22,40,60,80,140,250,375,750,1125,1500,1875,2250,' +
-          '2625,3000,3375,3750 ' +
+          '2625,3000,3375,3750,4125,4500,4875,5250 ' +
         'SpellSlots=' +
           'M1:1=1;2=2;4=3;5=4;12=5;21=6,' +
           'M2:3=1;4=2;6=3;9=4;13=5;21=6,' +
@@ -4570,21 +4582,21 @@ OldSchool.RULE_EDITS = {
         'Wand=14,1.5,2 ' +
         'Experience=' +
           '0,2.55,5.5,12.5,25,45,95,175,325,600,1000,1350,1700,2050,2400,' +
-          '2750,3100,3450,3800,4150',
+          '2750,3100,3450,3800,4150,4500,4850,5200,5550',
       'Ranger':
         'Require+=' +
           '"charisma >= 6" ' +
         'Attack=0,1,1,- WeaponProficiency=3,2,2 ' +
         'Experience=' +
           '0,2.25,4.5,9.5,20,40,90,150,225,325,650,975,1300,1625,1950,2275,' +
-          '2600,2925,3250,3575',
+          '2600,2925,3250,3575,3900,4225,4550,4875',
       'Thief':
         'Require+=' +
           '"charisma >= 6","constitution >= 6","intelligence >= 6",' +
           '"strength >= 6" ' +
         'Experience=' +
           '0,1.25,2.5,5,10,20,40,70,110,160,220,440,660,880,1100,1320,1540,' +
-          '1760,1980,2200'
+          '1760,1980,2200,2420,2640,2860,3080'
     },
     'Feature':{
       // Modified
@@ -4803,11 +4815,6 @@ OldSchool.abilityRules = function(rules) {
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'conHPAdjPerDie', '=', null,
     'hitDice', '*', null
-  );
-  rules.defineRule('hitDice',
-    'level', '=', null,
-    'levels.Monk', '+', '1',
-    'levels.Ranger', '+', '1'
   );
   rules.defineRule('hitPoints',
     'combatNotes.constitutionHitPointsAdjustment', '+', null,
@@ -5418,7 +5425,11 @@ OldSchool.armorRules = function(rules, name, ac, maxMove, weight, skill) {
 /*
  * Defines in #rules# the rules associated with class #name#, which has the list
  * of hard prerequisites #requires#. #experience# lists the experience point
- * progression required to advance levels in the class. The class grants
+ * progression required to advance levels in the class. #hitDie# is a triplet
+ * indicating the additional hit points granted with each level advance--the
+ * first element (format [n]'d'n) specifies the number of side on each die,
+ * the second the maximum number of hit dice for the class, and the third the
+ * number of points added each level after the maximum hit dice are reached.
  * #hitDie# (format [n]'d'n) additional hit points with each level advance.
  * #attack# is a quadruplet indicating: the attack bonus for a level 1
  * character; the amount this increases as the character gains levels; the
@@ -5556,13 +5567,19 @@ OldSchool.classRules = function(
     classLevel, '^=', attack[0] + ' + Math.floor((source - 1) / ' + attack[2] + ') * ' + attack[1] + attackStep
   );
 
+  var extraHitDie = (hitDie[0] + '').startsWith('2');
+  rules.defineRule('hitDice',
+    classLevel, '^=',
+      'Math.min(source' + (extraHitDie ? ' + 1' : '') + ', ' + hitDie[1] + ')'
+  );
+
   var saves = {
     'Breath':saveBreath, 'Death':saveDeath, 'Petrification':savePetrification,
     'Spell':saveSpell, 'Wand':saveWand
   };
   for(var save in saves) {
     rules.defineRule('class' + save + 'Save',
-      classLevel, '+=', saves[save][0] + ' - Math.floor(Math.floor((source - 1) / ' + saves[save][2] + ') * ' + saves[save][1] + ')'
+      classLevel, '^=', saves[save][0] + ' - Math.floor(Math.floor((source - 1) / ' + saves[save][2] + ') * ' + saves[save][1] + ')'
     );
   }
 
@@ -5642,20 +5659,18 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Assassin') {
 
     rules.defineRule('abilityNotes.limitedHenchmenClasses',
-      'levels.Assassin', '=', 'source<8 ? "assassins" : source<12 ? "assassins and thieves" : "any class"'
+      classLevel, '=', 'source<8 ? "assassins" : source<12 ? "assassins and thieves" : "any class"'
     );
-    rules.defineRule
-      ('abilityNotes.delayedHenchmen', 'levels.Assassin', '=', '4');
+    rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '4');
     rules.defineRule
       ('combatNotes.assassination', classLevel, '=', '5 * source + 50');
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
-    rules.defineRule
-      ('maximumHenchmen', 'levels.Assassin', 'v', 'source<4 ? 0 : null');
+    rules.defineRule('maximumHenchmen', classLevel, 'v', 'source<4 ? 0 : null');
     rules.defineRule('skillNotes.bonusLanguages',
       'intelligence', '=', 'source>14 ? source - 14 : null',
-      'levels.Assassin', 'v', 'Math.min(source - 8, 4)'
+      classLevel, 'v', 'Math.min(source - 8, 4)'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       // Override 1E's level at which assassins get Thief skills
@@ -5747,7 +5762,7 @@ OldSchool.classRulesExtra = function(rules, name) {
         'magicNotes.bonusClericSpells', '+', 'source.match(/' + level + 'x3/) ? 3 : source.match(/' + level + 'x2/) ? 2 : source.match(/(level|,) ' + level + '/) ? 1 : 0'
       );
     }
-    rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
+    rules.defineRule('turningLevel', classLevel, '+=', null);
 
   } else if(name == 'Conjurer') {
 
@@ -5785,7 +5800,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
     rules.defineRule('languageCount', classLevel, '+', '1');
-    rules.defineRule("languages.Druids' Cant", 'levels.Druid', '=', '1');
+    rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
     rules.defineRule('magicNotes.bonusDruidSpells',
       'wisdom', '=',
        '"Spell level 1" + ' +
@@ -5896,9 +5911,9 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Monk') {
 
     rules.defineRule('abilityNotes.limitedHenchmenClasses',
-      'levels.Monk', '=', '"assassins, fighters, and thieves"'
+      classLevel, '=', '"assassins, fighters, and thieves"'
     );
-    rules.defineRule('abilityNotes.delayedHenchmen', 'levels.Monk', '=', '6');
+    rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '6');
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
@@ -6022,7 +6037,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
       rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
-    rules.defineRule('abilityNotes.delayedHenchmen', 'levels.Ranger', '=', '8');
+    rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '8');
     rules.defineRule('classBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
@@ -6034,7 +6049,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('maximumHenchmen',
       // Noop to show Delayed Henchmen note in italics
       'abilityNotes.delayedHenchmen', '+', 'null',
-      'levels.Ranger', 'v', 'source<8 ? 0 : null'
+      classLevel, 'v', 'source<8 ? 0 : null'
     );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
@@ -6070,7 +6085,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Open Locks', classLevel, '+=', '10');
       rules.defineRule('skillModifier.Pick Pockets', classLevel, '+=', '15');
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '0');
-      rules.defineRule('skillPoints', 'levels.Thief', '+=', '30 * source + 30');
+      rules.defineRule('skillPoints', classLevel, '+=', '30 * source + 30');
     }
 
   } else if(name == 'Transmuter') {
@@ -6651,25 +6666,23 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       if((attr = attrs['levels.' + clas]) != null)
         classCount++;
     }
+    if(attributes.race == 'Human')
+      classCount = 1; // Dual class HD aren't divided
     for(var clas in allClasses) {
       if((attr = attrs['levels.' + clas]) == null)
         continue;
       var hitDie = QuilvynUtils.getAttrValueArray(allClasses[clas], 'HitDie');
-      matchInfo = hitDie[0].match(/^((\d+)?d)?(\d+)$/);
-      var number = matchInfo == null || matchInfo[2] == null ||
-                   matchInfo[2] == '' ? 1 : (matchInfo[2] * 1);
-      var sides = matchInfo == null ? 6 : (matchInfo[3] * 1);
+      matchInfo = hitDie[0].match(/(^|d)(\d+)$/);
+      var sides = matchInfo == null ? 6 : (matchInfo[2] * 1);
       for( ; attr > hitDie[1]; attr--)
-        attributes.hitPoints += hitDie[2];
+        attributes.hitPoints += Math.floor(hitDie[2] / classCount);
       for( ; attr > 0; attr--)
-        attributes.hitPoints += QuilvynUtils.random(number, number * sides);
-      // Monks and 1E/OSRIC Rangers get an extra die at 1st level
-      if(clas == 'Monk' ||
-        (clas == 'Ranger' && OSRIC.EDITION != 'Second Edition'))
-        attributes.hitPoints += QuilvynUtils.random(number, number * sides);
+        attributes.hitPoints +=
+          Math.floor(QuilvynUtils.random(1, sides) / classCount);
+      if((hitDie[0] + '').startsWith('2'))
+        attributes.hitPoints +=
+          Math.floor(QuilvynUtils.random(1, sides) / classCount);
     }
-    if(classCount > 1)
-      attributes.hitPoints = Math.floor(attributes.hitPoints / classCount);
   } else if(attribute == 'levels') {
     var classes = this.getChoices('levels');
     var classAttrSet = false;
@@ -6689,10 +6702,13 @@ OldSchool.randomizeOneAttribute = function(attributes, attribute) {
       // random experience value that will yield this level.
       attrs = this.applyRules(attributes);
       var max = attrs['experiencePoints.' + attr + '.1'];
-      attributes['levels.' + attr]--;
-      attrs = this.applyRules(attributes);
-      var min = attrs['experiencePoints.' + attr + '.1'];
-      max = max != '-' ? max - 1 : min;
+      var min;
+      do {
+        attributes['levels.' + attr]--;
+        attrs = this.applyRules(attributes);
+        min = attrs['experiencePoints.' + attr + '.1'];
+      } while(min == '-');
+      max = max != '-' ? max - 1 : (min + 1);
       delete attributes['levels.' + attr];
       attributes['experiencePoints.' + attr] = QuilvynUtils.random(min, max);
     }
@@ -6842,6 +6858,8 @@ OldSchool.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn does not note the First Edition prohibition on Neutral\n' +
     '    clerics.\n' +
+    '  </li><li>\n' +
+    '    Support for character levels 21+ is incomplete.\n' +
     '  </li><li>\n' +
     '    Quilvyn does not note the First Edition lower strength maximum\n' +
     '    for female characters.\n' +
