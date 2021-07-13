@@ -5689,7 +5689,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Move Silently', classLevel, '+=', skillLevel);
     rules.defineRule('skillLevel.Open Locks', classLevel, '+=', skillLevel);
     rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', skillLevel);
-    rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Read Languages', classLevel, '+=', skillLevel);
 
   } else if(name == 'Bard') {
 
@@ -6835,12 +6835,15 @@ OldSchool.ruleNotes = function() {
     '    Unskilled feature applies to Paladins and Rangers. Quilvyn assumes\n' +
     '    that it does.\n' +
     '  </li><li>\n' +
+    '    Quilvyn assumes that Halfling characters are of pure Stoutish blood\n'+
+    '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
+    '  </li><li>\n' +
+    '    For 1E Assassin characters, Quilvyn uses OSRIC\'s method for\n' +
+    '    calcuating the chances of successful assassination.\n' +
+    '  </li><li>\n' +
     '    2E spell ranges are generally given in yards rather than feet, so,\n' +
     '    for example, "R10\'" in the W1 Grease spell should be read as 10\n' +
     '    yards for 2E characters.\n' +
-    '  </li><li>\n' +
-    '    Quilvyn assumes that Halfling characters are of pure Stoutish blood\n'+
-    '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
     '  </li><li>\n' +
     '    The 2E spell Spiritual Hammer is modified to Spiritual Weapon to\n' +
     '    match the 1E spell.\n' +
