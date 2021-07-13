@@ -508,7 +508,7 @@ OldSchool.FEATURES = {
   'Poison Use':
     'Section=combat ' +
     'Note="Familiar with ingested poisons and poisoned weapon use"',
-  'Precise Blow':'Section=combat Note="+%V weapon damage"',
+  'Precise Blow':'Section=combat Note="+%V HP weapon damage"',
   'Protection From Evil':
     'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
   'Purity Of Body':'Section=save Note="Immune to disease"',
@@ -5923,15 +5923,14 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
-      ('combatNotes.aware', classLevel, '=', '34 - source * 2');
+      ('combatNotes.aware', classLevel, '=', '36 - source * 2');
     rules.defineRule
       ('combatNotes.dexterityArmorClassAdjustment', classLevel, '*', '0');
     rules.defineRule('combatNotes.flurryOfBlows',
       classLevel, '=', 'source<6 ? 1.25 : source<9 ? 1.5 : source<11 ? 2 : source<14 ? 2.5 : source<16 ? 3 : 4'
     );
     rules.defineRule('combatNotes.killingBlow', classLevel, '=', 'source - 7');
-    rules.defineRule
-      ('combatNotes.preciseBlow', classLevel, '=', 'Math.floor(source / 2)');
+    rules.defineRule('combatNotes.preciseBlow', classLevel, '=', 'source / 2');
     rules.defineRule('combatNotes.quiveringPalm', classLevel, '=', null);
     rules.defineRule
       ('combatNotes.strengthAttackAdjustment', classLevel, '*', '0');
@@ -5942,9 +5941,9 @@ OldSchool.classRulesExtra = function(rules, name) {
       ('magicNotes.wholenessOfBody', classLevel, '=', 'source - 6');
     rules.defineRule
       ('maximumHenchmen', classLevel, 'v', 'source>=6 ? source - 4 : 0');
-    rules.defineRule('saveNotes.clearMind', classLevel, '=', '95 - source * 5');
+    rules.defineRule('saveNotes.clearMind', classLevel, '=', '5 + source * 5');
     rules.defineRule
-      ('saveNotes.maskedMind', classLevel, '=', '38 - source * 2');
+      ('saveNotes.maskedMind', classLevel, '=', '62 + source * 2');
     rules.defineRule('saveNotes.slowFall.1',
       classLevel, '=', 'source<6 ? "20\'" : source<13 ? "30\'" : "any distance"'
     );
