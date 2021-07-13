@@ -126,7 +126,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.39';
+OldSchool.VERSION = '2.2.1.40';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -215,14 +215,15 @@ OldSchool.CLASSES = {
       '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
       '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
       '"race =~ \'Human|Half-Elf\'" ' +
-    'HitDie=d6,10,1 Attack=0,2,2,-2@19 WeaponProficiency=2,5,4 ' +
+    'HitDie=d6,10,1 Attack=0,2,3,-1@19 WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)",' +
-      '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
-      '"1:Poetic Inspiration","1:Resist Fire","1:Resist Lightning",' +
-      '"3:Nature Knowledge","3:Wilderness Movement","4:Additional Languages",' +
-      '"7:Fey Immunity",7:Shapeshift ' +
+      '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
+      '"1:Charming Music","1:Defensive Song","1:Poetic Inspiration",' +
+      '"1:Resist Fire","1:Resist Lightning","2:Legend Lore",' +
+      '"3:Nature Knowledge","3:Wilderness Movement","3:Woodland Languages",' +
+      '"4:Additional Languages","7:Fey Immunity",7:Shapeshift ' +
     'Experience=' +
       '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
       '1800,2000,2200,3000 ' +
@@ -551,6 +552,7 @@ OldSchool.FEATURES = {
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
   'Wilderness Movement':
      'Section=feature Note="Normal, untrackable move through undergrowth"',
+  'Woodland Languages':'Section=skill Note="+%V Language Count"',
 
   // Race
   'Bow Precision':'Section=combat Note="+1 attack w/bows"',
@@ -2917,8 +2919,7 @@ OldSchool.RULE_EDITS = {
         'Section=magic Note="Extra %V spell/dy each spell level"',
       'Slow':'Section=ability Note="-60 Speed"',
       'Two-Handed Fighting':
-        'Section=combat Note="Fight w/two weapons w/no penalty in light or no armor"',
-      'Woodland Languages':'Section=skill Note="+%V Language Count"'
+        'Section=combat Note="Fight w/two weapons w/no penalty in light or no armor"'
     },
     'Race':{
       // Removed
@@ -5158,15 +5159,6 @@ OldSchool.identityRules = function(rules, alignments, classes, races) {
   rules.defineRule
     ('combatNotes.fightingTheUnskilled', 'warriorLevel', '+=', null);
   rules.defineRule('level', /^levels\./, '+=', null);
-  for(var save in {
-    'Breath':'', 'Death':'', 'Petrification':'', 'Spell':'', 'Wand':''
-  }) {
-    rules.defineRule('save.' + save,
-      'class' + save + 'Save', '=', null,
-      'classSaveAdjustment', '+', null
-    );
-  }
-  rules.defineRule('save.Breath', 'classBreathSaveAdjustment', '+', null);
   rules.defineRule
     ('saveNotes.resistMagic', 'constitution', '=', 'Math.floor(source / 3.5)');
   rules.defineRule
@@ -5584,10 +5576,16 @@ OldSchool.classRules = function(
     'Spell':saveSpell, 'Wand':saveWand
   };
   for(var save in saves) {
-    rules.defineRule('class' + save + 'Save',
-      classLevel, '^=', saves[save][0] + ' - Math.floor(Math.floor((source - 1) / ' + saves[save][2] + ') * ' + saves[save][1] + ')'
+    rules.defineRule('class' + name + save + 'Save',
+      classLevel, '=', saves[save][0] + ' - Math.floor(Math.floor((source - 1) / ' + saves[save][2] + ') * ' + saves[save][1] + ')',
+      'class' + name + 'SaveAdjustment', '+', null
     );
+    rules.defineRule
+      ('save.' + save, 'class' + name + save + 'Save', 'v=', null);
   }
+  rules.defineRule('class' + name + 'BreathSave',
+    'class' + name + 'BreathSaveAdjustment', '+', null
+  );
 
   QuilvynRules.featureListRules(rules, features, name, classLevel, false);
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
@@ -5717,11 +5715,8 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
       rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
-      rules.defineRule('classSaveAdjustment',
+      rules.defineRule('classBardSaveAdjustment',
         classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
-      );
-      rules.defineRule('skillNotes.legendLore',
-        classLevel, '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
       );
       rules.defineRule('languageCount',
         classLevel, '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
@@ -5731,7 +5726,13 @@ OldSchool.classRulesExtra = function(rules, name) {
         classLevel, '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
       );
       rules.defineRule('skillNotes.additionalLanguages',
-        classLevel, '=', 'source - 3 - Math.floor((source - 2) / 3)'
+        classLevel, '=', 'source<=17 ? source - 3 - Math.floor((source - 2) / 3) : (source - 8)'
+      );
+      rules.defineRule('skillNotes.legendLore',
+        classLevel, '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
+      );
+      rules.defineRule('skillNotes.woodlandLanguages',
+        classLevel, '=', 'source>2 ? source - 2 : null'
       );
     }
 
@@ -5739,7 +5740,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'C';
 
-    rules.defineRule('classSaveAdjustment',
+    rules.defineRule('classClericSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
     rules.defineRule('magicNotes.bonusClericSpells',
@@ -5802,7 +5803,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'D';
 
-    rules.defineRule('classSaveAdjustment',
+    rules.defineRule('classDruidSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
     );
     rules.defineRule('languageCount', classLevel, '+', '1');
@@ -5848,10 +5849,10 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('attacksPerRound',
       classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
     );
-    rules.defineRule('classBreathSaveAdjustment',
+    rules.defineRule('classFighterBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('classSaveAdjustment',
+    rules.defineRule('classFighterSaveAdjustment',
       classLevel, '=',
         'source<17 ? null : ' +
         (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
@@ -5993,10 +5994,10 @@ OldSchool.classRulesExtra = function(rules, name) {
         classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
       );
     }
-    rules.defineRule('classBreathSaveAdjustment',
+    rules.defineRule('classPaladinBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('classSaveAdjustment',
+    rules.defineRule('classPaladinSaveAdjustment',
       classLevel, '=',
         'source<17 ? null : ' +
         (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
@@ -6043,10 +6044,10 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
     rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '8');
-    rules.defineRule('classBreathSaveAdjustment',
+    rules.defineRule('classRangerBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule('classSaveAdjustment',
+    rules.defineRule('classRangerSaveAdjustment',
       classLevel, '=',
         'source<17 ? null : ' +
         (OldSchool.EDITION != 'OSRIC' ? 'source>18 ? 2 : ' : '') + '1'
