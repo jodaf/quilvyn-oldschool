@@ -36,97 +36,91 @@ function OldSchool(edition) {
     return;
   }
 
-  var editions = OldSchool.EDITIONS;
+  OldSchool.EDITION =
+    (edition + '').includes('OSRIC') ? 'OSRIC' :
+    (edition + '').includes('1E') ? 'First Edition' :
+    (edition + '').includes('2E') ? 'Second Edition' : 'First Edition';
 
-  if(edition in OldSchool.EDITIONS) {
-    editions = {};
-    editions[edition] = '';
-  }
+  var rules = new QuilvynRules(OldSchool.EDITION, OldSchool.VERSION);
 
-  for(OldSchool.EDITION in editions) {
+  rules.defineChoice('choices', OldSchool.CHOICES);
+  rules.choiceEditorElements = OldSchool.choiceEditorElements;
+  rules.choiceRules = OldSchool.choiceRules;
+  rules.editorElements = OldSchool.initialEditorElements();
+  rules.getFormats = SRD35.getFormats;
+  rules.getPlugins = OldSchool.getPlugins;
+  rules.makeValid = SRD35.makeValid;
+  rules.randomizeOneAttribute = OldSchool.randomizeOneAttribute;
+  rules.defineChoice('random', OldSchool.RANDOMIZABLE_ATTRIBUTES);
+  rules.ruleNotes = OldSchool.ruleNotes;
 
-    var rules = new QuilvynRules(OldSchool.EDITION, OldSchool.VERSION);
+  SRD35.createViewers(rules, SRD35.VIEWERS);
+  rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
+  rules.defineChoice
+    ('preset', 'race:Race,select-one,races','levels:Class Levels,bag,levels');
 
-    rules.defineChoice('choices', OldSchool.CHOICES);
-    rules.choiceEditorElements = OldSchool.choiceEditorElements;
-    rules.choiceRules = OldSchool.choiceRules;
-    rules.editorElements = OldSchool.initialEditorElements();
-    rules.getFormats = SRD35.getFormats;
-    rules.getPlugins = OldSchool.getPlugins;
-    rules.makeValid = SRD35.makeValid;
-    rules.randomizeOneAttribute = OldSchool.randomizeOneAttribute;
-    rules.defineChoice('random', OldSchool.RANDOMIZABLE_ATTRIBUTES);
-    rules.ruleNotes = OldSchool.ruleNotes;
-
-    SRD35.createViewers(rules, SRD35.VIEWERS);
-    rules.defineChoice('extras', 'feats', 'sanityNotes', 'validationNotes');
-    rules.defineChoice
-      ('preset', 'race:Race,select-one,races','levels:Class Levels,bag,levels');
-
-    OldSchool.abilityRules(rules);
-    OldSchool.combatRules
-      (rules, OldSchool.editedRules(OldSchool.ARMORS, 'Armor'),
-       OldSchool.editedRules(OldSchool.SHIELDS, 'Shield'),
-       OldSchool.editedRules(OldSchool.WEAPONS, 'Weapon'));
-    OldSchool.magicRules
-      (rules, OldSchool.editedRules(OldSchool.SCHOOLS, 'School'),
-       OldSchool.editedRules(OldSchool.SPELLS, 'Spell'));
-    OldSchool.talentRules
-      (rules, OldSchool.editedRules(OldSchool.FEATURES, 'Feature'),
-       OldSchool.editedRules(OldSchool.GOODIES, 'Goody'),
-       OldSchool.editedRules(OldSchool.LANGUAGES, 'Language'),
-       OldSchool.editedRules(OldSchool.SKILLS, 'Skill'));
-    OldSchool.identityRules(
-      rules, OldSchool.editedRules(OldSchool.ALIGNMENTS, 'Alignment'),
-      OldSchool.editedRules(OldSchool.CLASSES, 'Class'),
-      OldSchool.editedRules(OldSchool.RACES, 'Race'));
+  OldSchool.abilityRules(rules);
+  OldSchool.combatRules
+    (rules, OldSchool.editedRules(OldSchool.ARMORS, 'Armor'),
+     OldSchool.editedRules(OldSchool.SHIELDS, 'Shield'),
+     OldSchool.editedRules(OldSchool.WEAPONS, 'Weapon'));
+  OldSchool.magicRules
+    (rules, OldSchool.editedRules(OldSchool.SCHOOLS, 'School'),
+     OldSchool.editedRules(OldSchool.SPELLS, 'Spell'));
+  OldSchool.talentRules
+    (rules, OldSchool.editedRules(OldSchool.FEATURES, 'Feature'),
+     OldSchool.editedRules(OldSchool.GOODIES, 'Goody'),
+     OldSchool.editedRules(OldSchool.LANGUAGES, 'Language'),
+     OldSchool.editedRules(OldSchool.SKILLS, 'Skill'));
+  OldSchool.identityRules(
+    rules, OldSchool.editedRules(OldSchool.ALIGNMENTS, 'Alignment'),
+    OldSchool.editedRules(OldSchool.CLASSES, 'Class'),
+    OldSchool.editedRules(OldSchool.RACES, 'Race'));
 
 
-    // Add additional elements to sheet
-    rules.defineSheetElement('Strength');
-    rules.defineSheetElement
-      ('StrengthInfo', 'Dexterity', '<b>Strength</b>: %V', OldSchool.EDITION == 'OSRIC' ? '.' : '/');
-    rules.defineSheetElement('Strength', 'StrengthInfo/', '%V');
-    rules.defineSheetElement('Extra Strength', 'StrengthInfo/', '%V');
-    rules.defineSheetElement
-      ('Experience Points', 'Level', '<b>Experience</b>: %V', '; ');
-    rules.defineSheetElement('SpeedInfo');
-    rules.defineSheetElement('Speed', 'LoadInfo', '<b>%N</b>: %V');
-    rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
-    var strengthMinorDie = OldSchool.EDITION == 'Second Edition' ? 20 : 6;
-    rules.defineSheetElement
-      ('Strength Minor Test', 'StrengthTests/',
-       '<b>Strength Minor/Major Test</b>: %Vin' + strengthMinorDie);
-    rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
-    rules.defineSheetElement('Maximum Henchmen', 'Alignment');
-    rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
-    rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
-    rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
-    rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
-    rules.defineSheetElement
-      ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
-    rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
-    rules.defineSheetElement
-      ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
-    rules.defineSheetElement('Thac0Melee', 'Thac0Info/', '%V');
-    rules.defineSheetElement('Thac0Ranged', 'Thac0Info/', '%V');
-    rules.defineSheetElement
-      ('Thac10Info', 'AttackInfo', '<b>THAC10 Melee/Ranged</b>: %V', '/');
-    rules.defineSheetElement('Thac10Melee', 'Thac10Info/', '%V');
-    rules.defineSheetElement('Thac10Ranged', 'Thac10Info/', '%V');
-    rules.defineSheetElement('AttackInfo');
-    rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
-    rules.defineSheetElement
-      ('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
-    rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
+  // Add additional elements to sheet
+  rules.defineSheetElement('Strength');
+  rules.defineSheetElement
+    ('StrengthInfo', 'Dexterity', '<b>Strength</b>: %V', OldSchool.EDITION == 'OSRIC' ? '.' : '/');
+  rules.defineSheetElement('Strength', 'StrengthInfo/', '%V');
+  rules.defineSheetElement('Extra Strength', 'StrengthInfo/', '%V');
+  rules.defineSheetElement
+    ('Experience Points', 'Level', '<b>Experience</b>: %V', '; ');
+  rules.defineSheetElement('SpeedInfo');
+  rules.defineSheetElement('Speed', 'LoadInfo', '<b>%N</b>: %V');
+  rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
+  var strengthMinorDie = OldSchool.EDITION == 'Second Edition' ? 20 : 6;
+  rules.defineSheetElement
+    ('Strength Minor Test', 'StrengthTests/',
+     '<b>Strength Minor/Major Test</b>: %Vin' + strengthMinorDie);
+  rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
+  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
+  rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
+  rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
+  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
+  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
+  rules.defineSheetElement
+    ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+  rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
+  rules.defineSheetElement
+    ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
+  rules.defineSheetElement('Thac0Melee', 'Thac0Info/', '%V');
+  rules.defineSheetElement('Thac0Ranged', 'Thac0Info/', '%V');
+  rules.defineSheetElement
+    ('Thac10Info', 'AttackInfo', '<b>THAC10 Melee/Ranged</b>: %V', '/');
+  rules.defineSheetElement('Thac10Melee', 'Thac10Info/', '%V');
+  rules.defineSheetElement('Thac10Ranged', 'Thac10Info/', '%V');
+  rules.defineSheetElement('AttackInfo');
+  rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
+  rules.defineSheetElement
+    ('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
+  rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
 
-    Quilvyn.addRuleSet(rules);
-
-  }
+  Quilvyn.addRuleSet(rules);
 
 }
 
-OldSchool.VERSION = '2.2.1.40';
+OldSchool.VERSION = '2.2.1.41';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
