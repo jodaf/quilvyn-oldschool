@@ -4781,10 +4781,6 @@ OldSchool.editedRules = function(base, type) {
 /* Defines rules related to character abilities. */
 OldSchool.abilityRules = function(rules) {
 
-  for(var ability in OldSchool.ABILITIES) {
-    rules.defineRule(ability, ability + 'Adjust', '+', null);
-  }
-
   // Charisma
   rules.defineRule('abilityNotes.charismaLoyaltyAdjustment',
     'charisma', '=',
@@ -6594,19 +6590,13 @@ OldSchool.initialEditorElements = function() {
   var editorElements = [
     ['name', 'Name', 'text', [20]],
     ['imageUrl', 'Image URL', 'text', [20]],
-    ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
-    ['strengthAdjust', '', 'text', [3]],
+    ['strength', 'Strength', 'select-one', abilityChoices],
     ['extraStrength', 'Extra Strength', 'text', [4]],
-    ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
-    ['dexterityAdjust', '', 'text', [3]],
-    ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
-    ['constitutionAdjust', '', 'text', [3]],
-    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
-    ['intelligenceAdjust', '', 'text', [3]],
-    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
-    ['wisdomAdjust', '', 'text', [3]],
-    ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
-    ['charismaAdjust', '', 'text', [3]],
+    ['dexterity', 'Dexterity', 'select-one', abilityChoices],
+    ['constitution', 'Constitution', 'select-one', abilityChoices],
+    ['intelligence', 'Intelligence', 'select-one', abilityChoices],
+    ['wisdom', 'Wisdom', 'select-one', abilityChoices],
+    ['charisma', 'Charisma', 'select-one', abilityChoices],
     ['gender', 'Gender', 'text', [10]],
     ['race', 'Race', 'select-one', 'races'],
     ['experiencePoints', 'Experience', 'bag', 'levels'],
