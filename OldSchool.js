@@ -5045,6 +5045,9 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   }
   rules.defineRule
     ('features.Weapon Specialization', 'weaponSpecialization', '=', null);
+  // Initial baseAttack value for classless characters, set lower than the
+  // level 1 base attack value for any class.
+  rules.defineRule('baseAttack', '', '=', '-2');
   rules.defineRule('meleeAttack', 'baseAttack', '=', null);
   rules.defineRule('rangedAttack', 'baseAttack', '=', null);
   rules.defineRule('thac0Melee',
