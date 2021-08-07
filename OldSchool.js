@@ -120,7 +120,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.41';
+OldSchool.VERSION = '2.2.1.42';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -5748,13 +5748,13 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('magicNotes.bonusClericSpells',
       'wisdom', '=',
-       '"Spell level 1" + ' +
+       '"Spell level ' + t + '1" + ' +
        '(source>=14 ? source>=19 ? "x3" : "x2" : "") + ' +
-       '(source>=15 ? ", 2" : "") + ' +
+       '(source>=15 ? ", ' + t + '2" : "") + ' +
        '(source>=16 ? "x2"  : "") + ' +
-       '(source>=17 ? ", 3" : "") + ' +
+       '(source>=17 ? ", ' + t + '3" : "") + ' +
        (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
-       '(source>=18 ? ", 4" : "")'
+       '(source>=18 ? ", ' + t + '4" : "")'
     );
     if(OldSchool.EDITION == 'OSRIC') {
       rules.defineRule('magicNotes.clericSpellFailure',
@@ -5769,7 +5769,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     }
     for(var level = 1; level <= 4; level++) {
       rules.defineRule('spellSlots.' + t + level,
-        'magicNotes.bonusClericSpells', '+', 'source.match(/' + level + 'x3/) ? 3 : source.match(/' + level + 'x2/) ? 2 : source.match(/(level|,) ' + level + '/) ? 1 : 0'
+        'magicNotes.bonusClericSpells', '+', 'source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
       );
     }
     rules.defineRule('turningLevel', classLevel, '+=', null);
@@ -5813,13 +5813,13 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
     rules.defineRule('magicNotes.bonusDruidSpells',
       'wisdom', '=',
-       '"Spell level 1" + ' +
+       '"Spell level ' + t + '1" + ' +
        '(source>=14 ? source>=19 ? "x3" : "x2" : "") + ' +
-       '(source>=15 ? ", 2" : "") + ' +
+       '(source>=15 ? ", ' + t + '2" : "") + ' +
        '(source>=16 ? "x2"  : "") + ' +
-       '(source>=17 ? ", 3" : "") + ' +
+       '(source>=17 ? ", ' + t + '3" : "") + ' +
        (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
-       '(source>=18 ? ", 4" : "")'
+       '(source>=18 ? ", ' + t + '4" : "")'
     );
     if(OldSchool.EDITION != 'OSRIC') {
       rules.defineRule('skillNotes.woodlandLanguages',
@@ -5828,7 +5828,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     }
     for(var level = 1; level <= 4; level++) {
       rules.defineRule('spellSlots.' + t + level,
-        'magicNotes.bonusDruidSpells', '+', 'source.match(/' + level + 'x3/) ? 3 : source.match(/' + level + 'x2/) ? 2 : source.match(/(level|,) ' + level + '/) ? 1 : 0'
+        'magicNotes.bonusDruidSpells', '+', 'source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
       );
     }
 
