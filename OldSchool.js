@@ -6813,7 +6813,6 @@ OldSchool.ruleNotes = function() {
     'OldSchool Quilvyn Plugin Version ' + OldSchool.VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
-    '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
     '    For convenience, Quilvyn reports THAC0 values for First Edition\n' +
@@ -6852,10 +6851,8 @@ OldSchool.ruleNotes = function() {
     '    match the 1E spell.\n' +
     '  </li>\n' +
     '</ul>\n' +
-    '</p>\n' +
     '\n' +
     '<h3>Limitations</h3>\n' +
-    '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
     '    Quilvyn does not note racial restrictions on class and level.\n' +
@@ -6885,6 +6882,5 @@ OldSchool.ruleNotes = function() {
     '    Quilvyn does not report the chance of extraordinary success on\n' +
     '    strength tests for characters with strength 18/91 and higher.\n' +
     '  </li>\n' +
-    '</ul>\n' +
-    '</p>\n';
+    '</ul>\n';
 };
