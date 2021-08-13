@@ -6614,7 +6614,7 @@ OldSchool.initialEditorElements = function() {
   }
   editorElements.push(
     ['languages', 'Languages', 'set', 'languages'],
-    ['hitPoints', 'Hit Points', 'text', [4]],
+    ['hitPoints', 'Hit Points', 'text', [4, '([-+]?\\d+)']],
     ['armor', 'Armor', 'select-one', 'armors'],
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'bag', 'weapons'],
