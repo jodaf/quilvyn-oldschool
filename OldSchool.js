@@ -6594,7 +6594,7 @@ OldSchool.initialEditorElements = function() {
     ['name', 'Name', 'text', [20]],
     ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength', 'select-one', abilityChoices],
-    ['extraStrength', 'Extra Strength', 'text', [4]],
+    ['extraStrength', 'Extra Strength', 'text', [4, '(\\+?[0-9]+)?']],
     ['dexterity', 'Dexterity', 'select-one', abilityChoices],
     ['constitution', 'Constitution', 'select-one', abilityChoices],
     ['intelligence', 'Intelligence', 'select-one', abilityChoices],
