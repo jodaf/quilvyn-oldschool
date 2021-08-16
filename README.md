@@ -7,10 +7,6 @@ Edition Players Handbook</a> and
 <a href="https://www.drivethrurpg.com/product/16868/Players-Handbook-Revised-2e">2nd
 Edition Players Handbook</a>.
 
-This package also supports the variant 1st Edition rules defined in the
-<a href="https://www.knights-n-knaves.com/osric/">Old School Reference and
-Index Compilation</a> rule book.
-
 ### Requirements
 
 quilvyn-oldschool relies on the core and srd35 modules installed by the
@@ -18,12 +14,23 @@ quilvyn-core package.
 
 ### Installation
 
-To use quilvyn-oldschool, unbundle the release package into a plugins/
-subdirectory within the Quilvyn installation directory, then add or uncomment
-the 'plugins/OldSchool.js' entry in the PLUGINS definition in quilvyn.html.
+To use quilvyn-oldschool, unbundle the release package into the plugins/
+subdirectory within the Quilvyn installation directory, then append the
+following lines to the file plugins/plugins.js:
+
+    RULESETS['AD&D First Edition (1E)'] = {
+      url:'plugins/OldSchool.js',
+      group:'Old School D&D',
+      require:'v3.5 (SRD only)'
+    };
+    RULESETS['AD&D Second Edition (2E)'] = {
+      url:'plugins/OldSchool.js',
+      group:'Old School D&D',
+      require:'v3.5 (SRD only)'
+    };
 
 ### Usage
 
-Once the OldSchool plugin is installed as described above, start Quilvyn and
-choose First Edition, Second Edition, or OSRIC from the Rules menu in the editor
-window.
+Once the quilvyn-oldSchool package is installed as described above, start
+Quilvyn and choose 'First Edition' and/or 'Second Edition' from the rule sets
+menu in the initial window.
