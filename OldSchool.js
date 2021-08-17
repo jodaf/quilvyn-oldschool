@@ -5538,6 +5538,9 @@ OldSchool.classRulesExtra = function(rules, name) {
        (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
        '(source>=18 ? ", ' + t + '4" : "")'
     );
+    rules.defineRule('skillNotes.woodlandLanguages',
+      classLevel, '=', 'source>2 ? source - 2 : null'
+    );
     for(var level = 1; level <= 4; level++) {
       rules.defineRule('spellSlots.' + t + level,
         'magicNotes.bonusDruidSpells', '+', 'source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
@@ -5567,8 +5570,9 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classFighterBreathSaveAdjustment',
       classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
     );
-    rules.defineRule
-      ('classFighterSaveAdjustment', classLevel, '=', 'source<17 ? null : 1');
+    rules.defineRule('classFighterSaveAdjustment',
+      classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
+    );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Illusionist') {
