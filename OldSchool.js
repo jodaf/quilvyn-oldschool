@@ -117,7 +117,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.42';
+OldSchool.VERSION = '2.2.1.43';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -840,15 +840,15 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=D7 ' +
     'Description="R40\' Target $L2\' cu rock obeys simple commands for $L rd"',
-  'Anti-Animal Shell':
+  'Antianimal Shell':
     'School=Abjuration ' +
     'Level=D6 ' +
     'Description="Self 10\' radius blocks animal matter for $L tn"',
-  'Anti-Magic Shell':
+  'Antimagic Shell':
     'School=Abjuration ' +
     'Level=M6 ' +
     'Description="$L5\' radius allows no magic inside, moves with self for $L tn"',
-  'Anti-Plant Shell':
+  'Antiplant Shell':
     'School=Abjuration ' +
     'Level=D5 ' +
     'Description="Self $R blocks plant matter for $L tn" ' +
@@ -882,6 +882,26 @@ OldSchool.SPELLS = {
     'Level=D2 ' +
     'Description="Touched $E for $Lplus4 rd" ' +
     'Effect="+1 AC, non-spell saves"',
+  "Bigby's Clenched Fist":
+    'School=Evocation ' +
+    'Level=M8 ' +
+    'Description="R$L5\' Force absorbs attacks, strikes foes 1d6-4d6 HP for conc or $L rd"',
+  "Bigby's Crushing Hand":
+    'School=Evocation ' +
+    'Level=M9 ' +
+    'Description="R$L5\' Force absorbs attacks, squeezes 1d10-4d10 HP for $L rd"',
+  "Bigby's Forceful Hand":
+    'School=Evocation ' +
+    'Level=M6 ' +
+    'Description="R$L10\' Force absorbs attacks, pushes away for $L rd"',
+  "Bigby's Grasping Hand":
+    'School=Evocation ' +
+    'Level=M7 ' +
+    'Description="R$L10\' Force absorbs attacks, restrains for $L rd"',
+  "Bigby's Interposing Hand":
+    'School=Evocation ' +
+    'Level=M5 ' +
+    'Description="R$L10\' Force absorbs attacks, blocks passage for $L rd"',
   'Blade Barrier':
     'School=Evocation ' +
     'Level=C6 ' +
@@ -934,7 +954,7 @@ OldSchool.SPELLS = {
     'School=Enchantment ' +
     'Level=I5 ' +
     'Description="R$L5\' Creatures in 40\' sq unpredictable for $L rd (save neg)"',
-  'Chariot Of Fire':
+  'Chariot Of Sustarre':
     'School=Evocation ' +
     'Level=D7 ' +
     'Description="R10\' Flaming chariot and horse pair (ea AC 2, HP 30) drive self and 8 others 240\'/rd, fly 480\'/rd for $D" ' +
@@ -963,10 +983,6 @@ OldSchool.SPELLS = {
     'School=Divination ' +
     'Level=M3 ' +
     'Description="See remote known location for $L rd"',
-  'Clenched Fist':
-    'School=Evocation ' +
-    'Level=M8 ' +
-    'Description="R$L5\' Force absorbs attacks, strikes foes 1d6-4d6 HP for conc or $L rd"',
   'Clone':
     'School=Necromancy ' +
     'Level=M8 ' +
@@ -1091,10 +1107,6 @@ OldSchool.SPELLS = {
     'Level=D7 ' +
     'Description="Bugs erupt, attack w/in $E for $L4 rd" ' +
     'Effect="80\' radius"',
-  'Crushing Hand':
-    'School=Evocation ' +
-    'Level=M9 ' +
-    'Description="R$L5\' Force absorbs attacks, squeezes 1d10-4d10 HP for $L rd"',
   'Cure Blindness':
     'School=Abjuration ' +
     'Level=C3 ' +
@@ -1119,12 +1131,12 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=I1,M1 ' +
     'Description="R$L10plus40\' Up to 4 movable lights for $L2 rd"',
-  'Darkness':
+  "Darkness 15' Radius":
     'School=Alteration ' +
     'Level=I1,M2 ' +
     'Description="R$L10\' 15\' radius lightless for $D" ' +
     'Duration="$Lplus10 rd"',
-  'Darkness I1':
+  "Darkness 15' Radius I1":
     'Duration="2d4+$L rd"',
   'Deafness':
     'School=Illusion ' +
@@ -1139,11 +1151,11 @@ OldSchool.SPELLS = {
     'School=Evocation ' +
     'Level=M7 ' +
     'Description="R$L10plus100\' ${lvl}d6+$L HP in 20\' radius (save half) after up to 5 rd"',
-  'Demi-Shadow Magic':
+  'Demishadow Magic':
     'School=Illusion ' +
     'Level=I6 ' +
     'Description="R$L10plus60\' Mimics <i>Cloudkill</i> (die, save neg), <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (ea save $L2 HP), <i>Wall Of Fire</i> (2d6+$L HP, save ${lvl}d4), or <i>Wall Of Ice</i>"',
-  'Demi-Shadow Monsters':
+  'Demishadow Monsters':
     'School=Illusion ' +
     'Level=I5 ' +
     'Description="R30\' Create monsters $L HD total, 40% HP (save AC 8, 40% damage) for $L rd"',
@@ -1185,7 +1197,7 @@ OldSchool.SPELLS = {
   'Detect Magic D1':
     'Duration="12 rd" ' +
     'Effect="10\'x40\' path"',
-  'Detect Pits And Snares':
+  'Detect Snares And Pits':
     'School=Divination ' +
     'Level=D1 ' +
     'Description="Self discern outdoor traps, indoor pits in 10\'x40\' path for $L4 rd"',
@@ -1235,6 +1247,10 @@ OldSchool.SPELLS = {
     'School=Divination ' +
     'Level=C4 ' +
     'Description="Self $Lplus60% discern info about known location"',
+  "Drawmij's Instant Summons":
+    'School=Conjuration ' +
+    'Level=M7 ' +
+    'Description="Prepared, unpossessed 8 lb item called to self hand"',
   'Duo-Dimension':
     'School=Alteration ' +
     'Level=M7 ' +
@@ -1297,10 +1313,6 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=D1 ' +
     'Description="R80\' Outlines targets, allowing +2 attack, for $L4 rd"',
-  'False Trap':
-    'School=Illusion ' +
-    'Level=M2 ' +
-    'Description="Touched appears trapped (save disbelieve)"',
   'Fear':
     'School=Illusion ' +
     'Level=I3,M4 ' +
@@ -1377,11 +1389,6 @@ OldSchool.SPELLS = {
     'School=Evocation ' +
     'Level=C5 ' +
     'Description="R60\' 5\' radius fire column 6d8 HP (save half)"',
-  'Floating Disk':
-    'School=Evocation ' +
-    'Level=M1 ' +
-    'Description="3\' diameter disk holds $L100 lbs, follows self at $R for $Lplus3 tn" ' +
-    'Range="6\'"',
   'Fly':
     'School=Alteration ' +
     'Level=M3 ' +
@@ -1396,18 +1403,10 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=M2 ' +
     'Description="R10\' Copper and brass become gold for $L hr (-$L save disbelieve)"',
-  'Forceful Hand':
-    'School=Evocation ' +
-    'Level=M6 ' +
-    'Description="R$L10\' Force absorbs attacks, pushes away for $L rd"',
   'Forget':
     'School=Enchantment ' +
     'Level=M2 ' +
     'Description="R30\' 4 targets in 20\' sq forget last $Lplus3div3 rd (save neg)"',
-  'Freezing Sphere':
-    'School=Alteration ' +
-    'Level=M6 ' +
-    'Description="Freeze $L10\' sq water for $L rd, R$L10\' cold ray $L4 HP (save neg), or cold grenade 4d6 HP (save half) in 10\' radius"',
   'Friends':
     'School=Enchantment ' +
     'Level=M1 ' +
@@ -1449,10 +1448,6 @@ OldSchool.SPELLS = {
     'Description="Touching $R causes $E energy (save half or neg)" ' +
     'Effect="$L2 HP" ' +
     'Range="$L25\' sq"',
-  'Grasping Hand':
-    'School=Evocation ' +
-    'Level=M7 ' +
-    'Description="R$L10\' Force absorbs attacks, restrains for $L rd"',
   'Guards And Wards':
     'School=Evocation ' +
     'Level=M6 ' +
@@ -1574,14 +1569,6 @@ OldSchool.SPELLS = {
   'Insect Plague D5':
     'Effect="160\' radius" ' +
     'Range="320\'"',
-  'Instant Summons':
-    'School=Conjuration ' +
-    'Level=M7 ' +
-    'Description="Prepared, unpossessed 8 lb item called to self hand"',
-  'Interposing Hand':
-    'School=Evocation ' +
-    'Level=M5 ' +
-    'Description="R$L10\' Force absorbs attacks, blocks passage for $L rd"',
   'Invisibility':
     'School=Illusion ' +
     'Level=I2,M2 ' +
@@ -1599,10 +1586,6 @@ OldSchool.SPELLS = {
     'School=Conjuration ' +
     'Level=M6 ' +
     'Description="R10\' Conjured 8 HD invisible creature performs 1 task"',
-  'Irresistible Dance':
-    'School=Enchantment ' +
-    'Level=M8 ' +
-    'Description="Touched -4 AC, fail saves for 1d4+1 rd"',
   'Jump':
     'School=Alteration ' +
     'Level=M1 ' +
@@ -1621,6 +1604,20 @@ OldSchool.SPELLS = {
     'School=Divination ' +
     'Level=M6 ' +
     'Description="Self gain info about specified object, person, or place"',
+  "Leomund's Secret Chest":
+    'School=Alteration ' +
+    'Level=M5 ' +
+    'Description="Create 12\' cu ethereal chest for 60 dy"',
+  "Leomund's Tiny Hut":
+    'School=Alteration ' +
+    'Level=M3 ' +
+    'Description="$E protects against view, elements for $D" ' +
+    'Duration="$L hr" ' +
+    'Effect="5\' radius"',
+  "Leomund's Trap":
+    'School=Illusion ' +
+    'Level=M2 ' +
+    'Description="Touched appears trapped (save disbelieve)"',
   'Levitate':
     'School=Alteration ' +
     'Level=M2 ' +
@@ -1669,19 +1666,6 @@ OldSchool.SPELLS = {
     'Duration="$L tn" ' +
     'Effect="$L10\' sq" ' +
     'Range="120\'"',
-  "Mage's Faithful Hound":
-    'School=Conjuration ' +
-    'Level=M5 ' +
-    'Description="R10\' Invisible 10 HD dog guards, attacks 3d6 HP w/in 30\' of self for $D" ' +
-    'Duration="$L2 rd"',
-  "Mage's Sword":
-    'School=Evocation ' +
-    'Level=M7 ' +
-    'Description="R30\' Control remote magic sword (19-20 hits, 5d4 HP) as F$Ldiv2 for $L rd"',
-  'Magic Aura':
-    'School=Illusion ' +
-    'Level=M1 ' +
-    'Description="Touched responds to <i>Detect Magic</i> for $L dy (save disbelieve)"',
   'Magic Jar':
     'School=Necromancy ' +
     'Level=M5 ' +
@@ -1761,10 +1745,6 @@ OldSchool.SPELLS = {
     'Level=I2 ' +
     'Description="R30\' Divination spells cast on target return false info for $D" ' +
     'Duration="$L rd"',
-  'Mnemonic Enhancer':
-    'School=Alteration ' +
-    'Level=M4 ' +
-    'Description="Self retain 3 additional spell levels for 1 dy"',
   'Monster Summoning I':
     'School=Conjuration ' +
     'Level=M3 ' +
@@ -1796,6 +1776,15 @@ OldSchool.SPELLS = {
     'School=Conjuration ' +
     'Level=M9 ' +
     'Description="R90\' 1d2 7 HD creatures fight for $Lplus8 rd"',
+  "Mordenkainen's Faithful Hound":
+    'School=Conjuration ' +
+    'Level=M5 ' +
+    'Description="R10\' Invisible 10 HD dog guards, attacks 3d6 HP w/in 30\' of self for $D" ' +
+    'Duration="$L2 rd"',
+  "Mordenkainen's Sword":
+    'School=Evocation ' +
+    'Level=M7 ' +
+    'Description="R30\' Control remote magic sword (19-20 hits, 5d4 HP) as F$Ldiv2 for $L rd"',
   'Move Earth':
     'School=Alteration ' +
     'Level=M6 ' +
@@ -1805,16 +1794,28 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=C4,D3 ' +
     'Description="Touched detoxed (rev lethally poisoned, save neg)"',
-  'Non-Detection':
+  'Nondetection':
     'School=Abjuration ' +
     'Level=I3 ' +
     'Description="$E invisible to divination for $D" ' +
     'Duration="$L tn" ' +
     'Effect="5\' radius"',
+  "Nystul's Magic Aura":
+    'School=Illusion ' +
+    'Level=M1 ' +
+    'Description="Touched responds to <i>Detect Magic</i> for $L dy (save disbelieve)"',
   'Obscurement':
     'School=Alteration ' +
     'Level=D2 ' +
     'Description="Mist limits vision in $L10\' cu for $L4 rd"',
+  "Otiluke's Freezing Sphere":
+    'School=Alteration ' +
+    'Level=M6 ' +
+    'Description="Freeze $L10\' sq water for $L rd, R$L10\' cold ray $L4 HP (save neg), or cold grenade 4d6 HP (save half) in 10\' radius"',
+  "Otto's Irresistible Dance":
+    'School=Enchantment ' +
+    'Level=M8 ' +
+    'Description="Touched -4 AC, fail saves for 1d4+1 rd"',
   'Paralyzation':
     'School=Illusion ' +
     'Level=I3 ' +
@@ -2004,6 +2005,10 @@ OldSchool.SPELLS = {
     'School=Necromancy ' +
     'Level=C5 ' +
     'Description="R30\' Corpse restored to life w/in $L dy or destroy corporeal undead (rev slays, save 2d8+1 HP)"',
+  "Rary's Mnemonic Enhancer":
+    'School=Alteration ' +
+    'Level=M4 ' +
+    'Description="Self retain 3 additional spell levels for 1 dy"',
   'Ray Of Enfeeblement':
     'School=Enchantment ' +
     'Level=M2 ' +
@@ -2079,10 +2084,10 @@ OldSchool.SPELLS = {
     'Description="R$R Target w/fewer than 6 HD frozen in terror (save neg) for $D" ' +
     'Duration="3d4 rd" ' +
     'Range="10\'"',
-  'Secret Chest':
-    'School=Alteration ' +
-    'Level=M5 ' +
-    'Description="Create 12\' cu ethereal chest for 60 dy"',
+  "Serten's Spell Immunity":
+    'School=Abjuration ' +
+    'Level=M8 ' +
+    'Description="$Ldiv4 touched bonus vs. mind spells for $L tn"',
   'Shades':
     'School=Illusion ' +
     'Level=I6 ' +
@@ -2180,10 +2185,6 @@ OldSchool.SPELLS = {
     'Level=I3 ' +
     'Description="R$R $L10plus40\' sq sight, sound, smell, temperature illusion for conc + 3 rd" ' +
     'Range="$L10plus60\'"',
-  'Spell Immunity':
-    'School=Abjuration ' +
-    'Level=M8 ' +
-    'Description="$Ldiv4 touched bonus vs. mind spells for $L tn"',
   'Spider Climb':
     'School=Alteration ' +
     'Level=M1 ' +
@@ -2193,7 +2194,7 @@ OldSchool.SPELLS = {
     'School=Abjuration ' +
     'Level=M6 ' +
     'Description="R$Lplus10\' Banish extraplanar for $L yr"',
-  'Spiritual Weapon':
+  'Spiritual Hammer':
     'School=Evocation ' +
     'Level=C2 ' +
     'Description="R$R magical force attacks for conc or $L rd" ' +
@@ -2270,17 +2271,20 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=M9 ' +
     'Description="R10\' Target suspended animation permanently (rev wakens)"',
+  "Tenser's Floating Disk":
+    'School=Evocation ' +
+    'Level=M1 ' +
+    'Description="3\' diameter disk holds $L100 lbs, follows self at $R for $Lplus3 tn" ' +
+    'Range="6\'"',
+  "Tenser's Transformation":
+    'School=Alteration ' +
+    'Level=M6 ' +
+    'Description="Self become warrior (HP x2, AC +4, 2/rd dagger +2 damage) for $L rd"',
   'Time Stop':
     'School=Alteration ' +
     'Level=M9 ' +
     'Description="Self 15\' radius gains $D" ' +
     'Duration="1d8+$Ldiv2 x 6 secs"',
-  'Tiny Hut':
-    'School=Alteration ' +
-    'Level=M3 ' +
-    'Description="$E protects against view, elements for $D" ' +
-    'Duration="$L hr" ' +
-    'Effect="5\' radius"',
   'Tongues':
     'School=Alteration ' +
     'Level=C4,M3 ' +
@@ -2288,10 +2292,6 @@ OldSchool.SPELLS = {
     'Duration="$L rd"',
   'Tongues C4':
     'Duration="1 tn"',
-  'Transformation':
-    'School=Alteration ' +
-    'Level=M6 ' +
-    'Description="Self become warrior (HP x2, AC +4, 2/rd dagger +2 damage) for $L rd"',
   'Transmute Metal To Wood':
     'School=Alteration ' +
     'Level=D7 ' +
@@ -3067,7 +3067,6 @@ OldSchool.RULE_EDITS = {
       'Animal Growth':
         'Level=P5,W5',
       'Animal Growth P5':
-        'Level=P5 ' +
         'Duration="$L2 rd" ' +
         'Range="80\'"',
       'Animal Friendship':
@@ -3086,11 +3085,11 @@ OldSchool.RULE_EDITS = {
         'Level=P6',
       'Animate Rock':
         'Level=P7',
-      'Anti-Animal Shell':
+      'Antianimal Shell':
         'Level=P6',
-      'Anti-Magic Shell':
+      'Antimagic Shell':
         'Level=W6',
-      'Anti-Plant Shell':
+      'Antiplant Shell':
         'Level=P5 ' +
         'Range="7.5\' radius"',
       'Antipathy/Sympathy':
@@ -3108,6 +3107,16 @@ OldSchool.RULE_EDITS = {
       'Barkskin':
         'Level=P2 ' +
         'Effect="unarmored AC ${6-Math.floor(lvl/4)}, +1 non-spell saves"',
+      "Bigby's Clenched Fist":
+        'Level=W8',
+      "Bigby's Crushing Hand":
+        'Level=W9',
+      "Bigby's Forceful Hand":
+        'Level=W6',
+      "Bigby's Grasping Hand":
+        'Level=W7',
+      "Bigby's Interposing Hand":
+        'Level=W5',
       'Blade Barrier':
         'Level=P6',
       'Bless':
@@ -3134,7 +3143,7 @@ OldSchool.RULE_EDITS = {
         'Level=P2',
       'Chaos':
         'Level=W5',
-      'Chariot Of Fire':
+      'Chariot Of Sustarre':
         'Level=P7 ' +
         'Duration="12 hr"',
       'Charm Monster':
@@ -3151,8 +3160,6 @@ OldSchool.RULE_EDITS = {
       'Clairvoyance':
         'Level=W3 ' +
         'School="Lesser Divination"',
-      'Clenched Fist':
-        'Level=W8',
       'Clone':
         'Level=W8',
       'Cloudkill':
@@ -3177,7 +3184,6 @@ OldSchool.RULE_EDITS = {
         'Level=P7,W4 ' +
         'Effect="1d4+$L or more creatures in 60\' sq"',
       'Confusion P7':
-        'Level=P7 ' +
         'Duration="$L rd" ' +
         'Effect="1d4 creatures in 40\' sq" ' +
         'Range="80\'"',
@@ -3185,7 +3191,6 @@ OldSchool.RULE_EDITS = {
         'Level=P6,W6 ' +
         'Effect="$L2 HD"',
       'Conjure Animals P6':
-        'Level=P6 ' +
         'Duration="$L2 rd"',
       'Conjure Earth Elemental':
         'Level=P7 ' +
@@ -3204,7 +3209,6 @@ OldSchool.RULE_EDITS = {
       'Continual Light':
         'Level=P3,W2',
       'Continual Light P3':
-        'Level=P3 ' +
         'Range="120\'"',
       "Control Temperature 10' Radius":
         'Level=P4 ' +
@@ -3212,7 +3216,6 @@ OldSchool.RULE_EDITS = {
       'Control Weather':
         'Level=P7,W6',
       'Control Weather P7':
-        'Level=P7 ' +
         'Duration="4d12 hr"',
       'Control Winds':
         'Level=P5',
@@ -3222,8 +3225,6 @@ OldSchool.RULE_EDITS = {
       'Creeping Doom':
         'Level=P7 ' +
         'Effect="20\' sq"',
-      'Crushing Hand':
-        'Level=W9',
       'Cure Critical Wounds':
         'Level=P5',
       'Cure Disease':
@@ -3235,7 +3236,7 @@ OldSchool.RULE_EDITS = {
         'Level=P4',
       'Dancing Lights':
         'Level=W1',
-      'Darkness':
+      "Darkness 15' Radius":
         'Level=W2',
       'Deafness':
         'Level=W2',
@@ -3245,10 +3246,10 @@ OldSchool.RULE_EDITS = {
         'Effect="$L30\' cu"',
       'Delayed Blast Fireball':
         'Level=W7',
-      'Demi-Shadow Magic':
+      'Demishadow Magic':
         'Level=W6 ' +
         'Description="R$L10plus60\' Mimics spell level 4-5"',
-      'Demi-Shadow Monsters':
+      'Demishadow Monsters':
         'Level=W5',
       'Detect Charm':
         'Level=P2 ' +
@@ -3257,7 +3258,6 @@ OldSchool.RULE_EDITS = {
         'Level=P1,W2 ' +
         'School="Lesser Divination"',
       'Detect Evil P1':
-        'Level=P1 ' +
         'Duration="$L5plus10 rd" ' +
         'Range="10\'x120\' path"',
       'Detect Invisibility':
@@ -3271,10 +3271,9 @@ OldSchool.RULE_EDITS = {
         'Level=P1,W1 ' +
         'School="Lesser Divination"',
       'Detect Magic P1':
-        'Level=P1 ' +
         'Duration="1 tn" ' +
         'Effect="10\'x30\' path"',
-      'Detect Pits And Snares':
+      'Detect Snares And Pits':
         'Level=P1 ' +
         'School="Lesser Divination"',
       'Dig':
@@ -3287,7 +3286,6 @@ OldSchool.RULE_EDITS = {
         'Level=P3,W3 ' +
         'Description="R120\' 50% (+5%/-5% per caster level delta) magic in 30\' cu extinguished"',
       'Dispel Magic P3':
-        'Level=P3 ' +
         'Range="60\'"',
       'Disintegrate':
         'Level=W6 ' +
@@ -3299,6 +3297,8 @@ OldSchool.RULE_EDITS = {
       'Divination':
         'Level=P4 ' +
         'School="Lesser Divination"',
+      "Drawmij's Instant Summons":
+        'Level=W7',
       'Duo-Dimension':
         'Level=W7',
       'Earthquake':
@@ -3333,8 +3333,6 @@ OldSchool.RULE_EDITS = {
         'Level=W5',
       'Extension III':
         'Level=W6',
-      'False Trap':
-        'Level=W2',
       'Faerie Fire':
         'Level=P1',
       'Fear':
@@ -3349,7 +3347,6 @@ OldSchool.RULE_EDITS = {
         'Level=P3,W3 ' +
         'Duration="$Lplus6 tn"',
       'Feign Death P3':
-        'Level=P3 ' +
         'Duration="$Lplus10 rd"',
       'Find Familiar':
         'Level=W1',
@@ -3384,9 +3381,6 @@ OldSchool.RULE_EDITS = {
         'Description="Touched arrow 1 HP fire damage within 1 rd or R$L10plus30 self cast $Ldiv5 bolts for 5d6 HP (save half)"',
       'Flame Strike':
         'Level=P5',
-      'Floating Disk':
-        'Level=W1 ' +
-        'Range="20\'"',
       'Fly':
         'Level=W3 ' +
         'Duration="1d6+$L tn" ' +
@@ -3395,12 +3389,8 @@ OldSchool.RULE_EDITS = {
         'Level=W2',
       "Fool's Gold":
         'Level=W2',
-      'Forceful Hand':
-        'Level=W6',
       'Forget':
         'Level=W2',
-      'Freezing Sphere':
-        'Level=W6',
       'Friends':
         'Level=W1 ' +
         'Description="R60\' Self Cha +2d4 for 1d4+$L rd"',
@@ -3425,8 +3415,6 @@ OldSchool.RULE_EDITS = {
         'Level=P3 ' +
         'Effect="${lvl}d4 HP" ' +
         'Range="$L\' sq"',
-      'Grasping Hand':
-        'Level=W7',
       'Guards And Wards':
         'Level=W6 ' +
         'Effect="400\' sq"',
@@ -3489,10 +3477,6 @@ OldSchool.RULE_EDITS = {
       'Insect Plague':
         'Level=P5 ' +
         'Range="120\'"',
-      'Instant Summons':
-        'Level=W7',
-      'Interposing Hand':
-        'Level=W5',
       'Invisibility':
         'Level=W2',
       "Invisibility 10' Radius":
@@ -3502,8 +3486,6 @@ OldSchool.RULE_EDITS = {
         'Effect="$L touched"',
       'Invisible Stalker':
         'Level=W6',
-      'Irresistible Dance':
-        'Level=W8',
       'Jump':
         'Level=W1 ' +
         'Duration="for $L+1d3 rd"',
@@ -3515,11 +3497,18 @@ OldSchool.RULE_EDITS = {
         'School="Lesser Divination" ' +
         'Effect="1 target/2 rd"',
       'Know Alignment P2':
-        'Level=P2 ' +
         'Effect="1 target/rd"',
       'Legend Lore':
         'Level=W6 ' +
         'School="Greater Divination"',
+      "Leomund's Secret Chest":
+        'Level=W5',
+      "Leomund's Tiny Hut":
+        'Level=W3 ' +
+        'Duration="$Lplus4 hr" ' +
+        'Effect="7.5\' radius"',
+      "Leomund's Trap":
+        'Level=W2',
       'Levitate':
         'Level=W2',
       'Lightning Bolt':
@@ -3528,7 +3517,6 @@ OldSchool.RULE_EDITS = {
       'Light':
         'Level=P1,W1',
       'Light P1':
-        'Level=P1 ' +
         'Duration="$Lplus6 tn" ' +
         'Range="120\'"',
       'Limited Wish':
@@ -3537,7 +3525,6 @@ OldSchool.RULE_EDITS = {
         'Level=P3,W2 ' +
         'School="Lesser Divination"',
       'Locate Object P3':
-        'Level=P3 ' +
         'Range="$L10plus60\'"',
       'Lower Water':
         'Level=P4,W6 ' +
@@ -3545,16 +3532,8 @@ OldSchool.RULE_EDITS = {
         'Duration="$L5 rd" ' +
         'Range="80\'"',
       'Lower Water P4':
-        'Level=P4 ' +
         'Duration="$L tn" ' +
         'Range="120\'"',
-      "Mage's Faithful Hound":
-        'Level=W5 ' +
-        'Duration="$L3plus6 tn"',
-      "Mage's Sword":
-        'Level=W7',
-      'Magic Aura':
-        'Level=W1',
       'Magic Jar':
         'Level=W5',
       'Magic Missile':
@@ -3599,8 +3578,6 @@ OldSchool.RULE_EDITS = {
       'Misdirection':
         'Level=W2 ' +
         'Duration="8 hr"',
-      'Mnemonic Enhancer':
-        'Level=W4',
       'Monster Summoning I':
         'Level=W3',
       'Monster Summoning II':
@@ -3618,22 +3595,32 @@ OldSchool.RULE_EDITS = {
         'Effect="1d3"',
       'Monster Summoning VII':
         'Level=W9',
+      "Mordenkainen's Faithful Hound":
+        'Level=W5 ' +
+        'Duration="$L3plus6 tn"',
+      "Mordenkainen's Sword":
+        'Level=W7',
       'Move Earth':
         'Level=W6 ' +
         'Effect="40\'x40\'x10\'"',
       'Neutralize Poison':
         'Level=P4 ' +
         'School=Necromancy',
-      'Non-Detection':
+      'Nondetection':
         'Level=W3 ' +
         'Duration="$L hr" ' +
         'Effect="Touched"',
+      "Nystul's Magic Aura":
+        'Level=W1',
       'Obscurement':
         'Level=P2',
+      "Otiluke's Freezing Sphere":
+        'Level=W6',
+      "Otto's Irresistible Dance":
+        'Level=W8',
       'Part Water':
         'Level=P6,W6',
       'Part Water P6':
-        'Level=P6 ' +
         'Duration="$L tn" ' +
         'Range="$L20\'"',
       'Pass Plant':
@@ -3660,7 +3647,6 @@ OldSchool.RULE_EDITS = {
       'Plant Growth':
         'Level=P3,W4',
       'Plant Growth P3':
-        'Level=P3 ' +
         'Effect="$L20\' sq" ' +
         'Range="160\'"',
       'Polymorph Any Object':
@@ -3700,12 +3686,10 @@ OldSchool.RULE_EDITS = {
       'Protection From Evil':
         'Level=P1,W1',
       'Protection From Evil P1':
-        'Level=P1 ' +
         'Duration="$L3 rd"',
       "Protection From Evil 10' Radius":
         'Level=P4,W3',
       "Protection From Evil 10' Radius P4":
-        'Level=P4 ' +
         'Duration="$L tn"',
       'Protection From Fire':
         'Level=P3',
@@ -3718,12 +3702,13 @@ OldSchool.RULE_EDITS = {
       'Pyrotechnics':
         'Level=P3,W2',
       'Pyrotechnics P3':
-        'Level=P3 ' +
         'Range="160\'"',
       'Quest':
         'Level=P5',
       'Raise Dead':
         'Level=P5',
+      "Rary's Mnemonic Enhancer":
+        'Level=W4',
       'Ray Of Enfeeblement':
         'Level=W2 ' +
         'Range="$L5plus10\'"',
@@ -3766,8 +3751,9 @@ OldSchool.RULE_EDITS = {
       'Sanctuary':
         'Level=P1 ' +
         'Effect="Touched"',
-      'Secret Chest':
-        'Level=W5',
+      "Serten's Spell Immunity":
+        'Level=W8 ' +
+        'Description="Touched immune to specified spell for $L tn"',
       'Shades':
         'Level=W6',
       'Shadow Door':
@@ -3793,6 +3779,9 @@ OldSchool.RULE_EDITS = {
         'Level=P2',
       'Simulacrum':
         'Level=W7',
+      'Sleep':
+        'Level=W1 ' +
+        'Range="30\'"',
       'Slow':
         'Level=W3',
       'Slow Poison':
@@ -3810,19 +3799,13 @@ OldSchool.RULE_EDITS = {
         'Duration="$L2 rd"',
       'Speak With Plants':
         'Level=P4',
-      'Sleep':
-        'Level=W1 ' +
-        'Range="30\'"',
       'Spectral Force':
         'Level=W3 ' +
         'Range="$Lplus60\'"',
-      'Spell Immunity':
-        'Level=P4,W8 ' +
-        'Description="Touched immune to specified spell for $L tn"',
       'Spider Climb':
         'Level=W1 ' +
         'Duration="$Lplus3 rd"',
-      'Spiritual Weapon':
+      'Spiritual Hammer':
         'Level=P2 ' +
         'Duration="$Lplus3 rd" ' +
         'Range="$L10\'"',
@@ -3836,7 +3819,6 @@ OldSchool.RULE_EDITS = {
       'Stone Shape':
         'Level=P3,W5',
       'Stone Shape P3':
-        'Level=P3 ' +
         'Effect="$Lplus3\' cu"',
       'Stone Tell':
         'Level=P6 ' +
@@ -3855,47 +3837,47 @@ OldSchool.RULE_EDITS = {
       'Symbol':
         'Level=P7,W8',
       'Symbol P7':
-        'Level=P7 ' +
         'Description="Glowing symbol causes hopelessness, pain, or persuasion for $L tn"',
       'Telekinesis':
         'Level=W5',
+      'Teleport':
+        'Level=W5',
       'Temporal Stasis':
         'Level=W9',
+      "Tenser's Transformation":
+        'Level=W6',
+      "Tenser's Floating Disk":
+        'Level=W1 ' +
+        'Range="20\'"',
       'Time Stop':
         'Level=W9 ' +
         'Duration="1d3 rd"',
-      'Tiny Hut':
-        'Level=W3 ' +
-        'Duration="$Lplus4 hr" ' +
-        'Effect="7.5\' radius"',
       'Tongues':
         'Level=P4,W3',
       'Tongues P4':
-        'Level=P4 ' +
         'Duration="1 tn"',
       'Trap The Soul':
         'Level=W8',
-      'Transformation':
-        'Level=W6',
       'Transmute Metal To Wood':
         'Level=P7 ' +
         'Effect="$L10 lb"',
       'Transmute Rock To Mud':
         'Level=P5,W5',
       'Transmute Rock To Mud P5':
-        'Level=P5 ' +
         'Range="160\'"',
       'Transport Via Plants':
         'Level=P6',
       'Tree':
         'Level=P3',
+      'Trip':
+        'Level=P2 ' +
+        'Effect="1 HP"',
       'True Seeing':
         'Level=P5,W6 ' +
         'School="Greater Divination" ' +
         'Effect="" ' +
         'Range="60\'"',
       'True Seeing P5':
-        'Level=P5 ' +
         'Effect=", alignment auras" ' +
         'Range="40\'"',
       'Turn Wood':
@@ -3919,7 +3901,6 @@ OldSchool.RULE_EDITS = {
         'Level=P3,W3 ' +
         'Duration="1d4+$L hr"',
       'Water Breathing P3':
-        'Level=P3 ' +
         'Duration="$L hr"',
       'Wall Of Fire':
         'Level=P5,W4 ' +
@@ -3958,10 +3939,6 @@ OldSchool.RULE_EDITS = {
         'Level=P4 ' +
         'School=Abjuration ' +
         'Description="R10\' Return outsider to home plane 50%+HD delta"',
-      'Acid Arrow':
-        'Level=W2 ' +
-        'School=Conjuration ' +
-        'Description="R180\' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd"',
       'Advanced Illusion':
         'Level=W5 ' +
         'School=Illusion ' +
@@ -4002,10 +3979,6 @@ OldSchool.RULE_EDITS = {
         'Level=W8 ' +
         'School=Enchantment ' +
         'Description="R10\' Magical effect restrains creature (save neg)"',
-      'Black Tentacles':
-        'Level=W4 ' +
-        'School=Conjuration ' +
-        'Description="R30\' Many 10\' tentacles in 30\' sq AC 4, $L HP, Damage 2d4-3d4 (save 1d4)"',
       'Cantrip':
         'Level=W1 ' +
         'School=All ' +
@@ -4078,10 +4051,6 @@ OldSchool.RULE_EDITS = {
         'Level=W1 ' +
         'School="Lesser Divination" ' +
         'Description="Self discern undead in 60\'x$L10\' area for 3 tn"',
-      'Disjunction':
-        'Level=W9 ' +
-        'School=Alteration ' +
-        'Description="R30\' Magic removed (artifacts $L%)"',
       'Dismissal':
         'Level=W5 ' +
         'School=Abjuration ' +
@@ -4122,6 +4091,10 @@ OldSchool.RULE_EDITS = {
         'Level=P2 ' +
         'School=Enchantment ' +
         'Description="Self fascinate 90\' radius (save neg)"',
+      "Evard's Black Tentacles":
+        'Level=W4 ' +
+        'School=Conjuration ' +
+        'Description="R30\' Many 10\' tentacles in 30\' sq AC 4, $L HP, Damage 2d4-3d4 (save 1d4)"',
       'Exaction':
         'Level=P7 ' +
         'School=Evocation ' +
@@ -4210,10 +4183,14 @@ OldSchool.RULE_EDITS = {
         'Level=W3 ' +
         'School=Alteration ' +
         'Description="Shrink touched $L2\' cu item to 1/12 size, change to cloth for $L4 hr"',
-      'Lamentable Belaborment':
+      "Leomund's Lamentable Belaborment":
         'Level=W5 ' +
         'School=Enchantment ' +
         'Description="R10\' Targets in 10\' radius absorbed in conversation for 3-6 rd (save neg; failed save rd 3 wander away, failed save rd 6 rage attack for 1d4+1 rd)"',
+      "Leomund's Secure Shelter":
+        'Level=W4 ' +
+        'School=Alteration ' +
+        'Description="R20\' $L30\' sq shelter against elements, intrusion for 1d4+$Lplus1 hr"',
       'Liveoak':
         'Level=P6 ' +
         'School=Enchantment ' +
@@ -4222,14 +4199,10 @@ OldSchool.RULE_EDITS = {
         'Level=P1 ' +
         'School="Lesser Divination" ' +
         'Description="$L20plus100 Self discern presence of animal or plant type in 20\' path for $L rd"',
-      "Mage's Lucubration":
+      "Mordenkainen's Lucubration":
         'Level=W6 ' +
         'School=Alteration ' +
         'Description="Recall level 1-5 spell uses in prior dy"',
-      "Mage's Magnificent Mansion":
-        'Level=W7 ' +
-        'School=Alteration ' +
-        'Description="R10\' Extra-dimensional refuge for $L hr"',
       'Magic Font':
         'Level=P5 ' +
         'School="Greater Divination" ' +
@@ -4246,18 +4219,22 @@ OldSchool.RULE_EDITS = {
         'Level=P3 ' +
         'School=Enchantment ' +
         'Description="Touched vestment ${7-Math.floor((lvl+1)/3)} for $L5 rd"',
-      'Messenger':
-        'Level=P2 ' +
-        'School=Enchantment ' +
-        'Description="R$L20\' Tiny creature delivers note for $L dy"',
       'Meld Into Stone':
         'Level=P3 ' +
         'School=Alteration ' +
         'Description="Self merge into rock for 8+1d8 rd"',
-      'Minute Meteors':
+      "Melf's Acid Arrow":
+        'Level=W2 ' +
+        'School=Conjuration ' +
+        'Description="R180\' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd"',
+      "Melf's Minute Meteors":
         'Level=W3 ' +
         'School=Evocation ' +
         'Description="R$L10plus70\' $L +2 ranged globes 1d4 HP"',
+      'Messenger':
+        'Level=P2 ' +
+        'School=Enchantment ' +
+        'Description="R$L20\' Tiny creature delivers note for $L dy"',
       'Mirage Arcana':
         'Level=W6 ' +
         'School=Illusion ' +
@@ -4270,10 +4247,22 @@ OldSchool.RULE_EDITS = {
         'Level=P5 ' +
         'School=Evocation ' +
         'Description="R$L10+60\' Moonlight 5\' radius for $L rd"',
+      "Mordenkainen's Disjunction":
+        'Level=W9 ' +
+        'School=Alteration ' +
+        'Description="R30\' Magic removed (artifacts $L%)"',
+      "Mordenkainen's Magnificent Mansion":
+        'Level=W7 ' +
+        'School=Alteration ' +
+        'Description="R10\' Extra-dimensional refuge for $L hr"',
       'Mount':
         'Level=W1 ' +
         'School=Conjuration ' +
         'Description="R10\' Create obedient mount for $Lplus2 hr"',
+      "Otiluke's Telekinetic Sphere":
+        'Level=W8 ' +
+        'School=Evocation ' +
+        'Description="R20\' Sphere safely entraps and floats target for $L rd (save neg)"',
       'Phantom Steed':
         'Level=W3 ' +
         'School=Conjuration ' +
@@ -4286,6 +4275,10 @@ OldSchool.RULE_EDITS = {
         'Level=P3 ' +
         'School=Abjuration ' +
         'Description="Touched gains save vs. death magic next draining attack"',
+      "Otiluke's Resilient Sphere":
+        'Level=W4 ' +
+        'School=Alteration ' +
+        'Description="R20\' Sphere safely entraps target for $L rd (save neg)"',
       'Rainbow':
         'Level=P5 ' +
         'School=Evocation ' +
@@ -4302,10 +4295,6 @@ OldSchool.RULE_EDITS = {
         'Level=P3 ' +
         'School=Abjuration ' +
         'Description="R$L10\' 1d4 targets in 20\' cu released from magical paralysis"',
-      'Resilient Sphere':
-        'Level=W4 ' +
-        'School=Alteration ' +
-        'Description="R20\' Sphere safely entraps target for $L rd (save neg)"',
       'Screen':
         'Level=W8 ' +
         'School="Greater Divination" ' +
@@ -4314,10 +4303,6 @@ OldSchool.RULE_EDITS = {
         'Level=W3 ' +
         'School=Alteration ' +
         'Description="Overlay page with different contents"',
-      'Secure Shelter':
-        'Level=W4 ' +
-        'School=Alteration ' +
-        'Description="R20\' $L30\' sq shelter against elements, intrusion for 1d4+$Lplus1 hr"',
       'Seeming':
         'Level=W5 ' +
         'School=Illusion ' +
@@ -4350,6 +4335,10 @@ OldSchool.RULE_EDITS = {
         'Level=W4 ' +
         'School=Alteration ' +
         'Description="R30\' $L10\' cu slows, reduces vision to 2\' for 2d4+$L rd"',
+      'Spell Immunity':
+        'School=Abjuration ' +
+        'Level=P4 ' +
+        'Description="Touched immune to specified spell for $L tn"',
       'Spike Growth':
         'Level=P3 ' +
         'School=Alteration ' +
@@ -4390,16 +4379,14 @@ OldSchool.RULE_EDITS = {
         'Level=P7 ' +
         'School=Evocation ' +
         'Description="R10\' 5\' radius blinds 1d3 rd, undead 8d6 HP (3d6 within 20\') for 2-5 rd"',
+      "Tasha's Uncontrollable Hideous Laughter":
+        'Level=W2 ' +
+        'School=Enchantment ' +
+        'Description="R60\' $Ldiv3 targets in 30\' cu -2 attack and damage for $L rd"',
       'Taunt':
         'Level=W1 ' +
         'School=Enchantment ' +
         'Description="R60\' Targets in 30\' radius attack caster"',
-      'Telekinetic Sphere':
-        'Level=W8 ' +
-        'School=Evocation ' +
-        'Description="R20\' Sphere safely entraps and floats target for $L rd (save neg)"',
-      'Teleport':
-        'Level=W5',
       'Teleport Without Error':
         'Level=W7 ' +
         'School=Alteration ' +
@@ -4411,13 +4398,6 @@ OldSchool.RULE_EDITS = {
         'Effect="$L10\' cu"',
       'Transmute Water To Dust P6':
         'Effect="$L3\' cu"',
-      'Trip':
-        'Level=P2 ' +
-        'Effect="1 HP"',
-      'Uncontrollable Hideous Laughter':
-        'Level=W2 ' +
-        'School=Enchantment ' +
-        'Description="R60\' $Ldiv3 targets in 30\' cu -2 attack and damage for $L rd"',
       'Vacancy':
         'Level=W4 ' +
         'School=Illusion ' +
@@ -6504,9 +6484,6 @@ OldSchool.ruleNotes = function() {
     '    2E spell ranges are generally given in yards rather than feet, so,\n' +
     '    for example, "R10\'" in the W1 Grease spell should be read as 10\n' +
     '    yards for 2E characters.\n' +
-    '  </li><li>\n' +
-    '    The 2E spell Spiritual Hammer is modified to Spiritual Weapon to\n' +
-    '    match the 1E spell.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
