@@ -840,15 +840,15 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=D7 ' +
     'Description="R40\' Target $L2\' cu rock obeys simple commands for $L rd"',
-  'Antianimal Shell':
+  'Anti-Animal Shell':
     'School=Abjuration ' +
     'Level=D6 ' +
     'Description="Self 10\' radius blocks animal matter for $L tn"',
-  'Antimagic Shell':
+  'Anti-Magic Shell':
     'School=Abjuration ' +
     'Level=M6 ' +
     'Description="$L5\' radius allows no magic inside, moves with self for $L tn"',
-  'Antiplant Shell':
+  'Anti-Plant Shell':
     'School=Abjuration ' +
     'Level=D5 ' +
     'Description="Self $R blocks plant matter for $L tn" ' +
@@ -1151,11 +1151,11 @@ OldSchool.SPELLS = {
     'School=Evocation ' +
     'Level=M7 ' +
     'Description="R$L10plus100\' ${lvl}d6+$L HP in 20\' radius (save half) after up to 5 rd"',
-  'Demishadow Magic':
+  'Demi-Shadow Magic':
     'School=Illusion ' +
     'Level=I6 ' +
     'Description="R$L10plus60\' Mimics <i>Cloudkill</i> (die, save neg), <i>Cone Of Cold</i> (${lvl}d4+$L HP), <i>Fireball</i> (${lvl}d6 HP), <i>Lightning Bolt</i> (${lvl}d6 HP), <i>Magic Missile</i> (${Math.floor((lvl+1)/2)}x1d4+1 HP) (ea save $L2 HP), <i>Wall Of Fire</i> (2d6+$L HP, save ${lvl}d4), or <i>Wall Of Ice</i>"',
-  'Demishadow Monsters':
+  'Demi-Shadow Monsters':
     'School=Illusion ' +
     'Level=I5 ' +
     'Description="R30\' Create monsters $L HD total, 40% HP (save AC 8, 40% damage) for $L rd"',
@@ -1399,7 +1399,7 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=I2 ' +
     'Description="R10\' Fog in 40\'x20\'x20\' area obscures vision, moves 10\'/rd for $Lplus4 rd"',
-  "Fool's Gold":
+  "Fools Gold":
     'School=Alteration ' +
     'Level=M2 ' +
     'Description="R10\' Copper and brass become gold for $L hr (-$L save disbelieve)"',
@@ -1794,7 +1794,7 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=C4,D3 ' +
     'Description="Touched detoxed (rev lethally poisoned, save neg)"',
-  'Nondetection':
+  'Non-Detection':
     'School=Abjuration ' +
     'Level=I3 ' +
     'Description="$E invisible to divination for $D" ' +
@@ -3055,6 +3055,32 @@ OldSchool.RULE_EDITS = {
       'Spiritwrack':null,
       'True Sight':null,
       'Write':null,
+      // Renamed
+      'Anti-Animal Shell':null,
+      'Antianimal Shell':OldSchool.SPELLS['Anti-Animal Shell'] + ' ' +
+        'Level=P6',
+      'Anti-Magic Shell':null,
+      'Antimagic Shell':OldSchool.SPELLS['Anti-Magic Shell'] + ' ' +
+        'Level=W6',
+      'Anti-Plant Shell':null,
+      'Antiplant Shell':OldSchool.SPELLS['Anti-Plant Shell'] + ' ' +
+        'Level=P5 ' +
+        'Range="7.5\' radius"',
+      'Demi-Shadow Magic':null,
+      'Demishadow Magic':OldSchool.SPELLS['Demi-Shadow Magic'] + ' ' +
+        'Level=W6 ' +
+        'Description="R$L10plus60\' Mimics spell level 4-5"',
+      'Demi-Shadow Monsters':null,
+      'Demishadow Monsters':OldSchool.SPELLS['Demi-Shadow Monsters'] + ' ' +
+        'Level=W5',
+      'Fools Gold':null,
+      "Fool's Gold":OldSchool.SPELLS['Fools Gold'] + ' ' +
+        'Level=W2',
+      'Non-Detection':null,
+      'Nondetection':OldSchool.SPELLS['Non-Detection'] + ' ' +
+        'Level=W3 ' +
+        'Duration="$L hr" ' +
+        'Effect="Touched"',
       // Modified
       'Aerial Servant':
         'Level=P6',
@@ -3085,13 +3111,6 @@ OldSchool.RULE_EDITS = {
         'Level=P6',
       'Animate Rock':
         'Level=P7',
-      'Antianimal Shell':
-        'Level=P6',
-      'Antimagic Shell':
-        'Level=W6',
-      'Antiplant Shell':
-        'Level=P5 ' +
-        'Range="7.5\' radius"',
       'Antipathy/Sympathy':
         'Level=W8',
       'Astral Spell':
@@ -3246,11 +3265,6 @@ OldSchool.RULE_EDITS = {
         'Effect="$L30\' cu"',
       'Delayed Blast Fireball':
         'Level=W7',
-      'Demishadow Magic':
-        'Level=W6 ' +
-        'Description="R$L10plus60\' Mimics spell level 4-5"',
-      'Demishadow Monsters':
-        'Level=W5',
       'Detect Charm':
         'Level=P2 ' +
         'School="Lesser Divination"',
@@ -3386,8 +3400,6 @@ OldSchool.RULE_EDITS = {
         'Duration="1d6+$L tn" ' +
         'Effect="180\'/rd"',
       'Fog Cloud':
-        'Level=W2',
-      "Fool's Gold":
         'Level=W2',
       'Forget':
         'Level=W2',
@@ -3606,10 +3618,6 @@ OldSchool.RULE_EDITS = {
       'Neutralize Poison':
         'Level=P4 ' +
         'School=Necromancy',
-      'Nondetection':
-        'Level=W3 ' +
-        'Duration="$L hr" ' +
-        'Effect="Touched"',
       "Nystul's Magic Aura":
         'Level=W1',
       'Obscurement':
