@@ -1,7 +1,7 @@
 ## 1st and 2nd Edition plugin for the Quilvyn RPG character sheet generator
 
 The quilvyn-oldschool package bundles modules that extend Quilvyn to work
-with the first and second editions of D&D, applying the rules of the
+with the 1st and 2nd editions of D&D, applying the rules of the
 <a href="https://www.drivethrurpg.com/product/17003/Players-Handbook-1e">1st
 Edition Players Handbook</a> and
 <a href="https://www.drivethrurpg.com/product/16868/Players-Handbook-Revised-2e">2nd
@@ -19,12 +19,12 @@ subdirectory within the Quilvyn installation directory, then append the
 following lines to the file plugins/plugins.js:
 
     RULESETS['AD&D First Edition (1E)'] = {
-      url:'plugins/OldSchool.js',
+      url:'OldSchool.js',
       group:'Old School D&D',
       require:'v3.5 (SRD only)'
     };
     RULESETS['AD&D Second Edition (2E)'] = {
-      url:'plugins/OldSchool.js',
+      url:'OldSchool.js',
       group:'Old School D&D',
       require:'v3.5 (SRD only)'
     };
@@ -32,5 +32,5 @@ following lines to the file plugins/plugins.js:
 ### Usage
 
 Once the quilvyn-oldSchool package is installed as described above, start
-Quilvyn and choose 'First Edition' and/or 'Second Edition' from the rule sets
-menu in the initial window.
+Quilvyn and check the box next to "First Edition" and/or the box next to
+"Second Edition" from the rule sets menu in the initial window.
