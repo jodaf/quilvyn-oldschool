@@ -32,5 +32,6 @@ following lines to the file plugins/plugins.js:
 ### Usage
 
 Once the quilvyn-oldSchool package is installed as described above, start
-Quilvyn and check the box next to "First Edition" and/or the box next to
-"Second Edition" from the rule sets menu in the initial window.
+Quilvyn and check the box next to "AD&D First Edition (IE)" and/or the box
+next to "AD&D Second Edition (2E)" from the rule sets menu in the initial
+window.
