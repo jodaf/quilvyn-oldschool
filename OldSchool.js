@@ -117,7 +117,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.2.1.43';
+OldSchool.VERSION = '2.3.1.0';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -255,7 +255,7 @@ OldSchool.CLASSES = {
     'HitDie=d8,14,1 Attack=0,2,3,- WeaponProficiency=2,5,4 ' +
     'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
     'Features=' +
-      '"1:Armor Proficiency (Leather)","1:Shield Proficiency (Small Shield)",' +
+      '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
       '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
       '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
       '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
@@ -329,7 +329,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=2d4,17,1 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
+    'HitDie=2d4,18,1 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Delayed Henchmen","1:Dodge Missiles",1:Evasion,"1:Killing Blow",' +
@@ -337,9 +337,9 @@ OldSchool.CLASSES = {
       '1:Unburdened,2:Aware,"3:Speak With Animals","4:Flurry Of Blows",' +
       '"4:Masked Mind","4:Slow Fall","5:Controlled Movement",' +
       '"5:Purity Of Body","6:Feign Death","6:Limited Henchmen Classes",' +
-      '"7:Wholeness Of Body","8:Speak With Plants","9:Clear Mind",' +
-      '"9:Improved Evasion","10:Steel Mind","11:Diamond Body","12:Free Will",' +
-      '"13:Quivering Palm" ' +
+      '"7:Wholeness Of Body","8:Speak With Plants","9:Improved Evasion",' +
+      '"9:Resist Influence","10:Mental Discipline","11:Diamond Body",' +
+      '"12:Free Will","13:Quivering Palm" ' +
     'Experience=' +
       '0,2.25,4.75,10,22.5,47.5,98,200,350,500,700,950,1250,1750,2250,2750,' +
       '3250',
@@ -413,7 +413,7 @@ OldSchool.FEATURES = {
   'Additional Languages':'Section=skill Note="+%V Language Count"',
   'Alert':'Section=combat Note="Surprised 1in6, surprise 3in6"',
   'Assassination':
-    'Section=combat Note="Strike kills surprised target %V% - 5%/2 foe levels"',
+    'Section=combat Note="Base %V% chance that strike kills surprised target"',
   'Aware':'Section=combat Note="Surprised %V%"',
   'Backstab':
     'Section=combat Note="+4 melee attack, x%V damage when surprising"',
@@ -439,9 +439,6 @@ OldSchool.FEATURES = {
   'Charming Music':
     'Section=magic ' +
     'Note="R40\' %V% charm creatures while playing (save 1 rd), make suggestion to charmed (-2 save neg)"',
-  'Clear Mind':
-    'Section=save ' +
-    'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
   'Cleric Spell Failure':'Section=magic Note="%V%"',
   'Controlled Movement':
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
@@ -466,7 +463,7 @@ OldSchool.FEATURES = {
     'Section=combat Note="+3 %V Attack Modifier/+3 %V Damage Modifier"',
   'Evasion':
     'Section=save Note="Successful save yields no damage instead of half"',
-  'Favored Enemy':'Section=combat Note="+%V melee damage vs. giant foes"',
+  'Favored Enemy':'Section=combat Note="+%V melee damage vs. giant-class foes"',
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
   'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
   'Fighting The Unskilled':
@@ -482,6 +479,8 @@ OldSchool.FEATURES = {
   'Limited Henchmen Classes':'Section=ability Note="Henchmen must be %V"',
   'Loner':'Section=feature Note="Will not work with more than 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
+  'Mental Discipline':
+    'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Monk Skills':
     'Section=skill ' +
     'Note="Climb Walls, Find Traps, Hear Noise, Hide In Shadows, Move Silently, Open Locks"',
@@ -504,22 +503,25 @@ OldSchool.FEATURES = {
     'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
   'Purity Of Body':'Section=save Note="Immune to disease"',
   'Quivering Palm':
-    'Section=combat Note="Touched w/fewer hit dice dies w/in %V dy 1/wk"',
+    'Section=combat ' +
+    'Note="Touched w/at most %1 HD and %2 HP dies w/in %V dy 1/wk"',
   'Read Scrolls':
     'Section=magic Note="75% cast arcane or druidic spell from scroll"',
   'Resist Fire':'Section=save Note="+2 vs. fire"',
+  'Resist Influence':
+    'Section=save ' +
+    'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
   'Resist Lightning':'Section=save Note="+2 vs. lightning"',
   'Scrying':'Section=magic Note="May use scrying magic items"',
   'Selective':'Section=feature Note="Must employ only good henchmen"',
   'Shapeshift':
-    'Section=magic Note="Change into natural animal 3/dy, healing d6x10% HP"',
+    'Section=magic Note="Change into natural animal 3/dy, healing 1d6x10% HP"',
   'Slow Fall':'Section=save Note="No damage from fall of %1 w/in %2\' of wall"',
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
   'Spiritual':
     'Section=feature ' +
     'Note="Must donate 100% after expenses to religious institution"',
-  'Steel Mind':'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Stunning Blow':
      'Section=combat ' +
     'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by at least 5"',
@@ -547,9 +549,18 @@ OldSchool.FEATURES = {
   // Race
   'Bow Precision':'Section=combat Note="+1 attack w/bows"',
   'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
+  'Detect Construction':
+    'Section=feature Note="R10\' 75% Detect new construction"',
+  'Detect Hazard':
+    'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
   'Detect Secret Doors':
     'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Direction Sense':
+  'Detect Sliding':'Section=feature Note="R10\' 66% Detect sliding walls"',
+  'Detect Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
+  'Detect Traps':'Section=feature Note="R10\' 50% Detect stonework traps"',
+  'Determine Depth':
+    'Section=feature Note="%V% Determine approximate depth underground"',
+  'Determine Direction':
     'Section=feature Note="50% Determine direction underground"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+1 Constitution/-1 Charisma"',
@@ -567,24 +578,15 @@ OldSchool.FEATURES = {
   'Halfling Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Strength"',
   'Infravision':'Section=feature Note="60\' vision in darkness"',
-  'Know Depth':
-    'Section=feature Note="%V% Determine approximate depth underground"',
   'Resist Charm':'Section=save Note="%V% vs. charm"',
   'Resist Magic':'Section=save Note="+%V vs. spells and wands"',
   'Resist Poison':'Section=save Note="+%V vs. poison"',
   'Resist Sleep':'Section=save Note="%V% vs. sleep"',
-  'Sense Construction':
-    'Section=feature Note="R10\' 75% Detect new construction"',
-  'Sense Hazard':
-    'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
-  'Sense Sliding':'Section=feature Note="R10\' 66% Detect sliding walls"',
-  'Sense Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
   'Stealthy':
     'Section=combat ' +
     'Note="Surprise 4in6 when traveling quietly, 2in6 when opening doors"',
   'Sword Precision':
-    'Section=combat Note="+1 attack w/Long Sword and Short Sword"',
-  'Trap Sense':'Section=feature Note="R10\' 50% Detect stonework traps"'
+    'Section=combat Note="+1 attack w/Long Sword and Short Sword"'
 
 };
 OldSchool.GOODIES = {
@@ -697,10 +699,10 @@ OldSchool.RACES = {
       '"charisma <= 16","constitution >= 12","dexterity <= 17",' +
       '"strength >= 8" ' +
     'Features=' +
-      '"1:Dwarf Ability Adjustment","1:Dwarf Dodge","1:Dwarf Enmity",' +
-      '1:Infravision,"1:Know Depth","1:Resist Magic","1:Resist Poison",' +
-      '"1:Sense Construction","1:Sense Sliding","1:Sense Slope",' +
-      '"1:Trap Sense" ' +
+      '"1:Detect Construction","1:Detect Sliding","1:Detect Slope",' +
+      '"1:Detect Traps","1:Determine Depth","1:Dwarf Ability Adjustment",' +
+      '"1:Dwarf Dodge","1:Dwarf Enmity",1:Infravision,"1:Resist Magic",' +
+      '"1:Resist Poison" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Kobold,Orc',
   'Elf':
@@ -717,9 +719,9 @@ OldSchool.RACES = {
     'Require=' +
       '"constitution >= 8","intelligence >= 7","strength >= 6" ' +
     'Features=' +
-      '"1:Burrow Tongue","1:Direction Sense","1:Gnome Dodge",' +
-      '"1:Gnome Enmity",1:Infravision,"1:Know Depth","1:Resist Magic",' +
-      '"1:Sense Hazard","1:Sense Slope" ' +
+      '"1:Burrow Tongue","1:Detect Hazard","1:Detect Slope",' +
+      '"1:Determine Depth","1:Determine Direction","1:Gnome Dodge",' +
+      '"1:Gnome Enmity",1:Infravision,"1:Resist Magic" ' +
     'Languages=' +
       'Common,Dwarf,Gnome,Goblin,Halfling,Kobold',
   'Half-Elf':
@@ -743,8 +745,9 @@ OldSchool.RACES = {
       '"constitution >= 10","dexterity >= 8","intelligence >= 6",' +
       '"strength >= 6","wisdom <= 17" ' +
     'Features=' +
-      '"1:Direction Sense","1:Halfling Ability Adjustment",1:Infravision,' +
-      '"1:Resist Magic","1:Resist Poison","1:Sense Slope",1:Stealthy ' +
+      '"1:Detect Slope","1:Determine Direction",' +
+      '"1:Halfling Ability Adjustment",1:Infravision,"1:Resist Magic",' +
+      '"1:Resist Poison",1:Stealthy ' +
     'Languages=' +
       'Common,Dwarf,Elf,Gnome,Goblin,Halfling,Orc',
   'Human':
@@ -2489,7 +2492,7 @@ OldSchool.WEAPONS = {
   'Scimitar':'Category=1h Damage=d8',
   'Short Bow':'Category=R Damage=d6 Range=50',
   'Short Sword':'Category=Li Damage=d6',
-  'Sling':'Category=R Damage=d4 Range=40',
+  'Sling':'Category=R Damage=d4+1 Range=50',
   'Spear':'Category=2h Damage=d6 Range=10',
   'Spetum':'Category=2h Damage=d6+1',
   'Trident':'Category=1h Damage=d6+1',
@@ -2563,12 +2566,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
         'HitDie=d8,9,2 Attack=0,2,3,- NonweaponProficiency=4,3 ' +
-        'Features=' +
-          '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
-          '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
-          '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
-          '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
-          '7:Shapeshift ' +
+        'Features-="charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience" ' +
         'Experience=' +
           '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
           '2250,2475,2700 ' +
@@ -2858,12 +2856,12 @@ OldSchool.RULE_EDITS = {
         'Section=magic Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
       'Defensive Song':
         'Note="R30\' Spell save to counteract magical song and poetry attacks"',
+      'Detect Construction':'Note="R10\' 83% Detect new construction"',
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="R%1\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
       'Read Scrolls':'Note="75% cast any spell from scroll"',
-      'Sense Construction':'Note="R10\' 83% Detect new construction"',
       'Stealthy':
         'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
       'Track':'Section=skill Note="+%V Tracking"',
@@ -2923,10 +2921,10 @@ OldSchool.RULE_EDITS = {
         'Languages=Elf',
       'Gnome':
         'Features=' +
-          '"1:Burrow Tongue","1:Direction Sense",' +
+          '"1:Burrow Tongue","1:Detect Hazard","1:Detect Slope",' +
+          '"1:Determine Depth","1:Determine Direction",' +
           '"1:Gnome Ability Adjustment","1:Gnome Dodge","1:Gnome Enmity",' +
-          '1:Infravision,"1:Know Depth","1:Resist Magic","1:Magic Mismatch",' +
-          '"1:Sense Hazard","1:Sense Slope",1:Slow ' +
+          '1:Infravision,"1:Resist Magic","1:Magic Mismatch",1:Slow ' +
         'Languages=Gnome',
       'Half-Elf':
         'Languages=Common',
@@ -5388,8 +5386,9 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '=', 'source<8 ? "assassins" : source<12 ? "assassins and thieves" : "any class"'
     );
     rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '4');
-    rules.defineRule
-      ('combatNotes.assassination', classLevel, '=', '5 * source + 50');
+    rules.defineRule('combatNotes.assassination',
+      classLevel, '=', 'Math.min(5 * source + 45, 100)'
+    );
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
@@ -5636,6 +5635,14 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.killingBlow', classLevel, '=', 'source - 7');
     rules.defineRule('combatNotes.preciseBlow', classLevel, '=', 'source / 2');
     rules.defineRule('combatNotes.quiveringPalm', classLevel, '=', null);
+    rules.defineRule('combatNotes.quiveringPalm.1',
+      'features.Quivering Palm', '?', null,
+      'hitDice', '=', null
+    );
+    rules.defineRule('combatNotes.quiveringPalm.2',
+      'features.Quivering Palm', '?', null,
+      'hitPoints', '=', 'source * 2'
+    );
     rules.defineRule
       ('combatNotes.strengthAttackAdjustment', classLevel, '*', '0');
     rules.defineRule
@@ -5645,9 +5652,10 @@ OldSchool.classRulesExtra = function(rules, name) {
       ('magicNotes.wholenessOfBody', classLevel, '=', 'source - 6');
     rules.defineRule
       ('maximumHenchmen', classLevel, 'v', 'source>=6 ? source - 4 : 0');
-    rules.defineRule('saveNotes.clearMind', classLevel, '=', '5 + source * 5');
     rules.defineRule
       ('saveNotes.maskedMind', classLevel, '=', '62 + source * 2');
+    rules.defineRule
+      ('saveNotes.resistInfluence', classLevel, '=', '5 + source * 5');
     rules.defineRule('saveNotes.slowFall.1',
       classLevel, '=', 'source<6 ? "20\'" : source<13 ? "30\'" : "any distance"'
     );
@@ -5862,10 +5870,10 @@ OldSchool.raceRulesExtra = function(rules, name) {
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
 
   if(name == 'Dwarf') {
-    rules.defineRule('featureNotes.knowDepth', raceLevel, '+=', '50');
-    rules.defineRule('featureNotes.senseSlope',
+    rules.defineRule('featureNotes.detectSlope',
       raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '75'
     );
+    rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
@@ -5888,11 +5896,11 @@ OldSchool.raceRulesExtra = function(rules, name) {
         '"+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets"'
       );
   } else if(name == 'Gnome') {
-    rules.defineRule('featureNotes.knowDepth',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '67' : '60'
-    );
-    rules.defineRule('featureNotes.senseSlope',
+    rules.defineRule('featureNotes.detectSlope',
       raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '80'
+    );
+    rules.defineRule('featureNotes.determineDepth',
+      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '67' : '60'
     );
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
@@ -5925,7 +5933,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
         '"+5% Climb Walls/+5% Find Traps/+5% Hear Noise/+5% Open Locks/-5% Pick Pockets/-10% Read Languages"'
       );
   } else if(name == 'Halfling') {
-    rules.defineRule('featureNotes.senseSlope', raceLevel, '+=', '75');
+    rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
     if(OldSchool.EDITION != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-5',
@@ -6068,7 +6076,7 @@ OldSchool.skillRulesExtra = function(rules, name) {
     rules.defineRule('skills.Hear Noise',
       'skillLevel.Hear Noise', '+=',
         OldSchool.EDITION == 'First Edition' ?
-          '5 * Math.floor((source - 1) / 2) + (source>=15 ? 15 : 10)'
+          'Math.min(5 * Math.floor((source-1)/2) + (source>=15 ? 15 : 10), 55)'
         : '0'
     );
   } else if(name == 'Hide In Shadows') {
@@ -6487,7 +6495,7 @@ OldSchool.ruleNotes = function() {
     '    potions and scrolls of their own spells.\n' +
     '  </li><li>\n' +
     '    Quilvyn assumes that Halfling characters are of pure Stoutish blood\n'+
-    '    for the Direction Sense, Infravision, and Sense Slope features.\n' +
+    '    for the Infravision, Detect Slope, and Determine Direction features.\n' +
     '  </li><li>\n' +
     '    2E spell ranges are generally given in yards rather than feet, so,\n' +
     '    for example, "R10\'" in the W1 Grease spell should be read as 10\n' +
