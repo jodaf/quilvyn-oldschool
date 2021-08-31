@@ -4496,7 +4496,7 @@ OldSchool.RULE_EDITS = {
       'Quarterstaff':'Category=2h Damage=d6',
       'Scourge':'Category=1h Damage=d4',
       'Sickle':'Category=1h Damage=d4+1',
-      'Staff Sling':'Category=R Damage=d4 Range=30',
+      'Staff Sling':'Category=R Damage=d4+1 Range=30',
       'Warhammer':'Category=Li Damage=d4+1 Range=10',
       'Whip':'Category=1h Damage=d2'
     },
