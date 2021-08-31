@@ -74,7 +74,6 @@ function OldSchool(edition) {
     OldSchool.editedRules(OldSchool.CLASSES, 'Class'),
     OldSchool.editedRules(OldSchool.RACES, 'Race'));
 
-
   // Add additional elements to sheet
   rules.defineSheetElement('Strength');
   rules.defineSheetElement
@@ -2535,7 +2534,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain)",' +
           '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
-          '"1:Poetic Inspiration","1:Bard Skills" ' +
+          '"1:Poetic Inspiration","1:Bard Skills","10:Read Scrolls" ' +
         'Experience=' +
           '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
           '1760,1980,2200 ' +
@@ -2566,7 +2565,17 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
         'HitDie=d8,9,2 Attack=0,2,3,- NonweaponProficiency=4,3 ' +
-        'Features-="charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience" ' +
+        'Features=' +
+          '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
+          '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
+          '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
+          '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
+          '7:Shapeshift,' +
+          // Hierophant
+          '16:Ageless,"16:Fluid Appearance","16:Poison Immunity",' +
+          '"17:Hibernation","17:Planar Travel (Earth)",' +
+          '"18:Planar Travel (Fire)","19:Planar Travel (Water)",' +
+          '"20:Planar Travel (Air)" ' +
         'Experience=' +
           '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
           '2250,2475,2700 ' +
@@ -2582,6 +2591,9 @@ OldSchool.RULE_EDITS = {
         'Require="strength >= 9" ' +
         'Attack=0,1,1,- NonweaponProficiency=3,3 ' +
         'Features-="1:Fighting The Unskilled" ' +
+        'Features=' +
+          '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
+          '"strength >= 16 ? 1:Bonus Fighter Experience" ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000',
@@ -2655,9 +2667,8 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-          '1:Ambidextrous,"1:Animal Empathy","1:Delayed Henchmen",1:Loner,' +
-          '"1:Ranger Skills",1:Track,"1:Travel Light",' +
-          '"1:Two-Handed Fighting","2:Favored Enemy" ' +
+          '1:Ambidextrous,"1:Animal Empathy","1:Delayed Henchmen",' +
+          '"1:Ranger Skills","1:Travel Light","2:Favored Enemy",3:Track ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000 ' +
@@ -2861,12 +2872,15 @@ OldSchool.RULE_EDITS = {
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="R%1\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
-      'Read Scrolls':'Note="75% cast any spell from scroll"',
+      'Read Scrolls':'Note="%V% cast any spell from scroll"',
       'Stealthy':
         'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
       'Track':'Section=skill Note="+%V Tracking"',
       // New
-      'Ambidextrous':'Section=combat Note="No penalty for two-handed fighting"',
+      'Ageless':'Section=ability Note="No ability adjustments for age"',
+      'Ambidextrous':
+        'Section=combat ' +
+        'Note="No penalty for two-handed fighting in light armor"',
       'Animal Empathy':
         'Section=skill ' +
         'Note="Befriend domestic animals, shift wild reaction one category (%V Wand save neg)"',
@@ -2893,9 +2907,21 @@ OldSchool.RULE_EDITS = {
         'Section=magic ' +
         'Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
       'Deadly Aim':'Section=combat Note="+1 attack w/slings and thrown"',
+      'Fluid Appearance':'Section=magic Note="Alter appearance at will"',
       'Gnome Ability Adjustment':
         'Section=ability Note="+1 Intelligence/-1 Wisdom"',
+      'Hibernation':
+        'Section=feature Note="Lower body processes for chosen duration"',
       'Magic Mismatch':'Section=feature Note="20% magic item malfunction"',
+      'Planar Travel (Air)':
+        'Section=magic Note="At-will travel in Plane Of Air"',
+      'Planar Travel (Earth)':
+        'Section=magic Note="At-will travel in Plane Of Earth"',
+      'Planar Travel (Fire)':
+        'Section=magic Note="At-will travel in Plane Of Fire"',
+      'Planar Travel (Water)':
+        'Section=magic Note="At-will travel in Plane Of Water"',
+      'Poison Immunity':'Section=save Note="Immune to poison"',
       'Ranger Skills':
         'Section=skill Note="Hide In Shadows, Move Silently"',
       'School Expertise':
@@ -2905,10 +2931,8 @@ OldSchool.RULE_EDITS = {
         'Section=magic Note="+15% understand %V spells, -15% others"',
       'School Opposition':'Section=magic Note="Cannot learn or cast %V spells"',
       'School Specialization':
-        'Section=magic Note="Extra %V spell/dy each spell level"',
-      'Slow':'Section=ability Note="-60 Speed"',
-      'Two-Handed Fighting':
-        'Section=combat Note="Fight w/two weapons w/no penalty in light or no armor"'
+        'Section=magic Note="Extra %V spell each spell level"',
+      'Slow':'Section=ability Note="-60 Speed"'
     },
     'Race':{
       // Removed
@@ -4488,8 +4512,8 @@ OldSchool.monkUnarmedDamage = [
 /*
  * Uses the OldSchool.RULE_EDIT rules for #type# for the current edition
  * to modify the values in #base# and returns the result. Each value listed
- * in the edit rules can use =, +=, or -= to indicate whether the new values
- * should replace, be added to, or be removed from the values in #base#.
+ * in the edit rules can use = or +=,to indicate whether the new values
+ * should replace or be added to the values in #base#.
  */
 OldSchool.editedRules = function(base, type) {
   var edits = OldSchool.RULE_EDITS[OldSchool.EDITION][type];
@@ -4507,8 +4531,8 @@ OldSchool.editedRules = function(base, type) {
         var op = matchInfo[i].match(/\W+$/)[0];
         var attr = matchInfo[i].replace(op, '');
         var values =
-          // .replace allows getAttrValueArray work with [-+]=
-          QuilvynUtils.getAttrValueArray(edits[a].replace(/[-+]=/g, '='), attr);
+          // .replace allows getAttrValueArray work with +=
+          QuilvynUtils.getAttrValueArray(edits[a].replace(/\+=/g, '='), attr);
         for(var j = 0; j < values.length; j++) {
           if(!(values[j] + '').match(/^[-+]?\d+$/))
             values[j] = '"' + values[j] + '"';
@@ -4518,15 +4542,9 @@ OldSchool.editedRules = function(base, type) {
           // getAttrValue[Array] will pick up the last definition, so appending
           // the replacement is sufficient
           result[a] += ' ' + attr + '=' + valuesText;
-        } else if(op == '+=') {
+        } else { // +=
           result[a] =
             result[a].replace(attr + '=', attr + '=' + valuesText + ',');
-        } else if(op == '-=') {
-          for(var j = 0; j < values.length; j++) {
-            values[j] = values[j].replaceAll('"', '[\'"]?');
-            result[a] = result[a].replace(new RegExp(',' + values[j]), '')
-                                 .replace(new RegExp('=' + values[j] + ',?'), '=');
-          }
         }
       }
     }
@@ -4565,6 +4583,11 @@ OldSchool.abilityRules = function(rules) {
       'source<=3 ? -2 : source<=6 ? -1 : source<=14 ? null : (source - 14)',
     'warriorLevel', 'v', 'source == 0 ? 2 : null'
   );
+  if(OldSchool.EDITION == 'Second Edition')
+    rules.defineRule('saveNotes.constitutionPoisonSaveAdjustment',
+      'constitution', '=', 'source>18 ? "+" + Math.floor((source - 17) / 2) : source<3 ? source - 3 : null',
+      'features.Resist Poison', '=', '0'
+    );
   rules.defineRule('surviveResurrection',
     'constitution', '=',
     'source <= 13 ? source * 5 + 25 : source <= 18 ? source * 2 + 64 : 100'
@@ -5411,7 +5434,7 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Bard') {
 
     if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule('skillNotes.legendLore', classLevel, '=', 'source * 5');
+      rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '85');
       rules.defineRule('magicNotes.charmingMusic.1',
         classLevel, '=', 'Math.floor(source / 3)'
       );
@@ -5426,6 +5449,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Hear Noise', classLevel, '+=', '20');
       rules.defineRule('skillModifier.Pick Pockets', classLevel, '+=', '10');
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
+      rules.defineRule('skillNotes.legendLore', classLevel, '=', 'source * 5');
       rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
       rules.defineRule('classBardSaveAdjustment',
@@ -5774,6 +5798,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
 
     if(OldSchool.EDITION == 'Second Edition') {
+      rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
       rules.defineRule('maxAllowedSkillAllocation',
         'skillPoints', '=', 'Math.min(Math.floor(source / 2), 95)'
       );
