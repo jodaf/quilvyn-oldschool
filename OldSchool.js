@@ -2273,7 +2273,7 @@ OldSchool.SPELLS = {
     'School=Alteration ' +
     'Level=M9 ' +
     'Description="R10\' Target suspended animation permanently (rev wakens)"',
-  "Tenser's Floating Disk":
+  "Tenser's Floating Disc":
     'School=Evocation ' +
     'Level=M1 ' +
     'Description="3\' diameter disk holds $L100 lbs, follows self at $R for $Lplus3 tn" ' +
@@ -3876,7 +3876,7 @@ OldSchool.RULE_EDITS = {
         'Level=W9',
       "Tenser's Transformation":
         'Level=W6',
-      "Tenser's Floating Disk":
+      "Tenser's Floating Disc":
         'Level=W1 ' +
         'Range="20\'"',
       'Time Stop':
