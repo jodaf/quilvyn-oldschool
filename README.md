@@ -19,12 +19,12 @@ subdirectory within the Quilvyn installation directory, then append the
 following lines to the file plugins/plugins.js:
 
     RULESETS['AD&D First Edition (1E)'] = {
-      url:'OldSchool.js',
+      url:'plugins/OldSchool.js',
       group:'Old School D&D',
       require:'v3.5 (SRD only)'
     };
     RULESETS['AD&D Second Edition (2E)'] = {
-      url:'OldSchool.js',
+      url:'plugins/OldSchool.js',
       group:'Old School D&D',
       require:'v3.5 (SRD only)'
     };
