@@ -21,12 +21,12 @@ following lines to the file plugins/plugins.js:
     RULESETS['AD&D First Edition (1E)'] = {
       url:'plugins/OldSchool.js',
       group:'Old School D&D',
-      require:'v3.5 (SRD only)'
+      require:'SRD35.js'
     };
     RULESETS['AD&D Second Edition (2E)'] = {
       url:'plugins/OldSchool.js',
       group:'Old School D&D',
-      require:'v3.5 (SRD only)'
+      require:'SRD35.js'
     };
 
 ### Usage
