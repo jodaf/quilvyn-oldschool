@@ -10,7 +10,7 @@ Edition Players Handbook</a>.
 ### Requirements
 
 quilvyn-oldschool relies on the core and srd35 modules installed by the
-quilvyn-core package.
+quilvyn-core package and on the quilvyn-osric package.
 
 ### Installation
 
@@ -21,12 +21,12 @@ following lines to the file plugins/plugins.js:
     RULESETS['AD&D First Edition (1E)'] = {
       url:'plugins/OldSchool.js',
       group:'Old School D&D',
-      require:'SRD35.js'
+      require:'OSRIC.js'
     };
     RULESETS['AD&D Second Edition (2E)'] = {
       url:'plugins/OldSchool.js',
       group:'Old School D&D',
-      require:'SRD35.js'
+      require:'OSRIC.js'
     };
 
 ### Usage
