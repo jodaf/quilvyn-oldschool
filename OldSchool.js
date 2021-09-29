@@ -211,8 +211,8 @@ OldSchool.CLASSES = {
       '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
       '"1:Charming Music","1:Defensive Song","1:Poetic Inspiration",' +
       '"1:Resist Fire","1:Resist Lightning","2:Legend Lore",' +
-      '"3:Nature Knowledge","3:Wilderness Movement","3:Woodland Languages",' +
-      '"4:Additional Languages","7:Fey Immunity",7:Shapeshift ' +
+      '"3:Druid\'s Knowledge","3:Wilderness Movement","3:Woodland Languages",' +
+      '"4:Additional Languages","7:Immunity To Fey Charm",7:Shapeshift ' +
     'Experience=' +
       '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
       '1800,2000,2200,3000 ' +
@@ -257,9 +257,9 @@ OldSchool.CLASSES = {
       '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
       '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
       '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
-      '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
-      '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
-      '7:Shapeshift ' +
+      '"1:Resist Fire","1:Resist Lightning","3:Druid\'s Knowledge",' +
+      '"3:Wilderness Movement","3:Woodland Languages",' +
+      '"7:Immunity To Fey Charm",7:Shapeshift ' +
     'Experience=0,2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500 ' +
     'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=wisdom ' +
@@ -287,7 +287,7 @@ OldSchool.CLASSES = {
     'HitDie=d4,10,1 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
     'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
     'Features=' +
-      '"10:Craft Minor Magic" ' +
+      '"10:Eldritch Craft" ' +
     'CasterLevelArcane=levels.Illusionist ' +
     'Experience=' +
       '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
@@ -308,7 +308,7 @@ OldSchool.CLASSES = {
     'Wand=11,2,5 '+
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-      '"7:Craft Minor Magic" ' +
+      '"7:Eldritch Craft" ' +
     'Experience=' +
       '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
       '3000,3375,3750,4125,4500,4875,4250,4625,5000,5375,5750,6125 ' +
@@ -376,9 +376,9 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
-      '1:Alert,"1:Delayed Henchmen","1:Favored Enemy",' +
-      '"1:Fighting The Unskilled",1:Loner,1:Selective,1:Track,' +
-      '"1:Travel Light",10:Scrying ' +
+      '"1:Alert Against Surprise","1:Delayed Henchmen","1:Favored Enemy",' +
+      '"1:Fighting The Unskilled",1:Loner,1:Selective,1:Tracking,' +
+      '"1:Travel Light","10:Scrying Device Use" ' +
     'Experience=' +
       '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
       '2975,3300,3625,3950,4275,4600,4925,5250,5575,5900,6225,6550 ' +
@@ -406,115 +406,54 @@ OldSchool.CLASSES = {
       '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
       '1760,1980,2200,2420,2640,2860,3080,3300,3520,3740,3960,4180'
 };
-OldSchool.FEATURES = {
+OldSchool.FEATURES_ADDED = {
 
   // Class
   'Additional Languages':'Section=skill Note="+%V Language Count"',
-  'Alert':'Section=combat Note="Surprised 1in6, surprise 3in6"',
   'Assassination':
     'Section=combat Note="Base %V% chance that strike kills surprised target"',
   'Aware':'Section=combat Note="Surprised %V%"',
-  'Backstab':
-    'Section=combat Note="+4 melee attack, x%V damage when surprising"',
-  'Bonus Cleric Experience':
-    'Section=ability Note="10% added to awarded experience"',
-  'Bonus Cleric Spells':'Section=magic Note="%V"',
-  'Bonus Druid Experience':
-    'Section=ability Note="10% added to awarded experience"',
-  'Bonus Druid Spells':'Section=magic Note="%V"',
-  'Bonus Fighter Experience':
-    'Section=ability Note="10% added to awarded experience"',
-  'Bonus Languages':
-    'Section=skill ' +
-    'Note="Can learn %V additional choices from alignment languages, druidic, or thieves\' cant"',
-  'Bonus Magic User Experience':
-    'Section=ability Note="10% added to awarded experience"',
-  'Bonus Paladin Experience':
-    'Section=ability Note="10% added to awarded experience"',
-  'Bonus Ranger Experience':
-    'Section=ability Note="10% added to awarded experience"',
-  'Bonus Thief Experience':
-    'Section=ability Note="10% added to awarded experience"',
   'Charming Music':
     'Section=magic ' +
     'Note="R40\' %V% charm creatures while playing (save 1 rd), make suggestion to charmed (-2 save neg)"',
-  'Cleric Spell Failure':'Section=magic Note="%V%"',
   'Controlled Movement':
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
-  'Craft Minor Magic':
-    'Section=magic ' +
-    'Note="May create magical potions and scrolls and recharge rods, staves, and wands%1"',
-  'Cure Disease':'Section=magic Note="<i>Cure Disease</i> %V/wk"',
   'Defensive Song':
     'Section=magic Note="Counteract song attacks, soothe shriekers"',
-  'Delayed Henchmen':
-    'Section=ability Note="May not hire henchmen until level %V"',
-  'Detect Evil':'Section=magic Note="R60\' <i>Detect Evil</i> at will"',
   'Diamond Body':'Section=save Note="Immune to poison"',
-  'Discriminating':
-    'Section=feature Note="Must not associate w/non-good characters"',
-  'Disguise':'Section=feature Note="92%+ successful disguise"',
-  'Divine Health':'Section=save Note="Immune to disease"',
   'Divine Protection':'Section=save Note="+2 all saves"',
   'Dodge Missiles':
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
-  'Double Specialization':
-    'Section=combat Note="+3 %V Attack Modifier/+3 %V Damage Modifier"',
   'Evasion':
     'Section=save Note="Successful save yields no damage instead of half"',
   'Favored Enemy':'Section=combat Note="+%V melee damage vs. giant-class foes"',
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
-  'Fey Immunity':'Section=save Note="Immune to fey enchantment"',
-  'Fighting The Unskilled':
-    'Section=combat Note="%V attacks/rd vs. creatures with w/HD less than 1d8"',
   'Flurry Of Blows':'Section=combat Note="%V unarmed attacks/rd"',
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Killing Blow':
     'Section=combat Note="%V+foe AC% kill w/Stunning Blow"',
-  'Lay On Hands':'Section=magic Note="Touch heals %V HP 1/dy"',
   'Legend Lore':
     'Section=skill Note="%V% info about legendary item, person, place"',
-  'Limited Henchmen Classes':'Section=ability Note="Henchmen must be %V"',
-  'Loner':'Section=feature Note="Will not work with more than 2 other rangers"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Mental Discipline':
     'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Monk Skills':
     'Section=skill ' +
     'Note="Climb Walls, Find Traps, Hear Noise, Hide In Shadows, Move Silently, Open Locks"',
-  'Nature Knowledge':
-    'Section=feature ' +
-    'Note="Identify plant and animal types, determine water purity"',
-  'Non-Materialist':
-    'Section=feature Note="Owns at most 10 magic items w/1 armor suit and 1 shield"',
-  'Philanthropist':
-    'Section=feature ' +
-    'Note="Must donate 10% of income plus 100% after expenses to LG causes"',
   'Poetic Inspiration':
     'Section=magic ' +
     'Note="Performance gives allies +1 attack and +10% morale for 1 tn after 2 rd"',
-  'Poison Use':
-    'Section=combat ' +
-    'Note="Familiar with ingested poisons and poisoned weapon use"',
   'Precise Blow':'Section=combat Note="+%V HP weapon damage"',
-  'Protection From Evil':
-    'Section=magic Note="Continuous <i>Protection From Evil</i> 10\' radius"',
   'Purity Of Body':'Section=save Note="Immune to disease"',
   'Quivering Palm':
     'Section=combat ' +
     'Note="Touched w/at most %1 HD and %2 HP dies w/in %V dy 1/wk"',
   'Read Scrolls':
-    'Section=magic Note="75% cast arcane or druidic spell from scroll"',
-  'Resist Fire':'Section=save Note="+2 vs. fire"',
+    'Section=magic Note="%V% cast arcane or druidic spell from scroll"',
   'Resist Influence':
     'Section=save ' +
     'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
-  'Resist Lightning':'Section=save Note="+2 vs. lightning"',
-  'Scrying':'Section=magic Note="May use scrying magic items"',
-  'Selective':'Section=feature Note="Must employ only good henchmen"',
-  'Shapeshift':
-    'Section=magic Note="Change into natural animal 3/dy, healing 1d6x10% HP"',
   'Slow Fall':'Section=save Note="No damage from fall of %1 w/in %2\' of wall"',
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
@@ -524,70 +463,13 @@ OldSchool.FEATURES = {
   'Stunning Blow':
      'Section=combat ' +
     'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by at least 5"',
-  'Summon Warhorse':
-    'Section=feature Note="Call warhorse w/enhanced features"',
-  'Thief Skills':
-    'Section=skill ' +
-    'Note="Climb Walls, Find Traps, Hear Noise, Hide In Shadows, Move Silently, Open Locks, Pick Pockets, Read Languages"',
-  'Track':
-    'Section=feature Note="90% rural, 65%+ urban or dungeon creature tracking"',
-  'Travel Light':
-    'Section=feature Note="Will not possess more than can be carried"',
-  'Turn Undead':
-    'Section=combat ' +
-    'Note="2d6 undead turned, destroyed (good) or controlled (evil)"',
   'Unburdened':'Section=feature Note="Own at most 5 magic items"',
-  'Weapon Specialization':
-     'Section=combat ' +
-    'Note="+%1 %V Attack Modifier/+%2 %V Damage Modifier/+%3 attacks/rd"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
-  'Wilderness Movement':
-     'Section=feature Note="Normal, untrackable move through undergrowth"',
-  'Woodland Languages':'Section=skill Note="+%V Language Count"',
-
-  // Race
-  'Bow Precision':'Section=combat Note="+1 attack w/bows"',
-  'Burrow Tongue':'Section=feature Note="Speak w/burrowing animals"',
-  'Detect Construction':
-    'Section=feature Note="R10\' 75% Detect new construction"',
-  'Detect Hazard':
-    'Section=feature Note="R10\' 70% Detect unsafe wall, ceiling, floor"',
-  'Detect Secret Doors':
-    'Section=feature Note="1in6 passing, 2in6 searching, 3in6 concealed"',
-  'Detect Sliding':'Section=feature Note="R10\' 66% Detect sliding walls"',
-  'Detect Slope':'Section=feature Note="R10\' %V% Detect slope and grade"',
-  'Detect Traps':'Section=feature Note="R10\' 50% Detect stonework traps"',
-  'Determine Depth':
-    'Section=feature Note="%V% Determine approximate depth underground"',
-  'Determine Direction':
-    'Section=feature Note="50% Determine direction underground"',
-  'Dwarf Ability Adjustment':
-    'Section=ability Note="+1 Constitution/-1 Charisma"',
-  'Dwarf Dodge':
-    'Section=combat Note="-4 AC vs. giants, ogres, titans, and trolls"',
-  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoids and orcs"',
-  'Elf Ability Adjustment':
-    'Section=ability Note="+1 Dexterity/-1 Constitution"',
-  'Gnome Dodge':
-    'Section=combat ' +
-    'Note="-4 AC vs. bugbears, giants, gnolls, ogres, titans, and trolls"',
-  'Gnome Enmity':'Section=combat Note="+1 attack vs. goblins and kobolds"',
-  'Half-Orc Ability Adjustment':
-    'Section=ability Note="+1 Strength/+1 Constitution/-2 Charisma"',
-  'Halfling Ability Adjustment':
-    'Section=ability Note="+1 Dexterity/-1 Strength"',
-  'Infravision':'Section=feature Note="60\' vision in darkness"',
-  'Resist Charm':'Section=save Note="%V% vs. charm"',
-  'Resist Magic':'Section=save Note="+%V vs. spells and wands"',
-  'Resist Poison':'Section=save Note="+%V vs. poison"',
-  'Resist Sleep':'Section=save Note="%V% vs. sleep"',
-  'Stealthy':
-    'Section=combat ' +
-    'Note="Surprise 4in6 when traveling quietly, 2in6 when opening doors"',
-  'Sword Precision':
-    'Section=combat Note="+1 attack w/Long Sword and Short Sword"'
+  'Woodland Languages':'Section=skill Note="+%V Language Count"'
 
 };
+OldSchool.FEATURES =
+  Object.assign({}, OSRIC.FEATURES, OldSchool.FEATURES_ADDED);
 OldSchool.GOODIES = {
   'Armor':
     'Pattern="([-+]\\d).*(?:armor(?:\\s+class)?|AC)|(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d)" ' +
@@ -1022,9 +904,9 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
           '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
-          '"1:Resist Fire","1:Resist Lightning","3:Nature Knowledge",' +
-          '"3:Wilderness Movement","3:Woodland Languages","7:Fey Immunity",' +
-          '7:Shapeshift,' +
+          '"1:Resist Fire","1:Resist Lightning","3:Druid\'s Knowledge",' +
+          '"3:Wilderness Movement","3:Woodland Languages",' +
+          '"7:Immunity To Fey Charm",7:Shapeshift,' +
           // Hierophant
           '16:Ageless,"16:Fluid Appearance","16:Poison Immunity",' +
           '"17:Hibernation","17:Planar Travel (Earth)",' +
@@ -1058,7 +940,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
           '3000,3375,3750 ' +
@@ -1077,7 +959,7 @@ OldSchool.RULE_EDITS = {
         'HitDie=d4,10,1 Attack=0,1,3,- ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-          '"9:Craft Minor Magic" ' +
+          '"9:Eldritch Craft" ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
           '3000,3375,3750 ' +
@@ -1122,7 +1004,7 @@ OldSchool.RULE_EDITS = {
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
           '1:Ambidextrous,"1:Animal Empathy","1:Delayed Henchmen",' +
-          '"1:Ranger Skills","1:Travel Light","2:Favored Enemy",3:Track ' +
+          '"1:Ranger Skills","1:Travel Light","2:Favored Enemy",3:Tracking ' +
         'Experience=' +
           '0,2,4,8,16,32,64,125,250,500,750,1000,1250,1500,1750,2000,2250,' +
           '2500,2750,3000 ' +
@@ -1154,7 +1036,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Abjurer Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Abjurer ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1178,7 +1060,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Conjurer Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Conjurer ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1202,7 +1084,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Diviner Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Diviner ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1226,7 +1108,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Enchanter Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Enchanter ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1250,7 +1132,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Invoker Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Invoker ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1274,7 +1156,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Necromancer Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Necromancer ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1298,7 +1180,7 @@ OldSchool.RULE_EDITS = {
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Transmuter Experience",' +
           '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Craft Minor Magic" ' +
+          '"1:School Specialization","9:Eldritch Craft" ' +
         'CasterLevelArcane=levels.Transmuter ' +
         'Experience=' +
           '0,2.5,5,10,20,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
@@ -1326,10 +1208,10 @@ OldSchool.RULE_EDITS = {
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="R%1\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
-      'Read Scrolls':'Note="%V% cast any spell from scroll"',
+      'Read Scrolls':'Note="%V% cast spell from scroll"',
       'Stealthy':
         'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
-      'Track':'Section=skill Note="+%V Tracking"',
+      'Tracking':'Section=skill Note="+%V Tracking"',
       // New
       'Ageless':'Section=ability Note="No ability adjustments for age"',
       'Ambidextrous':
@@ -3848,6 +3730,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   if(name == 'Abjurer') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
     rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Abjuration"');
@@ -3872,6 +3758,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
+    rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
     rules.defineRule('maximumHenchmen', classLevel, 'v', 'source<4 ? 0 : null');
     rules.defineRule('skillNotes.bonusLanguages',
       'intelligence', '=', 'source>14 ? source - 14 : null',
@@ -3961,6 +3848,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Conjurer') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
     rules.defineRule
@@ -3976,6 +3867,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Diviner') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Divination"');
     rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Divination"');
@@ -4017,6 +3912,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Enchanter') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
     rules.defineRule
@@ -4046,6 +3945,10 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Illusionist') {
 
     rules.defineRule('wizardLevel', classLevel, '+=', null);
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     if(OldSchool.EDITION == 'Second Edition') {
       rules.defineRule
         ('magicNotes.schoolExpertise', classLevel, '=', '"Illusion"');
@@ -4061,6 +3964,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Invoker') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Evocation"');
     rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Evocation"');
@@ -4076,6 +3983,10 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Magic User') {
 
     rules.defineRule('wizardLevel', classLevel, '+=', null);
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule('maximumSpellsPerLevel',
       'wizardLevel', '?', null,
       'intelligence', '=',
@@ -4159,6 +4070,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Necromancer') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
     rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Necromancy"');
@@ -4198,18 +4113,18 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('attacksPerRound',
         classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
       );
-      // Suppress v3.5 Track sanity note
-      rules.defineRule('sanityNotes.track', classLevel, '?', '0');
+      // Suppress v3.5 Tracking sanity note
+      rules.defineRule('sanityNotes.tracking', classLevel, '?', '0');
       rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
       rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
       rules.defineRule('skillNotes.animalEmpathy',
         classLevel, '=', '-Math.floor((source + 2) / 3)'
       );
       rules.defineRule
-        ('skillNotes.track', classLevel, '=', 'Math.floor(source / 3)');
+        ('skillNotes.tracking', classLevel, '=', 'Math.floor(source / 3)');
       rules.defineRule
-        ('skillModifier.Tracking', 'skillNotes.track', '+=', null);
-      rules.defineRule('skills.Tracking', 'skillNotes.track', '+=', '0');
+        ('skillModifier.Tracking', 'skillNotes.tracking', '+=', null);
+      rules.defineRule('skills.Tracking', 'skillNotes.tracking', '+=', '0');
       rules.defineRule('skillModifier.Hide In Shadows',
         classLevel, '+=', 'source<5 ? source * 5 + 5 : source<9 ? source * 6 + 1 : source<13 ? source * 7 - 7 : source<15 ? source * 8 - 19 : 99'
       );
@@ -4245,6 +4160,8 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
 
+    rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
+
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
@@ -4255,7 +4172,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
 
     if(OldSchool.EDITION == 'Second Edition') {
-      rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
       rules.defineRule('maxAllowedSkillAllocation',
         'skillPoints', '=', 'Math.min(Math.floor(source / 2), 95)'
       );
@@ -4272,6 +4188,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Transmuter') {
 
+    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
+    rules.defineRule('magicNotes.eldritchCraft.1',
+      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
+    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Alteration"');
     rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Alteration"');
