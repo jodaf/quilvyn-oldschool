@@ -4657,23 +4657,8 @@ OldSchool.getPlugins = function() {
 /* Returns HTML body content for user notes associated with this rule set. */
 OldSchool.ruleNotes = function() {
   return '' +
-    '<h2>OldSchool Quilvyn Plugin Notes</h2>\n' +
-    'OldSchool Quilvyn Plugin Version ' + OldSchool.VERSION + '\n' +
-    '<p>\n' +
-    'Quilvyn\'s First Edition and Second Edition rule sets are unofficial ' +
-    'Fan Content permitted under Wizards of the Coast\'s ' +
-    '<a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>.\n' +
-    '</p><p>\n' +
-    'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions ' +
-    'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
-    'the Coast LLC.\n' +
-    '</p><p>\n' +
-    'Advanced Dungeons & Dragons Players Handbook © 2012 Wizards of the ' +
-    'Coast LLC.\n' +
-    '</p><p>\n' +
-    'Advanced Dungeons & Dragons 2nd Edition Player\'s Handbook © 1989, ' +
-    '1995, 2013 Wizards of the Coast LLC.\n' +
-    '</p>\n' +
+    '<h2>Quilvyn First and Second Edition Rule Sets Notes</h2>\n' +
+    'Quilvyn First and Second Edition Rule Sets Version ' + OldSchool.VERSION + '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<ul>\n' +
     '  <li>\n' +
@@ -4726,5 +4711,21 @@ OldSchool.ruleNotes = function() {
     '    Quilvyn does not report the chance of extraordinary success on\n' +
     '    strength tests for characters with strength 18/91 and higher.\n' +
     '  </li>\n' +
-    '</ul>\n';
+    '</ul>\n' +
+    '<h3>Copyrights and Licensing</h3>\n' +
+    '<p>\n' +
+    'Quilvyn\'s First Edition and Second Edition rule sets are unofficial ' +
+    'Fan Content permitted under Wizards of the Coast\'s ' +
+    '<a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>.\n' +
+    '</p><p>\n' +
+    'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions ' +
+    'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
+    'the Coast LLC.\n' +
+    '</p><p>\n' +
+    'Advanced Dungeons & Dragons Players Handbook © 2012 Wizards of the ' +
+    'Coast LLC.\n' +
+    '</p><p>\n' +
+    'Advanced Dungeons & Dragons 2nd Edition Player\'s Handbook © 1989, ' +
+    '1995, 2013 Wizards of the Coast LLC.\n' +
+    '</p>\n';
 };
