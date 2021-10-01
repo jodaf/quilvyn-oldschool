@@ -415,7 +415,7 @@ OldSchool.FEATURES_ADDED = {
   'Aware':'Section=combat Note="Surprised %V%"',
   'Charming Music':
     'Section=magic ' +
-    'Note="R40\' %V% charm creatures while playing (save 1 rd), make suggestion to charmed (-2 save neg)"',
+    'Note="R40\' %V% charm creatures while playing (Save 1 rd), make suggestion to charmed (Save -2 neg)"',
   'Controlled Movement':
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
   'Defensive Song':
@@ -688,7 +688,7 @@ OldSchool.SPELLS_CHANGES = {
   'Dispel Magic C3':
     'School=Abjuration',
   'Feeblemind':
-    'Description="R$R Reduces target Intelligence to 2 (save Cleric +1, Druid -1, MU -4, Illusionist -5, non-human -2 neg)"',
+    'Description="R$R Reduces target Intelligence to 2 (Save Cleric +1, Druid -1, MU -4, Illusionist -5, non-human -2 neg)"',
   'Feeblemind D6':
     'Range="160\'"',
   'Flame Arrow':
@@ -1428,7 +1428,7 @@ OldSchool.RULE_EDITS = {
       'Demi-Shadow Magic':null,
       'Demishadow Magic':OldSchool.SPELLS['Demi-Shadow Magic'] + ' ' +
         'Level=W6 ' +
-        'Description="R$L10plus60\' Mimics spell level 4-5"',
+        'Description="R$L10plus60\' Mimics spell level 4 - 5"',
       'Demi-Shadow Monsters':null,
       'Demishadow Monsters':OldSchool.SPELLS['Demi-Shadow Monsters'] + ' ' +
         'Level=W5',
@@ -1561,7 +1561,7 @@ OldSchool.RULE_EDITS = {
       'Confusion':
         'Level=P7,W4 ' +
         'Description="R$R $E 10% wander away/50% stand confused/30% attack nearest creature/10% attack self or allies for $D (Save neg 1 rd)" ' +
-        'Effect="1d4+$L or more creatures in 60\' sq"',
+        'Effect="1d4 + $L or more creatures in 60\' sq"',
       'Confusion P7':
         'Duration="$L rd" ' +
         'Effect="1d4 creatures in 40\' sq" ' +
@@ -1658,7 +1658,7 @@ OldSchool.RULE_EDITS = {
         'Level=P5',
       'Dispel Magic':
         'Level=P3,W3 ' +
-        'Description="R120\' 50% (+5%/-5% per caster level delta) magic in 30\' cu extinguished"',
+        'Description="R120\' Extinguishes magic in 30\' cu (50% +5%/-5% per caster level delta)"',
       'Dispel Magic P3':
         'Range="60\'"',
       'Disintegrate':
@@ -1679,7 +1679,7 @@ OldSchool.RULE_EDITS = {
         'Level=P7',
       'Emotion':
         'Level=W4 ' +
-        'Description="R$L10\' Targets in 20\' sq experience courage (+1 attack, +3 damage, +5 HP), fear (flee), friendship (react positively), happiness (+4 reaction), hate (react negatively), hope (+2 morale, save, attack, damage), hopelessness (walk away or surrender), or sadness (-1 surprise, +1 init) for conc"',
+        'Description="R$L10\' Targets in 20\' sq experience courage (gain +1 attack, +3 damage, +5 HP), fear (flee), friendship (react positively), happiness (+4 reaction), hate (react negatively), hope (gain +2 morale, save, attack, damage), hopelessness (walk away or surrender), or sadness (suffer -1 surprise, +1 init) for conc"',
       'Enchant An Item':
         'Level=W6 ' +
         'School=Enchantment',
@@ -1695,7 +1695,7 @@ OldSchool.RULE_EDITS = {
         'Effect="40\' cu"',
       'Erase':
         'Level=W1 ' +
-        'Description="R30\' Erase magical ($L5plus30% chance) or normal (90%) from 2-page area"',
+        'Description="R30\' Erases magical ($L5plus30% chance) or normal (90%) writing from 2-page area"',
       'ESP':
         'Level=W2 ' +
         'School="Lesser Divination"',
@@ -1716,7 +1716,7 @@ OldSchool.RULE_EDITS = {
         'Duration="$L rd"',
       'Feeblemind':
         'Level=W5 ' +
-        'Description="R$L10\' Target Int 2 (save Priest +1, Wizard -4 and non-human -2 neg)"',
+        'Description="R$L10\' Reduces target Intelligence to 2 (Save Priest +1, Wizard -4 and non-human -2 neg)"',
       'Feign Death':
         'Level=P3,W3 ' +
         'Duration="$Lplus6 tn"',
@@ -1752,12 +1752,12 @@ OldSchool.RULE_EDITS = {
       'Flame Arrow':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="Touched arrow 1 HP fire damage within 1 rd or R$L10plus30 self cast $Ldiv5 bolts for 5d6 HP (save half)"',
+        'Description="Touched arrow inflicts +1 HP fire damage within 1 rd or self casts $Ldiv5 R$L10plus30\' bolts that inflict 5d6 HP (Save half)"',
       'Flame Strike':
         'Level=P5',
       'Fly':
         'Level=W3 ' +
-        'Duration="1d6+$L tn" ' +
+        'Duration="1d6 + $L tn" ' +
         'Effect="180\'/rd"',
       'Fog Cloud':
         'Level=W2',
@@ -1765,7 +1765,7 @@ OldSchool.RULE_EDITS = {
         'Level=W2',
       'Friends':
         'Level=W1 ' +
-        'Description="R60\' Self Cha +2d4 for 1d4+$L rd"',
+        'Description="R60\' Self gains +2d4 Charisma for 1d4 + $L rd"',
       'Gate':
         'Level=P7,W9',
       'Gaze Reflection':
@@ -1797,7 +1797,7 @@ OldSchool.RULE_EDITS = {
         'Level=P4',
       'Hallucinatory Terrain':
         'Level=W4 ' +
-        'Duration="for $L hr (save disbelieve)" ' +
+        'Duration="for $L hr (Save disbelieve)" ' +
         'Effect="$L30\' cu"',
       'Haste':
         'Level=W3',
@@ -1833,7 +1833,7 @@ OldSchool.RULE_EDITS = {
         'Effect="$L10%"',
       'Illusionary Script':
         'Level=W3 ' +
-        'Description="Obscured writing transmits <i>Suggestion</i> (save neg) for readers other than specified for $L dy"',
+        'Description="Obscured writing transmits <i>Suggestion</i> (Save neg) to unauthorized readers for $L dy"',
       'Imprisonment':
         'Level=W9',
       'Improved Invisibility':
@@ -1863,7 +1863,7 @@ OldSchool.RULE_EDITS = {
         'Duration="for $L+1d3 rd"',
       'Knock':
         'Level=W2 ' +
-        'Description="R60\' Open stuck, locked item (rev locks)"',
+        'Description="R60\' Opens stuck or locked item (rev locks)"',
       'Know Alignment':
         'Level=P2,W2 ' +
         'School="Lesser Divination" ' +
@@ -1934,7 +1934,8 @@ OldSchool.RULE_EDITS = {
         'Level=W1',
       'Message':
         'Level=W1 ' +
-        'Description="Remote whispering for $L5 rd"',
+        'Description="Self has long-range whispered dialogues for $D" ' +
+        'Duration="$L5 rd"',
       'Meteor Swarm':
         'Level=W9',
       'Mind Blank':
@@ -2116,8 +2117,8 @@ OldSchool.RULE_EDITS = {
         'Effect="8"',
       'Scare':
         'Level=W2 ' +
-        'Duration="1d4+$L rd" ' +
-        'Range="$L10+30\'"',
+        'Duration="1d4 + $L rd" ' +
+        'Range="$L10plus30\'"',
       'Sanctuary':
         'Level=P1 ' +
         'Effect="touched"',
@@ -2130,7 +2131,7 @@ OldSchool.RULE_EDITS = {
         'Level=W5',
       'Shadow Magic':
         'Level=W5 ' +
-        'Description="R$L10plus50\' Mimics spell level 1-3"',
+        'Description="R$L10plus50\' Mimics spell level 1 - 3"',
       'Shadow Monsters':
         'Level=W4',
       'Shape Change':
@@ -2183,7 +2184,7 @@ OldSchool.RULE_EDITS = {
         'Level=W7',
       'Sticks To Snakes':
         'Level=P4 ' +
-        'Effect="1d4+$L sticks in 10\' cu"',
+        'Effect="1d4 + $L sticks in 10\' cu"',
       'Stinking Cloud':
         'Level=W2',
       'Stone Shape':
@@ -2269,7 +2270,7 @@ OldSchool.RULE_EDITS = {
         'Effect="$L10\' cu"',
       'Water Breathing':
         'Level=P3,W3 ' +
-        'Duration="1d4+$L hr"',
+        'Duration="1d4 + $L hr"',
       'Water Breathing P3':
         'Duration="$L hr"',
       'Wall Of Fire':
@@ -2303,87 +2304,87 @@ OldSchool.RULE_EDITS = {
         'Level=W2',
       'Word Of Recall':
         'Level=P6',
-      // Added
+      // New
       'Abjure':
         'Level=P4 ' +
         'School=Abjuration ' +
-        'Description="R10\' Return outsider to home plane 50%+HD delta"',
+        'Description="R10\' Returns outsider to home plane 50%+HD delta"',
       'Advanced Illusion':
         'Level=W5 ' +
         'School=Illusion ' +
-        'Description="R$L10plus60\' $L10plus40\' sq sight, sound, smell, temperature moving illusion for $L rd (save disbelieve)"',
+        'Description="R$L10plus60\' Creates $L10plus40\' sq sight, sound, smell, and temperature moving illusion for $L rd (Save disbelieve)"',
       'Aid':
         'Level=P2 ' +
         'School=Necromancy ' +
-        'Description="Touched +1 attack and damage, +1d8 HP for $Lplus1 rd"',
+        'Description="Touched gains +1 attack and damage and +1d8 temporary HP for $Lplus1 rd"',
       'Air Walk':
         'Level=P5 ' +
         'School=Alteration ' +
-        'Description="Touched walk on air for $Lplus6 tn"',
+        'Description="Touched walks on air for $Lplus6 tn"',
       'Alarm':
         'Level=W1 ' +
         'School=Abjuration ' +
-        'Description="R10\' 20\' cu alarmed for $L30plus240 rd"',
+        'Description="R10\' Entry into 20\' cu triggers audible alarm for $L30plus240 rd"',
       'Alter Self':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="Self change form for 3d4+$L2 rd"',
+        'Description="Self takes on different humanoid form for 3d4 + $L2 rd"',
       'Armor':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="Touched AC 6 for $Lplus8 HP"',
+        'Description="Touched gains AC 6 for $Lplus8 HP"',
       'Avoidance':
         'Level=W5 ' +
         'School=Abjuration ' +
-        'Description="R10\' 3\' cu target moves away from all but self"',
+        'Description="R10\' 3\' cu target repels all but self"',
       'Banishment':
         'Level=W7 ' +
         'School=Abjuration ' +
-        'Description="R20\' For $L2 HD creatures out of plane (save neg)"',
+        'Description="R20\' $L2 HD extraplanar creatures banished from plane (Save neg)"',
       'Bind':
         'Level=W2 ' +
         'School=Enchantment ' +
-        'Description="R30\' $L5plus50\' rope-like item entangles or trips single target (save neg)"',
+        'Description="R30\' $L5plus50\' rope-like item entangles or trips target (Save neg)"',
       'Binding':
         'Level=W8 ' +
         'School=Enchantment ' +
-        'Description="R10\' Magical effect restrains creature (save neg)"',
+        'Description="R10\' Target magically imprisoned (Save neg)"',
       'Cantrip':
         'Level=W1 ' +
         'School=All ' +
-        'Description="R10\' Minor magical effects for $L hr"',
+        'Description="R10\' Self performs minor magical effects for $L hr"',
       'Changestaff':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="Staff becomes Treant (12 HD, 40 HP, AC 0)"',
+        'Description="Touched staff becomes Treant (12 HD, 40 HP, AC 0)"',
       'Chain Lightning':
         'Level=W6 ' +
         'School=Evocation ' +
-        'Description="R$L5plus40\' Bolt arcs between $L targets for ${Lmax12}d6 HP down to 1d6 HP (save half)"',
+        'Description="R$L5plus40\' Bolt inflicts ${Lmin12}d6 HP down to 1d6 HP on $L targets (Save half)"',
       'Chill Touch':
         'Level=W1 ' +
         'School=Necromancy ' +
-        'Description="Touched 1d4 HP, 1 Str damage for $Lplus3 rd"',
+        'Description="Touched living suffer 1d4 HP and -1 Str (Save neg) or undead flee for 1d4 + $L rd for $Lplus3 rd"',
       'Cloak Of Bravery':
         'Level=P4 ' +
         'School=Conjuration ' +
-        'Description="1-4 touched +4-1 vs. fear (rev touched 3\' fear aura)"',
+        'Description="1 - 4 touched gain +4 - +1 on next save vs. fear (Reverse touched 3\' fear aura) for 8 hr"',
       'Combine':
         'Level=P1 ' +
         'School=Evocation ' +
-        'Description="2-4 Assistants give focus priest +2-4 level spellcasting and turning"',
+        'Description="2 - 4 assistants give focus priest +2 - +4 level spellcasting and turning"',
       'Contagion':
         'Level=W4 ' +
         'School=Necromancy ' +
-        'Description="R30\' Target diseased, -2 Str, Dex, Cha, and attack (save neg)"',
+        'Description="R30\' Target suffers disease, -2 Strength, Dexterity, Charisma, and attack (Save neg)"',
       'Contingency':
         'Level=W6 ' +
         'School=Evocation ' +
-        'Description="Trigger self spell conditionally for $L dy"',
+        'Description="Sets trigger for level $Ldiv2min6 self spell for $L dy"',
       'Control Undead':
         'Level=W7 ' +
         'School=Necromancy ' +
-        'Description="R20\' Command 1d6 undead totaling $L HD for 3d4+$L rd (3 HD save neg)"',
+        'Description="R20\' 1d6 undead totaling $L HD obey self for 3d4 + $L rd (Save 3 HD neg)"',
       'Crystalbrittle':
         'Level=W9 ' +
         'School=Alteration ' +
@@ -2391,11 +2392,11 @@ OldSchool.RULE_EDITS = {
       'Cure Blindness Or Deafness':
         'Level=P3 ' +
         'School=Abjuration ' +
-        'Description="Touch cures (rev causes, save neg) non-organic blindness or deafness"',
+        'Description="Heals touched of blindness or deafness (Reverse inflicts, Save neg)"',
       'Death Fog':
         'Level=W6 ' +
         'School=Alteration ' +
-        'Description="R30\' $L20\' fog kills plants, animals take 1, 2, 4, 8 HP for 1d4+$L rd"',
+        'Description="R30\' $L20\' fog kills plants, animals take 1, 2, 4, 8 HP for 1d4 + $L rd"',
       'Deeppockets':
         'Level=W2 ' +
         'School=Alteration ' +
@@ -2403,179 +2404,179 @@ OldSchool.RULE_EDITS = {
       'Delude':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Self aura show alignment of creature in 10\' radius for $L tn"',
+        'Description="Self aura shows alignment of creature in 10\' radius for $L tn"',
       'Demand':
         'Level=W8 ' +
         'School=Evocation ' +
-        'Description="Remote 25-word <i>Suggestion</i> (-2 save neg)"',
+        'Description="Self sends 25-word message to target w/<i>Suggestion</i> (Save -2 neg)"',
       'Detect Poison':
         'Level=P1 ' +
         'School="Lesser Divination" ' +
-        'Description="Detect whether object has been poisoned, $L5% type, for $Lplus10 rd"',
+        'Description="Self detects poison in target, $L5% to know type, for $Lplus10 rd"',
       'Detect Scrying':
         'Level=W4 ' +
         'School="Lesser Divination" ' +
-        'Description="Note scrying in 120\' radius for 1d6+$L tn"',
+        'Description="R120\' Self discerns scrying for 1d6 + $L tn"',
       'Detect Undead':
         'Level=W1 ' +
         'School="Lesser Divination" ' +
-        'Description="Self discern undead in 60\'x$L10\' area for 3 tn"',
+        'Description="60\'x$L10\' area gives self info on undead for 3 tn"',
       'Dismissal':
         'Level=W5 ' +
         'School=Abjuration ' +
-        'Description="R10\' Outsider returned to home plane (+HD delta save neg)"',
+        'Description="R10\' Returns outsider to home plane (Save +HD delta neg)"',
       'Domination':
         'Level=W5 ' +
         'School=Enchantment ' +
-        'Description="R$L10\' Self control target actions until save"',
+        'Description="R$L10\' Target obeys self thoughts until save"',
       'Dream':
         'Level=W5 ' +
         'School=Evocation ' +
-        'Description="Touched sends message to named recipient in dream"',
+        'Description="Touched sends message to sleeping target"',
       'Dust Devil':
         'Level=P2 ' +
         'School=Conjuration ' +
-        'Description="R30\' AC 4, 2 HD, dmg 1d4 air elemental attacks for $L2 rd"',
+        'Description="R30\' Creates minor air elemental (AC 4, 2 HD, inflicts 1d4 HP) that attacks for $L2 rd"',
       'Endure Cold':
         'Level=P1 ' +
         'School=Alteration ' +
-        'Description="Touched withstand -30F for $L30 min"',
+        'Description="Touched remains comfortable to -30F for $L30 min"',
       'Endure Heat':
         'Level=P1 ' +
         'School=Alteration ' +
-        'Description="Touched withstand 130F for $L30 min"',
+        'Description="Touched remains comfortable to 130F for $L30 min"',
       'Energy Drain':
         'Level=W9 ' +
         'School=Evocation ' +
-        'Description="Touched loses 2 levels or HD"',
+        'Description="Touched suffers -2 levels or HD"',
       'Enervation':
         'Level=W4 ' +
         'School=Necromancy ' +
-        'Description="Target drained of $Ldiv4 levels for 1d4+$L hr (save neg)"',
+        'Description="R$L10\' Target suffers -$Ldiv4 levels for 1d4 + $L hr (Save neg)"',
       'Ensnarement':
         'Level=W6 ' +
         'School=Conjuration ' +
-        'Description="R10\' Entrap extra-planar creature"',
+        'Description="R10\' Entraps extra-planar creature"',
       'Enthrall':
         'Level=P2 ' +
         'School=Enchantment ' +
-        'Description="Self fascinate 90\' radius (save neg)"',
+        'Description="R90\' Listeners up to 3 HD become captivated for conc or 1 hr (Save neg)"',
       "Evard's Black Tentacles":
         'Level=W4 ' +
         'School=Conjuration ' +
-        'Description="R30\' Many 10\' tentacles in 30\' sq AC 4, $L HP, Damage 2d4-3d4 (save 1d4)"',
+        'Description="R30\' Tentacles (AC 4, $L HP) in 30\' sq attack and inflict 2d4 - 3d4/rd for $L hr (Save suffer 1d4 HP)"',
       'Exaction':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="Demand service of extra-planar creature"',
+        'Description="Demands service of extra-planar creature"',
       'Eyebite':
         'Level=W6 ' +
         'School=Enchantment ' +
-        'Description="R20\' Self gaze charm, fear, sicken, or sleep attack for $Ldiv3 rd"',
+        'Description="R20\' Self gains charm, fear, sicken, or sleep gaze attack for $Ldiv3 rd"',
       'Fabricate':
         'Level=W5 ' +
         'School=Enchantment ' +
-        'Description="R$L5\' Convert $L3\' cu material into product"',
+        'Description="R$L5\' Creates $L3\' cu of finished items from raw materials"',
       'False Vision':
         'Level=W5 ' +
         'School="Greater Divination" ' +
-        'Description="Mislead scrying of 30\' radius for 1d4+$L rd"',
+        'Description="Scrying of 30\' radius shows illusion for 1d4 + $L rd"',
       'Flame Blade':
         'Level=P2 ' +
         'School=Evocation ' +
-        'Description="Self wield flaming scimitar (1d4+4 HP, +2 vs. vulnerable or undead) for $Ldiv2plus4 rd"',
+        'Description="Self wields flaming scimitar (inflicts 1d4+4 HP, +2 vs. vulnerable or undead) for $Ldiv2plus4 rd"',
       'Flame Walk':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="$Ldiv5plus1 touched immune non-magical fire, +2 and half dmg magical for $Lplus1 rd"',
+        'Description="$Ldiv5plus1 touched gain immunity to non-magical fire and +2 saves and half dmg from magical fire for $Lplus1 rd"',
       'Flaming Sphere':
         'Level=W2 ' +
         'School=Evocation ' +
-        'Description="R10\' 3\' radius sphere 2d4 HP (save neg) move 30\'/rd for $L rd"',
+        'Description="R10\' 3\' radius sphere inflicts 2d4 HP (Save neg), moves 30\'/rd, for $L rd"',
       'Forbiddance':
         'Level=P6 ' +
         'School=Abjuration ' +
-        'Description="R30\' $L60\' cu limits magical entry based on alignment, password"',
+        'Description="R30\' $L60\' cu limits magical entry based on alignment and password"',
       'Forcecage':
         'Level=W7 ' +
         'School=Evocation ' +
-        'Description="R$L5\' 20\' cu of bars w/1/2 in gaps for $Lplus6 tn"',
+        'Description="R$L5\' Creates 20\' cu of 1/2-inch-spaced bars for $Lplus6 tn"',
       'Foresight':
         'Level=W9 ' +
         'School="Greater Divination" ' +
-        'Description="Advance warning of harm to self or another for 2d4+$L rd"',
+        'Description="Self receives advance warning of harm to self or another for 2d4 + $L rd"',
       'Free Action':
         'Level=P4 ' +
         'School=Abjuration ' +
-        'Description="Touched move freely for $L tn"',
+        'Description="Touched moves freely for $L tn"',
       'Giant Insect':
         'Level=P4 ' +
         'School=Alteration ' +
-        'Description="R20\' 1-6 insects become ${lvl<10?3:lvl<13?4:6} HD giant version"',
+        'Description="R20\' 1 - 6 insects become ${lvl<10?3:lvl<13?4:6} HD giant versions"',
       'Glitterdust':
         'Level=W2 ' +
         'School=Conjuration ' +
-        'Description="R10\' 20\' cu glowing dust coats and blinds 1d4+1 rd for 1d4+$L rd"',
+        'Description="R10\' Creatures in 20\' cu lit and blind for 1d4 + 1 rd (Save neg) for 1d4 + $L rd"',
       'Grease':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="R10\' 10\' sq slippery for $Lplus3 rd"',
+        'Description="R10\' 10\' sq becomes slippery, causing falls (Save neg) for $Lplus3 rd"',
       'Goodberry':
         'Level=P2 ' +
         'School=Alteration ' +
-        'Description="2d4 berries provide full meal, heal 1 HP (rev 1 HP poison) for $Lplus1 day"',
+        'Description="2d4 berries provide full meal and heal 1 HP (Reverse 1 HP poison) for $Lplus1 day"',
       "Heroes' Feast":
         'Level=P6 ' +
         'School=Evocation ' +
-        'Description="R10\' Meal for $L cures disease, heal 1d4+4 HP, +1 attack and immune poison and fear for 12 hr"',
+        'Description="R10\' Food for $L creatures cures disease, heals 1d4+4 HP, gives +1 attack and immunity to poison and fear for 12 hr"',
       'Hold Undead':
         'Level=W3 ' +
         'School=Necromancy ' +
-        'Description="R60\' Immobilize 1-3 targets (save neg) totaling $L HD for 1d4+$L rd"',
+        'Description="R60\' Immobilizes 1 - 3 targets (Save neg) totaling $L HD for 1d4 + $L rd"',
       'Illusionary Wall':
         'Level=W4 ' +
         'School=Illusion ' +
-        'Description="R30\' False 10\' sq wall, floor, or ceiling"',
+        'Description="R30\' Creates false 10\' sq wall, floor, or ceiling"',
       'Imbue With Spell Ability':
         'Level=P4 ' +
         'School=Enchantment ' +
-        'Description="Transfer divination or cure spellcasting to touched level 1-2 (1 1st), 3-4 (2 1st) or 5+ (2 1st and 1 2nd) non-caster"',
+        'Description="Transfers divination or cure spellcasting to touched level 1 - 2 (1 1st), 3 - 4 (2 1st) or 5+ (2 1st and 1 2nd) non-caster"',
       'Invisibility To Undead':
         'Level=P1 ' +
         'School=Abjuration ' +
-        'Description="Touched undetectable by undead (5 HD save) for 6 rd"',
+        'Description="Touched becomes undetectable by undead (Save 5 HD neg) for 6 rd"',
       'Irritation':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="RL10\' 1-4 targets in 15\' radius itch (-4 AC, -2 attack) for 3 rd or rash (-1 Cha/dy for 4 dy) (save neg)"',
+        'Description="RL10\' 1 - 4 targets in 15\' radius itch (-4 AC, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
       'Item':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Shrink touched $L2\' cu item to 1/12 size, change to cloth for $L4 hr"',
+        'Description="Shrinks touched $L2\' cu item to 1/12 size cloth for $L4 hr"',
       "Leomund's Lamentable Belaborment":
         'Level=W5 ' +
         'School=Enchantment ' +
-        'Description="R10\' Targets in 10\' radius absorbed in conversation for 3-6 rd (save neg; failed save rd 3 wander away, failed save rd 6 rage attack for 1d4+1 rd)"',
+        'Description="R10\' Targets in 10\' radius absorbed in conversation for 3 - 6 rd (Save neg; fail on rd 3 wander away, fail on rd 6 rage attack for 1d4 + 1 rd)"',
       "Leomund's Secure Shelter":
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R20\' $L30\' sq shelter against elements, intrusion for 1d4+$Lplus1 hr"',
+        'Description="R20\' Creates $L30\' sq shelter that lasts 1d4 + $Lplus1 hr"',
       'Liveoak':
         'Level=P6 ' +
         'School=Enchantment ' +
-        'Description="Oak tree guards (S 7-8 HD, 2d8 dmg; M 9-10 HD, 3d6 dmg; L 11-12 HD, 4d6 dmg) based on $L-word command for $L dy"',
+        'Description="Oak tree guards (S 7 - 8 HD, 2d8 dmg; M 9 - 10 HD, 3d6 dmg; L 11 - 12 HD, 4d6 dmg) based on $L-word command for $L dy"',
       'Locate Animals Or Plants':
         'Level=P1 ' +
         'School="Lesser Divination" ' +
-        'Description="$L20plus100 Self discern presence of animal or plant type in 20\' path for $L rd"',
+        'Description="R$L20plus100\' Self discerns presence of animal or plant type in 20\' path for $L rd"',
       "Mordenkainen's Lucubration":
         'Level=W6 ' +
         'School=Alteration ' +
-        'Description="Recall level 1-5 spell uses in prior dy"',
+        'Description="Self recalls spell up to 5th level from past day"',
       'Magic Font':
         'Level=P5 ' +
         'School="Greater Divination" ' +
-        'Description="Scry via touched holy water font for 1 hr/vial"',
+        'Description="Self scrys via touched holy water font for 1 hr/vial"',
       'Magic Mirror':
         'Level=W4 ' +
         'School=Enchantment ' +
@@ -2583,139 +2584,139 @@ OldSchool.RULE_EDITS = {
       'Magical Stone':
         'Level=P1 ' +
         'School=Enchantment ' +
-        'Description="Enchant 3 pebbles (+1 equiv but no bonus, 1d4 dmg, 2d4 vs. undead) for 30 min"',
+        'Description="Touched 3 pebbles become magical, inflict 1d4 HP, 2d4 HP vs. undead, for 30 min"',
       'Magical Vestment':
         'Level=P3 ' +
         'School=Enchantment ' +
-        'Description="Touched vestment ${7-Math.floor((lvl+1)/3)} for $L5 rd"',
+        'Description="Touched vestment gives AC ${7-Math.floor((lvl+1)/3)} for $L5 rd"',
       'Meld Into Stone':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="Self merge into rock for 8+1d8 rd"',
+        'Description="Self passes into stone for 1d8 + 8 rd"',
       "Melf's Acid Arrow":
         'Level=W2 ' +
         'School=Conjuration ' +
-        'Description="R180\' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd"',
+        'Description="R180\' Inflicts 2d4 HP/rd for $Ldiv3plus1 rd"',
       "Melf's Minute Meteors":
         'Level=W3 ' +
         'School=Evocation ' +
-        'Description="R$L10plus70\' $L +2 ranged globes 1d4 HP"',
+        'Description="R$L10plus70\' $L +2 ranged globes inflict 1d4 HP"',
       'Messenger':
         'Level=P2 ' +
         'School=Enchantment ' +
-        'Description="R$L20\' Tiny creature delivers note for $L dy"',
+        'Description="R$L20\' Tiny animal target goes to specified place for $L dy"',
       'Mirage Arcana':
         'Level=W6 ' +
         'School=Illusion ' +
-        'Description="R$L10\' $L10\' radius looks like familiar area for conc + $Lplus6 tn"',
+        'Description="R$L10\' Creates $L10\' radius terrain or structure illusion for conc + $Lplus6 tn"',
       'Mislead':
         'Level=W6 ' +
         'School=Illusion ' +
-        'Description="R10\' Self invisible, illusionary double moves and speaks for $L rd"',
+        'Description="R10\' Makes self invisible for $L rd and creates false double for $L rd"',
       'Moonbeam':
         'Level=P5 ' +
         'School=Evocation ' +
-        'Description="R$L10+60\' Moonlight 5\' radius for $L rd"',
+        'Description="R$L10plus60\' 5\' radius shines with moonlight for $L rd"',
       "Mordenkainen's Disjunction":
         'Level=W9 ' +
         'School=Alteration ' +
-        'Description="R30\' Magic removed (artifacts $L%)"',
+        'Description="R30\' Dispels spells, disenchants magic items, $L% chance to disenchant artifacts or destroy antimagic field"',
       "Mordenkainen's Magnificent Mansion":
         'Level=W7 ' +
         'School=Alteration ' +
-        'Description="R10\' Extra-dimensional refuge for $L hr"',
+        'Description="R10\' Creates door to extradimensional mansion for $L hr"',
       'Mount':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="R10\' Create obedient mount for $Lplus2 hr"',
-      "Otiluke's Telekinetic Sphere":
-        'Level=W8 ' +
-        'School=Evocation ' +
-        'Description="R20\' Sphere safely entraps and floats target for $L rd (save neg)"',
-      'Phantom Steed':
-        'Level=W3 ' +
-        'School=Conjuration ' +
-        'Description="R10\' Create obedient mount w/special abilities for $L hr"',
-      'Protection From Cantrips':
-        'Level=W2 ' +
-        'School=Abjuration ' +
-        'Description="Touched immune to cantrips for $Lplus5 hr"',
+        'Description="R10\' Summons riding horse for $Lplus2 hr"',
       'Negative Plane Protection':
         'Level=P3 ' +
         'School=Abjuration ' +
-        'Description="Touched gains save vs. death magic next draining attack"',
+        'Description="Touched gains save vs. death magic on next draining attack"',
       "Otiluke's Resilient Sphere":
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R20\' Sphere safely entraps target for $L rd (save neg)"',
+        'Description="R20\' Impassible $L\'-diameter sphere surrounds target for $L rd (Save neg)"',
+      "Otiluke's Telekinetic Sphere":
+        'Level=W8 ' +
+        'School=Evocation ' +
+        'Description="R20\' Impassible $L\'-diameter sphere surrounds target and causes weightlessness for $L2 rd (Save neg)"',
+      'Phantom Steed':
+        'Level=W3 ' +
+        'School=Conjuration ' +
+        'Description="Creates mount ($Lplus7 HP, AC 2, MV $L4min48\') that only touched can ride for $L hr"',
+      'Protection From Cantrips':
+        'Level=W2 ' +
+        'School=Abjuration ' +
+        'Description="Touched gains immunity to cantrips for $Lplus5 hr"',
       'Rainbow':
         'Level=P5 ' +
         'School=Evocation ' +
-        'Description="R120\' Create magical +2 bow or 3\' x 120 yd bridge for $L rd"',
+        'Description="R120\' Creates magical +2 bow or 1x120 yd bridge for $L rd"',
       'Rainbow Pattern':
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R10\' 30\' cu captivates 24 HD (save neg), moves 30\'/rd for conc"',
+        'Description="R10\' Fascinates 24 HD of creatures in 30\' cu for conc (Save neg)"',
       'Reflecting Pool':
         'Level=P4 ' +
         'School="Lesser Divination" ' +
-        'Description="R10\' Use pool to scry for $L rd"',
+        'Description="R10\' Self uses pool to scry for $L rd"',
       'Remove Paralysis':
         'Level=P3 ' +
         'School=Abjuration ' +
-        'Description="R$L10\' 1d4 targets in 20\' cu released from magical paralysis"',
+        'Description="R$L10\' Frees 1d4 targets in 20\' cu from magical paralysis"',
       'Screen':
         'Level=W8 ' +
         'School="Greater Divination" ' +
-        'Description="Divination of $L30\' cu misleads for $L hr"',
+        'Description="Illusion hides 30\' cu from vision and scrying for $L hr"',
       'Secret Page':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Overlay page with different contents"',
+        'Description="Hides content of touched page permanently"',
       'Seeming':
         'Level=W5 ' +
         'School=Illusion ' +
-        'Description="Alter appearance of $Ldiv2 w/in 30\'"',
+        'Description="R10\' Appearance of $Ldiv2 targets changes for 12 hr"',
       'Sending':
         'Level=W5 ' +
         'School=Evocation ' +
-        'Description="Send/receive 25-word message/reply with known recipient"',
+        'Description="Self has two-way, 25-word exchange familiar target"',
       'Sepia Snake Sigil':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="R5\' Rune becomes $L HD snake when read; bite immobilizes for $L+1d4 dy"',
+        'Description="Immobilizes reader for 1d4 + $L dy"',
       'Sequester':
         'Level=W7 ' +
         'School=Illusion ' +
-        'Description="Touched invisible and unscryable for $Lplus7 dy"',
+        'Description="Touched becomes invisible and unscryable for $Lplus7 dy (Save neg)"',
       'Shadow Walk':
         'Level=W7 ' +
         'School=Illusion ' +
-        'Description="Self and touched move 7 miles/tn via shadow plane for $L hr"',
+        'Description="Self and touched move 7 miles/tn via Demiplane of Shadow for $L hr"',
       'Shout':
         'Level=W4 ' +
         'School=Evocation ' +
-        'Description="Sound in 30\' cone 2d6 HP (save neg) and deafens 2d6 rd (save half)"',
+        'Description="R30\' Cone inflicts 2d6 HP and deafness for 2d6 rd (Save no damage and half duration)"',
       'Sink':
         'Level=W8 ' +
         'School=Enchantment ' +
-        'Description="R$L10\' Target embedded in floor (save neg)"',
+        'Description="R$L10\' Target becomes embedded in floor (Save neg)"',
       'Solid Fog':
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R30\' $L10\' cu slows, reduces vision to 2\' for 2d4+$L rd"',
+        'Description="R30\' Fog in $L10\' cu slows and reduces vision to 2\' for 2d4 + $L rd"',
       'Spell Immunity':
         'School=Abjuration ' +
         'Level=P4 ' +
-        'Description="Touched immune to specified spell for $L tn"',
+        'Description="Touched gains immunity to specified spell for $L tn"',
       'Spike Growth':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="R60\' Plants in $L10\' sq grow thorns (2d4 HP/10\' move) for 3d4+$L tn"',
+        'Description="R60\' Spikes on vegetation in $L10\' sq inflict 2d4 HP each 10\' movement and slow to half speed for 1 dy (Save neg) for 3d4 + $L tn"',
       'Spike Stones':
         'Level=P5 ' +
         'School=Alteration ' +
-        'Description="R30\' Sharp stone in $L10\' sq 1d4 HP for 3d4+$L tn"',
+        'Description="R30\' Sharp stones in $L10\' sq inflict 1d4 HP/rd for 3d4 + $L tn"',
       'Spectral Hand':
         'Level=W2 ' +
         'School=Necromancy ' +
@@ -2723,35 +2724,35 @@ OldSchool.RULE_EDITS = {
       'Spell Turning':
         'Level=W7 ' +
         'School=Abjuration ' +
-        'Description="Spells aimed at self reflect on caster for $L3 rd"',
+        'Description="Non-area, non-touch spells aimed at self reflect onto caster for $L3 rd"',
       'Spook':
         'Level=W1 ' +
         'School=Illusion ' +
-        'Description="R10\' Target flees from self (save neg)"',
+        'Description="R10\' Target flees from self (Save neg)"',
       'Starshine':
         'Level=P3 ' +
         'School=Evocation ' +
-        'Description="R$L10\' Soft illumination in $L10\' sq for $L tn"',
+        'Description="R$L10\' Creates soft illumination in $L10\' sq for $L tn"',
       'Stoneskin':
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="Touched immune to next 1d4+$Ldiv2 blows"',
+        'Description="Touched gains immunity to next 1d4 + $Ldiv2 blows"',
       'Succor':
         'Level=P7,W9 ' +
         'School=Alteration ' +
-        'Description="Breaking item teleports to self abode"',
+        'Description="Breaking item transports target to self home"',
       'Summon Swarm':
         'Level=W2 ' +
         'School=Conjuration ' +
-        'Description="R60\' Vermin in 10\' cu 1 HP/rd for conc + 2 rd"',
+        'Description="R60\' Calls vermin that inflict 1 HP/rd to 10\' cu for conc + 2 rd"',
       'Sunray':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="R10\' 5\' radius blinds 1d3 rd, undead 8d6 HP (3d6 within 20\') for 2-5 rd"',
+        'Description="R10\' 5\' radius blinds 1d3 rd and inflicts 8d6 HP on undead (3d6 within 20\') for 2 - 5 rd"',
       "Tasha's Uncontrollable Hideous Laughter":
         'Level=W2 ' +
         'School=Enchantment ' +
-        'Description="R60\' $Ldiv3 targets in 30\' cu -2 attack and damage for $L rd"',
+        'Description="R60\' $Ldiv3 targets in 30\' cu suffer -2 attack and damage for $L rd"',
       'Taunt':
         'Level=W1 ' +
         'School=Enchantment ' +
@@ -2759,7 +2760,7 @@ OldSchool.RULE_EDITS = {
       'Teleport Without Error':
         'Level=W7 ' +
         'School=Alteration ' +
-        'Description="Instantly transport self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
+        'Description="Instantly transports self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
       'Transmute Water To Dust':
         'Level=W6,P6 ' +
         'School=Alteration ' +
@@ -2774,39 +2775,39 @@ OldSchool.RULE_EDITS = {
       'Vampiric Touch':
         'Level=W3 ' +
         'School=Necromancy ' +
-        'Description="Touch causes $Ldiv2max6 HP added to self"',
+        'Description="Touched suffers ${Ldiv2min6}d6 HP, self gains same as temporary HP for 1 hr"',
       'Water Walk':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="${lvl-4} touched walk on liquid for $Lplus1 tn"',
+        'Description="$Lminus4 touched walk on liquid as if it were a solid surface for $Lplus1 tn"',
       'Weird':
         'Level=W9 ' +
         'School=Illusion ' +
-        'Description="R30\' Targets in 20\' radius fight nemeses to death (save paralyze 1 rd, -1d4 Str 1 tn)"',
+        'Description="R30\' Targets in 20\' radius fight illusionary nemeses to death (Save become paralyzed 1 rd and suffer -1d4 Str for 1 tn)"',
       'Whispering Wind':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="R$L miles Self send 25 words or sound to known location"',
+        'Description="R$L miles Self sends 25-word message or sound to known location"',
       'Wind Wall':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="R$L10\' Strong wind in $L10\'x5\' area for $L rd"',
+        'Description="R$L10\' $L10\'x5\' curtain of air scatters objects, deflects arrows and bolts for $L rd"',
       'Withdraw':
         'Level=P2 ' +
         'School=Alteration ' +
-        'Description="Self $Lplus1 rd extra time to think, cast divination or self cure"',
+        'Description="Self gains $Lplus1 rd extra time to cast divination or self cure"',
       'Wizard Mark':
         'Level=W1 ' +
         'School=Alteration ' +
-        'Description="Etch item w/personal mark"',
+        'Description="Permanent personal rune inscribed on touched"',
       'Wraithform':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Self insubstantial, effected only by magical weapons for $L2 rd"',
+        'Description="Self becomes insubstantial and immune to non-magical weapons for $L2 rd"',
       'Wyvern Watch':
         'Level=P2 ' +
         'School=Evocation ' +
-        'Description="R30\' First trespasser in 10\' radius paralyzed $L rd (save neg)"'
+        'Description="R30\' Paralyzes first trespasser in 10\' radius for $L rd (Save neg)"'
     },
     'Weapon':{
       // Removed
@@ -3205,7 +3206,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   }
   rules.defineRule
     ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', '1');
-  // Replace SRD35's two-handeWeapon validation note
+  // Replace SRD35's two-handedWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
     ('notes', 'validationNotes.two-handedWeapon:Requires shield == "None"');
