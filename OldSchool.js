@@ -116,7 +116,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.0';
+OldSchool.VERSION = '2.3.1.1';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -4633,7 +4633,7 @@ OldSchool.initialEditorElements = function() {
     ['hitPoints', 'Hit Points', 'text', [4, '(\\+?\\d+)']],
     ['armor', 'Armor', 'select-one', 'armors'],
     ['shield', 'Shield', 'select-one', 'shields'],
-    ['weapons', 'Weapons', 'bag', 'weapons'],
+    ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['weaponProficiency', 'Weapon Proficiency', 'set', 'weapons']
   );
   if(OldSchool.EDITION != 'First Edition') {
