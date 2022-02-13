@@ -124,10 +124,10 @@ OldSchool.EDITIONS = {
   'Second Edition':''
 };
 
-/* List of items handled by choiceRules method. */
+/* List of choices that can be expanded by house rules. */
 OldSchool.CHOICES = [
-  'Alignment', 'Armor', 'Class', 'Feature', 'Language', 'Race', 'School',
-  'Shield', 'Spell', 'Weapon'
+  'Armor', 'Class', 'Feature', 'Language', 'Race', 'School', 'Shield', 'Spell',
+  'Weapon'
 ];
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
