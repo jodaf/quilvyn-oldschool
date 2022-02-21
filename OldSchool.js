@@ -116,7 +116,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.1';
+OldSchool.VERSION = '2.3.1.2';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -1484,7 +1484,7 @@ OldSchool.RULE_EDITS = {
         'School="Lesser Divination"',
       'Barkskin':
         'Level=P2 ' +
-        'Effect="unarmored AC ${6-Math.floor(lvl/4)}, +1 non-spell saves"',
+        'Effect="unarmored AC ${6-lvl//4}, +1 non-spell saves"',
       "Bigby's Clenched Fist":
         'Level=W8',
       "Bigby's Crushing Hand":
@@ -1747,7 +1747,7 @@ OldSchool.RULE_EDITS = {
         'School=Abjuration',
       'Fireball':
         'Level=W3 ' +
-        'Effect="${Lmax10}d6 HP" ' +
+        'Effect="${Lmin10}d6 HP" ' +
         'Range="$L10plus10\'"',
       'Flame Arrow':
         'Level=W3 ' +
@@ -1885,7 +1885,7 @@ OldSchool.RULE_EDITS = {
         'Level=W2',
       'Lightning Bolt':
         'Level=W3 ' +
-        'Effect="${Lmax10}d6"',
+        'Effect="${Lmin10}d6"',
       'Light':
         'Level=P1,W1',
       'Light P1':
@@ -2588,7 +2588,7 @@ OldSchool.RULE_EDITS = {
       'Magical Vestment':
         'Level=P3 ' +
         'School=Enchantment ' +
-        'Description="Touched vestment gives AC ${7-Math.floor((lvl+1)/3)} for $L5 rd"',
+        'Description="Touched vestment gives AC ${7-(lvl+1)//3} for $L5 rd"',
       'Meld Into Stone':
         'Level=P3 ' +
         'School=Alteration ' +
@@ -2760,7 +2760,7 @@ OldSchool.RULE_EDITS = {
       'Teleport Without Error':
         'Level=W7 ' +
         'School=Alteration ' +
-        'Description="Instantly transports self + ${250+Math.max(lvl-10,0)*150} lb to known location"',
+        'Description="Instantly transports self + ${250+((lvl-10)>?0)*150} lb to known location"',
       'Transmute Water To Dust':
         'Level=W6,P6 ' +
         'School=Alteration ' +
@@ -4644,6 +4644,8 @@ OldSchool.initialEditorElements = function() {
   }
   editorElements.push(
     ['spells', 'Spells', 'fset', 'spells'],
+    ['potions', 'Potions', 'bag', 'spells'],
+    ['scrolls', 'Scrolls', 'bag', 'spells'],
     ['notes', 'Notes', 'textarea', [40,10]],
     ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
   );
