@@ -4644,7 +4644,6 @@ OldSchool.initialEditorElements = function() {
   }
   editorElements.push(
     ['spells', 'Spells', 'fset', 'spells'],
-    ['potions', 'Potions', 'bag', 'spells'],
     ['scrolls', 'Scrolls', 'bag', 'spells'],
     ['notes', 'Notes', 'textarea', [40,10]],
     ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
