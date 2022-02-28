@@ -116,7 +116,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.2';
+OldSchool.VERSION = '2.3.1.3';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -470,98 +470,7 @@ OldSchool.FEATURES_ADDED = {
 };
 OldSchool.FEATURES =
   Object.assign({}, OSRIC.FEATURES, OldSchool.FEATURES_ADDED);
-OldSchool.GOODIES = {
-  'Armor':
-    'Pattern="([-+]\\d).*(?:armor(?:\\s+class)?|AC)|(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note="%V Armor Class"',
-  'Breath':
-    'Pattern="([-+]\\d)\\s+breath\\s+save|breath\\s+save\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=save.Breath ' +
-    'Section=save Note="%V Breath"',
-  'Charisma':
-    'Pattern="([-+]\\d)\\s+cha(?:risma)?|cha(?:risma)?\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=charisma ' +
-    'Section=ability Note="%V Charisma"',
-  'Constitution':
-    'Pattern="([-+]\\d)\\s+con(?:stitution)?|con(?:stitution)?\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=constitution ' +
-    'Section=ability Note="%V Constitution"',
-  'Death':
-    'Pattern="([-+]\\d)\\s+death\\s+save|death\\s+save\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=save.Death ' +
-    'Section=save Note="%V Death"',
-  'Dexterity':
-    'Pattern="([-+]\\d)\\s+dex(?:terity)?|dex(?:terity)?\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=dexterity ' +
-    'Section=ability Note="%V Dexterity"',
-  'Intelligence':
-    'Pattern="([-+]\\d)\\s+int(?:elligence)?|int(?:elligence)?\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=intelligence ' +
-    'Section=ability Note="%V Intelligence"',
-  'Petrification':
-    'Pattern="([-+]\\d)\\s+petrification\\s+save|petrification\\s+save\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=save.Petrification ' +
-    'Section=save Note="%V Petrification"',
-  'Protection':
-    'Pattern="([-+]\\d).*protection|protection\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note="%V Armor Class"',
-  'Shield':
-    'Pattern="([-+]\\d).*\\s+shield|shield\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note="%V Armor Class"',
-  'Speed':
-    'Pattern="([-+]\\d+).*\\s+speed|speed\\s+([-+]\\d+)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=speed ' +
-    'Section=ability Note="%V Speed"',
-  'Spell':
-    'Pattern="([-+]\\d)\\s+spell\\s+save|spell\\s+save\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=save.Spell ' +
-    'Section=save Note="%V Spell"',
-  'Strength':
-    'Pattern="([-+]\\d)\\s+str(?:ength)?|str(?:ength)?\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=strength ' +
-    'Section=ability Note="%V Strength"',
-  'Wand':
-    'Pattern="([-+]\\d)\\s+wand\\s+save|wand\\s+save\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="-$1 || -$2" ' +
-    'Attribute=save.Wand ' +
-    'Section=save Note="%V Wand"',
-  'Wisdom':
-    'Pattern="([-+]\\d)\\s+wis(?:dom)?|wis(?:dom)?\\s+([-+]\\d)" ' +
-    'Effect=add ' +
-    'Value="$1 || $2" ' +
-    'Attribute=wisdom ' +
-    'Section=ability Note="%V Wisdom"'
-};
+OldSchool.GOODIES = Object.assign({}, OSRIC.GOODIES);
 OldSchool.LANGUAGES = {
   'Common':'',
   'Dwarf':'',
