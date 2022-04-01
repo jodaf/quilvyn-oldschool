@@ -38,7 +38,8 @@ function UnearthedArcana1e(edition, rules) {
     rules = OldSchool.rules;
 
   UnearthedArcana1e.abilityRules(rules);
-  UnearthedArcana1e.talentRules(rules, UnearthedArcana1e.FEATURES);
+  UnearthedArcana1e.talentRules
+    (rules, UnearthedArcana1e.FEATURES, UnearthedArcana1e.LANGUAGES);
   UnearthedArcana1e.identityRules
     (rules, UnearthedArcana1e.CLASSES, UnearthedArcana1e.RACES);
   rules.defineChoice('random', 'comeliness');
@@ -65,6 +66,12 @@ UnearthedArcana1e.CLASSES = {
     'Experience=0,2.5,5,10,18.5,37,85,140,220,300,600,900,1200,1500,1800',
 };
 UnearthedArcana1e.FEATURES = {
+
+  // Comeliness
+  'Gorgeous':
+    'Section=magic ' +
+    'Note="May <i>Fascinate</i> creatures with wisdom %V or lower"',
+
   // Class
   'Continuous Training':
     'Section=ability ' +
@@ -94,9 +101,37 @@ UnearthedArcana1e.FEATURES = {
   'Sword Expertise':
     'Section=combat ' +
     'Note="+%V attack with choice of broad sword, long sword, or scimitar, or parry for foe -%V attack"',
-  'Unicorn Rider':'Section=skill Note="Can ride a unicorn"'
+  'Unicorn Rider':'Section=skill Note="Can ride a unicorn"',
+
+  // Race
+  'Extended Infravision':'Section=feature Note="120\' vision in darkness"',
+  'Gray Dwarf Immunities':
+    'Section=save ' +
+    'Note="Immunity to illusions, paralyzation, and non-natural poison"',
+  'Gray Dwarf Stealth':
+    'Section=combat ' +
+    'Note="Surprised 1in10 and surprise 3in6 in less than full light"',
+  'Light Sensitivity':
+    'Section=ability,combat ' +
+    'Note="-2 Dexterity in full light",' +
+         '"-2 attacks and foes +2 saves in full light"'
+
+};
+UnearthedArcana1e.LANGUAGES = {
+  'Undercommon':''
 };
 UnearthedArcana1e.RACES = {
+  'Gray Dwarf':
+    'Require=' +
+      '"charisma <= 16","constitution >= 12","dexterity <= 17",' +
+      '"strength >= 8" ' +
+    'Features=' +
+      '"Detect Construction","Detect Sliding","Detect Slope","Detect Traps",' +
+      '"Determine Depth","Dwarf Ability Adjustment","Dwarf Dodge",' +
+      '"Extended Infravision","Gray Dwarf Immunities","Gray Dwarf Stealth",' +
+      '"Light Sensitivity","Resist Magic","Resist Poison" ' +
+    'Languages=' +
+      'Undercommon,Dwarf',
 };
 
 /* Defines rules related to character abilities. */
@@ -111,6 +146,11 @@ UnearthedArcana1e.abilityRules = function(rules) {
   rules.defineRule('comeliness',
     'abilityNotes.charismaComelinessModifier', '+', null,
     'abilityNotes.raceComelinessModifier', '+', null
+  );
+  rules.defineRule
+    ('features.Gorgeous', 'comeliness', '=', 'source<18 ? null : 1');
+  rules.defineRule('magicNotes.gorgeous',
+    'comeliness', '=', 'Math.floor(source * (source<26 ? 0.667 : 0.75))'
   );
 
   rules.defineChoice('notes',
@@ -134,8 +174,8 @@ UnearthedArcana1e.identityRules = function(rules, classes, races) {
 };
 
 /* Defines rules related to character aptitudes. */
-UnearthedArcana1e.talentRules = function(rules, features) {
-  OldSchool.talentRules(rules, features, {}, {}, {});
+UnearthedArcana1e.talentRules = function(rules, features, languages) {
+  OldSchool.talentRules(rules, features, {}, languages, {});
 };
 
 /*
@@ -179,15 +219,30 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
   var raceLevel =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
 
-  if(race == 'Gray Elf') {
+  if(name == 'Dark Elf') {
+    rules.defineRule('darkElfComelinessModifier',
+      raceLevel, '=', '1',
+      'gender', '*', '-1'
+    );
+    rules.defineRule('abilityNotes.raceComelinessModifier',
+      'darkElfComelinessModifier', '=', null
+    );
+  } else if(name.includes('Gnome')) {
+    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', -1);
+  } else if(name == 'Gray Dwarf') {
+    rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
+    rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
+    rules.defineRule
+      ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
+  } else if(name == 'Gray Elf') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 2);
-  } else if(race == 'Half-Elf') {
+  } else if(name == 'Half-Elf') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
-  } else if(race == 'Half-Orc') {
+  } else if(name == 'Half-Orc') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', -3);
-  } else if(race == 'High Elf') {
+  } else if(name == 'High Elf' || race == 'Elf') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 2);
-  } else if(race == 'Sylvan Elf') {
+  } else if(name == 'Sylvan Elf') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
   }
 
