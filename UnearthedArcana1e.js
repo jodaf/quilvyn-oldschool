@@ -104,34 +104,73 @@ UnearthedArcana1e.FEATURES = {
   'Unicorn Rider':'Section=skill Note="Can ride a unicorn"',
 
   // Race
+  'Ambidextrous':
+    'Section=combat Note="May fight w/a weapon in each hand w/out penalty"',
+  'Animal Friend':
+    'Section=magic Note="May befriend and train woodland creatures"',
+  'Dark Elf Resistance':'Section=save Note="+2 vs. magic"',
+  'Drow Magic':
+    'Section=magic ' +
+    'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%1%2 1/dy"',
   'Extended Infravision':'Section=feature Note="120\' vision in darkness"',
   'Gray Dwarf Immunities':
     'Section=save ' +
     'Note="Immunity to illusions, paralyzation, and non-natural poison"',
-  'Gray Dwarf Stealth':
-    'Section=combat ' +
-    'Note="Surprised 1in10 and surprise 3in6 in less than full light"',
+  'Gray Elf Ability Adjustment':
+    'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Intelligence"',
   'Light Sensitivity':
     'Section=ability,combat ' +
     'Note="-2 Dexterity in full light",' +
-         '"-2 attacks and foes +2 saves in full light"'
+         '"-2 attacks and foes +2 saves in full light"',
+  'Sharp Eye':'Section=combat Note="Surprised 1in8 in less than full light"',
+  'Very Stealthy':
+    'Section=combat ' +
+    'Note="Surprised 1in10 and surprise 3in6 in less than full light"',
+  'Wild Elf Ability Adjustment':
+    'Section=ability Note="+1 Dexterity/-1 Constitution/+2 Strength"',
+  'Wood Elf Ability Adjustment':
+    'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Strength/-1 Intelligence"',
+  'Woodland Tongue':'Section=feature Note="May speak w/forest mammals"'
 
 };
 UnearthedArcana1e.LANGUAGES = {
+  'Drow Sign':'',
+  'Treant':'',
   'Undercommon':''
 };
 UnearthedArcana1e.RACES = {
-  'Gray Dwarf':
+  'Dark Elf':
     'Require=' +
-      '"charisma <= 16","constitution >= 12","dexterity <= 17",' +
-      '"strength >= 8" ' +
+      '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
+      '"intelligence >= 8" ' +
     'Features=' +
-      '"Detect Construction","Detect Sliding","Detect Slope","Detect Traps",' +
-      '"Determine Depth","Dwarf Ability Adjustment","Dwarf Dodge",' +
-      '"Extended Infravision","Gray Dwarf Immunities","Gray Dwarf Stealth",' +
-      '"Light Sensitivity","Resist Magic","Resist Poison" ' +
+      'Ambidextrous,"Dark Elf Resistance","Detect Construction",' +
+      '"Detect Secret Doors","Detect Sliding","Detect Traps",' +
+      '"Determine Depth","Drow Magic","Extended Infravision","Resist Charm",' +
+      '"Resist Sleep","Sharp Eye","Stealthy" ' +
     'Languages=' +
-      'Undercommon,Dwarf',
+      'Common,Undercommon,Elf,Gnome,"Drow Sign"',
+  'Gray Dwarf':
+    OldSchool.RACES.Dwarf
+      .replace(/"?(1:)?Infravision"?/, '"Extended Infravision"')
+      .replace(/"(1:)?Dwarf Enmity"/, '"Gray Dwarf Immunities","Very Stealthy"') +
+      ' Languages=Undercommon,Dwarf',
+  'Gray Elf':
+    OldSchool.RACES.Elf
+      .replace(/Elf Ability Adjustment/, 'Gray Elf Ability Adustment'),
+  'Valley Elf':
+    OldSchool.RACES.Elf
+      .replace(/Elf Ability Adjustment/, 'Valley Elf Ability Adustment')
+      .replace(/Languages=/, 'Languages=Gnome,'),
+  'Wild Elf':
+    OldSchool.RACES.Elf
+      .replace(/Elf Ability Adjustment/, 'Wild Elf Ability Adustment')
+      .replace(/Features=/, 'Features="Animal Friend",Trapper,'),
+  'Wood Elf':
+    OldSchool.RACES.Elf
+      .replace(/Elf Ability Adjustment/, 'Wood Elf Ability Adustment')
+      .replace(/Features=/, 'Features="Woodland Tongue",') +
+      ' Languages=Elf,Common,Treant'
 };
 
 /* Defines rules related to character abilities. */
@@ -227,6 +266,16 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.raceComelinessModifier',
       'darkElfComelinessModifier', '=', null
     );
+    rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
+    rules.defineRule('magicNotes.drowMagic.1',
+      'level', '=', 'source<4 ? "" : ", <i>Detect Magic</i>, <i>Know Alignment</i>, <i>Levitate</i>"'
+    );
+    rules.defineRule('magicNotes.drowMagic.2',
+      'level', '=', 'source<4 ? "" : ", <i>Clairvoyance</i>, <i>Detect Lie</i>, <i>Suggestion</i>, <i>Dispel Magic</i>"',
+      'gender', '=', 'source != "Female" ? "" : null'
+    );
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
   } else if(name.includes('Gnome')) {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', -1);
   } else if(name == 'Gray Dwarf') {
@@ -240,7 +289,7 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
   } else if(name == 'Half-Orc') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', -3);
-  } else if(name == 'High Elf' || race == 'Elf') {
+  } else if(name == 'High Elf' || name == 'Elf') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 2);
   } else if(name == 'Sylvan Elf') {
     rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
