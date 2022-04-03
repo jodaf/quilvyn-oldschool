@@ -109,6 +109,10 @@ UnearthedArcana1e.FEATURES = {
   'Animal Friend':
     'Section=magic Note="May befriend and train woodland creatures"',
   'Dark Elf Resistance':'Section=save Note="+2 vs. magic"',
+  'Deep Gnome Enmity':'Section=combat Note="+1 attack vs. drow and kuo-toa"',
+  'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, and <i>Change Self</i> 1/dy"',
+  'Deep Gnome Resistance':
+    'Section=save Note="+2 vs. poison/+3 all others/Immune illusions"',
   'Drow Magic':
     'Section=magic ' +
     'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%1%2 1/dy"',
@@ -123,6 +127,9 @@ UnearthedArcana1e.FEATURES = {
     'Note="-2 Dexterity in full light",' +
          '"-2 attacks and foes +2 saves in full light"',
   'Sharp Eye':'Section=combat Note="Surprised 1in8 in less than full light"',
+  'Shielded':'Section=magic Note="Continuous self <i>Non-Detection</i> effect"',
+  'Stone Camouflage':
+    'Section=feature Note="60% chance of hiding next to natural stone"',
   'Very Stealthy':
     'Section=combat ' +
     'Note="Surprised 1in10 and surprise 3in6 in less than full light"',
@@ -144,12 +151,21 @@ UnearthedArcana1e.RACES = {
       '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
       '"intelligence >= 8" ' +
     'Features=' +
-      'Ambidextrous,"Dark Elf Resistance","Detect Construction",' +
-      '"Detect Secret Doors","Detect Sliding","Detect Traps",' +
-      '"Determine Depth","Drow Magic","Extended Infravision","Resist Charm",' +
-      '"Resist Sleep","Sharp Eye","Stealthy" ' +
+      'Ambidextrous,"Dark Elf Resistance","Deep Gnome Resistance",' +
+      '"Detect Construction","Detect Secret Doors","Detect Sliding",' +
+      '"Detect Traps","Determine Depth","Drow Magic","Extended Infravision",' +
+      '"Resist Charm","Resist Sleep","Sharp Eye","Stealthy" ' +
     'Languages=' +
       'Common,Undercommon,Elf,Gnome,"Drow Sign"',
+  'Deep Gnome':
+    'Require=' +
+      '"constitution >= 8","intelligence >= 7","strength >= 6" ' +
+    'Features=' +
+      '"Deep Gnome Enmity","Detect Hazard","Detect Slope","Determine Depth",' +
+      '"Determine Direction","Extended Infravision","Gnome Dodge",' +
+      '"Resist Magic","Resist Poison",Shielded,Slow,"Stone Camouflage" ' +
+    'Languages=' +
+      'Gnome',
   'Gray Dwarf':
     OldSchool.RACES.Dwarf
       .replace(/"?(1:)?Infravision"?/, '"Extended Infravision"')
@@ -157,18 +173,18 @@ UnearthedArcana1e.RACES = {
       ' Languages=Undercommon,Dwarf',
   'Gray Elf':
     OldSchool.RACES.Elf
-      .replace(/Elf Ability Adjustment/, 'Gray Elf Ability Adustment'),
+      .replace(/Elf Ability Adjustment/, 'Gray Elf Ability Adjustment'),
   'Valley Elf':
     OldSchool.RACES.Elf
-      .replace(/Elf Ability Adjustment/, 'Valley Elf Ability Adustment')
+      .replace(/Elf Ability Adjustment/, 'Valley Elf Ability Adjustment')
       .replace(/Languages=/, 'Languages=Gnome,'),
   'Wild Elf':
     OldSchool.RACES.Elf
-      .replace(/Elf Ability Adjustment/, 'Wild Elf Ability Adustment')
+      .replace(/Elf Ability Adjustment/, 'Wild Elf Ability Adjustment')
       .replace(/Features=/, 'Features="Animal Friend",Trapper,'),
   'Wood Elf':
     OldSchool.RACES.Elf
-      .replace(/Elf Ability Adjustment/, 'Wood Elf Ability Adustment')
+      .replace(/Elf Ability Adjustment/, 'Wood Elf Ability Adjustment')
       .replace(/Features=/, 'Features="Woodland Tongue",') +
       ' Languages=Elf,Common,Treant'
 };
