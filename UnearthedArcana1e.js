@@ -29,13 +29,13 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  */
 function UnearthedArcana1e(edition, rules) {
 
+  if(rules == null)
+    return; // Depend on OldSchool to invoke with 1E rules
+
   if(window.UnearthedArcana1e == null) {
     alert('The UnearthedArcana1e module requires use of the OldSchool module');
     return;
   }
-
-  if(rules == null)
-    rules = OldSchool.rules;
 
   UnearthedArcana1e.abilityRules(rules);
   UnearthedArcana1e.talentRules
@@ -105,23 +105,28 @@ UnearthedArcana1e.FEATURES = {
 
   // Race
   'Ambidextrous':
-    'Section=combat Note="May fight w/a weapon in each hand w/out penalty"',
+    'Section=combat ' +
+    'Note="May fight using a weapon in each hand without penalty"',
   'Animal Friend':
     'Section=magic Note="May befriend and train woodland creatures"',
   'Dark Elf Resistance':'Section=save Note="+2 vs. magic"',
   'Deep Gnome Enmity':'Section=combat Note="+1 attack vs. drow and kuo-toa"',
-  'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, and <i>Change Self</i> 1/dy"',
+  'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, <i>Change Self</i>%1 1/dy"',
   'Deep Gnome Resistance':
     'Section=save Note="+2 vs. poison/+3 all others/Immune illusions"',
   'Drow Magic':
     'Section=magic ' +
     'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%1%2 1/dy"',
+  'Drowess Speed Bonus':'Section=ability Note="+30 Speed"',
   'Extended Infravision':'Section=feature Note="120\' vision in darkness"',
   'Gray Dwarf Immunities':
     'Section=save ' +
     'Note="Immunity to illusions, paralyzation, and non-natural poison"',
   'Gray Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Intelligence"',
+  'Light Blindness':
+    'Section=combat,feature ' +
+    'Note="3\\" vision in bright light","-1 attack in bright light"',
   'Light Sensitivity':
     'Section=ability,combat ' +
     'Note="-2 Dexterity in full light",' +
@@ -129,7 +134,11 @@ UnearthedArcana1e.FEATURES = {
   'Sharp Eye':'Section=combat Note="Surprised 1in8 in less than full light"',
   'Shielded':'Section=magic Note="Continuous self <i>Non-Detection</i> effect"',
   'Stone Camouflage':
-    'Section=feature Note="60% chance of hiding next to natural stone"',
+    'Section=feature Note="60% chance of hiding against natural stone"',
+  'Trapper':'Section=skill Note="May set traps with 90% success"',
+  'Unsurprised':'Section=combat Note="Surprised 1in12 and surprise 9in10"',
+  'Valley Elf Ability Adjustment':
+    'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Intelligence"',
   'Very Stealthy':
     'Section=combat ' +
     'Note="Surprised 1in10 and surprise 3in6 in less than full light"',
@@ -137,7 +146,7 @@ UnearthedArcana1e.FEATURES = {
     'Section=ability Note="+1 Dexterity/-1 Constitution/+2 Strength"',
   'Wood Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Strength/-1 Intelligence"',
-  'Woodland Tongue':'Section=feature Note="May speak w/forest mammals"'
+  'Woodland Tongue':'Section=feature Note="May speak with forest mammals"'
 
 };
 UnearthedArcana1e.LANGUAGES = {
@@ -151,25 +160,28 @@ UnearthedArcana1e.RACES = {
       '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
       '"intelligence >= 8" ' +
     'Features=' +
-      'Ambidextrous,"Dark Elf Resistance","Deep Gnome Resistance",' +
-      '"Detect Construction","Detect Secret Doors","Detect Sliding",' +
-      '"Detect Traps","Determine Depth","Drow Magic","Extended Infravision",' +
-      '"Resist Charm","Resist Sleep","Sharp Eye","Stealthy" ' +
+      'Ambidextrous,"Dark Elf Resistance","Detect Construction",' +
+      '"Detect Secret Doors","Detect Sliding","Detect Traps",' +
+      '"Determine Depth","Drow Magic","Drowess Speed Bonus",' +
+      '"Extended Infravision","Light Sensitivity","Resist Charm",' +
+      '"Resist Sleep","Sharp Eye","Stealthy" ' +
     'Languages=' +
       'Common,Undercommon,Elf,Gnome,"Drow Sign"',
   'Deep Gnome':
     'Require=' +
       '"constitution >= 8","intelligence >= 7","strength >= 6" ' +
     'Features=' +
-      '"Deep Gnome Enmity","Detect Hazard","Detect Slope","Determine Depth",' +
+      '"Deep Gnome Enmity","Deep Gnome Magic","Deep Gnome Resistance",' +
+      '"Detect Hazard","Detect Slope","Determine Depth",' +
       '"Determine Direction","Extended Infravision","Gnome Dodge",' +
-      '"Resist Magic","Resist Poison",Shielded,Slow,"Stone Camouflage" ' +
+      '"Light Blindness","Resist Magic","Resist Poison",Shielded,Slow,' +
+      '"Stone Camouflage",Unsurprised ' +
     'Languages=' +
       'Gnome',
   'Gray Dwarf':
     OldSchool.RACES.Dwarf
       .replace(/"?(1:)?Infravision"?/, '"Extended Infravision"')
-      .replace(/"(1:)?Dwarf Enmity"/, '"Gray Dwarf Immunities","Very Stealthy"') +
+      .replace(/"(1:)?Dwarf Enmity"/, '"Gray Dwarf Immunities","Light Sensitivity","Very Stealthy"') +
       ' Languages=Undercommon,Dwarf',
   'Gray Elf':
     OldSchool.RACES.Elf
@@ -181,7 +193,8 @@ UnearthedArcana1e.RACES = {
   'Wild Elf':
     OldSchool.RACES.Elf
       .replace(/Elf Ability Adjustment/, 'Wild Elf Ability Adjustment')
-      .replace(/Features=/, 'Features="Animal Friend",Trapper,'),
+      .replace(/Features=/, 'Features="Animal Friend",Trapper,') +
+      ' Languages=Elf',
   'Wood Elf':
     OldSchool.RACES.Elf
       .replace(/Elf Ability Adjustment/, 'Wood Elf Ability Adjustment')
@@ -194,6 +207,9 @@ UnearthedArcana1e.abilityRules = function(rules) {
 
   rules.defineRule('abilityNotes.charismaComelinessModifier',
     'charismaComelinessModifier', '=', 'QuilvynUtils.signed(source)'
+  );
+  rules.defineRule('abilityNotes.raceComelinessModifier',
+    'abilityNotes.raceComelinessModifier.1', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('charismaComelinessModifier',
     'charisma', '=', 'source<3 ? -8 : source<4 ? -5 : source<6 ? -3 : source<9 ? -1 : source<13 ? null : source<16 ? 1 : source<18 ? 2 : source<19 ? 3 : 5'
@@ -276,10 +292,13 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
 
   if(name == 'Dark Elf') {
     rules.defineRule('darkElfComelinessModifier',
-      raceLevel, '=', '1',
-      'gender', '*', '-1'
+      'race', '?', 'source == "Dark Elf"',
+      'gender', '=', 'source == "Female" ? 1 : -1'
     );
-    rules.defineRule('abilityNotes.raceComelinessModifier',
+    rules.defineRule('darkElfFeatures.Drowess Speed Bonus',
+      'gender', '?', 'source == "Female"'
+    );
+    rules.defineRule('abilityNotes.raceComelinessModifier.1',
       'darkElfComelinessModifier', '=', null
     );
     rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
@@ -293,22 +312,40 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
   } else if(name.includes('Gnome')) {
-    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', -1);
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
+    if(name == 'Deep Gnome') {
+      rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '80');
+      rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '60');
+      rules.defineRule('magicNotes.deepGnomeMagic.1',
+        'features.Deep Gnome Magic', '?', null,
+        raceLevel, '=', 'source<6 ? "" : ", <i>Conjure Elemental</i> (earth)"',
+        'levels.Illusionist', '=', '""'
+      );
+    }
   } else if(name == 'Gray Dwarf') {
     rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
     rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     rules.defineRule
       ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
   } else if(name == 'Gray Elf') {
-    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 2);
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
   } else if(name == 'Half-Elf') {
-    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
   } else if(name == 'Half-Orc') {
-    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', -3);
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -3);
   } else if(name == 'High Elf' || name == 'Elf') {
-    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 2);
-  } else if(name == 'Sylvan Elf') {
-    rules.defineRule('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
+  } else if(name == 'Wild Elf') {
+    rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
+  } else if(name == 'Wood Elf') {
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
+    rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   }
 
 };

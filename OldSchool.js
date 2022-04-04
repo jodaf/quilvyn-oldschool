@@ -113,10 +113,12 @@ function OldSchool(edition) {
   rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
 
   Quilvyn.addRuleSet(rules);
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    UnearthedArcana1e(OldSchool.EDITION, rules);
 
 }
 
-OldSchool.VERSION = '2.3.1.3';
+OldSchool.VERSION = '2.3.1.4';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {

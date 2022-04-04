@@ -23,6 +23,11 @@ following lines to the file plugins/plugins.js:
       group:'Old School D&D',
       require:'OSRIC.js'
     };
+    RULESETS['Unearthed Arcana (1E)'] = {
+      url:'plugins/UnearthedArcana1e.js',
+      group:'Old School D&D',
+      supplement:'AD&D First Edition (1E)'
+    };
     RULESETS['AD&D Second Edition (2E)'] = {
       url:'plugins/OldSchool.js',
       group:'Old School D&D',
