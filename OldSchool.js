@@ -16,6 +16,8 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*jshint esversion: 6 */
+/* jshint forin: false */
+/* globals OSRIC, Quilvyn, QuilvynRules, QuilvynUtils, UnearthedArcana1e */
 "use strict";
 
 /*
@@ -48,6 +50,8 @@ function OldSchool(edition) {
   rules.getPlugins = OldSchool.getPlugins;
   rules.makeValid = OSRIC.makeValid;
   rules.randomizeOneAttribute = OSRIC.randomizeOneAttribute;
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    rules.randomizeOneAttribute = UnearthedArcana1e.randomizeOneAttribute;
   rules.defineChoice('random', OldSchool.RANDOMIZABLE_ATTRIBUTES);
   rules.ruleNotes = OldSchool.ruleNotes;
 
@@ -113,8 +117,6 @@ function OldSchool(edition) {
   rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
 
   Quilvyn.addRuleSet(rules);
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
-    UnearthedArcana1e(OldSchool.EDITION, rules);
 
 }
 
@@ -2767,6 +2769,11 @@ OldSchool.monkUnarmedDamage = [
  * should replace or be added to the values in #base#.
  */
 OldSchool.editedRules = function(base, type) {
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition') {
+    var ueVar = type.toUpperCase() + (type=='Class' ? 'ES' : 'S');
+    if(UnearthedArcana1e[ueVar] != null)
+      base = Object.assign({}, base, UnearthedArcana1e[ueVar]);
+  }
   var edits = OldSchool.RULE_EDITS[OldSchool.EDITION][type];
   if(!edits)
     return base;
@@ -2983,6 +2990,10 @@ OldSchool.abilityRules = function(rules) {
       'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : ' +
       'Math.min(source-14, 4)'
   );
+
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    // Pick up comeliness rules
+    UnearthedArcana1e.abilityRules(rules);
 
 };
 
@@ -3701,7 +3712,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
       rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
       rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
-      rules.defineRule('skillModifier.Climb Walls', classLevel, '+=', '50',);
+      rules.defineRule('skillModifier.Climb Walls', classLevel, '+=', '50');
       rules.defineRule('skillModifier.Hear Noise', classLevel, '+=', '20');
       rules.defineRule('skillModifier.Pick Pockets', classLevel, '+=', '10');
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
@@ -4087,7 +4098,7 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('maxAllowedSkillAllocation',
         'skillPoints', '=', 'Math.min(Math.floor(source / 2), 95)'
       );
-      rules.defineRule('skillModifier.Climb Walls', classLevel, '+=', '60',);
+      rules.defineRule('skillModifier.Climb Walls', classLevel, '+=', '60');
       rules.defineRule('skillModifier.Find Traps', classLevel, '+=', '5');
       rules.defineRule('skillModifier.Hear Noise', classLevel, '+=', '15');
       rules.defineRule('skillModifier.Hide In Shadows', classLevel, '+=', '5');
@@ -4117,6 +4128,9 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('wizardLevel', classLevel, '+=', null);
 
   }
+
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    UnearthedArcana1e.classRulesExtra(rules, name);
 
 };
 
@@ -4260,6 +4274,9 @@ OldSchool.raceRulesExtra = function(rules, name) {
   } else if(name == 'Human') {
     // empty
   }
+
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    UnearthedArcana1e.classRulesExtra(rules, name);
 
 };
 
@@ -4536,7 +4553,7 @@ OldSchool.initialEditorElements = function() {
   ];
   if(OldSchool.EDITION == 'Second Edition') {
     editorElements.push(
-      ['skills', 'Skills', 'bag', 'skills'],
+      ['skills', 'Skills', 'bag', 'skills']
     );
   }
   editorElements.push(
@@ -4547,11 +4564,15 @@ OldSchool.initialEditorElements = function() {
     ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['weaponProficiency', 'Weapon Proficiency', 'set', 'weapons']
   );
-  if(OldSchool.EDITION != 'First Edition') {
+  if(OldSchool.EDITION=='Second Edition' || window.UnearthedArcana1e!=null) {
     editorElements.push(
       ['weaponSpecialization', 'Specialization', 'select-one',
        ['None'].concat(QuilvynUtils.getKeys(OldSchool.WEAPONS))]
     );
+    if(OldSchool.EDITION == 'First Edition')
+      editorElements.push(
+        ['doubleSpecialization', '', 'checkbox', ['Doubled']]
+      );
   }
   editorElements.push(
     ['spells', 'Spells', 'fset', 'spells'],
