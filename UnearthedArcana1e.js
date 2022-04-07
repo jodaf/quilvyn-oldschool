@@ -62,8 +62,8 @@ UnearthedArcana1e.CLASSES = {
       '"Armor Proficiency (All)","Shield Proficiency (All)",' +
       '"Fighting The Unskilled","Bonus Attacks",' +
       '"Animal Handling","Back Protection","Barbarian Resistance",' +
-      '"Climb Cliffs And Trees","Detect Illusion","Detect Magic",Fast,' +
-      '"First Aid","Hide In Natural Surroundings",Horsemanship,Leadership,' +
+      '"Climbing","Detect Magic",Fast,"First Aid",' +
+      '"Hide In Natural Surroundings",Horsemanship,Leadership,' +
       '"Leaping And Springing","Long Distance Signaling","Outdoor Craft",' +
       'Running,"Small Craft","Snare Building","Sound Imitation",Surprise,' +
       'Survival,"Tough Hide",Tracking,"4:Irresistable Assault" ' +
@@ -77,10 +77,10 @@ UnearthedArcana1e.CLASSES = {
     'HitDie=d10,9,3 Attack=0,2,2,-2@19 WeaponProficiency=4,3,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
     'Features=' +
-      '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-      '"1:Continuous Training","1:Deadly Lancer","1:Deadly Rider",' +
-      '1:Diehard,1:Equestrian,"1:Fear Immunity","1:Fighting The Unskilled",' +
-      '"1:Lance Expertise","1:Mental Resistance","2:Extra Attacks",' +
+      '"Armor Proficiency (All)","Shield Proficiency (All)",' +
+      '"Bonus Attacks","Continuous Training","Deadly Lancer","Deadly Rider",' +
+      'Diehard,Equestrian,"Fear Immunity","Fighting The Unskilled",' +
+      '"Lance Expertise","Mental Resistance","2:Extra Attacks",' +
       '"3:Quick Mount","3:Sword Expertise","4:Unicorn Rider","5:Fast Ride",' +
       '"5:Mace Expertise","7:Special Mount" ' +
     'Experience=0,2.5,5,10,18.5,37,85,140,220,300,600,900,1200,1500,1800',
@@ -97,16 +97,30 @@ UnearthedArcana1e.CLASSES = {
     OldSchool.CLASSES.Paladin
       .replace('Features=',
       'Features=' +
-        '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-        '"1:Continuous Training","1:Deadly Lancer","1:Deadly Rider",' +
-        '1:Diehard,1:Equestrian,"1:Fear Immunity","1:Fighting The Unskilled",' +
-        '"1:Lance Expertise","1:Mental Resistance","2:Extra Attacks",' +
-        '"3:Quick Mount","3:Sword Expertise","4:Unicorn Rider","5:Fast Ride",' +
-        '"5:Mace Expertise","7:Special Mount",'
+        '"Armor Proficiency (All)","Shield Proficiency (All)",' +
+        '"Bonus Attacks","Continuous Training","Deadly Lancer",' +
+        '"Deadly Rider",Diehard,Equestrian,"Fear Immunity",' +
+        '"Fighting The Unskilled","Lance Expertise","Mental Resistance",' +
+        '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
+        '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","7:Special Mount",'
       ) + ' ' +
       'Require=' +
         '"alignment =~ \'Lawful Good\'","strength>=15","dexterity>=15",' +
-        '"constitution>=15","intelligence>=10","wisdom>=13","charisma>=17"'
+        '"constitution>=15","intelligence>=10","wisdom>=13","charisma>=17"',
+  'Ranger':
+    OldSchool.CLASSES.Ranger
+      .replace('Features=', 'Features="Weapon Specialization",'),
+  'Thief-Acrobat':
+    OldSchool.CLASSES.Thief
+      .replace('Features=',
+      'Features=' +
+        '"strength>=16/dexterity>=17 ? 6:Bonus Thief-Acrobat Experience",' +
+        '"6:Thief-Acrobat Skills",' 
+      ) + ' ' +
+      'Require="alignment=~\'Neutral|Evil\'","strength>=15","dexterity>=16" ' +
+      'Experience=' +
+        '0,1.25,2.5,5,10,20,45,75,125,180,250,500,750,1000,1250,1500,1750,' +
+        '2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750'
 };
 UnearthedArcana1e.FEATURES = {
 
@@ -119,9 +133,17 @@ UnearthedArcana1e.FEATURES = {
   'Alter Appearance':
     'Section=magic ' +
     'Note="May alter apparent age, height, weight, and facial features 1/seg"',
+  'Animal Handling':'Section=skill Note="May handle and domescate wild dogs"',
+  'Back Protection':
+    'Section=combat ' +
+    'Note="%{levels.Barbarian*5}% chance of noticing attacks from behind"',
   'Barbarian Resistance':
     'Section=save ' +
     'Note="+4 vs. poison/+3 Petrification/+3 Death/+3 vs. polymorph/+2 Wand/+2 Breath/+%1 Spell"',
+  'Bonus Thief-Acrobat Experience':
+    'Section=ability Note="10% added to awarded experience"',
+  'Climbing':
+    'Section=skill Note="Climb cliffs and trees; other surfaces with practice"',
   'Continuous Training':
     'Section=ability ' +
     'Note="Gains d100/100 strength, dexterity, and constitution at 1st level, 2d10/100 additional at each subsequent level"',
@@ -129,6 +151,9 @@ UnearthedArcana1e.FEATURES = {
     'Section=combat ' +
     'Note="+%{levels.Cavalier} lance damage when mounted, +1 dismounted"',
   'Deadly Rider':'Section=combat Note="+%V attack when mounted"',
+  'Detect Magic':
+    'Section=save ' +
+    'Note="%{levels.Barbarian*5<?75}% chance of detecting illusions, %{levels.Barbarian*5+20<?90}% other magic"',
   'Diehard':'Section=combat Note="Remains conscious at negative HP"',
   'Equestrian':
     'Section=skill ' +
@@ -138,28 +163,61 @@ UnearthedArcana1e.FEATURES = {
     'Section=feature Note="May live an additional %{levels.Druid*10} years"',
   'Fast Ride':'Section=skill Note="Can ride at +2\\" pace for 1 hr"',
   'Fear Immunity':'Section=save Note="R10\' Immune to fear"',
+  'First Aid':
+    'Section=skill ' +
+    'Note="Binding wounds restores 1 HP and doubles healing rate; 10% chance of curing poison or disease"',
   'Hibernate':'Section=feature Note="May enter ageless hibernation"',
+  'Hide In Natural Surroundings':
+    'Section=skill Note="Use Hide In Shadows skill in natural surroundings"',
+  'Horsemanship':'Section=combat Note="May ride horse into battle"',
   'Irresistable Assault':
     'Section=combat ' +
     'Note="Attacks bypass +%{(levels.Barbarian-2)//2} magic weapon requirement"',
   'Lance Expertise':
     'Section=combat ' +
     'Note="+%V attack with lance when horsed, or parry for foe -%V attack"',
+  'Leadership':
+    'Section=ability Note="+%{levels.Barbarian} Charisma (other barbarians)"',
+  'Leaping And Springing':
+    'Section=skill ' +
+    'Note="May jump 10\' forward, 3\' up or back, from standing start; d6+15\' forward, d4/2+4\' up, with running start"',
+  'Long Distance Signaling':
+    'Section=skill Note="May send messages over distances"',
   'Mace Expertise':
     'Section=combat ' +
     'Note="+%V attack with choice of horseman\'s mace, flail, or military pick, or parry for foe -%V attack"',
   'Mental Resistance':
     'Section=save Note="90% resistance to mental attacks, +2 vs. illusions"',
+  'Outdoor Craft':
+    'Section=skill ' +
+    'Note="Determine Direction and Druid\'s Knowledge features; able to Predict Weather as with the spell"',
   'Poison Immunity':'Section=save Note="Immunity to natural poisons"',
   'Planar Travel':'Section=magic Note="May move to %V 1/dy"',
+  'Running':'Section=ability Note="May move at dbl speed for three days"',
   'Quick Mount':
     'Section=skill Note="Can vault into saddle in armor and ride in 1 seg"',
+  'Small Craft':
+    'Section=skill Note="May build and use rowed or paddled water transport"',
+  'Snare Building':
+    'Section=skill Note="Can construct and conceal traps and snares"',
+  'Sound Imitation':'Section=skill Note="Can imitate birds and animal calls"',
   'Special Mount':'Section=skill Note="Can ride a %V"',
   'Summon Elemental':'Section=magic Note="Can conjure %V elemental 1/dy"',
+  'Surprise':
+    'Section=combat ' +
+    'Note="Surprise 3in6 (4in6 familiar terrain); surprised 1in10 (1in20 familiar terrain)"',
+  'Survival':'Section=skill Note="May hunt and forage in familiar terrain"',
   'Sword Expertise':
     'Section=combat ' +
     'Note="+%V attack with choice of broad sword, long sword, or scimitar, or parry for foe -%V attack"',
+  'Thief-Acrobat Skills':
+    'Section=skill ' +
+    'Note="Tightrope Walking, Pole Vaulting, High Jumping, Standing Broad Jumping, Running Broad Jumping, Tumbling Attack, Tumbling Evasion, Tumbling Falling"',
   'Tough Hide':'Section=combat Note="+%V AC"',
+  // Override OSRIC Tracking defn
+  'Tracking':
+    'Section=feature ' +
+    'Note="%{((levels.Ranger||0)+(levels.Barbarian||0))*10+10<?110}% base change to track creature"',
   'Unicorn Rider':'Section=skill Note="Can ride a unicorn"',
   'Vigorous Health':'Section=feature Note="Has full health and vigor"',
 
@@ -321,6 +379,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       'dexterity', '=', 'source>=15 ? (source - 14) * 2 : null',
       'armor', '*', 'source.match(/None|^Leather|Elfin Chain/) ? null : 0.5'
     );
+    rules.defineRule('features.Determine Direction', classLevel, '=', '1');
+    rules.defineRule("features.Druid's Knowledge", classLevel, '=', '1');
     rules.defineRule('saveNotes.barbarianResistance.1',
       classLevel, '=', 'Math.floor(source / 4)'
     );
@@ -331,6 +391,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('save.Spell', 'saveNotes.barbarianResistance.1', '+', '-source');
     rules.defineRule('save.Wand', 'saveNotes.barbarianResistance', '+', '-2');
+    rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
   } if(name == 'Cavalier' || name == 'Paladin') {
     rules.defineRule
       ('combatNotes.deadlyRider', classLevel, '=', 'source % 2==0 ? 2 : null');
@@ -365,6 +427,110 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.summonElemental',
       classLevel, '=', '"water" + (source>=18 ? ", air" : "") + (source>=19 ? ", magma, smoke" : "") + (source>=20 ? ", ice, ooze" : "")'
     );
+  } else if(name == 'Thief-Acrobat') {
+
+    rules.defineRule('combatNotes.backstab',
+      classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
+    );
+    rules.defineRule('languageCount', classLevel, '+', '1');
+    rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
+    rules.defineRule
+      ('thief-AcrobatFeatures.Read Scrolls', classLevel, '=', '0');
+    rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
+    rules.defineRule
+      ('skillLevel.Find Traps', classLevel, '+=', 'Math.min(source, 5)');
+    rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
+    rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
+    rules.defineRule
+      ('skillLevel.Open Locks', classLevel, '+=', 'Math.min(source, 5)');
+    rules.defineRule
+      ('skillLevel.Pick Pockets', classLevel, '+=', 'Math.min(source, 5)');
+    rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
+    rules.defineRule('skills.Tightrope Walking',
+      classLevel, '=', 'source<6 ? null : source<12 ? source * 5 + 45 : 100'
+    );
+    rules.defineRule('skills.Pole Vaulting',
+      classLevel, '=', 'source<6 ? null : (source * .5 + 6)'
+    );
+    rules.defineRule('skills.High Jumping',
+      classLevel, '=', 'source<6 ? null : source<14 ? source * .25 + 2.5 : source==14 ? 6.25 : Math.min(source * .5 - 1, 9)'
+    );
+    rules.defineRule('skills.Standing Broad Jumping',
+      classLevel, '=', 'source<6 ? null : Math.min(source * .5 + 2, 12)'
+    );
+    rules.defineRule('skills.Running Broad Jumping',
+      classLevel, '=', 'source<6 ? null : source<13 ? source * .5 + 6 : Math.min(source, 22)'
+    );
+    rules.defineRule('skills.Tumbling Attack',
+      classLevel, '=', 'source<6 ? null : Math.min(source, 20)',
+    );
+    rules.defineRule('skills.Tumbling Evasion',
+      classLevel, '=', 'source<6 ? null : source<15 ? source * 5 - 20 : Math.min(source * 2 + 22, 60)'
+    );
+    rules.defineRule('skills.Tumbling Falling',
+      classLevel, '=', 'Math.floor((source - 3) / 3) * 10 - (source==18||source==21||source==22 ? 10 : 0)'
+    );
+    rules.defineRule('skills.Tumbling Falling.1',
+      classLevel, '=', 'source<6 ? null : source<15 ? (source % 3 + 1) * 25 : (source % 4 + 1) * 20'
+    );
+    rules.defineRule('skillNotes.dexteritySkillModifiers.1',
+      'skillNotes.dexteritySkillModifiers', '?', null,
+      '', '=', '""',
+      'skillNotes.dexteritySkillModifiers.2', '=', null
+    );
+    rules.defineRule('skillNotes.dexteritySkillModifiers.2',
+      'skillNotes.dexteritySkillModifiers', '?', null,
+      classLevel, '?', 'source>=6',
+      'dexterity', '=',
+        '"/" + [' +
+          'source>15 ? "+" + (source - 15) * 5 + "% Tightrope Walking" : "",' +
+          'source>16 ? "+" + (source - 16) + "\' Pole Vaulting" : "",' +
+          'source>15 ? "+" + (source - 15) + "% Tumbling Attack" : "",' +
+          'source>15 ? "+" + [2,3,5,8][source - 16] + "% Tumbling Evasion" : "",' +
+          'source>17 ? "+" + (source - 17) * 5 + "\' Tumbling Falling" : ""' +
+        '].filter(x => x != "").join("/")'
+    );
+    rules.defineRule('skillNotes.raceSkillModifiers.1',
+      'skillNotes.raceSkillModifiers', '?', null,
+      '', '=', '""',
+      'skillNotes.raceSkillModifiers.2', '=', null
+    );
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      'skillNotes.raceSkillModifiers', '?', null,
+      classLevel, '?', 'source>=6',
+    );
+    rules.defineRule('skillNotes.strengthSkillModifiers',
+      classLevel, '?', 'source>=6',
+      'strength', '=',
+        '[' +
+          'source>16 ? "+" + source * .25 + "\' High Jumping" : "",' +
+          'source>16 ? "+" + source * .25 + "\' Standing Broad Jumping" : "",' +
+          'source>15 ? "+" + [.5,1,2][source - 16] + "\' Running Broad Jumping" : ""' +
+        '].filter(x => x != "").join("/")'
+    );
+    for(var skill in {'Tightrope Walking':'', 'Pole Vaulting':'', 'High Jumping':'', 'Running Broad Jumping':'', 'Standing Broad Jumping':'', 'Tumbling Attack':'', 'Tumbling Evasion':'', 'Tumbling Falling':''}) {
+      rules.defineRule('skills.' + skill,
+        'skillNotes.dexteritySkillModifiers.1', '+',
+          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
+        'skillNotes.raceSkillModifiers.1', '+',
+          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
+        'skillNotes.strengthSkillModifiers', '+',
+          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null'
+      );
+    }
+    rules.defineChoice('notes',
+      "skills.High Jumping:%V'",
+      "skills.Pole Vaulting:%V'",
+      "skills.Running Broad Jumping:%V'",
+      "skills.Standing Broad Jumping:%V'",
+      "skills.Tightrope Walking:%V%",
+      "skills.Tumbling Attack:%V%",
+      "skills.Tumbling Evasion:%V%",
+      "skills.Tumbling Falling:%1%,%V'",
+      "skillNotes.dexteritySkillModifiers:%V%1",
+      "skillNotes.raceSkillModifiers:%V%1",
+    );
   }
 };
 
@@ -376,6 +542,50 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
 
   var raceLevel =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
+
+  // Extend thief skill racial modifiers to new sub-races
+  if(name.includes('Dwarf')) {
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        '"-10% Climb Walls/+15% Find Traps/+10% Open Locks/-5% Read Languages"'
+    );
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      raceLevel, '=',
+      '"/-5% Tightrope Walking/-2\' Pole Vaulting/-1\' High Jumping/-2\' Standing Broad Jumping/-3\' Running Broad Jumping/+10% Tumbling Attack/+5% Tumbling Evasion"'
+    );
+  } else if(name.includes('Half-Elf')) {
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      raceLevel, '=',
+      '"/+5% Tightrope Walking/+5% Tumbling Attack"'
+    );
+  } else if(name.includes('Elf')) {
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        '"+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets"'
+    );
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      raceLevel, '=',
+      '"/+10% Tightrope Walking/-1\' Running Broad Jumping/+5% Tumbling Evasion/+5% Tumbling Fall"'
+    );
+  } else if(name.includes('Gnome')) {
+    rules.defineRule('skillNotes.raceSkillModifiers',
+      raceLevel, '=',
+        '"-15% Climb Walls/+10% Find Traps/+10% Hear Noise/+5% Hide In Shadows/+5% Move Silently/+5% Open Locks"'
+    );
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      raceLevel, '=',
+        '"/-2\' Pole Vaulting/-1\' High Jumping/-1.5\' Standing Broad Jumping/-4\' Running Broad Jumping/+5% Tumbling Attack/+5% Tumbling Evasion"'
+    );
+  } else if(name.includes('Halfling')) {
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      raceLevel, '=',
+      '"/-2\' Pole Vaulting/-1\' High Jumping/-1.5\' Standing Broad Jumping/-4\' Running Broad Jumping/+5% Tumbling Attack/+5% Tumbling Evasion/+5% Tumbling Falling"'
+    );
+  } else if(name.includes('Half-Orc')) {
+    rules.defineRule('skillNotes.raceSkillModifiers.2',
+      raceLevel, '=', '"/+10% Tumbling Falling"'
+    );
+  }
 
   if(name == 'Dark Elf') {
     rules.defineRule('darkElfComelinessModifier',
@@ -418,10 +628,10 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
   } else if(name == 'Gray Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
-  } else if(name == 'Half-Elf') {
+  } else if(name.includes('Half-Elf')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
-  } else if(name == 'Half-Orc') {
+  } else if(name.includes('Half-Orc')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -3);
   } else if(name == 'High Elf' || name == 'Elf') {

@@ -4276,7 +4276,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
   }
 
   if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
-    UnearthedArcana1e.classRulesExtra(rules, name);
+    UnearthedArcana1e.raceRulesExtra(rules, name);
 
 };
 
