@@ -4585,7 +4585,10 @@ OldSchool.initialEditorElements = function() {
 
 /* Returns an array of plugins upon which this one depends. */
 OldSchool.getPlugins = function() {
-  return [OSRIC].concat(OSRIC.getPlugins());
+  var result = [OSRIC].concat(OSRIC.getPlugins());
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    result.unshift(UnearthedArcana1e);
+  return result;
 };
 
 /* Returns HTML body content for user notes associated with this rule set. */
