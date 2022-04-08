@@ -66,7 +66,7 @@ UnearthedArcana1e.CLASSES = {
       '"Hide In Natural Surroundings",Horsemanship,Leadership,' +
       '"Leaping And Springing","Long Distance Signaling","Outdoor Craft",' +
       'Running,"Small Craft","Snare Building","Sound Imitation",Surprise,' +
-      'Survival,"Tough Hide",Tracking,"4:Irresistable Assault" ' +
+      'Survival,"Tough Hide",Tracking,"4:Irresistible Assault" ' +
     'Experience=' +
       '0,6,12,24,48,80,150,275,500,1000,1500,2000,2500,3000,3500,4000,4500,' +
       '5000,5500,6000,6500,7000,7500,8000,8500,9000,9500,10000,10500',
@@ -133,7 +133,7 @@ UnearthedArcana1e.FEATURES = {
   'Alter Appearance':
     'Section=magic ' +
     'Note="May alter apparent age, height, weight, and facial features 1/seg"',
-  'Animal Handling':'Section=skill Note="May handle and domescate wild dogs"',
+  'Animal Handling':'Section=skill Note="May handle and domesticate wild dogs"',
   'Back Protection':
     'Section=combat ' +
     'Note="%{levels.Barbarian*5}% chance of noticing attacks from behind"',
@@ -170,7 +170,7 @@ UnearthedArcana1e.FEATURES = {
   'Hide In Natural Surroundings':
     'Section=skill Note="Use Hide In Shadows skill in natural surroundings"',
   'Horsemanship':'Section=combat Note="May ride horse into battle"',
-  'Irresistable Assault':
+  'Irresistible Assault':
     'Section=combat ' +
     'Note="Attacks bypass +%{(levels.Barbarian-2)//2} magic weapon requirement"',
   'Lance Expertise':
@@ -222,9 +222,6 @@ UnearthedArcana1e.FEATURES = {
   'Vigorous Health':'Section=feature Note="Has full health and vigor"',
 
   // Race
-  'Ambidextrous':
-    'Section=combat ' +
-    'Note="May fight using a weapon in each hand without penalty"',
   'Animal Friend':
     'Section=magic Note="May befriend and train woodland creatures"',
   'Dark Elf Resistance':'Section=save Note="+2 vs. magic"',
@@ -251,11 +248,15 @@ UnearthedArcana1e.FEATURES = {
     'Section=ability,combat ' +
     'Note="-2 Dexterity in full light",' +
          '"-2 attacks and foes +2 saves in full light"',
+  'Resist Magical Effects':'Section=save Note="+2 vs. magic"',
   'Sharp Eye':'Section=combat Note="Surprised 1in8 in less than full light"',
   'Shielded':'Section=magic Note="Continuous self <i>Non-Detection</i> effect"',
   'Stone Camouflage':
     'Section=feature Note="60% chance of hiding against natural stone"',
   'Trapper':'Section=skill Note="May set traps with 90% success"',
+  'Two-Weapon Fighter':
+    'Section=combat ' +
+    'Note="May fight using a weapon in each hand without penalty"',
   'Valley Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Intelligence"',
   'Very Stealthy':
@@ -279,10 +280,10 @@ UnearthedArcana1e.RACES = {
       '"charisma >= 8","constitution >= 8","dexterity >= 7",' +
       '"intelligence >= 8" ' +
     'Features=' +
-      'Ambidextrous,"Dark Elf Resistance","Detect Construction",' +
-      '"Detect Secret Doors","Detect Sliding","Detect Traps",' +
-      '"Determine Depth","Drow Magic","Extended Infravision",Fast,' +
-      '"Light Sensitivity","Resist Charm","Resist Sleep","Sharp Eye",Stealthy '+
+      '"Detect Construction","Detect Secret Doors","Detect Sliding",' +
+      '"Detect Traps","Determine Depth","Drow Magic","Extended Infravision",' +
+      'Fast,"Light Sensitivity","Resist Charm","Resist Magical Effects",' +
+      '"Resist Sleep","Sharp Eye",Stealthy,"Two-Weapon Fighter" '+
     'Languages=' +
       'Common,Undercommon,Elf,Gnome,"Drow Sign"',
   'Deep Gnome':
@@ -292,8 +293,7 @@ UnearthedArcana1e.RACES = {
       '"Deep Gnome Enmity","Deep Gnome Magic","Deep Gnome Resistance",' +
       '"Detect Hazard","Detect Slope","Determine Depth",' +
       '"Determine Direction","Extended Infravision","Extremely Stealthy",' +
-      '"Gnome Dodge","Light Blindness","Resist Magic","Resist Poison",' +
-      'Shielded,Slow,"Stone Camouflage" ' +
+      '"Gnome Dodge","Light Blindness",Shielded,Slow,"Stone Camouflage" ' +
     'Languages=' +
       'Gnome',
   'Gray Dwarf':
@@ -463,7 +463,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       classLevel, '=', 'source<6 ? null : source<13 ? source * .5 + 6 : Math.min(source, 22)'
     );
     rules.defineRule('skills.Tumbling Attack',
-      classLevel, '=', 'source<6 ? null : Math.min(source, 20)',
+      classLevel, '=', 'source<6 ? null : Math.min(source, 20)'
     );
     rules.defineRule('skills.Tumbling Evasion',
       classLevel, '=', 'source<6 ? null : source<15 ? source * 5 - 20 : Math.min(source * 2 + 22, 60)'
@@ -498,7 +498,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('skillNotes.raceSkillModifiers.2',
       'skillNotes.raceSkillModifiers', '?', null,
-      classLevel, '?', 'source>=6',
+      classLevel, '?', 'source>=6'
     );
     rules.defineRule('skillNotes.strengthSkillModifiers',
       classLevel, '?', 'source>=6',
@@ -529,7 +529,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       "skills.Tumbling Evasion:%V%",
       "skills.Tumbling Falling:%1%,%V'",
       "skillNotes.dexteritySkillModifiers:%V%1",
-      "skillNotes.raceSkillModifiers:%V%1",
+      "skillNotes.raceSkillModifiers:%V%1"
     );
   }
 };
@@ -625,9 +625,11 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     rules.defineRule
       ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
-  } else if(name == 'Gray Elf') {
+  } else if(name == 'Gray Elf' || name == 'Valley Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
   } else if(name.includes('Half-Elf')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
@@ -638,10 +640,14 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
   } else if(name == 'Wild Elf') {
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
     rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   } else if(name == 'Wood Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
     rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   }
 
