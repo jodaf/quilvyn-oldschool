@@ -554,8 +554,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       classLevel, '?', 'source>=6',
       'strength', '=',
         '[' +
-          'source>16 ? "+" + source * .25 + "\' High Jumping" : "",' +
-          'source>16 ? "+" + source * .25 + "\' Standing Broad Jumping" : "",' +
+          'source>16 ? "+" + (source - 16) * .25 + "\' High Jumping" : "",' +
+          'source>16 ? "+" + (source - 16) * .25 + "\' Standing Broad Jumping" : "",' +
           'source>15 ? "+" + [.5,1,2][source - 16] + "\' Running Broad Jumping" : ""' +
         '].filter(x => x != "").join("/")'
     );
@@ -563,9 +563,11 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       rules.defineRule('skills.' + skill,
         'skillNotes.dexteritySkillModifiers.1', '+',
           'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
-        'skillNotes.raceSkillModifiers.1', '+',
-          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
         'skillNotes.strengthSkillModifiers', '+',
+          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null'
+      );
+      rules.defineRule('skills.' + skill + (skill == 'Tumbling Falling' ? '.1' : ''),
+        'skillNotes.raceSkillModifiers.1', '+',
           'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null'
       );
     }
@@ -615,7 +617,7 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     );
     rules.defineRule('skillNotes.raceSkillModifiers.2',
       raceLevel, '=',
-      '"/+10% Tightrope Walking/-1\' Running Broad Jumping/+5% Tumbling Evasion/+5% Tumbling Fall"'
+      '"/+10% Tightrope Walking/-1\' Running Broad Jumping/+5% Tumbling Evasion/+5% Tumbling Falling"'
     );
   } else if(name.includes('Gnome')) {
     rules.defineRule('skillNotes.raceSkillModifiers',
