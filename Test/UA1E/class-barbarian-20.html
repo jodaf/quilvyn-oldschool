@@ -7,7 +7,7 @@
   <script>
 var attributes = {
   "_path":"ztest/ua1e/class/barbarian 20", 
-  "alignment":"Neutral", "armor":"Plate", "charisma":8, "comeliness":17, "constitution":15, 
+  "alignment":"Neutral", "armor":"Leather", "charisma":8, "comeliness":17, "constitution":15, 
   "dexterity":15, "experiencePoints.Barbarian":6194148, "gender":"Female", "hitPoints":81, 
   "intelligence":16, "languages.Drow Sign":1, "languages.Elf":1, "languages.Gnoll":1, 
   "languages.Kobold":1, "languages.Orc":1, "name":"Class-Barbarian 20", "race":"Human", 
@@ -78,12 +78,14 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Barbarian Features</b>: Animal Handling; Armor Proficiency (All); Back Protection; Barbarian Resistance; Bonus Attacks; Climbing; Detect Magic; Fast; Fighting The Unskilled; First Aid; Hide In Natural Surroundings; Horsemanship; Irresistible Assault; Leadership; Leaping And Springing; Long Distance Signaling; Outdoor Craft; Running; Shield Proficiency (All); Small Craft; Snare Building; Sound Imitation; Surprise; Survival; Tough Hide; Tracking</td>
+        <td><b>Barbarian Features</b>: Animal Handling; Arcane Aversion; Armor Proficiency (All); Back Protection; Barbarian Armor Bonus; Barbarian Hit Point Bonus; Barbarian Resistance; Climbing; Detect Magic; Fast; Fighting The Unskilled; First Aid; Hide In Natural Surroundings; Horsemanship; Irresistible Assault; Leadership; Leaping And Springing; Long Distance Signaling; Outdoor Craft; Running; Shield Proficiency (All); Small Craft; Snare Building; Sound Imitation; Surprise; Survival; Tracking</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
+        <td>Arcane Aversion: Despises arcane magic; seeks to destroy magic items</td>
+      </tr><tr style="text-align:center">
         <td>Determine Direction: 50% Determine direction underground</td>
       </tr><tr style="text-align:center">
         <td>Druid's Knowledge: Identify plant and animal types, determine water purity</td>
@@ -147,8 +149,8 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="CombatStats" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Hit Points</b>: 90</td>
-        <td><b>Armor Class</b>: 3</td>
+        <td><b>Hit Points</b>: 97</td>
+        <td><b>Armor Class</b>: 6</td>
         <td><b>Attacks Per Round</b>: 1</td>
         <td><b>THAC0 Melee/Ranged</b>: 1/1</td>
         <td><b>THAC10 Melee/Ranged</b>: -9/-9</td>
@@ -157,7 +159,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Gear" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor</b>: Plate</td>
+        <td><b>Armor</b>: Leather</td>
         <td><b>Shield</b>: None</td>
         <td><b>Weapons</b>: Composite Short Bow (+0 d6 R50'); Two-Handed Sword (+0 d10); Unarmed (+0 d2)</td>
       </tr></table>
@@ -172,17 +174,19 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Combat Notes</b>:       <table id="CombatNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Constitution Hit Points Adjustment: +9</i></td>
+        <td><i>Barbarian Armor Bonus: -1 AC</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Barbarian Hit Point Bonus: +8 HP</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Constitution Hit Points Adjustment: +8</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Armor Class Adjustment: -1</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Tough Hide: +1 AC</i></td>
       </tr><tr style="text-align:center">
         <td>Back Protection: 100% chance of noticing attacks from behind</td>
       </tr><tr style="text-align:center">
         <td>Horsemanship: May ride horse into battle</td>
       </tr><tr style="text-align:center">
-        <td>Irresistible Assault: Attacks bypass +9 magic weapon requirement</td>
+        <td>Irresistible Assault: Attacks bypass +5 magic weapon requirement</td>
       </tr><tr style="text-align:center">
         <td>Surprise: Surprise 3in6 (4in6 familiar terrain); surprised 1in10 (1in20 familiar terrain)</td>
       </tr></table>
@@ -190,7 +194,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="SavesAndResistance" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Save</b>: Breath: 2; Death: -2; Petrification: -1; Spell: -1; Wand: 1</td>
+        <td><b>Save</b>: Breath: 2; Death: 0; Petrification: 1; Spell: 1; Wand: 3</td>
         <td><b>Survive Resurrection</b>: 94%</td>
         <td><b>Survive System Shock</b>: 91%</td>
       </tr></table>

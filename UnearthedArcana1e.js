@@ -56,17 +56,17 @@ UnearthedArcana1e.CLASSES = {
     'Require=' +
       '"alignment !~ \'Lawful\'","race == \'Human\'","strength >= 15",' +
       '"constitution >= 15","dexterity >= 14","wisdom <= 16" ' +
-    'HitDie=d10,9,3 Attack=0,1,1,- WeaponProficiency=4,2,2 ' +
+    'HitDie=d10,8,4 Attack=0,1,1,- WeaponProficiency=4,2,2 ' +
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
     'Features=' +
       '"Armor Proficiency (All)","Shield Proficiency (All)",' +
-      '"Fighting The Unskilled","Bonus Attacks",' +
-      '"Animal Handling","Back Protection","Barbarian Resistance",' +
-      '"Climbing","Detect Magic",Fast,"First Aid",' +
+      '"Fighting The Unskilled","Animal Handling","Back Protection",' +
+      '"Arcane Aversion","Barbarian Armor Bonus","Barbarian Hit Point Bonus",' +
+      '"Barbarian Resistance","Climbing","Detect Magic",Fast,"First Aid",' +
       '"Hide In Natural Surroundings",Horsemanship,Leadership,' +
       '"Leaping And Springing","Long Distance Signaling","Outdoor Craft",' +
       'Running,"Small Craft","Snare Building","Sound Imitation",Surprise,' +
-      'Survival,"Tough Hide",Tracking,"4:Irresistible Assault" ' +
+      'Survival,Tracking,"4:Irresistible Assault" ' +
     'Experience=' +
       '0,6,12,24,48,80,150,275,500,1000,1500,2000,2500,3000,3500,4000,4500,' +
       '5000,5500,6000,6500,7000,7500,8000,8500,9000,9500,10000,10500',
@@ -78,12 +78,14 @@ UnearthedArcana1e.CLASSES = {
     'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
     'Features=' +
       '"Armor Proficiency (All)","Shield Proficiency (All)",' +
-      '"Bonus Attacks","Continuous Training","Deadly Lancer","Deadly Rider",' +
-      'Diehard,Equestrian,"Fear Immunity","Fighting The Unskilled",' +
-      '"Lance Expertise","Mental Resistance","2:Extra Attacks",' +
-      '"3:Quick Mount","3:Sword Expertise","4:Unicorn Rider","5:Fast Ride",' +
-      '"5:Mace Expertise","7:Special Mount" ' +
-    'Experience=0,2.5,5,10,18.5,37,85,140,220,300,600,900,1200,1500,1800',
+      '"Continuous Training","Deadly Lancer",Diehard,Equestrian,' +
+      '"Fear Immunity","Fighting The Unskilled","Lance Expertise",' +
+      '"Mental Resistance","Mount Knowledge","Mounted Combatant",' +
+      '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
+      '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","7:Special Mount" ' +
+    'Experience=' +
+      '0,2.5,5,10,18.5,37,85,140,220,300,600,900,1200,1500,1800,2100,2400,' +
+      '2700,3000,3300,3600,3900,4200,4500,4800,5100,5400,5700,6000',
   'Druid':
     OldSchool.CLASSES.Druid
       .replace('Features=',
@@ -92,15 +94,17 @@ UnearthedArcana1e.CLASSES = {
         '"16:Alter Appearance",17:Hibernate,"17:Planar Travel",' +
         '"17:Summon Elemental",'
       ) + ' ' +
-      'Experience=0,2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500,3000,3500,4000,4500,,5000,5500,6000,6500,7000 ',
+      'Experience=' +
+        '0,2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500,3000,3500,4000,' +
+        '4500,5000,5500,6000,6500,7000 ',
   'Paladin':
     OldSchool.CLASSES.Paladin
       .replace('Features=',
       'Features=' +
         '"Armor Proficiency (All)","Shield Proficiency (All)",' +
-        '"Bonus Attacks","Continuous Training","Deadly Lancer",' +
-        '"Deadly Rider",Diehard,Equestrian,"Fear Immunity",' +
-        '"Fighting The Unskilled","Lance Expertise","Mental Resistance",' +
+        '"Continuous Training","Deadly Lancer",Diehard,Equestrian,' +
+        '"Fear Immunity","Fighting The Unskilled","Lance Expertise",' +
+        '"Mental Resistance","Mount Knowledge","Mounted Combatant",' +
         '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
         '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","7:Special Mount",'
       ) + ' ' +
@@ -115,8 +119,8 @@ UnearthedArcana1e.CLASSES = {
       .replace('Features=',
       'Features=' +
         '"strength>=16/dexterity>=17 ? 6:Bonus Thief-Acrobat Experience",' +
-        '"6:Thief-Acrobat Skills",' 
-      ) + ' ' +
+        '"6:Thief-Acrobat Skills",'
+      ).replace(/,"(\d+:)?Read Scrolls"/, '') + ' ' +
       'Require="alignment=~\'Neutral|Evil\'","strength>=15","dexterity>=16" ' +
       'Experience=' +
         '0,1.25,2.5,5,10,20,45,75,125,180,250,500,750,1000,1250,1500,1750,' +
@@ -134,9 +138,14 @@ UnearthedArcana1e.FEATURES = {
     'Section=magic ' +
     'Note="May alter apparent age, height, weight, and facial features 1/seg"',
   'Animal Handling':'Section=skill Note="May handle and domesticate wild dogs"',
+  'Arcane Aversion':
+    'Section=feature ' +
+    'Note="Despises arcane magic; seeks to destroy magic items"',
   'Back Protection':
     'Section=combat ' +
     'Note="%{levels.Barbarian*5}% chance of noticing attacks from behind"',
+  'Barbarian Armor Bonus':'Section=combat Note="-%V AC"',
+  'Barbarian Hit Point Bonus':'Section=combat Note="+%V HP"',
   'Barbarian Resistance':
     'Section=save ' +
     'Note="+4 vs. poison/+3 Petrification/+3 Death/+3 vs. polymorph/+2 Wand/+2 Breath/+%1 Spell"',
@@ -146,19 +155,18 @@ UnearthedArcana1e.FEATURES = {
     'Section=skill Note="Climb cliffs and trees; other surfaces with practice"',
   'Continuous Training':
     'Section=ability ' +
-    'Note="Gains d100/100 strength, dexterity, and constitution at 1st level, 2d10/100 additional at each subsequent level"',
+    'Note="Gains d100/100 %1strength, dexterity, and constitution at 1st level, 2d10/100 additional at each subsequent level"',
   'Deadly Lancer':
-    'Section=combat ' +
-    'Note="+%{levels.Cavalier} lance damage when mounted, +1 dismounted"',
-  'Deadly Rider':'Section=combat Note="+%V attack when mounted"',
+    'Section=combat Note="+%V lance damage when mounted, +1 dismounted"',
   'Detect Magic':
     'Section=save ' +
     'Note="%{levels.Barbarian*5<?75}% chance of detecting illusions, %{levels.Barbarian*5+20<?90}% other magic"',
   'Diehard':'Section=combat Note="Remains conscious at negative HP"',
   'Equestrian':
     'Section=skill ' +
-    'Note="%{16-levels.Cavalier}% chance of being unsaddled or being injured when mount falls"',
-  'Extra Attacks':'Section=combat Note="+%V attacks/rd with expertise weapons"',
+    'Note="%V% chance of being unsaddled or being injured when mount falls"',
+  'Extra Attacks':
+    'Section=combat Note="+0.5 attacks/rd with expertise weapons"',
   'Extra Longevity':
     'Section=feature Note="May live an additional %{levels.Druid*10} years"',
   'Fast Ride':'Section=skill Note="Can ride at +2\\" pace for 1 hr"',
@@ -172,10 +180,10 @@ UnearthedArcana1e.FEATURES = {
   'Horsemanship':'Section=combat Note="May ride horse into battle"',
   'Irresistible Assault':
     'Section=combat ' +
-    'Note="Attacks bypass +%{(levels.Barbarian-2)//2} magic weapon requirement"',
+    'Note="Attacks bypass +%{(levels.Barbarian-2)//2<?5} magic weapon requirement"',
   'Lance Expertise':
     'Section=combat ' +
-    'Note="+%V attack with lance when horsed, or parry for foe -%V attack"',
+    'Note="+%1 attack with lance when mounted, or parry for foe -%2 attack"',
   'Leadership':
     'Section=ability Note="+%{levels.Barbarian} Charisma (other barbarians)"',
   'Leaping And Springing':
@@ -185,17 +193,18 @@ UnearthedArcana1e.FEATURES = {
     'Section=skill Note="May send messages over distances"',
   'Mace Expertise':
     'Section=combat ' +
-    'Note="+%V attack with choice of horseman\'s mace, flail, or military pick, or parry for foe -%V attack"',
+    'Note="+%1 attack with choice of horseman\'s mace, flail, or military pick, or parry for foe -%2 attack"',
   'Mental Resistance':
     'Section=save Note="90% resistance to mental attacks, +2 vs. illusions"',
+  'Mount Knowledge':'Section=feature Note="Knows basic worth of mounts"',
+  'Mounted Combatant':'Section=combat Note="+1 attack from mount"',
   'Outdoor Craft':
     'Section=skill ' +
     'Note="Determine Direction and Druid\'s Knowledge features; able to Predict Weather as with the spell"',
   'Poison Immunity':'Section=save Note="Immunity to natural poisons"',
   'Planar Travel':'Section=magic Note="May move to %V 1/dy"',
   'Running':'Section=ability Note="May move at dbl speed for three days"',
-  'Quick Mount':
-    'Section=skill Note="Can vault into saddle in armor and ride in 1 seg"',
+  'Quick Mount':'Section=skill Note="Can vault into saddle and ride in 1 seg"',
   'Small Craft':
     'Section=skill Note="May build and use rowed or paddled water transport"',
   'Snare Building':
@@ -209,11 +218,10 @@ UnearthedArcana1e.FEATURES = {
   'Survival':'Section=skill Note="May hunt and forage in familiar terrain"',
   'Sword Expertise':
     'Section=combat ' +
-    'Note="+%V attack with choice of broad sword, long sword, or scimitar, or parry for foe -%V attack"',
+    'Note="+%1 attack with choice of broad sword, long sword, or scimitar, or parry for foe -%2 attack"',
   'Thief-Acrobat Skills':
     'Section=skill ' +
     'Note="Tightrope Walking, Pole Vaulting, High Jumping, Standing Broad Jumping, Running Broad Jumping, Tumbling Attack, Tumbling Evasion, Tumbling Falling"',
-  'Tough Hide':'Section=combat Note="+%V AC"',
   // Override OSRIC Tracking defn
   'Tracking':
     'Section=feature ' +
@@ -374,10 +382,19 @@ UnearthedArcana1e.talentRules = function(rules, features, languages) {
 UnearthedArcana1e.classRulesExtra = function(rules, name) {
   var classLevel = 'levels.' + name;
   if(name == 'Barbarian') {
-    rules.defineRule('armorClass', 'combatRules.toughHide', '+', '-source');
-    rules.defineRule('combatNotes.toughHide',
-      'dexterity', '=', 'source>=15 ? (source - 14) * 2 : null',
-      'armor', '*', 'source.match(/None|^Leather|Elfin Chain/) ? null : 0.5'
+    rules.defineRule('classBarbarianBreathSaveAdjustment',
+      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
+    );
+    rules.defineRule('classBarbarianSaveAdjustment',
+      classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
+    );
+    rules.defineRule('combatNotes.barbarianArmorBonus',
+      'armor', '?', 'source.match(/None|^Leather|Elfin Chain/)',
+      'dexterity', '=', 'source>=15 ? source - 14 : null'
+    );
+    rules.defineRule('combatNotes.barbarianHitPointBonus',
+      'constitution', '=', 'source - 14',
+      classLevel, '*', 'Math.min(source, 8)'
     );
     rules.defineRule('features.Determine Direction', classLevel, '=', '1');
     rules.defineRule("features.Druid's Knowledge", classLevel, '=', '1');
@@ -394,31 +411,66 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
   } if(name == 'Cavalier' || name == 'Paladin') {
-    rules.defineRule
-      ('combatNotes.deadlyRider', classLevel, '=', 'source % 2==0 ? 2 : null');
-    rules.defineRule('combatNotes.lanceExpertise',
-      classLevel, '=', 'Math.floor((source + 1) / 6)'
-    );
-    rules.defineRule('combatNotes.maceExpertise',
-      classLevel, '=', 'Math.floor((source + 5) / 6)'
-    );
-    rules.defineRule('combatNotes.swordExpertise',
-      classLevel, '=', 'Math.floor((source + 3) / 6)'
-    );
-    rules.defineRule('combatNotes.extraAttacks',
-      classLevel, '=', 'source==1||source==7||source>13 ? null : 0.5'
-    );
-    rules.defineRule('skillNotes.specialMount',
-      classLevel, '=', '"pegasus" + (source>=11 ? ", hippogriff, or griffin" : source>9 ? " or hippogriff" : "")'
+    rules.defineRule(name.toLowerCase() + 'Features.Mounted Combatant',
+      'race', '?', 'source =~ /Human/'
     );
     rules.defineRule(name.toLowerCase() + 'Features.Unicorn Rider',
       'gender', '?', 'source == "Female"',
       'race', '?', 'source.match(/(^|\\s)Elf/)'
     );
+    rules.defineRule('combatNotes.deadlyLancer', classLevel, '+=', null);
+    rules.defineRule('combatNotes.lanceExpertise.1',
+      classLevel, '=', 'Math.floor((source + 5) / 6)'
+    );
+    rules.defineRule('combatNotes.lanceExpertise.2',
+      'combatNotes.lanceExpertise.1', '=', null,
+      'combatNotes.strengthAttackAdjustment', '+', null
+    );
+    rules.defineRule('combatNotes.maceExpertise.1',
+      classLevel, '=', 'Math.floor((source + 1) / 6)'
+    );
+    rules.defineRule('combatNotes.maceExpertise.2',
+      'combatNotes.maceExpertise.1', '=', null,
+      'combatNotes.strengthAttackAdjustment', '+', null
+    );
+    rules.defineRule('combatNotes.swordExpertise.1',
+      classLevel, '=', 'Math.floor((source + 3) / 6)'
+    );
+    rules.defineRule('combatNotes.swordExpertise.2',
+      'combatNotes.swordExpertise.1', '=', null,
+      'combatNotes.strengthAttackAdjustment', '+', null
+    );
+    rules.defineRule('skillNotes.equestrian', classLevel, '=', '16 - source');
+    rules.defineRule('skillNotes.specialMount',
+      classLevel, '=', '"pegasus" + (source>=11 ? ", hippogriff, or griffin" : source>9 ? " or hippogriff" : "")'
+    );
     rules.defineRule('warriorLevel', classLevel, '+', null);
     if(name == 'Paladin') {
       rules.defineRule
+        ('abilityNotes.continuousTraining.1', classLevel, '=', '"charisma, "');
+      rules.defineRule('attacksPerRound',
+        classLevel, '+', 'source<7?null : source<13?0.5 : source<19?1 : 1.5'
+      );
+      rules.defineRule
         ('paladinFeatures.Bonus Paladin Experience', classLevel, 'v', '0');
+      rules.defineRule('paladinFeatures.Extra Attacks',
+        classLevel, '=', 'source==1||source==7||source==13||source>18 ? null : 1'
+      );
+    } else {
+      rules.defineRule
+        ('abilityNotes.continuousTraining.1', classLevel, '=', '""');
+      rules.defineRule('attacksPerRound',
+        classLevel, '+', 'source<6?null : source<11?0.5 : source<16?1 : 1.5'
+      );
+      rules.defineRule('classCavalierBreathSaveAdjustment',
+        classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
+      );
+      rules.defineRule('classCavalierSaveAdjustment',
+        classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
+      );
+      rules.defineRule('cavalierFeatures.Extra Attacks',
+        classLevel, '=', 'source>16 ? null : 1'
+      );
     }
   } else if(name == 'Druid') {
     rules.defineRule('magicNotes.planarTravel',
@@ -434,8 +486,6 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
-    rules.defineRule
-      ('thief-AcrobatFeatures.Read Scrolls', classLevel, '=', '0');
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule
       ('skillLevel.Find Traps', classLevel, '+=', 'Math.min(source, 5)');
@@ -472,7 +522,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       classLevel, '=', 'Math.floor((source - 3) / 3) * 10 - (source==18||source==21||source==22 ? 10 : 0)'
     );
     rules.defineRule('skills.Tumbling Falling.1',
-      classLevel, '=', 'source<6 ? null : source<15 ? (source % 3 + 1) * 25 : (source % 4 + 1) * 20'
+      classLevel, '=', 'source<6 ? null : source<15 ? (source % 3 + 1) * 25 : (((source + 1) % 4 + 1) * 20)'
     );
     rules.defineRule('skillNotes.dexteritySkillModifiers.1',
       'skillNotes.dexteritySkillModifiers', '?', null,
