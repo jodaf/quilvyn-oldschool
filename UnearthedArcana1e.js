@@ -41,9 +41,11 @@ function UnearthedArcana1e(edition, rules) {
 
   UnearthedArcana1e.abilityRules(rules);
   UnearthedArcana1e.talentRules
-    (rules, UnearthedArcana1e.FEATURES, UnearthedArcana1e.LANGUAGES);
+    (rules, UnearthedArcana1e.FEATURES, UnearthedArcana1e.LANGUAGES,
+     UnearthedArcana1e.SPELLS);
   UnearthedArcana1e.identityRules
     (rules, UnearthedArcana1e.CLASSES, UnearthedArcana1e.RACES);
+  UnearthedArcana1e.magicRules(rules, UnearthedArcana1e.SPELLS);
   rules.defineChoice('random', 'comeliness');
   rules.randomizeOneAttribute = UnearthedArcana1e.randomizeOneAttribute;
 
@@ -328,6 +330,862 @@ UnearthedArcana1e.RACES = {
       ' Languages=Elf,Common,Treant'
 };
 
+UnearthedArcana1e.SPELLS = {
+
+  'Ceremony':
+    'School=Evocation ' +
+    'Level=C1,D1 ' +
+    'Description="FILL"',
+  //'Combine': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=C1 ' +
+  //  'Description="FILL"',
+  'Endure Cold/Endure Heat':
+    'School=Alteration ' +
+    'Level=C1 ' +
+    'Description="FILL"',
+  //'Invisibility To Undead': OldSchool
+  //  'School=Illusion ' +
+  //  'Level=C1 ' +
+  //  'Description="FILL"',
+  'Magic Stone':
+    'School=Alteration ' +
+    'Level=C1 ' +
+    'Description="FILL"',
+  'Penetrate Disguise':
+    'School=Divination ' +
+    'Level=C1 ' +
+    'Description="FILL"',
+  'Portent':
+    'School=Divination ' +
+    'Level=C1 ' +
+    'Description="FILL"',
+  'Precipitation':
+    'School=Alteration ' +
+    'Level=C1,D1,M1 ' +
+    'Description="FILL"',
+  //'Aid': OldSchool
+  //  'School=Necromancy ' +
+  //  'Level=C2 ' +
+  //  'Description="FILL"',
+  'Detect Life':
+    'School=Divination ' +
+    'Level=C2 ' +
+    'Description="FILL"',
+  //'Dust Devil': OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=C2 ' +
+  //  'Description="FILL"',
+  //'Enthrall': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=C2 ' +
+  //  'Description="FILL"',
+  'Holy Symbol':
+    'School=Conjuration ' +
+    'Level=C2 ' +
+    'Description="FILL"',
+  //'Messenger': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=C2 ' +
+  //  'Description="FILL"',
+  //'Withdraw': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C2 ' +
+  //  'Description="FILL"',
+  //'Wyvern Watch': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=C2 ' +
+  //  'Description="FILL"',
+  'Cloudburst':
+    'School=Alteration ' +
+    'Level=C3 ' +
+    'Description="FILL"',
+  "Death's Door":
+    'School=Alteration ' +
+    'Level=C3 ' +
+    'Description="FILL"',
+  //'Flame Walk': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C3 ' +
+  //  'Description="FILL"',
+  //'Magical Vestment': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C3 ' +
+  //  'Description="FILL"',
+  //'Meld Into Stone': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C3 ' +
+  //  'Description="FILL"',
+  //'Negative Plane Protection': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=C3 ' +
+  //  'Description="FILL"',
+  //'Remove Paralysis': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=C3 ' +
+  //  'Description="FILL"',
+  //'Water Walk': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C3 ' +
+  //  'Description="FILL"',
+  //'Abjure': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C4 ' +
+  //  'Description="FILL"',
+  'Cloak Of Fear':
+    'School=Illusion ' +
+    'Level=C4 ' +
+    'Description="FILL"',
+  //'Giant Insect': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C4 ' +
+  //  'Description="FILL"',
+  //'Imbue With Spell Ability': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=C4 ' +
+  //  'Description="FILL"',
+  //'Spell Immunity': OSRIC/OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=C4 ' +
+  //  'Description="FILL"',
+  //'Spike Growth': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C4,D3 ' +
+  //  'Description="FILL"',
+  //'Air Walk': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C5 ' +
+  //  'Description="FILL"',
+  'Animate Dead Monsters':
+    'School=Necromancy ' +
+    'Level=C5 ' +
+    'Description="FILL"',
+  'Golem':
+    'School=Alteration ' +
+    'Level=C5 ' +
+    'Description="FILL"',
+  //'Magic Font': OldSchool
+  //  'School=Divination ' +
+  //  'Level=C5 ' +
+  //  'Description="FILL"',
+  //'Rainbow': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=C5,I0 ' +
+  //  'Description="FILL"',
+  //'Spike Stones': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C5,D5 ' +
+  //  'Description="FILL"',
+  //'Forbiddance': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=C6 ' +
+  //  'Description="FILL"',
+  //"Heroes' Feast": OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=C6 ' +
+  //  'Description="FILL"',
+  //'Exaction': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=C7 ' +
+  //  'Description="FILL"',
+  //'Succor': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=C7,M9 ' +
+  //  'Description="FILL"',
+  'Detect Balance':
+    'School=Divination ' +
+    'Level=D1 ' +
+    'Description="FILL"',
+  //'Detect Poison': OldSchool
+  //  'School=Divination ' +
+  //  'Level=D1 ' +
+  //  'Description="FILL"',
+  //'Flame Blade': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=D2 ' +
+  //  'Description="FILL"',
+  //'Goodberry': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=D2 ' +
+  //  'Description="FILL"',
+  //'Reflecting Pool': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=D2 ' +
+  //  'Description="FILL"',
+  //'Slow Poison': OSRIC/OldSchool
+  //  'School=Necromancy ' +
+  //  'Level=D2 ' +
+  //  'Description="FILL"',
+  'Cloudburst':
+    'School=Alteration ' +
+    'Level=D3 ' +
+    'Description="FILL"',
+  //'Know Alignment': OSRIC/OldSchool
+  //  'School=Divination ' +
+  //  'Level=D3 ' +
+  //  'Description="FILL"',
+  //'Starshine': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=D3 ' +
+  //  'Description="FILL"',
+  //'Moonbeam': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=D5 ' +
+  //  'Description="FILL"',
+  //'Liveoak': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=D6 ' +
+  //  'Description="FILL"',
+  //'Transmute Water To Dust': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=D6,M6 ' +
+  //  'Description="FILL"',
+  //'Changestaff': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=D7 ' +
+  //  'Description="FILL"',
+  //'Sunray': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=D7 ' +
+  //  'Description="FILL"',
+  'Chill':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Clean':
+    'School=Abjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Coloor':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Dampen':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Dry':
+    'School=Abjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Dust':
+    'School=Abjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Exterminate':
+    'School=Abjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Flavor':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Freshen':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Gather':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Polish':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Salt':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Shine':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Spice':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Sprout':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Stitch':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Sweeten':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Tie':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Warm':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Wrap':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Curdle':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Dirty':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Dusty':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Hairy':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Knot':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Ravel':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Sour':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Spill':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Tangle':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Tarnish':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Untie':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Wilt':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Change':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Distract':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Hide':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Mute':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Palm':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Present':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Belch':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  //'Blink': OSRIC/OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M0 ' +
+  //  'Description="FILL"',
+  'Cough':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Giggle':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Nod':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Scratch':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Sneeze':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Twitch':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Wink':
+    'School=Enchantment ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Yawn':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Bee':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Bluelight':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Bug':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Firefinger':
+    'School=Alteration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Gnats':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Mouse':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Smokepuff':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Spider':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Tweak':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Unlock':
+    'School=Conjuration ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Creak':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Footfall':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Groan':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Moan':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Rattle':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Tap':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Thump':
+    'School=Illusion ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  'Whistle':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
+  //'Alarm': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M1 ' +
+  //  'Description="FILL"',
+  //'Armor': OSRIC/OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=M1 ' +
+  //  'Description="FILL"',
+  'Firewater':
+    'School=Alteration ' +
+    'Level=M1 ' +
+    'Description="FILL"',
+  //'Grease': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M1 ' +
+  //  'Description="FILL"',
+  'Melt':
+    'School=Alteration ' +
+    'Level=M1 ' +
+    'Description="FILL"',
+  //'Mount': OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=M1 ' +
+  //  'Description="FILL"',
+  'Run':
+    'School=Enchantment ' +
+    'Level=M1 ' +
+    'Description="FILL"',
+  //'Taunt': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=M1 ' +
+  //  'Description="FILL"',
+  //'Wizard Mark': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M1 ' +
+  //  'Description="FILL"',
+  //'Bind': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  //'Deeppockets': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  //'Flaming Sphere': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  //'Irritation': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  'Know Alignment':
+    'School=Divination ' +
+    'Level=M2 ' +
+    'Description="FILL"',
+  //"Melf's Acid Arrow": OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  'Preserve':
+    'School=Abjuration ' +
+    'Level=M2 ' +
+    'Description="FILL"',
+  //'Protection From Cantrips': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  //"Tasha's Uncontrollable Hideous Laughter": OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M2 ' +
+  //  'Description="FILL"',
+  'Vocalize':
+    'School=Alteration ' +
+    'Level=M2 ' +
+    'Description="FILL"',
+  'Whip':
+    'School=Evocation ' +
+    'Level=M2 ' +
+    'Description="FILL"',
+  'Zephyr':
+    'School=Evocation ' +
+    'Level=M2 ' +
+    'Description="FILL"',
+  'Cloudburst':
+    'School=Alteration ' +
+    'Level=M3 ' +
+    'Description="FILL"',
+  //'Detect Illusion': OSRIC
+  //  'School=Divination ' +
+  //  'Level=M3 ' +
+  //  'Description="FILL"',
+  //'Item': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M3 ' +
+  //  'Description="FILL"',
+  'Material':
+    'School=Evocation ' +
+    'Level=M3 ' +
+    'Description="FILL"',
+  //"Melf's Minute Meteors": OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M3 ' +
+  //  'Description="FILL"',
+  //'Secret Page': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M3 ' +
+  //  'Description="FILL"',
+  //'Sepia Snake Sigil': OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=M3 ' +
+  //  'Description="FILL"',
+  //'Wind Wall': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M3 ' +
+  //  'Description="FILL"',
+  //'Dispel Illusion': OSRIC
+  //  'School=Abjuration ' +
+  //  'Level=M4 ' +
+  //  'Description="FILL"',
+  //"Evard's Black Tentacles": OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=M4 ' +
+  //  'Description="FILL"',
+  //"Leomund's Secure Shelter": OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M4 ' +
+  //  'Description="FILL"',
+  //'Magic Mirror': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=M4,I5 ' +
+  //  'Description="FILL"',
+  //"Otiluke's Resilient Sphere": OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M4 ' +
+  //  'Description="FILL"',
+  //'Shout': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M4 ' +
+  //  'Description="FILL"',
+  //'Stoneskin': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M4 ' +
+  //  'Description="FILL"',
+  'Ultravision':
+    'School=Alteration ' +
+    'Level=M4,I2 ' +
+    'Description="FILL"',
+  //'Avoidance': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=M5 ' +
+  //  'Description="FILL"',
+  //'Dismissal': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=M5 ' +
+  //  'Description="FILL"',
+  'Dolor':
+    'School=Enchantment ' +
+    'Level=M5 ' +
+    'Description="FILL"',
+  //'Fabricate': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=M5 ' +
+  //  'Description="FILL"',
+  "Leomund's Lamentable Belabourment":
+    'School=Enchantment ' +
+    'Level=M5 ' +
+    'Description="FILL"',
+  //'Sending': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M5 ' +
+  //  'Description="FILL"',
+  //'Chain Lightning': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M6 ' +
+  //  'Description="FILL"',
+  //'Contingency': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M6 ' +
+  //  'Description="FILL"',
+  //'Ensnarement': OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=M6 ' +
+  //  'Description="FILL"',
+  //'Eyebite': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=M6 ' +
+  //  'Description="FILL"',
+  //"Mordenkainen's Lucubration": OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M6 ' +
+  //  'Description="FILL"',
+  //'Banishment': OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=M7 ' +
+  //  'Description="FILL"',
+  //'Forcecage': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M7 ' +
+  //  'Description="FILL"',
+  //"Mordenkainen's Magnificent Mansion": OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M7 ' +
+  //  'Description="FILL"',
+  //'Sequester': OldSchool
+  //  'School=Illusion ' +
+  //  'Level=M7 ' +
+  //  'Description="FILL"',
+  //'Teleport Without Error': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M7 ' +
+  //  'Description="FILL"',
+  'Torment':
+    'School=Evocation ' +
+    'Level=M7 ' +
+    'Description="FILL"',
+  'Truename':
+    'School=Enchantment ' +
+    'Level=M7 ' +
+    'Description="FILL"',
+  'Volley':
+    'School=Abjuration ' +
+    'Level=M7 ' +
+    'Description="FILL"',
+  //'Binding': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=M8 ' +
+  //  'Description="FILL"',
+  //'Demand': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M8 ' +
+  //  'Description="FILL"',
+  //"Otiluke's Telekinetic Sphere": OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M8 ' +
+  //  'Description="FILL"',
+  //'Sink': OldSchool
+  //  'School=Enchantment ' +
+  //  'Level=M8 ' +
+  //  'Description="FILL"',
+  //'Crystalbrittle': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M9 ' +
+  //  'Description="FILL"',
+  //'Energy Drain': OldSchool
+  //  'School=Evocation ' +
+  //  'Level=M9 ' +
+  //  'Description="FILL"',
+  //"Mordenkainen's Disjunction": OldSchool
+  //  'School=Alteration ' +
+  //  'Level=M9 ' +
+  //  'Description="FILL"',
+  'Colored Lights':
+    'School=Alteration ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  'Dim':
+    'School=Alteration ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  'Haze':
+    'School=Alteration ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  'Mask':
+    'School=Illusion ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  'Mirage':
+    'School=Illusion ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  'Noise':
+    'School=Illusion ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  "Two-D'lusion":
+    'School=Illusion ' +
+    'Level=I0 ' +
+    'Description="FILL"',
+  'Chromatic Orb':
+    'School=Alteration ' +
+    'Level=I1 ' +
+    'Description="FILL"',
+  'Phantom Armor':
+    'School=Alteration ' +
+    'Level=I1 ' +
+    'Description="FILL"',
+  'Read Illusionist Magic':
+    'School=Divination ' +
+    'Level=I1 ' +
+    'Description="FILL"',
+  //'Spook': OldSchool
+  //  'School=Illusion ' +
+  //  'Level=I1 ' +
+  //  'Description="FILL"',
+  //'Alter Self': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I2 ' +
+  //  'Description="FILL"',
+  'Fascinate':
+    'School=Illusion ' +
+    'Level=I2 ' +
+    'Description="FILL"',
+  //'Whispering Wind': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I2 ' +
+  //  'Description="FILL"',
+  //'Delude': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I3 ' +
+  //  'Description="FILL"',
+  //'Phantom Steed': OldSchool
+  //  'School=Conjuration ' +
+  //  'Level=I3 ' +
+  //  'Description="FILL"',
+  'Phantom Wind':
+    'School=Alteration ' +
+    'Level=I3 ' +
+    'Description="FILL"',
+  //'Wraithform': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I3 ' +
+  //  'Description="FILL"',
+  //'Dispel Magic': OSRIC/OldSchool
+  //  'School=Abjuration ' +
+  //  'Level=I4 ' +
+  //  'Description="FILL"',
+  //'Rainbow Pattern': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I4 ' +
+  //  'Description="FILL"',
+  //'Solid Fog': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I4 ' +
+  //  'Description="FILL"',
+  //'Vacancy': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I4 ' +
+  //  'Description="FILL"',
+  //'Advanced Illusion': OldSchool
+  //  'School=Illusion ' +
+  //  'Level=I5 ' +
+  //  'Description="FILL"',
+  //'Dream': OldSchool
+  //  'School=Alteration ' +
+  //  'Level=I5 ' +
+  //  'Description="FILL"',
+  'Tempus Fugit':
+    'School=Illusion ' +
+    'Level=I5 ' +
+    'Description="FILL"',
+  'Death Fog':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Death Fog'] + ' ' +
+    'Level=I6',
+  'Mislead':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Mislead'] + ' ' +
+    'Level=I6',
+  'Phantasmagoria':
+    'School=Illusion ' +
+    'Level=I6 ' +
+    'Description="FILL"',
+  'Mirage Arcane':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Mirage Arcana'] + ' ' +
+    'Level=I6',
+  'Shadow Walk':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Shadow Walk'] + ' ' +
+    'Level=I7',
+  'Weird':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Weird'] + ' ' +
+    'School=Evocation ' +
+    'Level=I7'
+};
+
 /* Defines rules related to character abilities. */
 UnearthedArcana1e.abilityRules = function(rules) {
 
@@ -368,6 +1226,11 @@ UnearthedArcana1e.identityRules = function(rules, classes, races) {
   for(var race in races) {
     UnearthedArcana1e.raceRulesExtra(rules, race);
   }
+};
+
+/* Defines rules related to magic use. */
+UnearthedArcana1e.magicRules = function(rules, spells) {
+  OldSchool.magicRules(rules, {}, spells);
 };
 
 /* Defines rules related to character aptitudes. */
@@ -660,6 +1523,9 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     );
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
+  } else if(name == 'Dwarf') {
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
   } else if(name.includes('Gnome')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
@@ -673,11 +1539,13 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
       );
     }
   } else if(name == 'Gray Dwarf') {
+    rules.defineRule
+      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
     rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
     rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     rules.defineRule
       ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
-  } else if(name == 'Gray Elf' || name == 'Valley Elf') {
+  } else if(name == 'Gray Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
@@ -691,6 +1559,9 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
   } else if(name == 'High Elf' || name == 'Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
+  } else if(name == 'Valley Elf') {
+    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
+    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
   } else if(name == 'Wild Elf') {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
