@@ -466,7 +466,9 @@ UnearthedArcana1e.SPELLS = {
     'Level=C5 ' +
     'Description="Uses existing rainbow to create +3 bow, $L\' wide bridge, 10\' radius elevator, or potion font for $L rd"',
   'Spike Stones':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Stones'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Stones']
+    .replace('R30', 'R$R') + ' ' +
+    'Range=30 ' +
     'Level=C5,D5',
   'Forbiddance':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Forbiddance'] + ' ' +
@@ -484,13 +486,15 @@ UnearthedArcana1e.SPELLS = {
   'Detect Balance':
     'School=Divination ' +
     'Level=D1 ' +
-    'Description="FILL"',
+    'Description="R60\' Self detects non-neutral alignment in target object or creature"',
   'Detect Poison':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Detect Poison'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Detect Poison']
+    .replace(/for\s\+\srd/, 'for $L rd') + ' ' +
     'School=Divination ' +
     'Level=D1',
   'Flame Blade':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Flame Blade'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Flame Blade']
+    .replace(/for\s\s+\srd/, 'for $L rd') + ' ' +
     'Level=D2',
   'Goodberry':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Goodberry'] + ' ' +
@@ -501,15 +505,22 @@ UnearthedArcana1e.SPELLS = {
     'Level=D2',
   'Slow Poison':
     OSRIC.SPELLS['Slow Poison']
-    .replace('Level=', 'Level=D2,'),
+    .replace('Level=', 'Level=D2,') + ' ' +
+    'Duration="$L hr"',
   'Know Alignment':
     OSRIC.SPELLS['Know Alignment']
+    .replace('10 touched', '5 touched')
+    .replace('1 tn', '5 rd')
     .replace('Level=', 'Level=D3,M2,'),
+  'Spike Growth D3':
+    'Range=60',
   'Starshine':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Starshine'] + ' ' +
     'Level=D3',
   'Moonbeam':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Moonbeam'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Moonbeam']
+    .replace(/Description=\S+/, 'Description="$L10\'')
+    .replace("5' radius", "10\\' diameter") + ' ' +
     'Level=D5',
   'Liveoak':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Liveoak'] + ' ' +
@@ -521,136 +532,138 @@ UnearthedArcana1e.SPELLS = {
     OldSchool.RULE_EDITS['Second Edition'].Spell['Changestaff'] + ' ' +
     'Level=D7',
   'Sunray':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Sunray'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Sunray']
+    .replace(/5.*radius/, "10' diameter")
+    .replace(/2 - 5/, '1') + ' ' +
     'Level=D7',
   'Chill':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Target 1\' cu drops 40F for 1/2 seg"',
   'Clean':
     'School=Abjuration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Removes dirt from 4 sq yd"',
   'Color':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Adds color to 1 cu yd object"',
   'Dampen':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Moistens 1 cu yd"',
   'Dry':
     'School=Abjuration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Removes dampness from 1 cu yd"',
   'Dust':
     'School=Abjuration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Remove dust from 10\' radius"',
   'Exterminate':
     'School=Abjuration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Kills target small pest"',
   'Flavor':
     'School=Enchantment ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Improves taste of target object"',
   'Freshen':
     'School=Enchantment ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Removes staleness or wilting from target"',
   'Gather':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Tidies 1 sq yd"',
   'Polish':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Smooths and brings luster to target object"',
   'Salt':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Sprinkles salt on target"',
   'Shine':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Removes rust or corrosion from target"',
   'Spice':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Adds spice taste to target"',
   'Sprout':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Accellerates plant growth in 1 cu yd"',
   'Stitch':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Sews seems in target cloth or leather object"',
   'Sweeten':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Adds sweetener taste to target"',
   'Tie':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Causes target to wrap into a tight knot"',
   'Warm':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Target 1\' cu rises 40F for 1/2 seg"',
   'Wrap':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Creates wrapping around 1 cu yd target"',
   'Curdle':
     'School=Enchantment ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Hastens spoilage of target object"',
   'Dirty':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Adds dirt to 4 sq yd"',
   'Dusty':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Addes dust to 10\' radius"',
   'Hairy':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Hair or fuzz on target grows 2d6\\""',
   'Knot':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Causes target to wrap into a knot that is difficult to untie"',
   'Ravel':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Undoes seam on target object"',
   'Sour':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Adds sour taste to target"',
   'Spill':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Dumps contents of target container"',
   'Tangle':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Causes target material to become entangled"',
   'Tarnish':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Add rust or corrosion to target object"',
   'Untie':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Removes knot from target object"',
   'Wilt':
     'School=Enchantment ' +
     'Level=M0 ' +
-    'Description="FILL"',
+    'Description="R10\' Adds staleness or wilting to target"',
   'Change':
     'School=Alteration ' +
     'Level=M0 ' +
