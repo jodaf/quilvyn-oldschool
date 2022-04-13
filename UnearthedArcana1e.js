@@ -15,8 +15,9 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-/*jshint esversion: 6 */
+/* jshint esversion: 6 */
 /* jshint forin: false */
+/* jshint sub:true */
 /* globals OldSchool, OSRIC, QuilvynUtils */
 "use strict";
 
@@ -335,219 +336,193 @@ UnearthedArcana1e.SPELLS = {
   'Ceremony':
     'School=Evocation ' +
     'Level=C1,D1 ' +
-    'Description="FILL"',
-  //'Combine': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=C1 ' +
-  //  'Description="FILL"',
+    'Description="Hour-long rite conveys various effects on touched"',
+  'Combine':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Combine'] + ' ' +
+    'Level=C1',
   'Endure Cold/Endure Heat':
     'School=Alteration ' +
     'Level=C1 ' +
-    'Description="FILL"',
-  //'Invisibility To Undead': OldSchool
-  //  'School=Illusion ' +
-  //  'Level=C1 ' +
-  //  'Description="FILL"',
+    'Description="Touched comfortable in -30F/130F for $L9 tn"',
+  'Invisibility To Undead':
+    'School=Illusion ' +
+    'Level=C1 ' +
+    'Description="Touched becomes undetectable by undead up to 4 HD (Save neg) for 6 rd"',
   'Magic Stone':
     'School=Alteration ' +
     'Level=C1 ' +
-    'Description="FILL"',
+    'Description="Touched stone becomes +1 weapon w/range 2/3/4, does 1 HP and breaks casting concentration (Spell neg)"',
   'Penetrate Disguise':
     'School=Divination ' +
     'Level=C1 ' +
-    'Description="FILL"',
+    'Description="R120\' Self sees through non-magical disguise (Save neg) for 1 rd"',
   'Portent':
     'School=Divination ' +
     'Level=C1 ' +
-    'Description="FILL"',
+    'Description="Self notes increment or decrement to touched\'s future attack or save roll"',
   'Precipitation':
     'School=Alteration ' +
     'Level=C1,D1,M1 ' +
-    'Description="FILL"',
-  //'Aid': OldSchool
-  //  'School=Necromancy ' +
-  //  'Level=C2 ' +
-  //  'Description="FILL"',
+    'Description="R$L10\' Causes 3\' diameter light rain for $L seg"',
+  'Aid':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Aid'] + ' ' +
+    'Level=C2',
   'Detect Life':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="FILL"',
-  //'Dust Devil': OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=C2 ' +
-  //  'Description="FILL"',
-  //'Enthrall': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=C2 ' +
-  //  'Description="FILL"',
+    'Description="R$L100\' Self determine whether target is alive for 5 rd"',
+  'Dust Devil':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Dust Devil'] + ' ' +
+    'Level=C2',
+  'Enthrall':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Enthrall']
+    .replace('3 HD', '4 HD/Wisdom 15') + ' ' +
+    'Level=C2',
   'Holy Symbol':
     'School=Conjuration ' +
     'Level=C2 ' +
-    'Description="FILL"',
-  //'Messenger': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=C2 ' +
-  //  'Description="FILL"',
-  //'Withdraw': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C2 ' +
-  //  'Description="FILL"',
-  //'Wyvern Watch': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=C2 ' +
-  //  'Description="FILL"',
+    'Description="Makes touched into a holy symbol"',
+  'Messenger':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Messenger']
+    .replace('dy', 'hr') + ' ' +
+    'Level=C2',
+  'Withdraw':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Withdraw'] + ' ' +
+    'Level=C2',
+  'Wyvern Watch':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Wyvern Watch'] + ' ' +
+    'Level=C2 ' +
+    'Description="R30\' Paralyzes trespassers in 10\' radius for $L rd (Save neg) for 8 hr"',
   'Cloudburst':
     'School=Alteration ' +
-    'Level=C3 ' +
-    'Description="FILL"',
+    'Level=C3,D3,M3 ' +
+    'Description="R$L10\' Causes 3\' diameter heavy rain for 1 rd"',
   "Death's Door":
     'School=Alteration ' +
     'Level=C3 ' +
-    'Description="FILL"',
-  //'Flame Walk': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C3 ' +
-  //  'Description="FILL"',
-  //'Magical Vestment': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C3 ' +
-  //  'Description="FILL"',
-  //'Meld Into Stone': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C3 ' +
-  //  'Description="FILL"',
-  //'Negative Plane Protection': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=C3 ' +
-  //  'Description="FILL"',
-  //'Remove Paralysis': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=C3 ' +
-  //  'Description="FILL"',
-  //'Water Walk': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C3 ' +
-  //  'Description="FILL"',
-  //'Abjure': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C4 ' +
-  //  'Description="FILL"',
+    'Description="Raises touched to 0 HP for $L hr"',
+  'Flame Walk':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Flame Walk']
+    .replace('rd', 'tn') + ' ' +
+    'Level=C3',
+  'Magical Vestment':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Magical Vestment'] + ' ' +
+    'School=Alteration ' +
+    'Level=C3 ' +
+    'Description="Touched vestment gives AC ${5-(lvl//4)} for $L6 rd"',
+  'Meld Into Stone':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Meld Into Stone'] + ' ' +
+    'Level=C3',
+  'Negative Plane Protection':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Negative Plane Protection'] + ' ' +
+    'Level=C3',
+  'Remove Paralysis':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Remove Paralysis'] + ' ' +
+    'Level=C3',
+  'Water Walk':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Water Walk'] + ' ' +
+    'Level=C3',
+  'Abjure':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Abjure'] + ' ' +
+    'School=Alteration ' +
+    'Level=C4',
   'Cloak Of Fear':
     'School=Illusion ' +
     'Level=C4 ' +
-    'Description="FILL"',
-  //'Giant Insect': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C4 ' +
-  //  'Description="FILL"',
-  //'Imbue With Spell Ability': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=C4 ' +
-  //  'Description="FILL"',
-  //'Spell Immunity': OSRIC/OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=C4 ' +
-  //  'Description="FILL"',
-  //'Spike Growth': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C4,D3 ' +
-  //  'Description="FILL"',
-  //'Air Walk': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C5 ' +
-  //  'Description="FILL"',
+    'Description="30\' radius causes creatures to run away (Spell Save neg) for 6 rd w/in $L tn"',
+  'Giant Insect':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Giant Insect'] + ' ' +
+    'Level=C4 ' +
+    'Description="R20\' 1 - 6 insects become ${lvl<10?3:lvl<13?4:6} HD giant versions for $L2 rd"',
+  'Imbue With Spell Ability':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Imbue With Spell Ability'] + ' ' +
+    'Level=C4',
+  'Spell Immunity':
+    OSRIC.SPELLS['Spell Immunity']
+    .replace('Level=', 'Level=C4,') + ' ' +
+    'Description="Touched immune to named spell for $L tn"',
+  'Spike Growth':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Growth'] + ' ' +
+    'Level=C4,D3 ' +
+    'Description="R60\' Spikes on vegetation in $L10\' sq inflict 2x1d4 HP each 10\' movement (Requires successful attack)"',
+  'Air Walk':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Air Walk'] + ' ' +
+    'Level=C5',
   'Animate Dead Monsters':
     'School=Necromancy ' +
     'Level=C5 ' +
-    'Description="FILL"',
+    'Description="R10\' %{lvl//2} humanoid or semi-humanoid corpses animate and obey self"',
   'Golem':
     'School=Alteration ' +
     'Level=C5 ' +
-    'Description="FILL"',
-  //'Magic Font': OldSchool
-  //  'School=Divination ' +
-  //  'Level=C5 ' +
-  //  'Description="FILL"',
-  //'Rainbow': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=C5,I0 ' +
-  //  'Description="FILL"',
-  //'Spike Stones': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C5,D5 ' +
-  //  'Description="FILL"',
-  //'Forbiddance': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=C6 ' +
-  //  'Description="FILL"',
-  //"Heroes' Feast": OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=C6 ' +
-  //  'Description="FILL"',
-  //'Exaction': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=C7 ' +
-  //  'Description="FILL"',
-  //'Succor': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=C7,M9 ' +
-  //  'Description="FILL"',
+    'Description="R10\' Construct made of straw%{lvl>10?\', rope\':\'\'}%{lvl>12?\', leather\':\'\'}%{lvl>14?\', wood\':\'\'} animates and obeys self"',
+  'Magic Font':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Magic Font']
+    .replace('hr', 'rd') + ' ' +
+    'School=Divination ' +
+    'Level=C5',
+  'Rainbow':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Rainbow'] + ' ' +
+    'Level=C5 ' +
+    'Description="Uses existing rainbow to create +3 bow, $L\' wide bridge, 10\' radius elevator, or potion font for $L rd"',
+  'Spike Stones':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Stones'] + ' ' +
+    'Level=C5,D5',
+  'Forbiddance':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Forbiddance'] + ' ' +
+    'Level=C6',
+  "Heroes' Feast":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Heroes' Feast"] + ' ' +
+    'School=Abjuration ' +
+    'Level=C6',
+  'Exaction':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Exaction'] + ' ' +
+    'Level=C7',
+  'Succor':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Succor'] + ' ' +
+    'Level=C7,M9',
   'Detect Balance':
     'School=Divination ' +
     'Level=D1 ' +
     'Description="FILL"',
-  //'Detect Poison': OldSchool
-  //  'School=Divination ' +
-  //  'Level=D1 ' +
-  //  'Description="FILL"',
-  //'Flame Blade': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=D2 ' +
-  //  'Description="FILL"',
-  //'Goodberry': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=D2 ' +
-  //  'Description="FILL"',
-  //'Reflecting Pool': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=D2 ' +
-  //  'Description="FILL"',
-  //'Slow Poison': OSRIC/OldSchool
-  //  'School=Necromancy ' +
-  //  'Level=D2 ' +
-  //  'Description="FILL"',
-  'Cloudburst':
-    'School=Alteration ' +
-    'Level=D3 ' +
-    'Description="FILL"',
-  //'Know Alignment': OSRIC/OldSchool
-  //  'School=Divination ' +
-  //  'Level=D3 ' +
-  //  'Description="FILL"',
-  //'Starshine': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=D3 ' +
-  //  'Description="FILL"',
-  //'Moonbeam': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=D5 ' +
-  //  'Description="FILL"',
-  //'Liveoak': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=D6 ' +
-  //  'Description="FILL"',
-  //'Transmute Water To Dust': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=D6,M6 ' +
-  //  'Description="FILL"',
-  //'Changestaff': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=D7 ' +
-  //  'Description="FILL"',
-  //'Sunray': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=D7 ' +
-  //  'Description="FILL"',
+  'Detect Poison':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Detect Poison'] + ' ' +
+    'School=Divination ' +
+    'Level=D1',
+  'Flame Blade':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Flame Blade'] + ' ' +
+    'Level=D2',
+  'Goodberry':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Goodberry'] + ' ' +
+    'Level=D2',
+  'Reflecting Pool':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Reflecting Pool'] + ' ' +
+    'School=Evocation ' +
+    'Level=D2',
+  'Slow Poison':
+    OSRIC.SPELLS['Slow Poison']
+    .replace('Level=', 'Level=D2,'),
+  'Know Alignment':
+    OSRIC.SPELLS['Know Alignment']
+    .replace('Level=', 'Level=D3,M2,'),
+  'Starshine':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Starshine'] + ' ' +
+    'Level=D3',
+  'Moonbeam':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Moonbeam'] + ' ' +
+    'Level=D5',
+  'Liveoak':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Liveoak'] + ' ' +
+    'Level=D6',
+  'Transmute Water To Dust':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Transmute Water To Dust'] + ' ' +
+    'Level=D6,M6',
+  'Changestaff':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Changestaff'] + ' ' +
+    'Level=D7',
+  'Sunray':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Sunray'] + ' ' +
+    'Level=D7',
   'Chill':
     'School=Evocation ' +
     'Level=M0 ' +
@@ -556,7 +531,7 @@ UnearthedArcana1e.SPELLS = {
     'School=Abjuration ' +
     'Level=M0 ' +
     'Description="FILL"',
-  'Coloor':
+  'Color':
     'School=Evocation ' +
     'Level=M0 ' +
     'Description="FILL"',
@@ -704,10 +679,10 @@ UnearthedArcana1e.SPELLS = {
     'School=Evocation ' +
     'Level=M0 ' +
     'Description="FILL"',
-  //'Blink': OSRIC/OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M0 ' +
-  //  'Description="FILL"',
+  'Blink':
+    'School=Evocation ' +
+    'Level=M0 ' +
+    'Description="FILL"',
   'Cough':
     'School=Evocation ' +
     'Level=M0 ' +
@@ -812,78 +787,68 @@ UnearthedArcana1e.SPELLS = {
     'School=Evocation ' +
     'Level=M0 ' +
     'Description="FILL"',
-  //'Alarm': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M1 ' +
-  //  'Description="FILL"',
-  //'Armor': OSRIC/OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=M1 ' +
-  //  'Description="FILL"',
+  'Alarm':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Alarm'] + ' ' +
+    'School=Evocation ' +
+    'Level=M1',
+  'Armor':
+    'School=Conjuration ' +
+    'Level=M1 ' +
+    'Description="FILL"',
   'Firewater':
     'School=Alteration ' +
     'Level=M1 ' +
     'Description="FILL"',
-  //'Grease': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M1 ' +
-  //  'Description="FILL"',
+  'Grease':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Grease'] + ' ' +
+    'School=Evocation ' +
+    'Level=M1',
   'Melt':
     'School=Alteration ' +
     'Level=M1 ' +
     'Description="FILL"',
-  //'Mount': OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=M1 ' +
-  //  'Description="FILL"',
+  'Mount':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Mount'] + ' ' +
+    'Level=M1',
   'Run':
     'School=Enchantment ' +
     'Level=M1 ' +
     'Description="FILL"',
-  //'Taunt': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=M1 ' +
-  //  'Description="FILL"',
-  //'Wizard Mark': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M1 ' +
-  //  'Description="FILL"',
-  //'Bind': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
-  //'Deeppockets': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
-  //'Flaming Sphere': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
-  //'Irritation': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
-  'Know Alignment':
-    'School=Divination ' +
-    'Level=M2 ' +
-    'Description="FILL"',
-  //"Melf's Acid Arrow": OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
+  'Taunt':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Taunt'] + ' ' +
+    'Level=M1',
+  'Wizard Mark':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Wizard Mark'] + ' ' +
+    'Level=M1',
+  'Bind':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
+    'School=Alteration ' +
+    'Level=M2',
+  'Deeppockets':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Deeppockets'] + ' ' +
+    'Level=M2',
+  'Flaming Sphere':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Flaming Sphere'] + ' ' +
+    'School=Alteration ' +
+    'Level=M2',
+  'Irritation':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Irritation'] + ' ' +
+    'Level=M2',
+  "Melf's Acid Arrow":
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
+    'School=Evocation ' +
+    'Level=M2',
   'Preserve':
     'School=Abjuration ' +
     'Level=M2 ' +
     'Description="FILL"',
-  //'Protection From Cantrips': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
-  //"Tasha's Uncontrollable Hideous Laughter": OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M2 ' +
-  //  'Description="FILL"',
+  'Protection From Cantrips':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Protection From Cantrips'] + ' ' +
+    'Level=M2',
+  "Tasha's Uncontrollable Hideous Laughter":
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
+    'School=Alteration ' +
+    'Level=M2',
   'Vocalize':
     'School=Alteration ' +
     'Level=M2 ' +
@@ -896,134 +861,100 @@ UnearthedArcana1e.SPELLS = {
     'School=Evocation ' +
     'Level=M2 ' +
     'Description="FILL"',
-  'Cloudburst':
-    'School=Alteration ' +
-    'Level=M3 ' +
-    'Description="FILL"',
-  //'Detect Illusion': OSRIC
-  //  'School=Divination ' +
-  //  'Level=M3 ' +
-  //  'Description="FILL"',
-  //'Item': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M3 ' +
-  //  'Description="FILL"',
+  'Detect Illusion':
+    OSRIC.SPELLS['Detect Illusion'].replace('Level=', 'Level=M3,'),
+  'Item':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Item'] + ' ' +
+    'Level=M3',
   'Material':
     'School=Evocation ' +
     'Level=M3 ' +
     'Description="FILL"',
-  //"Melf's Minute Meteors": OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M3 ' +
-  //  'Description="FILL"',
-  //'Secret Page': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M3 ' +
-  //  'Description="FILL"',
-  //'Sepia Snake Sigil': OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=M3 ' +
-  //  'Description="FILL"',
-  //'Wind Wall': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M3 ' +
-  //  'Description="FILL"',
-  //'Dispel Illusion': OSRIC
-  //  'School=Abjuration ' +
-  //  'Level=M4 ' +
-  //  'Description="FILL"',
-  //"Evard's Black Tentacles": OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=M4 ' +
-  //  'Description="FILL"',
-  //"Leomund's Secure Shelter": OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M4 ' +
-  //  'Description="FILL"',
-  //'Magic Mirror': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=M4,I5 ' +
-  //  'Description="FILL"',
-  //"Otiluke's Resilient Sphere": OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M4 ' +
-  //  'Description="FILL"',
-  //'Shout': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M4 ' +
-  //  'Description="FILL"',
-  //'Stoneskin': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M4 ' +
-  //  'Description="FILL"',
+  "Melf's Minute Meteors":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Melf's Minute Meteors"] + ' ' +
+    'Level=M3',
+  'Secret Page':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Secret Page'] + ' ' +
+    'Level=M3',
+  'Sepia Snake Sigil':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Sepia Snake Sigil'] + ' ' +
+    'Level=M3',
+  'Wind Wall':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Wind Wall'] + ' ' +
+    'Level=M3',
+  'Dispel Illusion':
+    OSRIC.SPELLS['Dispel Illusion'].replace('Level=', 'Level=M4,'),
+  "Evard's Black Tentacles":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Evard's Black Tentacles"] + ' ' +
+    'Level=M4',
+  "Leomund's Secure Shelter":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Leomund's Secure Shelter"] + ' ' +
+    'Level=M4',
+  'Magic Mirror':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
+    'Level=M4,I5',
+  "Otiluke's Resilient Sphere":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Resilient Sphere"] + ' ' +
+    'Level=M4',
+  'Shout':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Shout'] + ' ' +
+    'Level=M4',
+  'Stoneskin':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Stoneskin'] + ' ' +
+    'Level=M4',
   'Ultravision':
     'School=Alteration ' +
     'Level=M4,I2 ' +
     'Description="FILL"',
-  //'Avoidance': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=M5 ' +
-  //  'Description="FILL"',
-  //'Dismissal': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=M5 ' +
-  //  'Description="FILL"',
+  'Avoidance':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Avoidance'] + ' ' +
+    'Level=M5',
+  'Dismissal':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Dismissal'] + ' ' +
+    'Level=M5',
   'Dolor':
     'School=Enchantment ' +
     'Level=M5 ' +
     'Description="FILL"',
-  //'Fabricate': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=M5 ' +
-  //  'Description="FILL"',
+  'Fabricate':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Fabricate'] + ' ' +
+    'Level=M5',
   "Leomund's Lamentable Belabourment":
-    'School=Enchantment ' +
-    'Level=M5 ' +
-    'Description="FILL"',
-  //'Sending': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M5 ' +
-  //  'Description="FILL"',
-  //'Chain Lightning': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M6 ' +
-  //  'Description="FILL"',
-  //'Contingency': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M6 ' +
-  //  'Description="FILL"',
-  //'Ensnarement': OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=M6 ' +
-  //  'Description="FILL"',
-  //'Eyebite': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=M6 ' +
-  //  'Description="FILL"',
-  //"Mordenkainen's Lucubration": OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M6 ' +
-  //  'Description="FILL"',
-  //'Banishment': OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=M7 ' +
-  //  'Description="FILL"',
-  //'Forcecage': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M7 ' +
-  //  'Description="FILL"',
-  //"Mordenkainen's Magnificent Mansion": OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M7 ' +
-  //  'Description="FILL"',
-  //'Sequester': OldSchool
-  //  'School=Illusion ' +
-  //  'Level=M7 ' +
-  //  'Description="FILL"',
-  //'Teleport Without Error': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M7 ' +
-  //  'Description="FILL"',
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Leomund's Lamentable Belaborment"] + ' ' + // spelling change
+    'Level=M5',
+  'Sending':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Sending'] + ' ' +
+    'Level=M5',
+  'Chain Lightning':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Chain Lightning'] + ' ' +
+    'Level=M6',
+  'Contingency':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Contingency'] + ' ' +
+    'Level=M6',
+  'Ensnarement':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Ensnarement'] + ' ' +
+    'Level=M6',
+  'Eyebite':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Eyebite'] + ' ' +
+    'Level=M6',
+  "Mordenkainen's Lucubration":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Mordenkainen's Lucubration"] + ' ' +
+    'Level=M6',
+  'Banishment':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Banishment'] + ' ' +
+    'Level=M7',
+  'Forcecage':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Forcecage'] + ' ' +
+    'Level=M7',
+  "Mordenkainen's Magnificent Mansion":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Mordenkainen's Magnificent Mansion"] + ' ' +
+    'Level=M7',
+  'Sequester':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Sequester'] + ' ' +
+    'Level=M7',
+  'Teleport Without Error':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Teleport Without Error'] + ' ' +
+    'Level=M7',
   'Torment':
     'School=Evocation ' +
     'Level=M7 ' +
@@ -1036,34 +967,27 @@ UnearthedArcana1e.SPELLS = {
     'School=Abjuration ' +
     'Level=M7 ' +
     'Description="FILL"',
-  //'Binding': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=M8 ' +
-  //  'Description="FILL"',
-  //'Demand': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M8 ' +
-  //  'Description="FILL"',
-  //"Otiluke's Telekinetic Sphere": OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M8 ' +
-  //  'Description="FILL"',
-  //'Sink': OldSchool
-  //  'School=Enchantment ' +
-  //  'Level=M8 ' +
-  //  'Description="FILL"',
-  //'Crystalbrittle': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M9 ' +
-  //  'Description="FILL"',
-  //'Energy Drain': OldSchool
-  //  'School=Evocation ' +
-  //  'Level=M9 ' +
-  //  'Description="FILL"',
-  //"Mordenkainen's Disjunction": OldSchool
-  //  'School=Alteration ' +
-  //  'Level=M9 ' +
-  //  'Description="FILL"',
+  'Binding':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
+    'Level=M8',
+  'Demand':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Demand'] + ' ' +
+    'Level=M8',
+  "Otiluke's Telekinetic Sphere":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Telekinetic Sphere"] + ' ' +
+    'Level=M8',
+  'Sink':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Sink'] + ' ' +
+    'Level=M8',
+  'Crystalbrittle':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Crystalbrittle'] + ' ' +
+    'Level=M9',
+  'Energy Drain':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Energy Drain'] + ' ' +
+    'Level=M9',
+  "Mordenkainen's Disjunction":
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Mordenkainen's Disjunction"] + ' ' +
+    'Level=M9',
   'Colored Lights':
     'School=Alteration ' +
     'Level=I0 ' +
@@ -1088,6 +1012,10 @@ UnearthedArcana1e.SPELLS = {
     'School=Illusion ' +
     'Level=I0 ' +
     'Description="FILL"',
+  'Rainbow Cantrip':
+    'School=Alteration ' +
+    'Level=I0 ' +
+    'Description="FILL"',
   "Two-D'lusion":
     'School=Illusion ' +
     'Level=I0 ' +
@@ -1104,62 +1032,51 @@ UnearthedArcana1e.SPELLS = {
     'School=Divination ' +
     'Level=I1 ' +
     'Description="FILL"',
-  //'Spook': OldSchool
-  //  'School=Illusion ' +
-  //  'Level=I1 ' +
-  //  'Description="FILL"',
-  //'Alter Self': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I2 ' +
-  //  'Description="FILL"',
+  'Spook':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Spook'] + ' ' +
+    'Level=I1',
+  'Alter Self':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Alter Self'] + ' ' +
+    'Level=I2',
   'Fascinate':
     'School=Illusion ' +
     'Level=I2 ' +
     'Description="FILL"',
-  //'Whispering Wind': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I2 ' +
-  //  'Description="FILL"',
-  //'Delude': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I3 ' +
-  //  'Description="FILL"',
-  //'Phantom Steed': OldSchool
-  //  'School=Conjuration ' +
-  //  'Level=I3 ' +
-  //  'Description="FILL"',
+  'Whispering Wind':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Whispering Wind'] + ' ' +
+    'Level=I2',
+  'Delude':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Delude'] + ' ' +
+    'Level=I3',
+  'Phantom Steed':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Phantom Steed'] + ' ' +
+    'Level=I3',
   'Phantom Wind':
     'School=Alteration ' +
     'Level=I3 ' +
     'Description="FILL"',
-  //'Wraithform': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I3 ' +
-  //  'Description="FILL"',
-  //'Dispel Magic': OSRIC/OldSchool
-  //  'School=Abjuration ' +
-  //  'Level=I4 ' +
-  //  'Description="FILL"',
-  //'Rainbow Pattern': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I4 ' +
-  //  'Description="FILL"',
-  //'Solid Fog': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I4 ' +
-  //  'Description="FILL"',
-  //'Vacancy': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I4 ' +
-  //  'Description="FILL"',
-  //'Advanced Illusion': OldSchool
-  //  'School=Illusion ' +
-  //  'Level=I5 ' +
-  //  'Description="FILL"',
-  //'Dream': OldSchool
-  //  'School=Alteration ' +
-  //  'Level=I5 ' +
-  //  'Description="FILL"',
+  'Wraithform':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Wraithform'] + ' ' +
+    'Level=I3',
+  'Dispel Magic':
+    OSRIC.SPELLS['Dispel Magic'].replace('Level=', 'Level=I4,'),
+  'Rainbow Pattern':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Rainbow Pattern'] + ' ' +
+    'Level=I4',
+  'Solid Fog':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Solid Fog'] + ' ' +
+    'Level=I4',
+  'Vacancy':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Vacancy'] + ' ' +
+    'School=Alteration ' +
+    'Level=I4',
+  'Advanced Illusion':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Advanced Illusion'] + ' ' +
+    'Level=I5',
+  'Dream':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Dream'] + ' ' +
+    'School=Alteration ' +
+    'Level=I5',
   'Tempus Fugit':
     'School=Illusion ' +
     'Level=I5 ' +
