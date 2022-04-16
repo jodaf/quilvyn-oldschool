@@ -2257,7 +2257,7 @@ OldSchool.RULE_EDITS = {
       'Bind':
         'Level=W2 ' +
         'School=Enchantment ' +
-        'Description="R30\' $L5plus50\' rope-like item entangles or trips target (Save neg)"',
+        'Description="R30\' $L5plus50\' rope-like item entangles or trips target (Save neg) for $L rd"',
       'Binding':
         'Level=W8 ' +
         'School=Enchantment ' +
@@ -2461,7 +2461,7 @@ OldSchool.RULE_EDITS = {
       'Irritation':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="RL10\' 1 - 4 targets in 15\' radius itch (-4 AC, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
+        'Description="R$L10\' 1 - 4 targets in 15\' radius itch (+4 AC, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
       'Item':
         'Level=W3 ' +
         'School=Alteration ' +
