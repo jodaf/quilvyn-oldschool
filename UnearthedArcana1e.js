@@ -595,7 +595,7 @@ UnearthedArcana1e.SPELLS = {
   'Sprout':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="R10\' Accellerates plant growth in 1 cu yd"',
+    'Description="R10\' Accelerates plant growth in 1 cu yd"',
   'Stitch':
     'School=Alteration ' +
     'Level=M0 ' +
@@ -627,7 +627,7 @@ UnearthedArcana1e.SPELLS = {
   'Dusty':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Addes dust to 10\' radius"',
+    'Description="R10\' Adds dust to 10\' radius"',
   'Hairy':
     'School=Alteration ' +
     'Level=M0 ' +
@@ -683,7 +683,7 @@ UnearthedArcana1e.SPELLS = {
   'Palm':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Makes target invisilble and creates illusionary duplicate for 1 seg"',
+    'Description="R10\' Makes target invisible and creates illusionary duplicate for 1 seg"',
   'Present':
     'School=Alteration ' +
     'Level=M0 ' +
