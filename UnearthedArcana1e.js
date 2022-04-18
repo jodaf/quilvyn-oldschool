@@ -936,7 +936,10 @@ UnearthedArcana1e.SPELLS = {
   'Ultravision':
     'School=Alteration ' +
     'Level=M4,I2 ' +
-    'Description="Touched sees 100 yd clearly at night"',
+    'Description="Touched sees 100 yd clearly at night for %{lvl+6} tn" ' +
+    'Duration="%{lvl*6+6}"',
+  'Ultravision I2':
+    'Duration="%{lvl+6}"',
   'Avoidance':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Avoidance'] + ' ' +
     'Level=M5',
@@ -967,7 +970,8 @@ UnearthedArcana1e.SPELLS = {
     OldSchool.RULE_EDITS['Second Edition'].Spell['Ensnarement'] + ' ' +
     'Level=M6',
   'Eyebite':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Eyebite'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Eyebite']
+    .replace('$Ldiv3', '1') + ' ' +
     'Level=M6',
   "Mordenkainen's Lucubration":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Mordenkainen's Lucubration"] + ' ' +
@@ -990,23 +994,25 @@ UnearthedArcana1e.SPELLS = {
   'Torment':
     'School=Evocation ' +
     'Level=M7 ' +
-    'Description="FILL"',
+    'Description="R10\' Uses pain to force compliance from extraplanar creature (Save neg)"',
   'Truename':
     'School=Enchantment ' +
     'Level=M7 ' +
-    'Description="FILL"',
+    'Description="R30\' Imposes suggestions, surrender, polymorph, or transport on creature whose true name is known"',
   'Volley':
     'School=Abjuration ' +
     'Level=M7 ' +
-    'Description="FILL"',
+    'Description="Reflects spell cast on self back upon caster"',
   'Binding':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
     'Level=M8',
   'Demand':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Demand'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Demand']
+    .replace('Save -2 neg', 'Save neg') + ' ' +
     'Level=M8',
   "Otiluke's Telekinetic Sphere":
-    OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Telekinetic Sphere"] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Telekinetic Sphere"]
+    .replace('L2 rd', 'L rd') + ' ' +
     'Level=M8',
   'Sink':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Sink'] + ' ' +
@@ -1023,47 +1029,47 @@ UnearthedArcana1e.SPELLS = {
   'Colored Lights':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="R10\' Creates 1\'-diameter movable colored light(s) for conc"',
   'Dim':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="Halves brightness in 10\ radius"',
   'Haze':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="Fills 10\' cu with smoky haze (-1 missile attacks, +1 saves) for 1 rd"',
   'Mask':
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="Changes touched facial features for 1d4+2 rd"',
   'Mirage':
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="R10\' Covers 20\' sq area w/image of known location for conc or until touched"',
   'Noise':
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="R10\' Creates indistinct sound for conc (Save neg)"',
   'Rainbow Cantrip':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="R10\' Creates movable 30\' rainbow that fascinates (Save neg) for 1 rd"',
   "Two-D'lusion":
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="FILL"',
+    'Description="R10\' Creates 40\' sq illusion for conc or until touched (Save or angled view disbelieve)"',
   'Chromatic Orb':
     'School=Alteration ' +
     'Level=I1 ' +
-    'Description="FILL"',
+    'Description="R30\' Hurled orb damages target on contact"',
   'Phantom Armor':
     'School=Alteration ' +
     'Level=I1 ' +
-    'Description="FILL"',
+    'Description="Touched gains AC 3, absorbs $L HP"',
   'Read Illusionist Magic':
     'School=Divination ' +
     'Level=I1 ' +
-    'Description="FILL"',
+    'Description="Self understands illusionist writing for $L2 rd (Reverse obscures)"',
   'Spook':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Spook'] + ' ' +
     'Level=I1',
@@ -1073,46 +1079,53 @@ UnearthedArcana1e.SPELLS = {
   'Fascinate':
     'School=Illusion ' +
     'Level=I2 ' +
-    'Description="FILL"',
+    'Description="R30\' Target captivated by self for 1d4 dy (Save neg, failed comeliness ends)"',
   'Whispering Wind':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Whispering Wind'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Whispering Wind']
+    .replace('25', '12') + ' ' +
     'Level=I2',
   'Delude':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Delude'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Delude']
+    .replace("10' radius", "30' radius") + ' ' +
     'Level=I3',
   'Phantom Steed':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Phantom Steed'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Phantom Steed']
+    .replace('$Lplus7 HP, AC 2', '12 HP') + ' ' +
     'Level=I3',
   'Phantom Wind':
     'School=Alteration ' +
     'Level=I3 ' +
-    'Description="FILL"',
+    'Description="R$L10\' Breeze-like effect moves objects for $L rd"',
   'Wraithform':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wraithform'] + ' ' +
     'Level=I3',
   'Dispel Magic':
     OSRIC.SPELLS['Dispel Magic'].replace('Level=', 'Level=I4,'),
+  'Dispel Magic I4':
+    'Range=90\'',
   'Rainbow Pattern':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Rainbow Pattern'] + ' ' +
     'Level=I4',
   'Solid Fog':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Solid Fog'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Solid Fog']
+    .replace('L10', 'L20') + ' ' +
     'Level=I4',
   'Vacancy':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Vacancy'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Vacancy']
+    .replace('hr', 'tn') + ' ' +
     'School=Alteration ' +
     'Level=I4',
   'Advanced Illusion':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Advanced Illusion'] + ' ' +
     'Level=I5',
   'Dream':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Dream'] + ' ' +
     'School=Alteration ' +
-    'Level=I5',
+    'Level=I5 ' +
+    'Description="Full night\'s sleep gives self <i>Limited Wish</i> effects"',
   'Tempus Fugit':
     'School=Illusion ' +
     'Level=I5 ' +
-    'Description="FILL"',
+    'Description="10\' radius speeds time x6 for $L5 tn"',
   'Death Fog':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Death Fog'] + ' ' +
     'Level=I6',
@@ -1122,12 +1135,13 @@ UnearthedArcana1e.SPELLS = {
   'Phantasmagoria':
     'School=Illusion ' +
     'Level=I6 ' +
-    'Description="FILL"',
+    'Description="R60\' Creates triggered %{lvl*10+40}\' sq sight, sound, smell, and temperature illusion for %{lvl} rd"',
   'Mirage Arcane':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Mirage Arcana'] + ' ' +
     'Level=I6',
   'Shadow Walk':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Shadow Walk'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Shadow Walk']
+    .replace('7 miles', '21 miles') + ' ' +
     'Level=I7',
   'Weird':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Weird'] + ' ' +
