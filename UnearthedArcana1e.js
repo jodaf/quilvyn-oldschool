@@ -508,10 +508,13 @@ UnearthedArcana1e.SPELLS = {
     .replace('Level=', 'Level=D2,') + ' ' +
     'Duration="%{lvl} hr"',
   'Know Alignment':
-    OSRIC.SPELLS['Know Alignment']
-    .replace('10 touched', '5 touched')
-    .replace('1 tn', '5 rd')
-    .replace('Level=', 'Level=D3,M2,'),
+    'School=Divination ' +
+    'Level=C2,D3,M2 ' +
+    'Description="R10\' Self discerns aura of $E for $D rd (Reverse obscures)" ' +
+    'Effect="1 target/rd" ' +
+    'Duration=10',
+  'Know Alignment D3':
+    'Duration=5',
   'Spike Growth D3':
     'Range=60 ' +
     'Duration="3d4 + %{lvl}"',
@@ -844,33 +847,37 @@ UnearthedArcana1e.SPELLS = {
     'Level=M2',
   'Deeppockets':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Deeppockets']
-    .replace('Lplus12', 'Lplus4') + ' ' +
+    .replace('Lplus12', '%{lvl+4}') + ' ' +
     'Level=M2',
   'Flaming Sphere':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Flaming Sphere'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Flaming Sphere']
+    .replace("30'/rd", "10'/rd") + ' ' +
     'School=Alteration ' +
     'Level=M2',
   'Irritation':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Irritation']
-    .replace(/1 - 4.*radius/, 'Target') + ' ' +
+    .replace(/1 - 4.*radius/, 'Target')
+    .replace('Charisma', 'Comeliness') + ' ' +
     'Level=M2',
+  'Know Alignment M2':
+    'Effect="1 target/2 rd" ' +
+    'Duration=%{lvl}',
   "Melf's Acid Arrow":
-    OldSchool.RULE_EDITS['Second Edition'].Spell["Melf's Acid Arrow"]
-    .replace('180', '30') + ' ' +
     'School=Evocation ' +
-    'Level=M2',
+    'Level=M2 ' +
+    'Description="R30\' +1 attack inflicts 1d4+1 force, 2d4 HP/rd acid for %{lvl//3+1} rd"',
   'Preserve':
     'School=Abjuration ' +
     'Level=M2 ' +
-    'Description="Preserves touched material for later use"',
+    'Description="Preserves %{lvl//2}\' cu touched material for later use"',
   'Protection From Cantrips':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Protection From Cantrips']
     .replace('Lplus5 hr', 'L dy') + ' ' +
     'Level=M2',
   "Tasha's Uncontrollable Hideous Laughter":
-    'School=Alteration ' +
+    'School=Evocation ' +
     'Level=M2 ' +
-    'Description="R30\' Target suffers -2 attack and damage for 2 rd (Save neg)"',
+    'Description="R50\' Target suffers -2 attack and damage for 2 rd (Save neg)"',
   'Vocalize':
     'School=Alteration ' +
     'Level=M2 ' +
@@ -896,6 +903,7 @@ UnearthedArcana1e.SPELLS = {
     'Description="R10\' Creates %{lvl}\' cu of raw materials"',
   "Melf's Minute Meteors":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Melf's Minute Meteors"]
+    .replace('+2 ', '')
     .replace('L10plus70', 'L10') + ' ' +
     'Level=M3',
   'Secret Page':
@@ -907,7 +915,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=M3',
   'Wind Wall':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wind Wall']
-    .replace(/L10.x5/, "10\'x%{lvl//2}") + ' ' +
+    .replace(/L10.x5/, "10\'x%{lvl/2*5}") + ' ' +
     'Level=M3',
   'Dispel Illusion':
     OSRIC.SPELLS['Dispel Illusion'].replace('Level=', 'Level=M4,'),
@@ -929,7 +937,8 @@ UnearthedArcana1e.SPELLS = {
     OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Resilient Sphere"] + ' ' +
     'Level=M4',
   'Shout':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Shout'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Shout']
+    .replace(/\(Save.*\)/, '(Save neg)') + ' ' +
     'Level=M4',
   'Stoneskin':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Stoneskin']
@@ -938,7 +947,7 @@ UnearthedArcana1e.SPELLS = {
   'Ultravision':
     'School=Alteration ' +
     'Level=M4,I2 ' +
-    'Description="Touched sees 100 yd clearly at night for %{lvl+6} tn" ' +
+    'Description="Touched sees 100 yd clearly at night for $D tn" ' +
     'Duration="%{lvl*6+6}"',
   'Ultravision I2':
     'Duration="%{lvl+6}"',
@@ -1010,6 +1019,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=M8',
   'Demand':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Demand']
+    .replace('25-word', '%{lvl}-word')
     .replace('Save -2 neg', 'Save neg') + ' ' +
     'Level=M8',
   "Otiluke's Telekinetic Sphere":
@@ -1035,7 +1045,7 @@ UnearthedArcana1e.SPELLS = {
   'Dim':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="Halves brightness in 10\ radius"',
+    'Description="Halves brightness in 10\' radius"',
   'Haze':
     'School=Alteration ' +
     'Level=I0 ' +
