@@ -2249,7 +2249,7 @@ OldSchool.RULE_EDITS = {
       'Avoidance':
         'Level=W5 ' +
         'School=Abjuration ' +
-        'Description="R10\' 3\' cu target repels all but self"',
+        'Description="R10\' 3\' cu repels all but self"',
       'Banishment':
         'Level=W7 ' +
         'School=Abjuration ' +
@@ -2293,7 +2293,7 @@ OldSchool.RULE_EDITS = {
       'Contingency':
         'Level=W6 ' +
         'School=Evocation ' +
-        'Description="Sets trigger for level $Ldiv2min6 self spell for $L dy"',
+        'Description="Sets trigger for level $Ldiv3min6 self spell for $L dy"',
       'Control Undead':
         'Level=W7 ' +
         'School=Necromancy ' +
@@ -2301,7 +2301,7 @@ OldSchool.RULE_EDITS = {
       'Crystalbrittle':
         'Level=W9 ' +
         'School=Alteration ' +
-        'Description="Touched $L2\' cu becomes fragile"',
+        'Description="Touched $L2\' cu metal becomes fragile"',
       'Cure Blindness Or Deafness':
         'Level=P3 ' +
         'School=Abjuration ' +
@@ -2413,7 +2413,7 @@ OldSchool.RULE_EDITS = {
       'Forcecage':
         'Level=W7 ' +
         'School=Evocation ' +
-        'Description="R$L5\' Creates 20\' cu of 1/2-inch-spaced bars for $Lplus6 tn"',
+        'Description="R$L5\' Creates 20\' cu of 1/2\\"-spaced bars for $Lplus6 tn"',
       'Foresight':
         'Level=W9 ' +
         'School="Greater Divination" ' +
@@ -2533,7 +2533,7 @@ OldSchool.RULE_EDITS = {
       "Mordenkainen's Disjunction":
         'Level=W9 ' +
         'School=Alteration ' +
-        'Description="R30\' Dispels spells, disenchants magic items, $L% chance to disenchant artifacts or destroy antimagic field"',
+        'Description="30\' radius dispels spells, disenchants magic items, $L% chance to disenchant artifacts or destroy antimagic field"',
       "Mordenkainen's Magnificent Mansion":
         'Level=W7 ' +
         'School=Alteration ' +
@@ -2597,7 +2597,7 @@ OldSchool.RULE_EDITS = {
       'Sepia Snake Sigil':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="Immobilizes reader for 1d4 + $L dy"',
+        'Description="Safely immobilizes reader for 1d4 + $L dy"',
       'Sequester':
         'Level=W7 ' +
         'School=Illusion ' +
