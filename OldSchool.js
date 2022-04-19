@@ -120,7 +120,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.4';
+OldSchool.VERSION = '2.3.1.5';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -2269,7 +2269,7 @@ OldSchool.RULE_EDITS = {
       'Changestaff':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="Touched staff becomes Treant (12 HD, 40 HP, AC 0)"',
+        'Description="Touched staff becomes treant (12 HD, 40 HP, AC 0)"',
       'Chain Lightning':
         'Level=W6 ' +
         'School=Evocation ' +
@@ -2381,7 +2381,7 @@ OldSchool.RULE_EDITS = {
       'Exaction':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="Demands service of extra-planar creature"',
+        'Description="R10\' Demands service of extra-planar creature"',
       'Eyebite':
         'Level=W6 ' +
         'School=Enchantment ' +
@@ -2577,7 +2577,7 @@ OldSchool.RULE_EDITS = {
       'Remove Paralysis':
         'Level=P3 ' +
         'School=Abjuration ' +
-        'Description="R$L10\' Frees 1d4 targets in 20\' cu from magical paralysis"',
+        'Description="R$L10\' Gives extra save to 1d4 paralyzed targets in 20\' cu"',
       'Screen':
         'Level=W8 ' +
         'School="Greater Divination" ' +
@@ -2661,7 +2661,7 @@ OldSchool.RULE_EDITS = {
       'Sunray':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="R10\' 5\' radius blinds 1d3 rd and inflicts 8d6 HP on undead (3d6 within 20\') for 2 - 5 rd"',
+        'Description="R$L10\' 5\' radius blinds 1d3 rd and inflicts 8d6 HP on undead (3d6 within 20\') for 2 - 5 rd"',
       "Tasha's Uncontrollable Hideous Laughter":
         'Level=W2 ' +
         'School=Enchantment ' +
@@ -2692,7 +2692,7 @@ OldSchool.RULE_EDITS = {
       'Water Walk':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="$Lminus5 touched walk on liquid as if it were a solid surface for $Lplus1 tn"',
+        'Description="%{(lvl-5)>?1} touched walk on liquid as if it were a solid surface for $Lplus1 tn"',
       'Weird':
         'Level=W9 ' +
         'School=Illusion ' +
