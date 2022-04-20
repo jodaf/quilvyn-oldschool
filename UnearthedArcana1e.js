@@ -22,38 +22,101 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 "use strict";
 
 /*
- * This module loads the rules from the 1st Edition Unearthed Arcana supplement.
- * The UnearthedArcana1e function contains methods that load rules for
- * particular parts of the rule books; raceRules for character races,
- * magicRules for spells, etc. These member methods can be called independently
- * in order to use a subset of the UnearthedArcana1e rules. Similarly, the
- * constant fields of UnearthedArcana1e (RACES, SPELLS, etc.) can be
- * manipulated to modify the choices.
+ * UnearthedArcana1e is a placeholder for the items and functions defined by
+ * the plugin. OldSchool invokes this plugin's abilityRules and choiceRules
+ * functions directly and overrides the values of ARMORS, SPELLS, etc. with the
+ * values defined in this plugin.
  */
 function UnearthedArcana1e(edition, rules) {
-
-  if(rules == null)
-    return; // Depend on OldSchool to invoke with 1E rules
-
-  if(window.UnearthedArcana1e == null) {
-    alert('The UnearthedArcana1e module requires use of the OldSchool module');
-    return;
-  }
-
-  UnearthedArcana1e.abilityRules(rules);
-  UnearthedArcana1e.talentRules
-    (rules, UnearthedArcana1e.FEATURES, UnearthedArcana1e.LANGUAGES,
-     UnearthedArcana1e.SPELLS);
-  UnearthedArcana1e.identityRules
-    (rules, UnearthedArcana1e.CLASSES, UnearthedArcana1e.RACES);
-  UnearthedArcana1e.magicRules(rules, UnearthedArcana1e.SPELLS);
-  rules.defineChoice('random', 'comeliness');
-  rules.randomizeOneAttribute = UnearthedArcana1e.randomizeOneAttribute;
-
 }
 
 UnearthedArcana1e.VERSION = '2.3.1.0';
 
+UnearthedArcana1e.ARMORS = {
+  // Two sets of skills are defined for each type of armor: one for Thief-
+  // Acrobat skills and one for Thief skills. OldSchool handles the computations
+  // for the Thief skills, and UnearthedArcana1e.armorRulesExtra handles those
+  // for Thief-Acrobat skills.
+  'None':OldSchool.ARMORS['None'] + ' ' +
+    'Skill=' +
+      '"+5% Tightrope Waling/+1\' Pole Vaulting/+1\' High Jumping/' +
+      '+1\' Running Broad Jumping/+0.5\' Standing Broad Jumping/' +
+      '+2% Tumbling Attack/+4% Tumbling Evasion/+5\' Tumbling Falling",' +
+      '"+10% Climb Walls/+5% Hide In Shadows/+10% Move Silently/' +
+      '+5% Pick Pockets"',
+  'Banded':OldSchool.ARMORS['Banded'] + ' ' +
+    'Skill=' +
+      '"-70% Tightrope Waling/-8\' Pole Vaulting/-8\' High Jumping/' +
+      '-10\' Running Broad Jumping/-5\' Standing Broad Jumping/' +
+      '-20% Tumbling Attack/-60% Tumbling Evasion/-30\' Tumbling Falling",' +
+      '"-90% Climb Walls/-20% Find Traps/-30% Hear Noise/' +
+      '-50% Hide In Shadows/-60% Move Silently/-20% Open Locks/' +
+      '-50% Pick Pockets"',
+  'Chain':OldSchool.ARMORS['Chain'] + ' ' +
+    'Skill=' +
+      '"-40% Tightrope Waling/-4\' Pole Vaulting/-4\' High Jumping/' +
+      '-5\' Running Broad Jumping/-3\' Standing Broad Jumping/' +
+      '-20% Tumbling Attack/-30% Tumbling Evasion/-10\' Tumbling Falling",' +
+      '"-40% Climb Walls/-15% Find Traps/-20% Hear Noise/' +
+      '-30% Hide In Shadows/-40% Move Silently/-15% Open Locks/' +
+      '-40% Pick Pockets"',
+  'Elven Chain':OldSchool.ARMORS['Elven Chain'] + ' ' +
+    'Skill=' +
+      '"-0.5\' Pole Vaulting/-0.5\' High Jumping/' +
+      '-5% Tumbling Attack/-5% Tumbling Evasion",' +
+      '"-20% Climb Walls/-5% Find Traps/-5% Hear Noise/' +
+      '-10% Hide In Shadows/-10% Move Silently/-5% Open Locks/' +
+      '-20% Pick Pockets"',
+  'Leather':OldSchool.ARMORS['Leather'],
+  'Padded':OldSchool.ARMORS['Padded'] + ' ' +
+    'Skill=' +
+      '"-10% Tightrope Waling/-1\' Pole Vaulting/-1\' High Jumping/' +
+      '-0.5\' Running Broad Jumping/-0.5\' Standing Broad Jumping/' +
+      '-10% Tumbling Attack/-10% Tumbling Evasion/-5\' Tumbling Falling",' +
+      '"-30% Climb Walls/-10% Find Traps/-10% Hear Noise/' +
+      '-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/' +
+      '-30% Pick Pockets"',
+  'Plate':OldSchool.ARMORS['Plate'] + ' ' +
+    'Skill=' +
+      '"-100% Tightrope Waling/-18\' Pole Vaulting/-18\' High Jumping/' +
+      '-20\' Running Broad Jumping/-10\' Standing Broad Jumping/' +
+      '-50% Tumbling Attack/-70% Tumbling Evasion/-70\' Tumbling Falling",' +
+      '"-99.9% Climb Walls/-80% Find Traps/-70% Hear Noise/' +
+      '-110% Hide In Shadows/-100% Move Silently/-80% Open Locks/' +
+      '-100% Pick Pockets"',
+  'Ring':OldSchool.ARMORS['Ring'] + ' ' +
+    'Skill=' +
+      '"-40% Tightrope Waling/-4\' Pole Vaulting/-4\' High Jumping/' +
+      '-5\' Running Broad Jumping/-3\' Standing Broad Jumping/' +
+      '-20% Tumbling Attack/-30% Tumbling Evasion/-10\' Tumbling Falling",' +
+      '"-40% Climb Walls/-15% Find Traps/-20% Hear Noise/' +
+      '-30% Hide In Shadows/-40% Move Silently/-15% Open Locks/' +
+      '-40% Pick Pockets"',
+  'Scale Mail':OldSchool.ARMORS['Scale Mail'] + ' ' +
+    'Skill=' +
+      '"-70% Tightrope Waling/-8\' Pole Vaulting/-8\' High Jumping/' +
+      '-10\' Running Broad Jumping/-5\' Standing Broad Jumping/' +
+      '-20% Tumbling Attack/-60% Tumbling Evasion/-30\' Tumbling Falling",' +
+      '"-90% Climb Walls/-20% Find Traps/-30% Hear Noise/' +
+      '-50% Hide In Shadows/-60% Move Silently/-20% Open Locks/' +
+      '-50% Pick Pockets"',
+  'Splint':OldSchool.ARMORS['Splint'] + ' ' +
+    'Skill=' +
+      '"-90% Tightrope Waling/-12\' Pole Vaulting/-12\' High Jumping/' +
+      '-15\' Running Broad Jumping/-7\' Standing Broad Jumping/' +
+      '-30% Tumbling Attack/-70% Tumbling Evasion/-50\' Tumbling Falling",' +
+      '"-99% Climb Walls/-40% Find Traps/-50% Hear Noise/' +
+      '-75% Hide In Shadows/-80% Move Silently/-40% Open Locks/' +
+      '-75% Pick Pockets"',
+  'Studded Leather':OldSchool.ARMORS['Studded Leather'] + ' ' +
+    'Skill=' +
+      '"-10% Tightrope Waling/-1\' Pole Vaulting/-1\' High Jumping/' +
+      '-0.5\' Running Broad Jumping/-0.5\' Standing Broad Jumping/' +
+      '-10% Tumbling Attack/-10% Tumbling Evasion/-5\' Tumbling Falling",' +
+      '"-30% Climb Walls/-10% Find Traps/-10% Hear Noise/' +
+      '-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/' +
+      '-30% Pick Pockets"'
+};
 UnearthedArcana1e.CLASSES = {
   'Barbarian':
     'Require=' +
@@ -1192,25 +1255,33 @@ UnearthedArcana1e.abilityRules = function(rules) {
   rules.defineSheetElement('Comeliness', 'Charisma+', null);
 };
 
-/* Defines rules related to basic character identity. */
-UnearthedArcana1e.identityRules = function(rules, classes, races) {
-  OldSchool.identityRules(rules, {}, classes, races);
-  for(var clas in classes) {
-    UnearthedArcana1e.classRulesExtra(rules, clas);
-  }
-  for(var race in races) {
-    UnearthedArcana1e.raceRulesExtra(rules, race);
-  }
+/*
+ * Adds #name# as a possible user #type# choice and parses #attrs# to add rules
+ * related to selecting that choice.
+ */
+UnearthedArcana1e.choiceRules = function(rules, type, name, attrs) {
+  if(type == 'Armor')
+    UnearthedArcana1e.armorRulesExtra(rules, name);
+  else if(type == 'Class')
+    UnearthedArcana1e.classRulesExtra(rules, name);
+  else if(type == 'Race')
+    UnearthedArcana1e.raceRulesExtra(rules, name);
 };
 
-/* Defines rules related to magic use. */
-UnearthedArcana1e.magicRules = function(rules, spells) {
-  OldSchool.magicRules(rules, {}, spells);
-};
-
-/* Defines rules related to character aptitudes. */
-UnearthedArcana1e.talentRules = function(rules, features, languages) {
-  OldSchool.talentRules(rules, features, {}, languages, {});
+/*
+ * Defines in #rules# the rules associated with armor #name# that cannot be
+ * derived directly from the abilities passed to armorRules.
+ */
+UnearthedArcana1e.armorRulesExtra = function(rules, name) {
+  if(rules.armorStats.acrobatics == null)
+    rules.armorStats.acrobatics = {};
+  var allSkills =
+    QuilvynUtils.getAttrValueArray(UnearthedArcana1e.ARMORS[name], 'Skill');
+  rules.armorStats.acrobatics[name] =
+    allSkills.length > 1 ? '/' + allSkills[allSkills.length - 2] : '';
+  rules.defineRule('skillNotes.armorSkillModifiers.2',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.acrobatics) + '[source]'
+  );
 };
 
 /*
@@ -1362,6 +1433,15 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     rules.defineRule('skills.Tumbling Falling.1',
       classLevel, '=', 'source<6 ? null : source<15 ? (source % 3 + 1) * 25 : (((source + 1) % 4 + 1) * 20)'
     );
+    rules.defineRule('skillNotes.armorSkillModifiers.1',
+      'skillNotes.armorSkillModifiers', '?', null,
+      '', '=', '""',
+      'skillNotes.armorSkillModifiers.2', '=', null
+    );
+    rules.defineRule('skillNotes.armorSkillModifiers.2',
+      'skillNotes.armorSkillModifiers', '?', null,
+      classLevel, '?', 'source>=6'
+    );
     rules.defineRule('skillNotes.dexteritySkillModifiers.1',
       'skillNotes.dexteritySkillModifiers', '?', null,
       '', '=', '""',
@@ -1399,6 +1479,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     );
     for(var skill in {'Tightrope Walking':'', 'Pole Vaulting':'', 'High Jumping':'', 'Running Broad Jumping':'', 'Standing Broad Jumping':'', 'Tumbling Attack':'', 'Tumbling Evasion':'', 'Tumbling Falling':''}) {
       rules.defineRule('skills.' + skill,
+        'skillNotes.armorSkillModifiers.1', '+',
+          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
         'skillNotes.dexteritySkillModifiers.1', '+',
           'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
         'skillNotes.strengthSkillModifiers', '+',
@@ -1418,6 +1500,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       "skills.Tumbling Attack:%V%",
       "skills.Tumbling Evasion:%V%",
       "skills.Tumbling Falling:%1%,%V'",
+      "skillNotes.armorSkillModifiers:%V%1",
       "skillNotes.dexteritySkillModifiers:%V%1",
       "skillNotes.raceSkillModifiers:%V%1"
     );
