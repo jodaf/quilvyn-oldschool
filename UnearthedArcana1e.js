@@ -847,7 +847,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=M2',
   'Deeppockets':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Deeppockets']
-    .replace('Lplus12', '%{lvl+4}') + ' ' +
+    .replace('$Lplus12', '%{lvl+4}') + ' ' +
     'Level=M2',
   'Flaming Sphere':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Flaming Sphere']
