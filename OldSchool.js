@@ -3348,6 +3348,8 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     console.log('Unknown choice type "' + type + '"');
     return;
   }
+  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+    UnearthedArcana1e.choiceRules(rules, type, name, attrs);
   if(type != 'Feature' && type != 'Spell') {
     type = type == 'Class' ? 'levels' :
     (type.substring(0,1).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
@@ -3406,13 +3408,15 @@ OldSchool.armorRules = function(rules, name, ac, maxMove, weight, skill) {
   rules.armorStats.weight[name] = weight;
   rules.armorStats.skill[name] = skill;
 
-  if(OldSchool.EDITION == 'Second Edition') {
-    rules.defineRule('skillNotes.armorSkillModifiers',
-      'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
-    );
-  } else {
+  if(OldSchool.EDITION == 'First Edition') {
     rules.defineRule('abilityNotes.armorSpeedMaximum',
       'armor', '+', QuilvynUtils.dictLit(rules.armorStats.move) + '[source]'
+    );
+  }
+  if(OldSchool.EDITION == 'Second Edition' ||
+     window.UnearthedArcana1e != null) {
+    rules.defineRule('skillNotes.armorSkillModifiers',
+      'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
     );
   }
   rules.defineRule('armorClass',
@@ -4129,9 +4133,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   }
 
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
-    UnearthedArcana1e.classRulesExtra(rules, name);
-
 };
 
 /*
@@ -4274,9 +4275,6 @@ OldSchool.raceRulesExtra = function(rules, name) {
   } else if(name == 'Human') {
     // empty
   }
-
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
-    UnearthedArcana1e.raceRulesExtra(rules, name);
 
 };
 
