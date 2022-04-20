@@ -120,7 +120,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.5';
+OldSchool.VERSION = '2.3.1.6';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -168,21 +168,21 @@ OldSchool.ARMORS = {
   'None':
     'AC=0 Move=120 Weight=0 ' +
     'Skill="+10% Climb Walls/+5% Hide In Shadows/+10% Move Silently/+5% Pick Pockets"',
-  'Banded':'AC=6 Move=90 Weight=35',
-  'Chain':
+  'Banded Mail':'AC=6 Move=90 Weight=35',
+  'Chain Mail':
     'AC=5 Move=90 Weight=30 ' +
     'Skill="-25% Climb Walls/-10% Find Traps/-10% Hear Noise/-15% Hide In Shadows/-15% Move Silently/-10% Open Locks/-25% Pick Pockets"',
-  'Elven Chain':
+  'Elven Chain Mail':
     'AC=5 Move=120 Weight=15 ' +
     'Skill="-20% Climb Walls/-5% Find Traps/-5% Hear Noise/-10% Hide In Shadows/-10% Move Silently/-5% Open Locks/-20% Pick Pockets"',
   'Leather':'AC=2 Move=120 Weight=15',
   'Padded':
     'AC=2 Move=90 Weight=10 ' +
     'Skill="-30% Climb Walls/-10% Find Traps/-10% Hear Noise/-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/-30% Pick Pockets"',
-  'Plate':'AC=7 Move=60 Weight=45',
-  'Ring':'AC=3 Move=90 Weight=35',
+  'Plate Mail':'AC=7 Move=60 Weight=45',
+  'Ring Mail':'AC=3 Move=90 Weight=35',
   'Scale Mail':'AC=4 Move=60 Weight=40',
-  'Splint':'AC=6 Move=60 Weight=40',
+  'Splint Mail':'AC=6 Move=60 Weight=40',
   'Studded Leather':
     'AC=3 Move=90 Weight=20 ' +
     'Skill="-30% Climb Walls/-10% Find Traps/-10% Hear Noise/-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/-30% Pick Pockets"'
@@ -757,13 +757,13 @@ OldSchool.RULE_EDITS = {
   'Second Edition':{
     'Armor':{
       // Modified
-      'Chain':'Weight=40',
-      'Plate':'Weight=50',
-      'Ring':'Weight=30',
+      'Chain Mail':'Weight=40',
+      'Plate Mail':'Weight=50',
+      'Ring Mail':'Weight=30',
       'Studded Leather':'Weight=20',
       // New
       'Brigandine':'AC=4 Move=120 Weight=35',
-      'Bronze Plate':'AC=6 Move=120 Weight=45',
+      'Bronze Plate Mail':'AC=6 Move=120 Weight=45',
       'Field Plate':'AC=8 Move=120 Weight=60',
       'Full Plate':'AC=9 Move=120 Weight=70',
       'Hide':'AC=4 Move=120 Weight=30 Weight=15'
@@ -781,7 +781,7 @@ OldSchool.RULE_EDITS = {
         'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
         'NonweaponProficiency=3,4 ' +
         'Features=' +
-          '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain)",' +
+          '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain Mail)",' +
           '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
           '"1:Poetic Inspiration","1:Bard Skills","10:Read Scrolls" ' +
         'Experience=' +
@@ -933,7 +933,7 @@ OldSchool.RULE_EDITS = {
           '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
         'Attack=0,1,2,- ' +
         'Features=' +
-          '"1:Armor Proficiency (Elven Chain/Leather/Padded/Studded Leather)",' +
+          '"1:Armor Proficiency (Elven Chain Mail/Leather/Padded/Studded Leather)",' +
           '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
           '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
          'Experience=' +
@@ -4358,11 +4358,11 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
   rules.defineRule('skillModifier.' + name,
     'skills.' + name, '=', null,
     'skillNotes.armorSkillModifiers', '+',
-      'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null',
+      'source.match(/' + name + '/) ? source.match(/([-+][\\d\\.]+)% ' + name + '/)[1] * 1 : null',
     'skillNotes.raceSkillModifiers', '+',
-      'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null',
+      'source.match(/' + name + '/) ? source.match(/([-+][\\d\\.]+)% ' + name + '/)[1] * 1 : null',
     'skillNotes.dexteritySkillModifiers', '+',
-      'source.match(/' + name + '/) ? source.match(/([-+]\\d+)% ' + name + '/)[1] * 1 : null'
+      'source.match(/' + name + '/) ? source.match(/([-+][\\d\\.]+)% ' + name + '/)[1] * 1 : null'
   );
   if(ability)
     rules.defineRule('sumNonThiefSkills', 'skills.' + name, '+=', null);
