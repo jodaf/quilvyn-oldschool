@@ -2692,7 +2692,7 @@ OldSchool.RULE_EDITS = {
       'Water Walk':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="%{(lvl-5)>?1} touched walk on liquid as if it were a solid surface for $Lplus1 tn"',
+        'Description="%{(lvl-4)>?1} touched walk on liquid as if it were a solid surface for $Lplus1 tn"',
       'Weird':
         'Level=W9 ' +
         'School=Illusion ' +
