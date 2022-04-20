@@ -39,28 +39,28 @@ UnearthedArcana1e.ARMORS = {
   // for Thief-Acrobat skills.
   'None':OldSchool.ARMORS['None'] + ' ' +
     'Skill=' +
-      '"+5% Tightrope Waling/+1\' Pole Vaulting/+1\' High Jumping/' +
+      '"+5% Tightrope Walking/+1\' Pole Vaulting/+1\' High Jumping/' +
       '+1\' Running Broad Jumping/+0.5\' Standing Broad Jumping/' +
       '+2% Tumbling Attack/+4% Tumbling Evasion/+5\' Tumbling Falling",' +
       '"+10% Climb Walls/+5% Hide In Shadows/+10% Move Silently/' +
       '+5% Pick Pockets"',
-  'Banded':OldSchool.ARMORS['Banded'] + ' ' +
+  'Banded Mail':OldSchool.ARMORS['Banded Mail'] + ' ' +
     'Skill=' +
-      '"-70% Tightrope Waling/-8\' Pole Vaulting/-8\' High Jumping/' +
+      '"-70% Tightrope Walking/-8\' Pole Vaulting/-8\' High Jumping/' +
       '-10\' Running Broad Jumping/-5\' Standing Broad Jumping/' +
       '-20% Tumbling Attack/-60% Tumbling Evasion/-30\' Tumbling Falling",' +
       '"-90% Climb Walls/-20% Find Traps/-30% Hear Noise/' +
       '-50% Hide In Shadows/-60% Move Silently/-20% Open Locks/' +
       '-50% Pick Pockets"',
-  'Chain':OldSchool.ARMORS['Chain'] + ' ' +
+  'Chain Mail':OldSchool.ARMORS['Chain Mail'] + ' ' +
     'Skill=' +
-      '"-40% Tightrope Waling/-4\' Pole Vaulting/-4\' High Jumping/' +
+      '"-40% Tightrope Walking/-4\' Pole Vaulting/-4\' High Jumping/' +
       '-5\' Running Broad Jumping/-3\' Standing Broad Jumping/' +
       '-20% Tumbling Attack/-30% Tumbling Evasion/-10\' Tumbling Falling",' +
       '"-40% Climb Walls/-15% Find Traps/-20% Hear Noise/' +
       '-30% Hide In Shadows/-40% Move Silently/-15% Open Locks/' +
       '-40% Pick Pockets"',
-  'Elven Chain':OldSchool.ARMORS['Elven Chain'] + ' ' +
+  'Elven Chain Mail':OldSchool.ARMORS['Elven Chain Mail'] + ' ' +
     'Skill=' +
       '"-0.5\' Pole Vaulting/-0.5\' High Jumping/' +
       '-5% Tumbling Attack/-5% Tumbling Evasion",' +
@@ -70,23 +70,23 @@ UnearthedArcana1e.ARMORS = {
   'Leather':OldSchool.ARMORS['Leather'],
   'Padded':OldSchool.ARMORS['Padded'] + ' ' +
     'Skill=' +
-      '"-10% Tightrope Waling/-1\' Pole Vaulting/-1\' High Jumping/' +
+      '"-10% Tightrope Walking/-1\' Pole Vaulting/-1\' High Jumping/' +
       '-0.5\' Running Broad Jumping/-0.5\' Standing Broad Jumping/' +
       '-10% Tumbling Attack/-10% Tumbling Evasion/-5\' Tumbling Falling",' +
       '"-30% Climb Walls/-10% Find Traps/-10% Hear Noise/' +
       '-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/' +
       '-30% Pick Pockets"',
-  'Plate':OldSchool.ARMORS['Plate'] + ' ' +
+  'Plate Mail':OldSchool.ARMORS['Plate Mail'] + ' ' +
     'Skill=' +
-      '"-100% Tightrope Waling/-18\' Pole Vaulting/-18\' High Jumping/' +
-      '-20\' Running Broad Jumping/-10\' Standing Broad Jumping/' +
-      '-50% Tumbling Attack/-70% Tumbling Evasion/-70\' Tumbling Falling",' +
-      '"-99.9% Climb Walls/-80% Find Traps/-70% Hear Noise/' +
-      '-110% Hide In Shadows/-100% Move Silently/-80% Open Locks/' +
-      '-100% Pick Pockets"',
-  'Ring':OldSchool.ARMORS['Ring'] + ' ' +
+      '"-90% Tightrope Walking/-12\' Pole Vaulting/-12\' High Jumping/' +
+      '-15\' Running Broad Jumping/-7\' Standing Broad Jumping/' +
+      '-30% Tumbling Attack/-70% Tumbling Evasion/-50\' Tumbling Falling",' +
+      '"-99% Climb Walls/-40% Find Traps/-50% Hear Noise/' +
+      '-75% Hide In Shadows/-80% Move Silently/-40% Open Locks/' +
+      '-75% Pick Pockets"',
+  'Ring Mail':OldSchool.ARMORS['Ring Mail'] + ' ' +
     'Skill=' +
-      '"-40% Tightrope Waling/-4\' Pole Vaulting/-4\' High Jumping/' +
+      '"-40% Tightrope Walking/-4\' Pole Vaulting/-4\' High Jumping/' +
       '-5\' Running Broad Jumping/-3\' Standing Broad Jumping/' +
       '-20% Tumbling Attack/-30% Tumbling Evasion/-10\' Tumbling Falling",' +
       '"-40% Climb Walls/-15% Find Traps/-20% Hear Noise/' +
@@ -94,23 +94,24 @@ UnearthedArcana1e.ARMORS = {
       '-40% Pick Pockets"',
   'Scale Mail':OldSchool.ARMORS['Scale Mail'] + ' ' +
     'Skill=' +
-      '"-70% Tightrope Waling/-8\' Pole Vaulting/-8\' High Jumping/' +
+      '"-70% Tightrope Walking/-8\' Pole Vaulting/-8\' High Jumping/' +
       '-10\' Running Broad Jumping/-5\' Standing Broad Jumping/' +
       '-20% Tumbling Attack/-60% Tumbling Evasion/-30\' Tumbling Falling",' +
       '"-90% Climb Walls/-20% Find Traps/-30% Hear Noise/' +
       '-50% Hide In Shadows/-60% Move Silently/-20% Open Locks/' +
       '-50% Pick Pockets"',
-  'Splint':OldSchool.ARMORS['Splint'] + ' ' +
+  // Splint Mail not listed in Thieves Table II or V; assume equal to Banded
+  'Splint Mail':OldSchool.ARMORS['Splint Mail'] + ' ' +
     'Skill=' +
-      '"-90% Tightrope Waling/-12\' Pole Vaulting/-12\' High Jumping/' +
-      '-15\' Running Broad Jumping/-7\' Standing Broad Jumping/' +
-      '-30% Tumbling Attack/-70% Tumbling Evasion/-50\' Tumbling Falling",' +
-      '"-99% Climb Walls/-40% Find Traps/-50% Hear Noise/' +
-      '-75% Hide In Shadows/-80% Move Silently/-40% Open Locks/' +
-      '-75% Pick Pockets"',
+      '"-70% Tightrope Walking/-8\' Pole Vaulting/-8\' High Jumping/' +
+      '-10\' Running Broad Jumping/-5\' Standing Broad Jumping/' +
+      '-20% Tumbling Attack/-60% Tumbling Evasion/-30\' Tumbling Falling",' +
+      '"-90% Climb Walls/-20% Find Traps/-30% Hear Noise/' +
+      '-50% Hide In Shadows/-60% Move Silently/-20% Open Locks/' +
+      '-50% Pick Pockets"',
   'Studded Leather':OldSchool.ARMORS['Studded Leather'] + ' ' +
     'Skill=' +
-      '"-10% Tightrope Waling/-1\' Pole Vaulting/-1\' High Jumping/' +
+      '"-10% Tightrope Walking/-1\' Pole Vaulting/-1\' High Jumping/' +
       '-0.5\' Running Broad Jumping/-0.5\' Standing Broad Jumping/' +
       '-10% Tumbling Attack/-10% Tumbling Evasion/-5\' Tumbling Falling",' +
       '"-30% Climb Walls/-10% Find Traps/-10% Hear Noise/' +
@@ -1298,7 +1299,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
     );
     rules.defineRule('combatNotes.barbarianArmorBonus',
-      'armor', '?', 'source.match(/None|^Leather|Elfin Chain/)',
+      'armor', '?', 'source.match(/None|^Leather|Elfin Chain Mail/)',
       'dexterity', '=', 'source>=15 ? source - 14 : null'
     );
     rules.defineRule('combatNotes.barbarianHitPointBonus',
