@@ -180,7 +180,7 @@ OldSchool.ARMORS = {
     'AC=2 Move=90 Weight=10 ' +
     'Skill="-30% Climb Walls/-10% Find Traps/-10% Hear Noise/-20% Hide In Shadows/-20% Move Silently/-10% Open Locks/-30% Pick Pockets"',
   'Plate Mail':'AC=7 Move=60 Weight=45',
-  'Ring Mail':'AC=3 Move=90 Weight=35',
+  'Ring Mail':'AC=3 Move=90 Weight=25',
   'Scale Mail':'AC=4 Move=60 Weight=40',
   'Splint Mail':'AC=6 Move=60 Weight=40',
   'Studded Leather':
@@ -760,7 +760,7 @@ OldSchool.RULE_EDITS = {
       'Chain Mail':'Weight=40',
       'Plate Mail':'Weight=50',
       'Ring Mail':'Weight=30',
-      'Studded Leather':'Weight=20',
+      'Studded Leather':'Weight=25',
       // New
       'Brigandine':'AC=4 Move=120 Weight=35',
       'Bronze Plate Mail':'AC=6 Move=120 Weight=45',
