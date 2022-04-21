@@ -67,6 +67,24 @@ UnearthedArcana1e.ARMORS = {
       '"-20% Climb Walls/-5% Find Traps/-5% Hear Noise/' +
       '-10% Hide In Shadows/-10% Move Silently/-5% Open Locks/' +
       '-20% Pick Pockets"',
+  'Field Plate':
+    'AC=8 Move=60 Weight=55 ' +
+    'Skill=' +
+      '"-100% Tightrope Walking/-18\' Pole Vaulting/-18\' High Jumping/' +
+      '-20\' Running Broad Jumping/-10\' Standing Broad Jumping/' +
+      '-50% Tumbling Attack/-70% Tumbling Evasion/-70\' Tumbling Falling",' +
+      '"-100% Climb Walls/-80% Find Traps/-70% Hear Noise/' +
+      '-110% Hide In Shadows/-100% Move Silently/-80% Open Locks/' +
+      '-100% Pick Pockets"',
+  'Full Plate':
+    'AC=9 Move=60 Weight=65 ' +
+    'Skill=' +
+      '"-100% Tightrope Walking/-18\' Pole Vaulting/-18\' High Jumping/' +
+      '-20\' Running Broad Jumping/-10\' Standing Broad Jumping/' +
+      '-50% Tumbling Attack/-70% Tumbling Evasion/-70\' Tumbling Falling",' +
+      '"-100% Climb Walls/-80% Find Traps/-70% Hear Noise/' +
+      '-110% Hide In Shadows/-100% Move Silently/-80% Open Locks/' +
+      '-100% Pick Pockets"',
   'Leather':OldSchool.ARMORS['Leather'],
   'Padded':OldSchool.ARMORS['Padded'] + ' ' +
     'Skill=' +
@@ -394,7 +412,6 @@ UnearthedArcana1e.RACES = {
       .replace(/Features=/, 'Features="Woodland Tongue",') +
       ' Languages=Elf,Common,Treant'
 };
-
 UnearthedArcana1e.SPELLS = {
 
   'Ceremony':
@@ -1223,6 +1240,24 @@ UnearthedArcana1e.SPELLS = {
     OldSchool.RULE_EDITS['Second Edition'].Spell['Weird'] + ' ' +
     'School=Evocation ' +
     'Level=I7'
+};
+UnearthedArcana1e.WEAPONS = {
+  'Aklys':'Category=1h Damage=d6 Range=10',
+  'Atlatl':'Category=R Damage=d6 Range=30',
+  'Blowgun':'Category=R Damage=d1 Range=10',
+  'Caltrop':'Category=Un Damage=d1',
+  'Falchion Sword':'Category=1h Damage=d6+1',
+  'Garrot':'Category=2h Damage=d4',
+  'Hand Crossbow':'Category=R Damage=d3 Range=20',
+  'Harpoon':'Category=R Damage=2d4 Range=10',
+  'Hook Fauchard':'Category=2h Damage=d4',
+  'Khopesh Sword':'Category=1h Damage=2d4',
+  'Knife':'Category=1h Damage=d3 Range=10',
+  'Man Catcher':'Category=2h Damage=d2',
+  'Sap':'Category=1h Damage=d2',
+  'Spiked Buckler':'Category=1h Damage=d4',
+  'Staff Sling':'Category=R Damage=2d4 Range=30',
+  'Whip':'Category=1h Damage=d2'
 };
 
 /* Defines rules related to character abilities. */
