@@ -1684,3 +1684,18 @@ UnearthedArcana1e.randomizeOneAttribute = function(attributes, attribute) {
     OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
   }
 };
+
+/* Returns HTML body content for user notes associated with this rule set. */
+UnearthedArcana1e.ruleNotes = function() {
+  return '' +
+    '<h2>Quilvyn Unearthed Arcana 1E Plugin Notes</h2>\n' +
+    'Quilvyn Unearthed Arcana 1E Plugin Version ' + UnearthedArcana1e.VERSION + '\n' +
+    '<h3>Copyrights and Licensing</h3>\n' +
+    '<p>\n' +
+    'Quilvyn\'s Unearthed Arcana 1E plugin is unofficial Fan Content ' +
+    'permitted under Wizards of the Coast\'s ' +
+    '<a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>.\n' +
+    '</p><p>\n' +
+    'Unearthed Arcana © 2013 Wizards of the Coast LLC.\n' +
+    '</p>\n';
+};
