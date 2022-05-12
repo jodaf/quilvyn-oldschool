@@ -120,7 +120,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.6';
+OldSchool.VERSION = '2.3.1.7';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -2816,18 +2816,25 @@ OldSchool.abilityRules = function(rules) {
   // Charisma
   rules.defineRule('abilityNotes.charismaLoyaltyAdjustment',
     'charisma', '=',
-    'source <= 8 ? source * 5 - 45 : source <= 13 ? null : ' +
-    'source <= 15 ? source * 10 - 135 : (source * 10 - 140)'
+      'source <= 8 ? source * 5 - 45 : ' +
+      'source <= 13 ? null : ' +
+      'source <= 15 ? source * 10 - 135 : ' +
+      'source == 25 ? 100 : ' +
+      '(source * 10 - 140)'
   );
   rules.defineRule('maximumHenchmen',
     'charisma', '=',
-    'source<=10 ? Math.floor((source-1)/2) : source<=12 ? (source-7) : ' +
-    'source<=16 ? (source-8) : ((source-15)* 5)'
+      'source <= 10 ? Math.floor((source - 1) / 2) : ' +
+      'source <= 12 ? source - 7 : ' +
+      'source <= 16 ? source - 8 : ' +
+      '((source - 15) * 5)'
   );
   rules.defineRule('abilityNotes.charismaReactionAdjustment',
     'charisma', '=',
-    'source <= 7 ? (source * 5 - 40) : source <= 12 ? null : ' +
-    'source <= 15 ? source * 5 - 60 : (source * 5 - 55)'
+      'source <= 7 ? (source * 5 - 40) : ' +
+      'source <= 12 ? null : ' +
+      'source <= 15 ? source * 5 - 60 : ' +
+      '(source * 5 - 55)'
   );
   if(OldSchool.EDITION == 'Second Edition') {
     // Expressed as mod to d20 instead of percentage
@@ -2838,23 +2845,32 @@ OldSchool.abilityRules = function(rules) {
   // Constitution
   rules.defineRule('conHPAdjPerDie',
     'constitution', '=',
-      'source<=3 ? -2 : source<=6 ? -1 : source<=14 ? null : (source - 14)',
+      'source <= 3 ? -2 : ' +
+      'source <= 6 ? -1 : ' +
+      'source <= 14 ? null : ' +
+      'source <= 19 ? source - 14 : ' +
+      '(Math.floor(source / 3) - 1)',
     'warriorLevel', 'v', 'source == 0 ? 2 : null'
   );
   if(OldSchool.EDITION == 'Second Edition')
     rules.defineRule('saveNotes.constitutionPoisonSaveAdjustment',
-      'constitution', '=', 'source>18 ? "+" + Math.floor((source - 17) / 2) : source<3 ? source - 3 : null',
+      'constitution', '=',
+        'source > 18 ? "+" + Math.floor((source - 17) / 2) : ' +
+        'source < 3 ? source - 3 : null',
       'features.Resist Poison', '=', '0'
     );
   rules.defineRule('surviveResurrection',
     'constitution', '=',
-    'source <= 13 ? source * 5 + 25 : source <= 18 ? source * 2 + 64 : 100'
+      'source <= 13 ? source * 5 + 25 : ' +
+      'source <= 18 ? source * 2 + 64 : 100'
   );
   rules.defineRule('surviveSystemShock',
     'constitution', '=',
-    'source <= 13 ? source * 5 + 20 : source == 16 ? 95 : ' +
-    (OldSchool.EDITION == 'Second Edition' ? 'source == 15 ? 90 : ' : '') +
-    'source <= 17 ? source * 3 + 46 : 99'
+      'source <= 13 ? source * 5 + 20 : ' +
+      'source == 16 ? 95 : ' +
+      (OldSchool.EDITION == 'Second Edition' ? 'source == 15 ? 90 : ' : '') +
+      'source <= 17 ? source * 3 + 46 : ' +
+      'source == 25 ? 100 : 99'
   );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'conHPAdjPerDie', '=', null,
@@ -2869,19 +2885,19 @@ OldSchool.abilityRules = function(rules) {
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'dexterity', '=',
     'source <= 6 ? (7 - source) : source <= 14 ? null : ' +
-    'source <= 18 ? 14 - source : -4'
+    'source <= 18 ? 14 - source : (-Math.floor(source / 3) + 2)'
   );
   rules.defineRule('combatNotes.dexterityAttackAdjustment',
     'dexterity', '=',
-    (OldSchool.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
-    'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
-    'source <= 18 ? source - 15 : 3'
+      (OldSchool.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
+      'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
+      'source <= 18 ? source - 15 : (Math.floor(source / 3) - 3)'
   );
   rules.defineRule('combatNotes.dexteritySurpriseAdjustment',
     'dexterity', '=',
-    (OldSchool.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
-    'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
-    'source <= 18 ? source - 15 : 3'
+      (OldSchool.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
+      'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
+      'source <= 18 ? source - 15 : (Math.floor(source / 3) - 3)'
   );
   rules.defineRule('skillNotes.dexteritySkillModifiers',
     'dexterity', '=',
@@ -2906,7 +2922,11 @@ OldSchool.abilityRules = function(rules) {
   if(OldSchool.EDITION == 'Second Edition') {
     rules.defineRule('skillNotes.intelligenceLanguageBonus',
       'intelligence', '=',
-        'source<9 ? 1 : source == 9 ? 2 : source<=15 ? Math.floor((source-6)/2) : (source-11)'
+        'source < 9 ? 1 : ' +
+        'source == 9 ? 2 : ' +
+        'source <= 15 ? Math.floor((source - 6) / 2) : ' +
+        'source <= 23 ? source - 11 : ' +
+        'source == 24 ? 15 : 20'
     );
   } else {
     rules.defineRule('skillNotes.intelligenceLanguageBonus',
@@ -2920,22 +2940,29 @@ OldSchool.abilityRules = function(rules) {
 
   // Strength
   rules.defineRule('combatNotes.strengthAttackAdjustment',
-    'strengthRow', '=', 'source <= 2 ? (source - 3) : ' +
-                        'source <= 7 ? 0 : Math.floor((source - 5) / 3)'
+    'strengthRow', '=',
+      'source <= 2 ? source - 3 : ' +
+      'source <= 7 ? 0 : ' +
+      'source >= 19 ? source - 14 : ' +
+      'Math.floor((source - 5) / 3)'
   );
   rules.defineRule('combatNotes.strengthDamageAdjustment',
-    'strengthRow', '=', 'source <= 1 ? -1 : source <= 6 ? 0 : ' +
-                        'source == 7 ? 1 : (source - (source >= 11 ? 8 : 7))'
+    'strengthRow', '=',
+      'source <= 1 ? -1 : ' +
+      'source <= 6 ? 0 : ' +
+      'source == 7 ? 1 : ' +
+      'source == 21 ? 14 : ' +
+      '(source - (source >= 11 ? 8 : 7))'
   );
   if(OldSchool.EDITION == 'Second Edition') {
     rules.defineRule('loadLight',
-      'strengthRow', '=', '[6, 11, 21, 36, 41, 46, 56, 71, 86, 111, 136, 161, 186, 236, 336][source]'
+      'strengthRow', '=', '[6, 11, 21, 36, 41, 46, 56, 71, 86, 111, 136, 161, 186, 236, 336, 486, 536, 636, 786, 936, 1236, 1536][source]'
     );
     rules.defineRule('loadMedium',
-      'strengthRow', '=', '[7, 14, 30, 51, 59, 70, 86, 101, 122, 150, 175, 200, 225, 275, 375][source]'
+      'strengthRow', '=', '[7, 14, 30, 51, 59, 70, 86, 101, 122, 150, 175, 200, 225, 275, 375, 525, 575, 675, 825, 975, 1275, 1575][source]'
     );
     rules.defineRule('loadMax',
-      'strengthRow', '=', '[8, 17, 39, 66, 77, 94, 116, 131, 158, 189, 214, 239, 264, 314, 414][source]'
+      'strengthRow', '=', '[8, 17, 39, 66, 77, 94, 116, 131, 158, 189, 214, 239, 264, 314, 414, 564, 614, 714, 864, 1014, 1314, 1614][source]'
     );
   } else {
     rules.defineRule('loadLight',
@@ -2949,19 +2976,29 @@ OldSchool.abilityRules = function(rules) {
     'abilityNotes.armorSpeedMaximum', 'v', null
   );
   rules.defineRule('strengthMajorTest',
-    'strengthRow', '=', 'source <= 2 ? 0 : ' +
-                        'source <= 5 ? Math.pow(2, source - 3) : ' +
-                        'source <= 9 ? source * 3 - 11 : (source * 5 - 30)'
+    'strengthRow', '=',
+      'source <= 2 ? 0 : ' +
+      'source <= 5 ? Math.pow(2, source - 3) : ' +
+      'source <= 9 ? source * 3 - 11 : ' +
+      'source <= 14 ? source * 5 - 30 : ' +
+      'source <= 19 ? source * 10 - 100 : ' +
+      'source == 20 ? 95 : 99'
   );
   if(OldSchool.EDITION == 'Second Edition') {
-    rules.defineRule('strengthMinorTest', 'strengthRow', '=', 'source + 2');
+    rules.defineRule('strengthMinorTest',
+      'strengthRow', '=',
+        'source <= 14 ? source + 2 : (Math.floor(source / 2) + 9)'
+    );
   } else {
     rules.defineRule('strengthMinorTest',
       'strengthRow', '=', 'source == 14 ? 5 : Math.floor((source + 5) / 4)'
     );
   }
   rules.defineRule('strengthRow',
-    'strength', '=', 'source >= 16 ? source - 9 : Math.floor((source - 2) / 2)',
+    'strength', '=',
+      'source >= 19 ? source - 4 : ' +
+      'source >= 16 ? source - 9 : ' +
+      'Math.floor((source - 2) / 2)',
     'extraStrength', '+', 'source <= 50 ? 1 : source <= 75 ? 2 : ' +
                           'source <= 90 ? 3 : source <= 99 ? 4 : 5'
   );
@@ -2987,8 +3024,10 @@ OldSchool.abilityRules = function(rules) {
   // Wisdom
   rules.defineRule('saveNotes.wisdomMentalSavingThrowAdjustment',
     'wisdom', '=',
-      'source<=5 ? (source-6) : source<=7 ? -1 : source<=14 ? null : ' +
-      'Math.min(source-14, 4)'
+      'source <= 5 ? source - 6 : ' +
+      'source <= 7 ? -1 : ' +
+      'source <= 14 ? null : ' +
+      'Math.min(source - 14, 4)'
   );
 
   if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
@@ -3754,21 +3793,27 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.bonusClericSpells',
       'wisdom', '=',
        '"Spell level ' + t + '1" + ' +
-       '(source>=14 ? source>=19 ? "x3" : "x2" : "") + ' +
+         '(source>=14 ? source>=19 ? source>=23 ? "x4" : "x3" : "x2" : "") + ' +
        '(source>=15 ? ", ' + t + '2" : "") + ' +
-       '(source>=16 ? "x2"  : "") + ' +
+         '(source>=16 ? source>=20 ? "x3" : "x2" : "") + ' +
        '(source>=17 ? ", ' + t + '3" : "") + ' +
-       (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
-       '(source>=18 ? ", ' + t + '4" : "")'
+          '(source>=19 ? source>=21 ? "x3" : "x2" : "") + ' +
+       '(source>=18 ? ", ' + t + '4" : "") + ' +
+          '(source>=20 ? source>=22 ? "x3" : "x2" : "") + ' +
+       '(source>=21 ? ", ' + t + '5" : "") + ' +
+          '(source>=22 ? source>=24 ? "x3" : "x2" : "") + ' +
+       '(source>=23 ? ", ' + t + '6" : "") + ' +
+          '(source>=24 ? source>=25 ? "x3" : "x2" : "") + ' +
+       '(source>=23 ? ", ' + t + '7" : "")'
     );
     rules.defineRule('magicNotes.clericSpellFailure',
       'wisdom', '=', '(13 - source) * 5'
     );
-    rules.defineRule('spellSlots.'+t+'6', 'wisdom', '?', 'source > 16');
-    rules.defineRule('spellSlots.'+t+'7', 'wisdom', '?', 'source > 17');
-    for(var level = 1; level <= 4; level++) {
+    rules.defineRule('spellSlots.' + t + '6', 'wisdom', '?', 'source > 16');
+    rules.defineRule('spellSlots.' + t + '7', 'wisdom', '?', 'source > 17');
+    for(var level = 1; level <= 7; level++) {
       rules.defineRule('spellSlots.' + t + level,
-        'magicNotes.bonusClericSpells', '+', 'source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
+        'magicNotes.bonusClericSpells', '+', 'source.match(/' + t + level + 'x4/) ? 4 : source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
       );
     }
     rules.defineRule('turningLevel', classLevel, '+=', null);
@@ -3821,19 +3866,25 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.bonusDruidSpells',
       'wisdom', '=',
        '"Spell level ' + t + '1" + ' +
-       '(source>=14 ? source>=19 ? "x3" : "x2" : "") + ' +
+         '(source>=14 ? source>=19 ? source>=23 ? "x4" : "x3" : "x2" : "") + ' +
        '(source>=15 ? ", ' + t + '2" : "") + ' +
-       '(source>=16 ? "x2"  : "") + ' +
+         '(source>=16 ? source>=20 ? "x3" : "x2" : "") + ' +
        '(source>=17 ? ", ' + t + '3" : "") + ' +
-       (OldSchool.EDITION == 'Second Edition' ? '(source>=19 ? "x2" : "") + ' : '') +
-       '(source>=18 ? ", ' + t + '4" : "")'
+          '(source>=19 ? source>=21 ? "x3" : "x2" : "") + ' +
+       '(source>=18 ? ", ' + t + '4" : "") + ' +
+          '(source>=20 ? source>=22 ? "x3" : "x2" : "") + ' +
+       '(source>=21 ? ", ' + t + '5" : "") + ' +
+          '(source>=22 ? source>=24 ? "x3" : "x2" : "") + ' +
+       '(source>=23 ? ", ' + t + '6" : "") + ' +
+          '(source>=24 ? source>=25 ? "x3" : "x2" : "") + ' +
+       '(source>=23 ? ", ' + t + '7" : "")'
     );
     rules.defineRule('skillNotes.woodlandLanguages',
       classLevel, '=', 'source>2 ? source - 2 : null'
     );
     for(var level = 1; level <= 4; level++) {
       rules.defineRule('spellSlots.' + t + level,
-        'magicNotes.bonusDruidSpells', '+', 'source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
+        'magicNotes.bonusDruidSpells', '+', 'source.match(/' + t + level + 'x4/) ? 4 : source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
       );
     }
 
@@ -3924,10 +3975,16 @@ OldSchool.classRulesExtra = function(rules, name) {
       'wizardLevel', '?', null,
       'intelligence', '=',
       OldSchool.EDITION != 'Second Edition' ?
-        'source>=19 ? 95 : ' +
-          'source==18 ? 85 : source==17 ? 75 : source>=15 ? 65 : ' +
-          'source>=13 ? 55 : source>=10 ? 45 : 35' :
-        'source>=19 ? 95 : source==18 ? 85 : source * 5 - 10'
+        'source >= 19 ? 95 : ' +
+          'source == 18 ? 85 : ' +
+          'source == 17 ? 75 : ' +
+          'source >= 15 ? 65 : ' +
+          'source >= 13 ? 55 : ' +
+          'source >= 10 ? 45 : 35' :
+        'source == 25 ? 100 : ' +
+          'source >= 19 ? 95 + source - 19 : ' +
+          'source == 18 ? 85 : ' +
+          'source * 5 - 10'
     );
     rules.defineRule('magicNotes.craftMinorMagic.1', '', '=', '""');
     if(OldSchool.EDITION != 'Second Edition') {
@@ -4645,6 +4702,9 @@ OldSchool.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn does not report the chance of extraordinary success on\n' +
     '    strength tests for characters with strength 18/91 and higher.\n' +
+    '  </li><li>\n' +
+    '    In Second Edition, Quilvyn does not report the spell immunities of\n' +
+    '    characters with wisdom 19 or greater.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '<h3>Copyrights and Licensing</h3>\n' +
