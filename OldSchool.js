@@ -120,7 +120,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.7';
+OldSchool.VERSION = '2.3.1.8';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -912,7 +912,7 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
-        'HitDie=10,9,3 Attack=0,1,1,- NonweaponProficiency=3,3 ' +
+        'HitDie=d10,9,3 Attack=0,1,1,- NonweaponProficiency=3,3 ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
