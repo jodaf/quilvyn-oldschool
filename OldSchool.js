@@ -120,7 +120,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.8';
+OldSchool.VERSION = '2.3.1.9';
 
 OldSchool.EDITION = 'First Edition';
 OldSchool.EDITIONS = {
@@ -1234,79 +1234,79 @@ OldSchool.RULE_EDITS = {
       'Read Languages':'Class=Bard,Thief',
       // New
       'Agriculture':'Ability=intelligence Class=all',
-      'Airborne Riding':'Ability=wisdom Class=all',
+      'Airborne Riding':'Ability=wisdom Modifier=-2 Class=all',
       'Ancient History':
-        'Ability=intelligence Class=Bard,Cleric,Druid,Illusionist,"Magic User",Thief',
+        'Ability=intelligence Modifier=-1 Class=Bard,Cleric,Druid,Illusionist,"Magic User",Thief',
       'Ancient Languages':
         'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
-      'Animal Handling':'Ability=wisdom Class=all',
+      'Animal Handling':'Ability=wisdom Modifier=-1 Class=all',
       'Animal Lore':'Ability=intelligence Class=Fighter,Paladin,Ranger',
       'Animal Training':'Ability=wisdom Class=all',
       'Appraising':'Ability=intelligence Class=Bard,Thief',
-      'Armorer':'Ability=intelligence Class=Fighter,Paladin,Ranger',
+      'Armorer':'Ability=intelligence Modifier=-2 Class=Fighter,Paladin,Ranger',
       'Artistic Ability':'Ability=wisdom Class=all',
       'Astrology':
         'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
       'Blacksmithing':'Ability=strength Class=all',
       'Blind-Fighting':'Class=Bard,Fighter,Paladin,Ranger,Thief Ability=N/A',
-      'Bowyer':'Ability=dexterity Class=Fighter,Paladin,Ranger',
+      'Bowyer':'Ability=dexterity Modifier=-1 Class=Fighter,Paladin,Ranger',
       'Brewing':'Ability=intelligence Class=all',
       'Carpentry':'Ability=strength Class=all',
-      'Charioteering':'Ability=dexterity Class=Fighter,Paladin,Ranger',
+      'Charioteering':'Ability=dexterity Modifier=2 Class=Fighter,Paladin,Ranger',
       'Cobbling':'Ability=dexterity Class=all',
       'Cooking':'Ability=intelligence Class=all',
       'Dancing':'Ability=dexterity Class=all',
-      'Direction Sense':'Ability=wisdom Class=all',
-      'Disguise':'Ability=charisma Class=Bard,Thief',
+      'Direction Sense':'Ability=wisdom Modifier=1 Class=all',
+      'Disguise':'Ability=charisma Modifier=-1 Class=Bard,Thief',
       'Endurance':'Ability=constitution Class=Fighter,Paladin,Ranger',
       'Engineering':
-        'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
+        'Ability=intelligence Modifier=-3 Class=Cleric,Druid,Illusionist,"Magic User"',
       'Etiquette':'Ability=charisma Class=all',
-      'Fire-Building':'Ability=wisdom Class=all',
-      'Fishing':'Ability=wisdom Class=all',
-      'Forgery':'Ability=dexterity Class=Bard,Thief',
+      'Fire-Building':'Ability=wisdom Modifier=-1 Class=all',
+      'Fishing':'Ability=wisdom Modifier=-1 Class=all',
+      'Forgery':'Ability=dexterity Modifier=-1 Class=Bard,Thief',
       'Gaming':'Ability=charisma Class=Bard,Fighter,Paladin,Ranger,Thief',
       'Gem Cutting':
-        'Ability=dexterity Class=Bard,Illusionist,"Magic User",Thief',
-      'Healing':'Ability=wisdom Class=Cleric,Druid',
+        'Ability=dexterity Modifier=-2 Class=Bard,Illusionist,"Magic User",Thief',
+      'Healing':'Ability=wisdom Modifier=-2 Class=Cleric,Druid',
       'Heraldry':'Ability=intelligence Class=all',
       'Herbalism':
-        'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
-      'Hunting':'Ability=wisdom Class=Fighter,Paladin,Ranger',
-      'Juggling':'Ability=dexterity Class=Bard,Thief',
+        'Ability=intelligence Modifier=-2 Class=Cleric,Druid,Illusionist,"Magic User"',
+      'Hunting':'Ability=wisdom Modifier=-1 Class=Fighter,Paladin,Ranger',
+      'Juggling':'Ability=dexterity Modifier=-1 Class=Bard,Thief',
       'Jumping':'Ability=strength Class=Bard,Thief',
-      'Land-Based Riding':'Ability=wisdom Class=all',
+      'Land-Based Riding':'Ability=wisdom Modifier=+3 Class=all',
       'Leather Working':'Ability=intelligence Class=all',
       'Local History':'Ability=charisma Class=Bard,Cleric,Druid,Thief',
-      'Mining':'Ability=wisdom Class=all',
+      'Mining':'Ability=wisdom Modifier=-3 Class=all',
       'Modern Languages':'Ability=intelligence Class=all',
       'Mountaineering':'Class=Fighter,Paladin,Ranger Ability=N/A',
-      'Musical Instrument':'Ability=dexterity Class=Cleric,Druid',
+      'Musical Instrument':'Ability=dexterity Modifier=-1 Class=Cleric,Druid',
       'Navigation':
-        'Ability=intelligence Class=Fighter,Illusionist,"Magic User",Paladin,Ranger',
-      'Pottery':'Ability=dexterity Class=all',
+        'Ability=intelligence Modifier=-2 Class=Fighter,Illusionist,"Magic User",Paladin,Ranger',
+      'Pottery':'Ability=dexterity Modifier=-2 Class=all',
       'Reading And Writing':
-        'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
-      'Reading Lips':'Ability=intelligence Class=Bard,Thief',
+        'Ability=intelligence Modifier=1 Class=Cleric,Druid,Illusionist,"Magic User"',
+      'Reading Lips':'Ability=intelligence Modifier=-2 Class=Bard,Thief',
       'Religion':'Ability=wisdom Class=Cleric,Druid,Illusionist,"Magic User"',
       'Rope Use':'Ability=dexterity Class=all',
-      'Running':'Ability=constitution Class=Fighter,Paladin,Ranger',
-      'Seamanship':'Ability=dexterity Class=all',
-      'Set Snares':'Ability=dexterity Class=Bard,Fighter,Paladin,Ranger,Thief',
+      'Running':'Ability=constitution Modifier=-6 Class=Fighter,Paladin,Ranger',
+      'Seamanship':'Ability=dexterity Modifier=+1 Class=all',
+      'Set Snares':'Ability=dexterity Modifier=-1 Class=Bard,Fighter,Paladin,Ranger,Thief',
       'Singing':'Ability=charisma Class=all',
       'Spellcraft':
-        'Ability=intelligence Class=Cleric,Druid,Illusionist,"Magic User"',
-      'Stonemasonry':'Ability=strength Class=all',
+        'Ability=intelligence Modifier=-2 Class=Cleric,Druid,Illusionist,"Magic User"',
+      'Stonemasonry':'Ability=strength Modifier=-2 Class=all',
       'Survival':'Ability=intelligence Class=Fighter,Paladin,Ranger',
       'Swimming':'Ability=strength Class=all',
-      'Tailoring':'Ability=dexterity Class=all',
+      'Tailoring':'Ability=dexterity Modifier=-1 Class=all',
       'Tightrope Walking':'Ability=dexterity Class=Bard,Thief',
       'Tracking':'Ability=wisdom Class=Fighter,Paladin,Ranger',
       'Tumbling':'Ability=dexterity Class=Bard,Thief',
-      'Ventriloquism':'Ability=intelligence Class=Bard,Thief',
-      'Weaponsmithing':'Ability=intelligence Class=Fighter,Paladin,Ranger',
-      'Weather Sense':'Ability=wisdom Class=all',
-      'Weaving':'Ability=intelligence Class=all'
+      'Ventriloquism':'Ability=intelligence Modifier=-2 Class=Bard,Thief',
+      'Weaponsmithing':'Ability=intelligence Modifier=-3 Class=Fighter,Paladin,Ranger',
+      'Weather Sense':'Ability=wisdom Modifier=-1 Class=all',
+      'Weaving':'Ability=intelligence Modifier=-1 Class=all'
     },
     'Spell':{
       // Removed
@@ -3252,7 +3252,7 @@ OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
   QuilvynUtils.checkAttrTable
     (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
   QuilvynUtils.checkAttrTable(languages, []);
-  QuilvynUtils.checkAttrTable(skills, ['Ability', 'Class']);
+  QuilvynUtils.checkAttrTable(skills, ['Ability', 'Modifier', 'Class']);
 
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
@@ -3352,6 +3352,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'Skill') {
     OldSchool.skillRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Ability'),
+      QuilvynUtils.getAttrValue(attrs, 'Modifier'),
       QuilvynUtils.getAttrValueArray(attrs, 'Class')
     );
     OldSchool.skillRulesExtra(rules, name);
@@ -4383,11 +4384,11 @@ OldSchool.shieldRules = function(rules, name, ac, weight) {
 
 /*
  * Defines in #rules# the rules associated with skill #name#, associated with
- * basic ability #ability#.  #classes# lists the classes for which this is a
- * class skill; a value of "all" indicates that this is a class skill for all
- * classes.
+ * basic ability #ability# plus #modifier#. #classes# lists the classes for
+ * which this is a class skill; a value of "all" indicates that this is a class
+ * skill for all classes.
  */
-OldSchool.skillRules = function(rules, name, ability, classes) {
+OldSchool.skillRules = function(rules, name, ability, modifier, classes) {
 
   if(!name) {
     console.log('Empty skill name');
@@ -4413,7 +4414,7 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
       rules.defineRule('classSkill.' + name, 'levels.' + clas, '=', '1');
   }
   rules.defineRule('skillModifier.' + name,
-    'skills.' + name, '=', null,
+    'skills.' + name, '=', ability ? '0' : 'source',
     'skillNotes.armorSkillModifiers', '+',
       'source.match(/' + name + '/) ? source.match(/([-+][\\d\\.]+)% ' + name + '/)[1] * 1 : null',
     'skillNotes.raceSkillModifiers', '+',
@@ -4426,10 +4427,14 @@ OldSchool.skillRules = function(rules, name, ability, classes) {
   else
     rules.defineRule('sumThiefSkills', 'skills.' + name, '+=', null);
   if(ability) {
-    rules.defineChoice
-      ('notes', 'skills.' + name + ': (' + ability.substring(0, 3) + ') %V (%1)');
+    var abil = ability.substring(0, 3);
+    if(modifier)
+      abil += (modifier > 0 ? '+' : '') + modifier;
+    rules.defineChoice('notes', 'skills.' + name + ': (' + abil + ') %V (%1)');
     if(ability != 'n/a')
-      rules.defineRule('skillModifier.' + name, ability, '+', null);
+      rules.defineRule('skillModifier.' + name,
+         ability, '+', 'source' + (modifier ? '+' + modifier : '')
+      );
   } else if(OldSchool.EDITION == 'Second Edition') {
     rules.defineChoice('notes', 'skills.' + name + ':%V (%1%)');
   } else {
