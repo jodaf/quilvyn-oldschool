@@ -30,7 +30,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function UnearthedArcana1e(edition, rules) {
 }
 
-UnearthedArcana1e.VERSION = '2.3.1.0';
+UnearthedArcana1e.VERSION = '2.3.1.1';
 
 UnearthedArcana1e.ARMORS = {
   // Two sets of skills are defined for each type of armor: one for Thief-
@@ -1281,6 +1281,7 @@ UnearthedArcana1e.abilityRules = function(rules) {
   rules.defineRule('magicNotes.gorgeous',
     'comeliness', '=', 'Math.floor(source * (source<26 ? 0.667 : 0.75))'
   );
+  rules.defineChoice('random', 'comeliness');
 
   rules.defineChoice('notes',
     'abilityNotes.charismaComelinessModifier:%V',
@@ -1678,10 +1679,6 @@ UnearthedArcana1e.randomizeOneAttribute = function(attributes, attribute) {
       rolls.push(QuilvynUtils.random(1, 6));
     rolls.sort();
     attributes.comeliness = rolls[1] + rolls[2] + rolls[3];
-    if(attribute == 'abilities')
-      OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
-  } else {
-    OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
   }
 };
 

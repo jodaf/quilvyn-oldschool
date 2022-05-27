@@ -24,6 +24,11 @@ following lines to the file plugins/plugins.js:
       group:'Old School D&D',
       require:'OSRIC.js'
     };
+    RULESETS['First Edition Psionics'] = {
+      url:'plugins/OSPsionics.js',
+      group:'Old School D&D',
+      supplement:'AD&D First Edition (1E)'
+    };
     RULESETS['Unearthed Arcana (1E)'] = {
       url:'plugins/UnearthedArcana1e.js',
       group:'Old School D&D',
@@ -33,6 +38,11 @@ following lines to the file plugins/plugins.js:
       url:'plugins/OldSchool.js',
       group:'Old School D&D',
       require:'OSRIC.js'
+    };
+    RULESETS['Second Edition Psionics'] = {
+      url:'plugins/OSPsionics.js',
+      group:'Old School D&D',
+      supplement:'AD&D Second Edition (2E)'
     };
 
 ### Usage
