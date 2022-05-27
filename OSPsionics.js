@@ -93,20 +93,22 @@ OSPsionics.POWERS = {
     'Score=wisdom,-5 ' +
     'Preparation=5 ' +
     'Cost=24 ' +
-    'Description="Self learns outcome of action over the next few hours"',
+    'Description=' +
+      '"Self learns probable outcome of action over the next few hours"',
   'Sensitivity To Psychic Impressions':
     'Discipline=Clairsentience ' +
     'Type=Science ' +
     'Score=wisdom,-4 ' +
     'Preparation=2 ' +
     'Cost=12,2/rd ' +
-    'Description="Self learns history of area"',
+    'Description="Self learns history of 60\' radius"',
   'All-Round Vision':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'Score=wisdom,-3 ' +
     'Cost=6,4/rd ' +
-    'Description="Self gains 360-degree vision"',
+    'Description=' +
+      '"Self gains vision in all directions, suffers -4 save vs. gaze"',
   'Combat Mind':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
@@ -118,7 +120,7 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'Score=wisdom,-3 ' +
     'Cost=4,3/tn ' +
-    'Description="R10\' Self detects nearby hazard or threat"',
+    'Description="R10\' Self detects nearby hazards and threats"',
   'Feel Light':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
@@ -130,7 +132,7 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'Score=wisdom,-3 ' +
     'Cost=5,3/rd ' +
-    'Description="Self hears via skin"',
+    'Description="Self hears via skin, gains +2 save vs. sonic"',
   'Hear Light':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
@@ -154,7 +156,6 @@ OSPsionics.POWERS = {
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'Score=wisdom ' +
-    'Preparation=5 ' +
     'Cost=1 ' +
     'Description="R1\' Self detects presence of poison"',
   'Radial Navigation':
@@ -162,7 +163,7 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'Score=intelligence,-3 ' +
     'Cost=4,7/hr ' +
-    'Description="Self knows distance and direction of starting point"',
+    'Description="Self knows distance and direction from starting point"',
   'See Sound':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
@@ -180,7 +181,7 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'Score=intelligence,-4 ' +
     'Cost=16,3/rd ' +
-    'Description="R20\' Creates object up to 4\' diameter"',
+    'Description="R20\' Creates object up to 10 lbs and 4\' diameter"',
   'Detonate':
     'Discipline=Psychokinesis ' +
     'Type=Science ' +
@@ -205,7 +206,7 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'Score=constitution,-2 ' +
     'Cost=10 ' +
-    'Description="R200\' Remote punch inflicts 1d6+AC HP"',
+    'Description="R200\' Remote punch inflicts 1d6+AC HP (Breath save half)"',
   'Telekinesis':
     'Discipline=Psychokinesis ' +
     'Type=Science ' +
@@ -217,13 +218,13 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'Score=intelligence,-3 ' +
     'Cost=8,3/rd ' +
-    'Description="Target up to 100 lb moves as if alive"',
+    'Description="R50\' Target up to 100 lb moves up to 60\'/rd as if alive"',
   'Animate Shadow':
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'Score=wisdom,-3 ' +
     'Cost=7,3/rd ' +
-    'Description="R40\' Target shadow moves independently of source"',
+    'Description="R40\' Target 100\' sq shadow moves independently of source"',
   'Ballistic Attack':
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
@@ -235,13 +236,14 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'Score=constitution,-2 ' +
     'Cost=8,8/rd ' +
-    'Description="R80\' Self controls target\'s movements"',
+    'Description="R80\' Self controls target\'s movements (Strength save neg)"',
   'Control Flames':
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'Score=wisdom,-1 ' +
     'Cost=6,3/rd ' +
-    'Description="R40\' Target 10\' sq flame doubles or halves size"',
+    'Description=' +
+      '"R40\' Target 10\' sq flame doubles or halves size and/or heat"',
   'Control Light':
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
@@ -261,7 +263,7 @@ OSPsionics.POWERS = {
     'Preparation=2 ' +
     'Cost=16,10/rd ' +
     'Description=' +
-      '"R500\' Changes speed and direction of wind, up to 10 MPH and degrees"',
+      '"R500\' Changes speed and direction of wind, up to 10 MPH and 90 degrees"',
   'Create Sound':
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
@@ -326,14 +328,15 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'Score=constitution,-2 ' +
     'Cost=10 ' +
-    'Description="Specified energy type attacks on self reflected as light"',
+    'Description=' +
+      '"Self doubles saves and takes half damage vs. specified energy"',
   'Life Draining':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
     'Score=constitution,-3 ' +
     'Cost=11,5/rd ' +
     'Description=' +
-      '"Transfers HP from touched to self, raising self HP up to %{hitPoints+10}"',
+      '"Transfers 1d6 HP/rd from touched to self, raising self HP up to %{hitPoints+10}"',
   'Metamorphosis':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
@@ -384,7 +387,7 @@ OSPsionics.POWERS = {
     'Score=constitution,-3 ' +
     'Cost=2,2/rd ' +
     'Description=' +
-      '"Self can walk on water or fragile surfaces, takes no damage from falling"',
+      '"Self becomes very light, can walk on water or fragile surfaces, takes no damage from falling"',
   'Body Weaponry':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -397,7 +400,7 @@ OSPsionics.POWERS = {
     'Score=dexterity,-2 ' +
     'Cost=4 ' +
     'Description=' +
-      '"Self drops 30\' w/out damage; takes half damage from longer fall"',
+      '"Self drops 30\' w/out damage, takes half damage from longer fall"',
   'Cause Decay':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -422,7 +425,7 @@ OSPsionics.POWERS = {
     'Score=constitution,-4 ' +
     'Preparation=1 ' +
     'Cost=9,6/rd ' +
-    'Description="Self touch causes acid effects"',
+    'Description="Touch causes acid effects"',
   'Displacement':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -434,7 +437,7 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'Score=constitution,-3 ' +
     'Cost=7 ' +
-    'Description="Touched takes double damage for 1 tn"',
+    'Description="Touched takes double damage, regains half after 1 tn"',
   'Ectoplasmic Form':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -510,7 +513,7 @@ OSPsionics.POWERS = {
     'Score=constitution,-3 ' +
     'Preparation=5 ' +
     'Cost=12 ' +
-    'Description="Self appears dead"',
+    'Description="Self or touched appears dead"',
   'Banishment':
     'Discipline=Psychoportation ' +
     'Type=Science ' +
@@ -523,7 +526,7 @@ OSPsionics.POWERS = {
     'Score=intelligence ' +
     'Preparation=2 ' +
     'Cost=20,8/hr ' +
-    'Description="Self travel astral plane"',
+    'Description="Self travels astral plane"',
   'Summon Planar Creature':
     'Discipline=Psychoportation ' +
     'Type=Science ' +
@@ -1044,11 +1047,216 @@ OSPsionics.POWERS = {
     'Cost=15,8/rd ' +
     'Description="Forces target into single plane"'
 };
+OSPsionics.RULE_EDITS = {
+  'First Edition':{
+    'Class':{
+      // Removed
+      'Psionicist':null
+    },
+    'Power':{
+      // Removed
+      'Absorb Disease':null,
+      'Adrenalin Control':null,
+      'Aging':null,
+      'All-Round Vision':null,
+      'Animal Affinity':null,
+      'Animate Object':null,
+      'Animate Shadow':null,
+      'Appraise':null,
+      'Attraction':null,
+      'Aura Sight':null,
+      'Aversion':null,
+      'Awe':null,
+      'Ballistic Attack':null,
+      'Banishment':null,
+      'Biofeedback':null,
+      'Cannibalize':null,
+      'Catfall':null,
+      'Cause Decay':null,
+      'Chameleon Power':null,
+      'Chemical Simulation':null,
+      'Combat Mind':null,
+      'Complete Healing':null,
+      'Conceal Thoughts':null,
+      'Contact':null,
+      'Control Body':null,
+      'Control Flames':null,
+      'Control Light':null,
+      'Control Sound':null,
+      'Control Wind':null,
+      'Convergence':null,
+      'Create Object':null,
+      'Create Sound':null,
+      'Danger Sense':null,
+      'Daydream':null,
+      'Death Field':null,
+      'Detonate':null,
+      'Dimensional Door':null, // Renamed Dimension Door
+      'Disintegrate':null,
+      'Displacement':null,
+      'Double Pain':null,
+      'Dream Travel':null,
+      'Ectoplasmic Form':null,
+      'Ego Whip':null,
+      'Ejection':null,
+      'Empower':null,
+      'Energy Containment':null,
+      'Enhanced Strength':null,
+      'Enhancement':null,
+      'False Sensory Input':null,
+      'Fate Link':null,
+      'Feel Light':null,
+      'Feel Sound':null,
+      'Flesh Armor':null,
+      'Gird':null,
+      'Graft Weapon':null,
+      'Hear Light':null,
+      'Heightened Senses':null,
+      'Id Insinuation':null,
+      'Identity Penetration':null,
+      'Immovability':null,
+      'Incarnation Awareness':null,
+      'Inertial Barrier':null,
+      'Inflict Pain':null,
+      'Intensify':null,
+      'Invincible Foes':null,
+      'Know Direction':null,
+      'Know Location':null,
+      'Lend Health':null,
+      'Life Detection':null,
+      'Life Draining':null,
+      'Magnify':null,
+      'Martial Trance':null,
+      'Metamorphosis':null,
+      'Mind Thrust':null,
+      'Mindlink':null,
+      'Mindwipe':null,
+      'Phobia Amplification':null,
+      'Poison Sense':null,
+      'Post-Hypnotic Suggestion':null,
+      'Probe':null,
+      'Project Force':null,
+      'Prolong':null,
+      'Psionic Blast':null,
+      'Psionic Inflation':null,
+      'Psionic Sense':null,
+      'Psychic Clone':null,
+      'Psychic Crush':null,
+      'Psychic Drain':null,
+      'Psychic Impersonation':null,
+      'Psychic Messenger':null,
+      'Psychic Surgery':null,
+      'Radial Navigation':null,
+      'Receptacle':null,
+      'Reduction':null,
+      'Repugnance':null,
+      'Retrospection':null,
+      'See Sound':null,
+      'Send Thoughts':null,
+      'Shadow-form':null,
+      'Share Strength':null,
+      'Sight Link':null,
+      'Soften':null,
+      'Sound Link':null,
+      'Spirit Sense':null,
+      'Splice':null,
+      'Split Personality':null,
+      'Stasis Field':null,
+      'Summon Planar Creature':null,
+      'Superior Invisibility':null,
+      'Switch Personality':null,
+      'Synaptic Static':null,
+      'Taste Link':null,
+      'Teleport':null, // Renamed Teleportation
+      'Teleport Other':null,
+      'Teleport Trigger':null,
+      'Time Shift':null,
+      'Time/Space Anchor':null,
+      'Truthear':null,
+      'Ultrablast':null,
+      'Wrench':null,
+      // New
+      'Animal Telepathy':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Detection Of Good Or Evil':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Detection Of Magic':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Dimension Door':OSPsionics.POWERS['Dimensional Door'],
+      'Energy Control':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Etherealness':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Hypnosis':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Seduction':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Shape Alteration':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Telepathy':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Telepathic Projection':
+        'Discipline=Metapsionic ' +
+        'Type=Devotion ' +
+        'Score=wisdom,-5 ' +
+        'Preparation=5 ' +
+        'Cost=25,1/rd ' +
+        'Description="FILL"',
+      'Teleportation':OSPsionics.POWERS['Teleport']
+    }
+  },
+  'Second Edition':{}
+};
 OSPsionics.SKILLS = {
   'Harness Subconscious':'Ability=wisdom Modifier=-1 Class=Psionicist',
   'Hypnosis':'Ability=charisma Modifier=-2 Class=Psionicist',
-  'Rejuvenation':'Ability=wisdom Modifier=-1 Class=Psionicist',
-  'Meditative Focus':'Ability=wisdom Modifier=1 Class=Psionicist'
+  'Meditative Focus':'Ability=wisdom Modifier=1 Class=Psionicist',
+  'Rejuvenation':'Ability=wisdom Modifier=-1 Class=Psionicist'
 };
 
 /* Defines rules related to magic use. */
@@ -1095,8 +1303,14 @@ OSPsionics.psionicsRules = function(rules, disciplines, powers) {
   rules.defineEditorElement('powers', 'Powers', 'set', 'powers', 'spells');
   rules.defineSheetElement('Disciplines', 'Spell Points+', null, '; ');
   rules.defineSheetElement('Psionic Strength Points', 'Disciplines+');
-  rules.defineSheetElement
-    ('Powers', 'Spells', '<b>Powers</b>:\n%V', '\n');
+  // defineSheetElement doesn't allow specification of columns; have to access
+  // viewers directly
+  var element = {
+    name:'Powers', format: '<b>Powers</b>:\n%V', before:'Spells',
+    separator: '\n', columns:'1L'
+  };
+  for(var v in rules.viewers)
+    rules.viewers[v].addElements(element);
 
 };
 

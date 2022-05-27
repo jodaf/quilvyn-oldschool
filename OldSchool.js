@@ -69,7 +69,7 @@ function OldSchool(edition) {
   OldSchool.magicRules
     (rules, OldSchool.editedRules(edition, OldSchool.SCHOOLS, 'School'),
      OldSchool.editedRules(edition, OldSchool.SPELLS, 'Spell'));
-  if(window.OSPsionics != null && edition == 'Second Edition')
+  if(window.OSPsionics != null)
     OSPsionics.psionicsRules
       (rules,
        OldSchool.editedRules(edition, OldSchool.DISCIPLINES, 'Discipline'),
@@ -2718,6 +2718,16 @@ OldSchool.RULE_EDITS = {
     },
   }
 };
+if(window.OSPsionics != null) {
+  ['First Edition', 'Second Edition'].foreach(edition => {
+    console.log(edition);
+    for(var t in OSPsionics.RULE_EDITS[edition]) {
+      console.log(t);
+      Object.assign(OldSchool.RULE_EDITS[edition][t],
+                    OSPsionics.RULE_EDITS[edition][t]);
+    }
+  });
+}
 
 // Related information used internally by OldSchool
 OldSchool.monkUnarmedDamage = [
@@ -2737,7 +2747,7 @@ OldSchool.editedRules = function(edition, base, type) {
      edition == 'First Edition' &&
      UnearthedArcana1e[pluginVar] != null)
     base = Object.assign({}, base, UnearthedArcana1e[pluginVar]);
-  if(window.OSPsionics != null && edition == 'Second Edition' && OSPsionics[pluginVar] != null)
+  if(window.OSPsionics != null && OSPsionics[pluginVar] != null)
     base = Object.assign({}, base, OSPsionics[pluginVar]);
   var edits = OldSchool.RULE_EDITS[edition][type];
   if(!edits)
@@ -3395,7 +3405,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     console.log('Unknown choice type "' + type + '"');
     return;
   }
-  if(window.OSPsionics != null && rules.edition == 'Second Edition')
+  if(window.OSPsionics != null)
     OSPsionics.choiceRules(rules, type, name, attrs);
   if(window.UnearthedArcana1e != null && rules.edition == 'First Edition')
     UnearthedArcana1e.choiceRules(rules, type, name, attrs);
@@ -4657,7 +4667,7 @@ OldSchool.getPlugins = function() {
   var result = [OSRIC].concat(OSRIC.getPlugins());
   if(window.UnearthedArcana1e != null && this.edition == 'First Edition')
     result.unshift(UnearthedArcana1e);
-  if(window.OSPsionics != null && this.edition == 'Second Edition')
+  if(window.OSPsionics != null)
     result.unshift(OSPsionics);
   return result;
 };
