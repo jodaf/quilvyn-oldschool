@@ -59,6 +59,9 @@ OSPsionics.FEATURES = {
   'Psionic Powers':
     'Section=magic ' +
     'Note="Access to %V disciplines, %1 sciences, %2 devotions, and %3 defense modes"',
+  'Psionic Talent':
+    'Section=magic ' +
+    'Note="Access to 1 or more powers; %V Psionic Strength Points"',
   'Resist Enchantment':'Section=save Note="+2 vs. enchantment spells"'
 };
 OSPsionics.POWERS = {
@@ -1288,15 +1291,13 @@ OSPsionics.psionicsRules = function(rules, disciplines, powers) {
   QuilvynRules.validAllocationRules
     (rules, 'discipline', 'psionicDisciplineCount', 'Sum "^disciplines\\."');
   rules.defineRule
-    ('features.Wild Talent', 'wildTalent', '=', 'source ? 1 : null');
-  rules.defineRule('psionicStrengthPoints', 'magicNotes.wildTalent', '+=', null);
-  rules.defineRule('magicNotes.wildTalent',
-    'features.Wild Talent', '?', null,
-    'level', '=', '4 * (source - 1)'
-  );
+    ('features.Psionic Talent', 'psionicTalent', '=', 'source ? 1 : null');
   rules.defineRule
-    ('psionicDisciplineCount', 'magicNotes.wildTalent', '+=', '1');
-  rules.defineRule('psionicDevotionCount', 'magicNotes.wildTalent', '+=', '1');
+    ('magicNotes.psionicTalent', 'level', '=', '4 * (source - 1)');
+  rules.defineRule
+    ('psionicDisciplineCount', 'magicNotes.psionicTalent', '+=', '1');
+  rules.defineRule
+    ('psionicDevotionCount', 'magicNotes.psionicTalent', '+=', '1');
   rules.defineChoice('choices', 'Discipline', 'Power');
   rules.defineChoice('random', 'disciplines', 'powers');
   rules.defineRule('classSkill.Gem Cutting', 'levels.Psionicist', '=', '1');
@@ -1305,11 +1306,11 @@ OSPsionics.psionicsRules = function(rules, disciplines, powers) {
   rules.defineRule
     ('classSkill.Reading And Writing', 'levels.Psionicist', '=', '1');
   rules.defineRule('classSkill.Religion', 'levels.Psionicist', '=', '1');
-  rules.defineChoice('preset', 'wildTalent:Wild Talent,checkbox,');
+  rules.defineChoice('preset', 'psionicTalent:Psionic Talent,checkbox,');
 
   // Add items to character sheet
   rules.defineEditorElement
-    ('wildTalent', 'Wild Talent', 'checkbox', [''], 'spells');
+    ('psionicTalent', 'Psionic Talent', 'checkbox', [''], 'spells');
   rules.defineEditorElement
     ('disciplines', 'Disciplines', 'set', 'disciplines', 'spells');
   rules.defineEditorElement('powers', 'Powers', 'set', 'powers', 'spells');
@@ -1468,7 +1469,7 @@ OSPsionics.powerRules = function(
   rules.defineChoice
     ('notes', 'powers.' + name + ':(' + testAndCost + ') ' + description);
   if(cost[0] != 'variable')
-    rules.defineRule('magicNotes.wildTalent',
+    rules.defineRule('magicNotes.psionicTalent',
       'powers.' + name, '+',
       cost[0] + (cost.length>1 ? (cost[1]+'').replace(/\/.*/, '') : 0) * 4
     );
