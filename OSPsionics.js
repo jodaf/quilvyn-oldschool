@@ -1358,9 +1358,6 @@ OSPsionics.ruleNotes = function() {
     'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
     'the Coast LLC.\n' +
     '</p><p>\n' +
-    'Advanced Dungeons & Dragons Players Handbook © 2012 Wizards of the ' +
-    'Coast LLC.\n' +
-    '</p><p>\n' +
     'The Complete Psionics Handbook © 1991 TSR, Inc.\n' +
     'Coast LLC.\n' +
     '</p>\n';
