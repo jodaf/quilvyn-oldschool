@@ -24,7 +24,7 @@ following lines to the file plugins/plugins.js:
       group:'Old School D&D',
       require:'OSRIC.js'
     };
-    RULESETS['First Edition Psionics'] = {
+    RULESETS['PHB Psionics (1E)'] = {
       url:'plugins/OSPsionics.js',
       group:'Old School D&D',
       supplement:'AD&D First Edition (1E)'
@@ -39,7 +39,7 @@ following lines to the file plugins/plugins.js:
       group:'Old School D&D',
       require:'OSRIC.js'
     };
-    RULESETS['Second Edition Psionics'] = {
+    RULESETS['The Complete Psionics Handbook supplement (2E)'] = {
       url:'plugins/OSPsionics.js',
       group:'Old School D&D',
       supplement:'AD&D Second Edition (2E)'

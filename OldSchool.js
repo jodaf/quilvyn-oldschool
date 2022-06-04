@@ -70,10 +70,7 @@ function OldSchool(edition) {
     (rules, OldSchool.editedRules(edition, OldSchool.SCHOOLS, 'School'),
      OldSchool.editedRules(edition, OldSchool.SPELLS, 'Spell'));
   if(window.OSPsionics != null)
-    OSPsionics.psionicsRules
-      (rules,
-       OldSchool.editedRules(edition, OldSchool.DISCIPLINES, 'Discipline'),
-       OldSchool.editedRules(edition, OldSchool.POWERS, 'Power'));
+    OSPsionics.psionicsRules(rules, edition == 'First Edition');
   OldSchool.talentRules
     (rules, OldSchool.editedRules(edition, OldSchool.FEATURES, 'Feature'),
      OldSchool.editedRules(edition, OldSchool.GOODIES, 'Goody'),
@@ -2718,16 +2715,6 @@ OldSchool.RULE_EDITS = {
     },
   }
 };
-if(window.OSPsionics != null) {
-  ['First Edition', 'Second Edition'].foreach(edition => {
-    console.log(edition);
-    for(var t in OSPsionics.RULE_EDITS[edition]) {
-      console.log(t);
-      Object.assign(OldSchool.RULE_EDITS[edition][t],
-                    OSPsionics.RULE_EDITS[edition][t]);
-    }
-  });
-}
 
 // Related information used internally by OldSchool
 OldSchool.monkUnarmedDamage = [
@@ -2747,8 +2734,6 @@ OldSchool.editedRules = function(edition, base, type) {
      edition == 'First Edition' &&
      UnearthedArcana1e[pluginVar] != null)
     base = Object.assign({}, base, UnearthedArcana1e[pluginVar]);
-  if(window.OSPsionics != null && OSPsionics[pluginVar] != null)
-    base = Object.assign({}, base, OSPsionics[pluginVar]);
   var edits = OldSchool.RULE_EDITS[edition][type];
   if(!edits)
     return base;
@@ -3331,9 +3316,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
     );
     OldSchool.classRulesExtra(rules, name);
-  } else if(type == 'Discipline')
-    ; // Handled by OSPsionics
-  else if(type == 'Feature')
+  } else if(type == 'Feature')
     OldSchool.featureRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
@@ -3349,8 +3332,6 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'Language')
     OldSchool.languageRules(rules, name);
-  else if(type == 'Power')
-    ; // Handled by OSPsionics
   else if(type == 'Race') {
     OldSchool.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
@@ -3405,8 +3386,6 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     console.log('Unknown choice type "' + type + '"');
     return;
   }
-  if(window.OSPsionics != null)
-    OSPsionics.choiceRules(rules, type, name, attrs);
   if(window.UnearthedArcana1e != null && rules.edition == 'First Edition')
     UnearthedArcana1e.choiceRules(rules, type, name, attrs);
   if(type != 'Feature' && type != 'Spell') {
