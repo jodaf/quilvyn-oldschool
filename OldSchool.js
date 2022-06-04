@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /*jshint esversion: 6 */
 /* jshint forin: false */
-/* globals OSRIC, Quilvyn, QuilvynRules, QuilvynUtils, UnearthedArcana1e */
+/* globals OSPsionics, OSRIC, Quilvyn, QuilvynRules, QuilvynUtils, UnearthedArcana1e */
 "use strict";
 
 /*
@@ -36,22 +36,21 @@ function OldSchool(edition) {
     return;
   }
 
-  OldSchool.EDITION =
+  edition =
     (edition + '').includes('1E') ? 'First Edition' :
     (edition + '').includes('2E') ? 'Second Edition' : 'First Edition';
 
-  var rules = new QuilvynRules(OldSchool.EDITION, OldSchool.VERSION);
+  var rules = new QuilvynRules(edition, OldSchool.VERSION);
+  rules.edition = edition;
 
   rules.defineChoice('choices', OldSchool.CHOICES);
   rules.choiceEditorElements = OSRIC.choiceEditorElements;
   rules.choiceRules = OldSchool.choiceRules;
-  rules.editorElements = OldSchool.initialEditorElements();
+  rules.editorElements = OldSchool.initialEditorElements(edition);
   rules.getFormats = OSRIC.getFormats;
   rules.getPlugins = OldSchool.getPlugins;
   rules.makeValid = OSRIC.makeValid;
-  rules.randomizeOneAttribute = OSRIC.randomizeOneAttribute;
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
-    rules.randomizeOneAttribute = UnearthedArcana1e.randomizeOneAttribute;
+  rules.randomizeOneAttribute = OldSchool.randomizeOneAttribute;
   rules.defineChoice('random', OldSchool.RANDOMIZABLE_ATTRIBUTES);
   rules.ruleNotes = OldSchool.ruleNotes;
 
@@ -61,78 +60,39 @@ function OldSchool(edition) {
     ('preset', 'race:Race,select-one,races','levels:Class Levels,bag,levels');
 
   OldSchool.abilityRules(rules);
+  if(window.UnearthedArcana1e != null && edition == 'First Edition')
+    UnearthedArcana1e.abilityRules(rules);
   OldSchool.combatRules
-    (rules, OldSchool.editedRules(OldSchool.ARMORS, 'Armor'),
-     OldSchool.editedRules(OldSchool.SHIELDS, 'Shield'),
-     OldSchool.editedRules(OldSchool.WEAPONS, 'Weapon'));
+    (rules, OldSchool.editedRules(edition, OldSchool.ARMORS, 'Armor'),
+     OldSchool.editedRules(edition, OldSchool.SHIELDS, 'Shield'),
+     OldSchool.editedRules(edition, OldSchool.WEAPONS, 'Weapon'));
   OldSchool.magicRules
-    (rules, OldSchool.editedRules(OldSchool.SCHOOLS, 'School'),
-     OldSchool.editedRules(OldSchool.SPELLS, 'Spell'));
+    (rules, OldSchool.editedRules(edition, OldSchool.SCHOOLS, 'School'),
+     OldSchool.editedRules(edition, OldSchool.SPELLS, 'Spell'));
+  if(window.OSPsionics != null)
+    OSPsionics.psionicsRules(rules, edition == 'First Edition');
   OldSchool.talentRules
-    (rules, OldSchool.editedRules(OldSchool.FEATURES, 'Feature'),
-     OldSchool.editedRules(OldSchool.GOODIES, 'Goody'),
-     OldSchool.editedRules(OldSchool.LANGUAGES, 'Language'),
-     OldSchool.editedRules(OldSchool.SKILLS, 'Skill'));
+    (rules, OldSchool.editedRules(edition, OldSchool.FEATURES, 'Feature'),
+     OldSchool.editedRules(edition, OldSchool.GOODIES, 'Goody'),
+     OldSchool.editedRules(edition, OldSchool.LANGUAGES, 'Language'),
+     OldSchool.editedRules(edition, OldSchool.SKILLS, 'Skill'));
   OldSchool.identityRules(
-    rules, OldSchool.editedRules(OldSchool.ALIGNMENTS, 'Alignment'),
-    OldSchool.editedRules(OldSchool.CLASSES, 'Class'),
-    OldSchool.editedRules(OldSchool.RACES, 'Race'));
-
-  // Add additional elements to sheet
-  rules.defineSheetElement('Strength');
-  rules.defineSheetElement
-    ('StrengthInfo', 'Dexterity', '<b>Strength</b>: %V', '/');
-  rules.defineSheetElement('Strength', 'StrengthInfo/', '%V');
-  rules.defineSheetElement('Extra Strength', 'StrengthInfo/', '%V');
-  rules.defineSheetElement
-    ('Experience Points', 'Level', '<b>Experience</b>: %V', '; ');
-  rules.defineSheetElement('SpeedInfo');
-  rules.defineSheetElement('Speed', 'LoadInfo', '<b>%N</b>: %V');
-  rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
-  var strengthMinorDie = OldSchool.EDITION == 'Second Edition' ? 20 : 6;
-  rules.defineSheetElement
-    ('Strength Minor Test', 'StrengthTests/',
-     '<b>Strength Minor/Major Test</b>: %Vin' + strengthMinorDie);
-  rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
-  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
-  rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
-  rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
-  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
-  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
-  rules.defineSheetElement
-    ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
-  rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
-  rules.defineSheetElement
-    ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
-  rules.defineSheetElement('Thac0Melee', 'Thac0Info/', '%V');
-  rules.defineSheetElement('Thac0Ranged', 'Thac0Info/', '%V');
-  rules.defineSheetElement
-    ('Thac10Info', 'AttackInfo', '<b>THAC10 Melee/Ranged</b>: %V', '/');
-  rules.defineSheetElement('Thac10Melee', 'Thac10Info/', '%V');
-  rules.defineSheetElement('Thac10Ranged', 'Thac10Info/', '%V');
-  rules.defineSheetElement('AttackInfo');
-  rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
-  rules.defineSheetElement
-    ('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
-  rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
+    rules, OldSchool.editedRules(edition, OldSchool.ALIGNMENTS, 'Alignment'),
+    OldSchool.editedRules(edition, OldSchool.CLASSES, 'Class'),
+    OldSchool.editedRules(edition, OldSchool.RACES, 'Race'));
 
   Quilvyn.addRuleSet(rules);
 
 }
 
-OldSchool.VERSION = '2.3.1.9';
-
-OldSchool.EDITION = 'First Edition';
-OldSchool.EDITIONS = {
-  'First Edition':'',
-  'Second Edition':''
-};
+OldSchool.VERSION = '2.3.1.10';
 
 /* List of choices that can be expanded by house rules. */
 OldSchool.CHOICES = [
   'Armor', 'Class', 'Feature', 'Language', 'Race', 'School', 'Shield', 'Spell',
   'Weapon'
 ];
+
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
  * dependencies among attributes when generating random characters.
@@ -648,7 +608,7 @@ OldSchool.SPELLS_CHANGES = {
 };
 /*
  * Mapping of OSRIC spell names to 1E/2E--mostly Americanized spellings and
- * adding TM wizard names.
+ * adding (tm) wizard names.
  */
 OldSchool.SPELLS_RENAMES = {
   'Audible Glamour':'Audible Glamer',
@@ -2763,18 +2723,18 @@ OldSchool.monkUnarmedDamage = [
 ];
 
 /*
- * Uses the OldSchool.RULE_EDIT rules for #type# for the current edition
+ * Uses the OldSchool.RULE_EDIT rules for #type# for edition #edition#
  * to modify the values in #base# and returns the result. Each value listed
  * in the edit rules can use = or +=,to indicate whether the new values
  * should replace or be added to the values in #base#.
  */
-OldSchool.editedRules = function(base, type) {
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition') {
-    var ueVar = type.toUpperCase() + (type=='Class' ? 'ES' : 'S');
-    if(UnearthedArcana1e[ueVar] != null)
-      base = Object.assign({}, base, UnearthedArcana1e[ueVar]);
-  }
-  var edits = OldSchool.RULE_EDITS[OldSchool.EDITION][type];
+OldSchool.editedRules = function(edition, base, type) {
+  var pluginVar = type.toUpperCase() + (type=='Class' ? 'ES' : 'S');
+  if(window.UnearthedArcana1e != null &&
+     edition == 'First Edition' &&
+     UnearthedArcana1e[pluginVar] != null)
+    base = Object.assign({}, base, UnearthedArcana1e[pluginVar]);
+  var edits = OldSchool.RULE_EDITS[edition][type];
   if(!edits)
     return base;
   var result = Object.assign({}, base);
@@ -2836,7 +2796,7 @@ OldSchool.abilityRules = function(rules) {
       'source <= 15 ? source * 5 - 60 : ' +
       '(source * 5 - 55)'
   );
-  if(OldSchool.EDITION == 'Second Edition') {
+  if(rules.edition == 'Second Edition') {
     // Expressed as mod to d20 instead of percentage
     rules.defineRule('abilityNotes.charismaLoyaltyAdjustment', '', '*', '0.2');
     rules.defineRule('abilityNotes.charismaReactionAdjustment', '', '*', '0.2');
@@ -2852,7 +2812,7 @@ OldSchool.abilityRules = function(rules) {
       '(Math.floor(source / 3) - 1)',
     'warriorLevel', 'v', 'source == 0 ? 2 : null'
   );
-  if(OldSchool.EDITION == 'Second Edition')
+  if(rules.edition == 'Second Edition')
     rules.defineRule('saveNotes.constitutionPoisonSaveAdjustment',
       'constitution', '=',
         'source > 18 ? "+" + Math.floor((source - 17) / 2) : ' +
@@ -2868,7 +2828,7 @@ OldSchool.abilityRules = function(rules) {
     'constitution', '=',
       'source <= 13 ? source * 5 + 20 : ' +
       'source == 16 ? 95 : ' +
-      (OldSchool.EDITION == 'Second Edition' ? 'source == 15 ? 90 : ' : '') +
+      (rules.edition == 'Second Edition' ? 'source == 15 ? 90 : ' : '') +
       'source <= 17 ? source * 3 + 46 : ' +
       'source == 25 ? 100 : 99'
   );
@@ -2889,13 +2849,13 @@ OldSchool.abilityRules = function(rules) {
   );
   rules.defineRule('combatNotes.dexterityAttackAdjustment',
     'dexterity', '=',
-      (OldSchool.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
+      (rules.edition == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
       'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
       'source <= 18 ? source - 15 : (Math.floor(source / 3) - 3)'
   );
   rules.defineRule('combatNotes.dexteritySurpriseAdjustment',
     'dexterity', '=',
-      (OldSchool.EDITION == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
+      (rules.edition == 'Second Edition' ? 'source == 18 ? 2 : ' : '') +
       'source <= 5 ? (source - 6) : source <= 15 ? null : ' +
       'source <= 18 ? source - 15 : (Math.floor(source / 3) - 3)'
   );
@@ -2919,7 +2879,7 @@ OldSchool.abilityRules = function(rules) {
     ('skillNotes.dexteritySkillModifiers', 'sumThiefSkills', '?', '1');
 
   // Intelligence
-  if(OldSchool.EDITION == 'Second Edition') {
+  if(rules.edition == 'Second Edition') {
     rules.defineRule('skillNotes.intelligenceLanguageBonus',
       'intelligence', '=',
         'source < 9 ? 1 : ' +
@@ -2954,7 +2914,7 @@ OldSchool.abilityRules = function(rules) {
       'source == 21 ? 14 : ' +
       '(source - (source >= 11 ? 8 : 7))'
   );
-  if(OldSchool.EDITION == 'Second Edition') {
+  if(rules.edition == 'Second Edition') {
     rules.defineRule('loadLight',
       'strengthRow', '=', '[6, 11, 21, 36, 41, 46, 56, 71, 86, 111, 136, 161, 186, 236, 336, 486, 536, 636, 786, 936, 1236, 1536][source]'
     );
@@ -2984,7 +2944,7 @@ OldSchool.abilityRules = function(rules) {
       'source <= 19 ? source * 10 - 100 : ' +
       'source == 20 ? 95 : 99'
   );
-  if(OldSchool.EDITION == 'Second Edition') {
+  if(rules.edition == 'Second Edition') {
     rules.defineRule('strengthMinorTest',
       'strengthRow', '=',
         'source <= 14 ? source + 2 : (Math.floor(source / 2) + 9)'
@@ -3030,9 +2990,25 @@ OldSchool.abilityRules = function(rules) {
       'Math.min(source - 14, 4)'
   );
 
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
-    // Pick up comeliness rules
-    UnearthedArcana1e.abilityRules(rules);
+  // Add items to the character sheet
+  rules.defineSheetElement('Strength');
+  rules.defineSheetElement
+    ('StrengthInfo', 'Dexterity', '<b>Strength</b>: %V', '/');
+  rules.defineSheetElement('Strength', 'StrengthInfo/', '%V');
+  rules.defineSheetElement('Extra Strength', 'StrengthInfo/', '%V');
+  rules.defineSheetElement
+    ('Experience Points', 'Level', '<b>Experience</b>: %V', '; ');
+  rules.defineSheetElement('SpeedInfo');
+  rules.defineSheetElement('Speed', 'LoadInfo', '<b>%N</b>: %V');
+  rules.defineSheetElement('StrengthTests', 'LoadInfo', '%V', '');
+  var strengthMinorDie = rules.edition == 'Second Edition' ? 20 : 6;
+  rules.defineSheetElement
+    ('Strength Minor Test', 'StrengthTests/',
+     '<b>Strength Minor/Major Test</b>: %Vin' + strengthMinorDie);
+  rules.defineSheetElement('Strength Major Test', 'StrengthTests/', '/%V%');
+  rules.defineSheetElement('Maximum Henchmen', 'Alignment');
+  rules.defineSheetElement('Survive System Shock', 'Save+', '<b>%N</b>: %V%');
+  rules.defineSheetElement('Survive Resurrection', 'Save+', '<b>%N</b>: %V%');
 
 };
 
@@ -3073,7 +3049,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('combatNotes.weaponSpecialization',
     'weaponSpecialization', '=', 'source == "None" ? null : source'
   );
-  if(OldSchool.EDITION == 'Second Edition') {
+  if(rules.edition == 'Second Edition') {
     rules.defineRule('combatNotes.weaponSpecialization.1',
       'weaponSpecialization', '=', 'source.match(/bow/i) ? 2 : 1'
     );
@@ -3121,7 +3097,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
     'rangedAttack', '=', '10 - source',
     'combatNotes.dexterityAttackAdjustment', '+', '-source'
   );
-  if(OldSchool.EDITION == 'Second Edition')
+  if(rules.edition == 'Second Edition')
     rules.defineRule('turnUndeadColumn',
       'turningLevel', '=',
       'source <= 9 ? source : source <= 11 ? 10 : source <= 13 ? 11 : 12'
@@ -3131,7 +3107,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
       'turningLevel', '=',
       'source <= 8 ? source : source <= 13 ? 9 : source <= 18 ? 10 : 11'
     );
-  var turningTable = OldSchool.EDITION == 'Second Edition' ? [
+  var turningTable = rules.edition == 'Second Edition' ? [
     'skeleton:10:7 :4 :T :T :D :D :D :D :D :D :D ',
     'zombie  :13:10:7 :4 :T :T :D :D :D :D :D :D ',
     'ghoul   :16:13:10:7 :4 :T :T :D :D :D :D :D ',
@@ -3174,6 +3150,23 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('weapons.Unarmed', '', '=', '1');
   rules.defineRule('weaponProficiencyCount', 'weapons.Unarmed', '=', '1');
   rules.defineRule('weaponProficiency.Unarmed', 'weapons.Unarmed', '=', '1');
+
+  // Add items to character sheet
+  rules.defineSheetElement('EquipmentInfo', 'Combat Notes', null);
+  rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
+  rules.defineSheetElement
+    ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
+  rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
+  rules.defineSheetElement
+    ('Thac0Info', 'AttackInfo', '<b>THAC0 Melee/Ranged</b>: %V', '/');
+  rules.defineSheetElement('Thac0Melee', 'Thac0Info/', '%V');
+  rules.defineSheetElement('Thac0Ranged', 'Thac0Info/', '%V');
+  rules.defineSheetElement
+    ('Thac10Info', 'AttackInfo', '<b>THAC10 Melee/Ranged</b>: %V', '/');
+  rules.defineSheetElement('Thac10Melee', 'Thac10Info/', '%V');
+  rules.defineSheetElement('Thac10Ranged', 'Thac10Info/', '%V');
+  rules.defineSheetElement('AttackInfo');
+  rules.defineSheetElement('Turn Undead', 'Combat Notes', null);
 
 };
 
@@ -3243,6 +3236,11 @@ OldSchool.magicRules = function(rules, schools, spells) {
     }
   }
 
+  // Add items to character sheet
+  rules.defineSheetElement
+    ('Understand Spell', 'Spell Slots', '<b>%N</b>: %V%');
+  rules.defineSheetElement('Maximum Spells Per Level', 'Spell Slots');
+
 };
 
 /* Defines rules related to character aptitudes. */
@@ -3273,7 +3271,7 @@ OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
     );
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
   }
-  if(OldSchool.EDITION == 'Second Edition')
+  if(rules.edition == 'Second Edition')
     QuilvynRules.validAllocationRules
       (rules, 'skill', 'skillPoints', 'sumThiefSkills');
   QuilvynRules.validAllocationRules
@@ -3388,7 +3386,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     console.log('Unknown choice type "' + type + '"');
     return;
   }
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+  if(window.UnearthedArcana1e != null && rules.edition == 'First Edition')
     UnearthedArcana1e.choiceRules(rules, type, name, attrs);
   if(type != 'Feature' && type != 'Spell') {
     type = type == 'Class' ? 'levels' :
@@ -3448,12 +3446,12 @@ OldSchool.armorRules = function(rules, name, ac, maxMove, weight, skill) {
   rules.armorStats.weight[name] = weight;
   rules.armorStats.skill[name] = skill;
 
-  if(OldSchool.EDITION == 'First Edition') {
+  if(rules.edition == 'First Edition') {
     rules.defineRule('abilityNotes.armorSpeedMaximum',
       'armor', '+', QuilvynUtils.dictLit(rules.armorStats.move) + '[source]'
     );
   }
-  if(OldSchool.EDITION == 'Second Edition' ||
+  if(rules.edition == 'Second Edition' ||
      window.UnearthedArcana1e != null) {
     rules.defineRule('skillNotes.armorSkillModifiers',
       'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
@@ -3594,7 +3592,7 @@ OldSchool.classRules = function(
   for(var i = 0; i < experience.length; i++) {
     experience[i] *= 1000;
     // 2E changes level at round number; 1E at round number + 1
-    if(OldSchool.EDITION == 'First Edition' && i > 0)
+    if(rules.edition == 'First Edition' && i > 0)
       experience[i] += 1;
   }
   rules.defineRule('experiencePoints.' + name + '.1',
@@ -3744,7 +3742,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Bard') {
 
-    if(OldSchool.EDITION == 'Second Edition') {
+    if(rules.edition == 'Second Edition') {
       rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '85');
       rules.defineRule('magicNotes.charmingMusic.1',
         classLevel, '=', 'Math.floor(source / 3)'
@@ -3786,7 +3784,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Cleric') {
 
-    var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'C';
+    var t = rules.edition == 'Second Edition' ? 'P' : 'C';
 
     rules.defineRule('classClericSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
@@ -3857,7 +3855,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Druid') {
 
-    var t = OldSchool.EDITION == 'Second Edition' ? 'P' : 'D';
+    var t = rules.edition == 'Second Edition' ? 'P' : 'D';
 
     rules.defineRule('classDruidSaveAdjustment',
       classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
@@ -3928,7 +3926,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.eldritchCraft.1',
       classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
     );
-    if(OldSchool.EDITION == 'Second Edition') {
+    if(rules.edition == 'Second Edition') {
       rules.defineRule
         ('magicNotes.schoolExpertise', classLevel, '=', '"Illusion"');
       rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Illusion"');
@@ -3975,7 +3973,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('understandSpell',
       'wizardLevel', '?', null,
       'intelligence', '=',
-      OldSchool.EDITION != 'Second Edition' ?
+      rules.edition != 'Second Edition' ?
         'source >= 19 ? 95 : ' +
           'source == 18 ? 85 : ' +
           'source == 17 ? 75 : ' +
@@ -3988,7 +3986,7 @@ OldSchool.classRulesExtra = function(rules, name) {
           'source * 5 - 10'
     );
     rules.defineRule('magicNotes.craftMinorMagic.1', '', '=', '""');
-    if(OldSchool.EDITION != 'Second Edition') {
+    if(rules.edition != 'Second Edition') {
       rules.defineRule('magicNotes.craftMinorMagic.1',
         classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
       );
@@ -4039,7 +4037,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('saveNotes.slowFall.2',
       classLevel, '=', 'source<6 ? 1 : source<13 ? 4 : 8'
     );
-    if(OldSchool.EDITION == 'First Edition') {
+    if(rules.edition == 'First Edition') {
       rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
       rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
       rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
@@ -4082,7 +4080,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('classPaladinSaveAdjustment',
       classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
     );
-    if(OldSchool.EDITION == 'Second Edition') {
+    if(rules.edition == 'Second Edition') {
       rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
     }
     rules.defineRule
@@ -4094,7 +4092,7 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Ranger') {
 
-    if(OldSchool.EDITION == 'Second Edition') {
+    if(rules.edition == 'Second Edition') {
       rules.defineRule('attacksPerRound',
         classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
       );
@@ -4156,7 +4154,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
     rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
 
-    if(OldSchool.EDITION == 'Second Edition') {
+    if(rules.edition == 'Second Edition') {
       rules.defineRule('maxAllowedSkillAllocation',
         'skillPoints', '=', 'Math.min(Math.floor(source / 2), 95)'
       );
@@ -4258,10 +4256,10 @@ OldSchool.raceRulesExtra = function(rules, name) {
 
   if(name == 'Dwarf') {
     rules.defineRule('featureNotes.detectSlope',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '75'
+      raceLevel, '+=', rules.edition == 'Second Edition' ? '83' : '75'
     );
     rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
-    if(OldSchool.EDITION != 'Second Edition')
+    if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
         '', '^', '0'
@@ -4273,7 +4271,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
   } else if(name == 'Elf') {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
-    if(OldSchool.EDITION != 'Second Edition')
+    if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-4',
         '', '^', '0'
@@ -4284,12 +4282,12 @@ OldSchool.raceRulesExtra = function(rules, name) {
       );
   } else if(name == 'Gnome') {
     rules.defineRule('featureNotes.detectSlope',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '83' : '80'
+      raceLevel, '+=', rules.edition == 'Second Edition' ? '83' : '80'
     );
     rules.defineRule('featureNotes.determineDepth',
-      raceLevel, '+=', OldSchool.EDITION == 'Second Edition' ? '67' : '60'
+      raceLevel, '+=', rules.edition == 'Second Edition' ? '67' : '60'
     );
-    if(OldSchool.EDITION != 'Second Edition')
+    if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
         '', '^', '0'
@@ -4301,7 +4299,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
   } else if(name == 'Half-Elf') {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '30');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '30');
-    if(OldSchool.EDITION == 'First Edition')
+    if(rules.edition == 'First Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-5',
         '', '^', '0'
@@ -4310,7 +4308,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
       raceLevel, '=', '"+5% Hide In Shadows/+10% Pick Pockets"'
     );
   } else if(name == 'Half-Orc') {
-    if(OldSchool.EDITION != 'Second Edition')
+    if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
         '', '^', '0'
@@ -4321,7 +4319,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
       );
   } else if(name == 'Halfling') {
     rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
-    if(OldSchool.EDITION != 'Second Edition')
+    if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-5',
         '', '^', '0'
@@ -4435,7 +4433,7 @@ OldSchool.skillRules = function(rules, name, ability, modifier, classes) {
       rules.defineRule('skillModifier.' + name,
          ability, '+', 'source' + (modifier ? '+' + modifier : '')
       );
-  } else if(OldSchool.EDITION == 'Second Edition') {
+  } else if(rules.edition == 'Second Edition') {
     rules.defineChoice('notes', 'skills.' + name + ':%V (%1%)');
   } else {
     rules.defineChoice('notes', 'skills.' + name + ':%1%');
@@ -4452,28 +4450,28 @@ OldSchool.skillRulesExtra = function(rules, name) {
   if(name == 'Climb Walls') {
     rules.defineRule('skills.Climb Walls',
       'skillLevel.Climb Walls', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'source<=4 ? source + 84 : Math.min(2 * source + 80, 99)'
         : '0'
     );
   } else if(name == 'Find Traps') {
     rules.defineRule('skills.Find Traps',
       'skillLevel.Find Traps', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'Math.min(5 * source + 15, 99)'
         : '0'
     );
   } else if(name == 'Hear Noise') {
     rules.defineRule('skills.Hear Noise',
       'skillLevel.Hear Noise', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'Math.min(5 * Math.floor((source-1)/2) + (source>=15 ? 15 : 10), 55)'
         : '0'
     );
   } else if(name == 'Hide In Shadows') {
     rules.defineRule('skills.Hide In Shadows',
       'skillLevel.Hide In Shadows', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'source<5 ? 5 * source + 5 : source<9 ? 6 * source + 1 : ' +
           'source<13 ? 7 * source - 7 : Math.min(8 * source - 19, 99)'
         : '0'
@@ -4481,7 +4479,7 @@ OldSchool.skillRulesExtra = function(rules, name) {
   } else if(name == 'Move Silently') {
     rules.defineRule('skills.Move Silently',
       'skillLevel.Move Silently', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'source<5 ? 6 * source + 9 : source<7 ? 7 * source + 5 : ' +
           'source==7 ? 55 : Math.min(8 * source - 2, 99)'
         : '0'
@@ -4489,14 +4487,14 @@ OldSchool.skillRulesExtra = function(rules, name) {
   } else if(name == 'Open Locks') {
     rules.defineRule('skills.Open Locks',
       'skillLevel.Open Locks', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'source<5 ? 4 * source + 21 : Math.min(5 * source + 17, 99)'
         : '0'
     );
   } else if(name == 'Pick Pockets') {
     rules.defineRule('skills.Pick Pockets',
       'skillLevel.Pick Pockets', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'source<10 ? 5 * source + 25 : source<13 ? 10 * source - 20 : ' +
           'source<16 ? 5 * source + 40 : 125'
         : '0'
@@ -4504,7 +4502,7 @@ OldSchool.skillRulesExtra = function(rules, name) {
   } else if(name == 'Read Languages') {
     rules.defineRule('skills.Read Languages',
       'skillLevel.Read Languages', '+=',
-        OldSchool.EDITION == 'First Edition' ?
+        rules.edition == 'First Edition' ?
           'source>3 ? Math.min(5 * source, 80) : null'
         : '0'
     );
@@ -4553,9 +4551,9 @@ OldSchool.weaponRules = function(rules, name, category, damage, range) {
   rules.defineChoice
     ('notes', 'weapons.' + name + ':%V (%1 %2%3' + (range ? ' R%5\')' : ')'));
   var specializationAttackBonus =
-    OldSchool.EDITION == 'Second Edition' && name.match(/bow/i) ? 2 : 1;
+    rules.edition == 'Second Edition' && name.match(/bow/i) ? 2 : 1;
   var specializationDamageBonus =
-    OldSchool.EDITION == 'Second Edition' && name.match(/bow/i) ? 0 : 2;
+    rules.edition == 'Second Edition' && name.match(/bow/i) ? 0 : 2;
   rules.defineRule(prefix + 'AttackModifier',
     'combatNotes.weaponSpecialization', '+',
       'source == "' + name + '" ? ' + specializationAttackBonus + ' : null'
@@ -4568,7 +4566,7 @@ OldSchool.weaponRules = function(rules, name, category, damage, range) {
     rules.defineRule
       (prefix + 'AttackModifier', 'combatNotes.swordPrecision', '+', '1');
   }
-  if(OldSchool.EDITION == 'Second Edition' &&
+  if(rules.edition == 'Second Edition' &&
      range != null && !name.match(/bow|gun|arquebus/i)) {
     rules.defineRule
       (prefix + 'AttackModifier', 'combatNotes.deadlyAim', '+', '1');
@@ -4590,7 +4588,7 @@ OldSchool.weaponRules = function(rules, name, category, damage, range) {
 };
 
 /* Returns the elements in a basic OldSchool character editor. */
-OldSchool.initialEditorElements = function() {
+OldSchool.initialEditorElements = function(edition) {
   var abilityChoices = [
     3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
   ];
@@ -4611,7 +4609,7 @@ OldSchool.initialEditorElements = function() {
     ['origin', 'Origin', 'text', [20]],
     ['player', 'Player', 'text', [20]]
   ];
-  if(OldSchool.EDITION == 'Second Edition') {
+  if(edition == 'Second Edition') {
     editorElements.push(
       ['skills', 'Skills', 'bag', 'skills']
     );
@@ -4624,12 +4622,12 @@ OldSchool.initialEditorElements = function() {
     ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['weaponProficiency', 'Weapon Proficiency', 'set', 'weapons']
   );
-  if(OldSchool.EDITION=='Second Edition' || window.UnearthedArcana1e!=null) {
+  if(edition == 'Second Edition' || window.UnearthedArcana1e != null) {
     editorElements.push(
       ['weaponSpecialization', 'Specialization', 'select-one',
        ['None'].concat(QuilvynUtils.getKeys(OldSchool.WEAPONS))]
     );
-    if(OldSchool.EDITION == 'First Edition')
+    if(edition == 'First Edition')
       editorElements.push(
         ['doubleSpecialization', '', 'checkbox', ['Doubled']]
       );
@@ -4646,9 +4644,20 @@ OldSchool.initialEditorElements = function() {
 /* Returns an array of plugins upon which this one depends. */
 OldSchool.getPlugins = function() {
   var result = [OSRIC].concat(OSRIC.getPlugins());
-  if(window.UnearthedArcana1e != null && OldSchool.EDITION == 'First Edition')
+  if(window.UnearthedArcana1e != null && this.edition == 'First Edition')
     result.unshift(UnearthedArcana1e);
+  if(window.OSPsionics != null)
+    result.unshift(OSPsionics);
   return result;
+};
+
+/* Sets #attributes#'s #attribute# attribute to a random value. */
+OldSchool.randomizeOneAttribute = function(attributes, attribute) {
+  if(window.UnearthedArcana1e != null && this.edition == 'First Edition')
+    UnearthedArcana1e.randomizeOneAttribute.apply(this, [attributes,attribute]);
+  if(window.OSPsionics != null)
+    OSPsionics.randomizeOneAttribute.apply(this, [attributes, attribute]);
+  OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
 };
 
 /* Returns HTML body content for user notes associated with this rule set. */
@@ -4660,9 +4669,8 @@ OldSchool.ruleNotes = function() {
     '<ul>\n' +
     '  <li>\n' +
     '    For convenience, Quilvyn reports THAC0 values for First Edition\n' +
-    '    characters. It also reports THAC10 ("To Hit Armor Class\n' +
-    '    10"), which can be more useful with characters who need a 20 to\n' +
-    '    hit AC 0.\n' +
+    '    characters. It also reports THAC10 ("To Hit Armor Class 10"),\n' +
+    '    which can be more useful for characters who need a 20 to hit AC 0.\n' +
     '  </li><li>\n' +
     '    The 1E DMG rules mention that Magic Users of levels 7\n' +
     '    through 10 can create scrolls and potions only with the aid of an\n' +
