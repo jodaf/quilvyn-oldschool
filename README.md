@@ -24,11 +24,6 @@ following lines to the file plugins/plugins.js:
       group:'Old School D&D',
       require:'OSRIC.js'
     };
-    RULESETS['PHB Psionics (1E)'] = {
-      url:'plugins/OSPsionics.js',
-      group:'Old School D&D',
-      supplement:'AD&D First Edition (1E)'
-    };
     RULESETS['Unearthed Arcana (1E)'] = {
       url:'plugins/UnearthedArcana1e.js',
       group:'Old School D&D',
@@ -48,6 +43,5 @@ following lines to the file plugins/plugins.js:
 ### Usage
 
 Once the quilvyn-oldSchool package is installed as described above, start
-Quilvyn and check the box next to "AD&D First Edition (1E)", the box next to
-"Unearthed Arcana (1E)", and/or the box next to "AD&D Second Edition (2E)" from
-the rule sets menu in the initial window.
+Quilvyn and check the boxes next to one or more of the plugins listed above in
+the rule sets menu of the initial window.

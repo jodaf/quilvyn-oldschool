@@ -1255,7 +1255,6 @@ OSPsionics.POWERS_1E_CHANGES = {
   'Animal Telepathy':
     'Type=Devotion ' +
     'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
     'Cost=1,1/rd ' +
     'Description="FILL"',
   'Detection Of Good Or Evil':
