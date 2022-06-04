@@ -85,7 +85,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.1.10';
+OldSchool.VERSION = '2.3.2.0';
 
 /* List of choices that can be expanded by house rules. */
 OldSchool.CHOICES = [
