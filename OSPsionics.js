@@ -21,8 +21,8 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 "use strict";
 
 /*
- * OSPsionics is a placeholder for the items and functions defined by
- * the plugin. OldSchool invokes this plugin's abilityRules and choiceRules
+ * OSPsionics is a placeholder for the items and functions defined by the
+ * plugin. OldSchool invokes this plugin's abilityRules and choiceRules
  * functions directly and overrides the values of ARMORS, SPELLS, etc. with the
  * values defined in this plugin.
  */
@@ -608,7 +608,7 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'Score=wisdom,-4 ' +
     'Cost=variable ' +
-    'Description="Forceably breaks psionic contact; may harm self"',
+    'Description="Forcibly breaks psionic contact; may harm self"',
   'Fate Link':
     'Discipline=Telepathy ' +
     'Type=Science ' +
@@ -1064,263 +1064,6 @@ OSPsionics.POWERS = {
     'Cost=15,8/rd ' +
     'Description="R30\' Forces multi-planar target into single plane"'
 };
-OSPsionics.POWERS_1E_CHANGES = {
-  // Removed
-  'Absorb Disease':null,
-  'Adrenalin Control':null,
-  'Aging':null,
-  'All-Round Vision':null,
-  'Animal Affinity':null,
-  'Animate Object':null,
-  'Animate Shadow':null,
-  'Appraise':null,
-  'Attraction':null,
-  'Aura Sight':null,
-  'Aversion':null,
-  'Awe':null,
-  'Ballistic Attack':null,
-  'Banishment':null,
-  'Biofeedback':null,
-  'Cannibalize':null,
-  'Catfall':null,
-  'Cause Decay':null,
-  'Chameleon Power':null,
-  'Chemical Simulation':null,
-  'Combat Mind':null,
-  'Complete Healing':null,
-  'Conceal Thoughts':null,
-  'Contact':null,
-  'Control Body':null,
-  'Control Flames':null,
-  'Control Light':null,
-  'Control Sound':null,
-  'Control Wind':null,
-  'Convergence':null,
-  'Create Object':null,
-  'Create Sound':null,
-  'Danger Sense':null,
-  'Daydream':null,
-  'Death Field':null,
-  'Detonate':null,
-  'Dimensional Door':null, // Renamed Dimension Door
-  'Disintegrate':null,
-  'Displacement':null,
-  'Double Pain':null,
-  'Dream Travel':null,
-  'Ectoplasmic Form':null,
-  'Ejection':null,
-  'Empower':null,
-  'Energy Containment':null,
-  'Enhanced Strength':null,
-  'Enhancement':null,
-  'False Sensory Input':null,
-  'Fate Link':null,
-  'Feel Light':null,
-  'Feel Sound':null,
-  'Flesh Armor':null,
-  'Gird':null,
-  'Graft Weapon':null,
-  'Hear Light':null,
-  'Heightened Senses':null,
-  'Identity Penetration':null,
-  'Immovability':null,
-  'Incarnation Awareness':null,
-  'Inertial Barrier':null,
-  'Inflict Pain':null,
-  'Intensify':null,
-  'Invincible Foes':null,
-  'Know Direction':null,
-  'Know Location':null,
-  'Lend Health':null,
-  'Life Detection':null,
-  'Life Draining':null,
-  'Magnify':null,
-  'Martial Trance':null,
-  'Metamorphosis':null,
-  'Mindlink':null,
-  'Mindwipe':null,
-  'Phobia Amplification':null,
-  'Poison Sense':null,
-  'Post-Hypnotic Suggestion':null,
-  'Probe':null,
-  'Project Force':null,
-  'Prolong':null,
-  'Psionic Inflation':null,
-  'Psionic Sense':null,
-  'Psychic Clone':null,
-  'Psychic Drain':null,
-  'Psychic Impersonation':null,
-  'Psychic Messenger':null,
-  'Psychic Surgery':null,
-  'Radial Navigation':null,
-  'Receptacle':null,
-  'Repugnance':null,
-  'Retrospection':null,
-  'See Sound':null,
-  'Send Thoughts':null,
-  'Shadow-form':null,
-  'Share Strength':null,
-  'Sight Link':null,
-  'Soften':null,
-  'Sound Link':null,
-  'Spirit Sense':null,
-  'Splice':null,
-  'Split Personality':null,
-  'Stasis Field':null,
-  'Summon Planar Creature':null,
-  'Superior Invisibility':null,
-  'Switch Personality':null,
-  'Synaptic Static':null,
-  'Taste Link':null,
-  'Teleport':null, // Renamed Teleportation
-  'Teleport Other':null,
-  'Teleport Trigger':null,
-  'Time Shift':null,
-  'Time/Space Anchor':null,
-  'Truthear':null,
-  'Ultrablast':null,
-  'Wrench':null,
-  // Modified
-  'Astral Projection':
-    'Cost=10',
-  'Body Control':
-    'Cost=2,2/tn',
-  'Body Equilibrium':
-    'Cost=1,1/rd',
-  'Body Weaponry':
-    'Cost=1,1/rd',
-  'Clairaudience':
-    'Cost=5,5/rd',
-  'Clairvoyance':
-    'Cost=5,5/rd',
-  'Dimension Walk':
-    'Cost=1,1/tn',
-  'ESP':
-    'Cost=2,2/rd',
-  'Ego Whip':
-    'Cost=7',
-  'Empathy':
-    'Cost=3',
-  'Expansion':
-    'Cost=5,5/rd',
-  'Id Insinuation':
-    'Cost=10',
-  'Intellect Fortress':
-    'Cost=8',
-  'Invisibility':
-    'Cost=3,3/tn',
-  'Levitation':
-    'Cost=3,3/tn',
-  'Mass Domination':
-    'Cost=10,1/rd+',
-  'Mind Bar':
-    'Cost=5,5/dy',
-  'Mind Over Body':
-    'Cost=5,5/dy',
-  'Mind Blank':
-    'Cost=1',
-  'Mind Thrust':
-    'Cost=4',
-  'Molecular Agitation':
-    'Cost=1,1/rd',
-  'Molecular Manipulation':
-    'Cost=50',
-  'Molecular Rearrangement':
-    'Cost=1',
-  'Object Reading':
-    'Cost=1,1/rd',
-  'Precognition':
-    'Cost=variable',
-  'Probability Travel':
-    'Cost=10',
-  'Psionic Blast':
-    'Cost=20',
-  'Psychic Crush':
-    'Cost=14',
-  'Reduction':
-    'Cost=2,2/tn',
-  'Sensitivity To Psychic Impressions':
-    'Cost=1,1/rd',
-  'Suspend Animation':
-    'Cost=6',
-  'Telekinesis':
-    'Cost=3,3/rd',
-  'Telempathic Projection':
-    'Cost=3',
-  'Thought Shield':
-    'Cost=2',
-  'Tower Of Iron Will':
-    'Cost=10',
-  // New
-  'Animal Telepathy':
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Cost=1,1/rd ' +
-    'Description="FILL"',
-  'Detection Of Good Or Evil':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=2,2/rd ' +
-    'Description="FILL"',
-  'Detection Of Magic':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=3,3/rd ' +
-    'Description="FILL"',
-  'Dimension Door':
-    OSPsionics.POWERS['Dimensional Door'] + ' ' +
-    'Cost=10',
-  'Energy Control':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=1,1/rd ' +
-    'Description="FILL"',
-  'Etherealness':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=6,6/tn ' +
-    'Description="FILL"',
-  'Hypnosis':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=1 ' +
-    'Description="FILL"',
-  // 'Seduction': no description
-  'Shape Alteration':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=variable ' +
-    'Description="FILL"',
-  'Telepathy':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=1,1/rd ' +
-    'Description="FILL"',
-  'Telepathic Projection':
-    'Discipline=Metapsionic ' +
-    'Type=Devotion ' +
-    'Score=wisdom,-5 ' +
-    'Preparation=5 ' +
-    'Cost=variable ' +
-    'Description="FILL"',
-  'Teleportation':
-    OSPsionics.POWERS['Teleport'] + ' ' +
-    'Cost=20'
-};
 OSPsionics.SKILLS = {
   'Harness Subconscious':'Ability=wisdom Modifier=-1 Class=Psionicist',
   'Hypnosis':'Ability=charisma Modifier=-2 Class=Psionicist',
@@ -1336,15 +1079,6 @@ OSPsionics.psionicsRules = function(rules, firstEdition) {
   var features = Object.assign({}, OSPsionics.FEATURES);
   var goodies = Object.assign({}, OSPsionics.GOODIES);
   var powers = Object.assign({}, OSPsionics.POWERS);
-  if(firstEdition) {
-    for(var power in OSPsionics.POWERS_1E_CHANGES) {
-      if(OSPsionics.POWERS_1E_CHANGES[power] == null)
-        delete powers[power];
-      else
-        powers[power] =
-          (powers[power] || '') + ' ' + OSPsionics.POWERS_1E_CHANGES[power];
-    }
-  }
   var skills = Object.assign({}, firstEdition ? {} : OSPsionics.SKILLS);
 
   QuilvynUtils.checkAttrTable(disciplines, []);
