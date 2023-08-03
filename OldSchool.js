@@ -85,7 +85,7 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.2.0';
+OldSchool.VERSION = '2.3.2.1';
 
 /* List of choices that can be expanded by house rules. */
 OldSchool.CHOICES = [
@@ -2875,8 +2875,9 @@ OldSchool.abilityRules = function(rules) {
         'source>16 ? "+" + (source - 16) * 5 + "% Pick Pockets" : "",' +
       '].filter(x => x != "").join("/")'
   );
-  rules.defineRule
-    ('skillNotes.dexteritySkillModifiers', 'sumThiefSkills', '?', '1');
+  rules.defineRule('skillNotes.dexteritySkillModifiers',
+    'sumThiefSkills', '?', 'source != null'
+  );
 
   // Intelligence
   if(rules.edition == 'Second Edition') {
@@ -3142,7 +3143,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
     );
   }
   rules.defineRule
-    ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', '1');
+    ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', 'source != null');
   // Replace SRD35's two-handedWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
@@ -4242,7 +4243,7 @@ OldSchool.raceRules = function(
   );
   // No changes needed to the rules defined by OSRIC method
   rules.defineRule
-    ('skillNotes.raceSkillModifiers', 'sumThiefSkills', '?', '1');
+    ('skillNotes.raceSkillModifiers', 'sumThiefSkills', '?', 'source != null');
 };
 
 /*
