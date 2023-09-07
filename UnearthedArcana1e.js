@@ -30,7 +30,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function UnearthedArcana1e(edition, rules) {
 }
 
-UnearthedArcana1e.VERSION = '2.3.1.1';
+UnearthedArcana1e.VERSION = '2.3.1.2';
 
 UnearthedArcana1e.ARMORS = {
   // Two sets of skills are defined for each type of armor: one for Thief-
@@ -1242,22 +1242,22 @@ UnearthedArcana1e.SPELLS = {
     'Level=I7'
 };
 UnearthedArcana1e.WEAPONS = {
-  'Aklys':'Category=1h Damage=d6 Range=10',
-  'Atlatl':'Category=R Damage=d6 Range=30',
-  'Blowgun':'Category=R Damage=d1 Range=10',
-  'Caltrop':'Category=Un Damage=d1',
-  'Falchion Sword':'Category=1h Damage=d6+1',
-  'Garrot':'Category=2h Damage=d4',
-  'Hand Crossbow':'Category=R Damage=d3 Range=20',
-  'Harpoon':'Category=R Damage=2d4 Range=10',
-  'Hook Fauchard':'Category=2h Damage=d4',
-  'Khopesh Sword':'Category=1h Damage=2d4',
-  'Knife':'Category=1h Damage=d3 Range=10',
-  'Man Catcher':'Category=2h Damage=d2',
-  'Sap':'Category=1h Damage=d2',
-  'Spiked Buckler':'Category=1h Damage=d4',
-  'Staff Sling':'Category=R Damage=2d4 Range=30',
-  'Whip':'Category=1h Damage=d2'
+  'Aklys':'Category=One-Handed Damage=d6 Range=10',
+  'Atlatl':'Category=Ranged Damage=d6 Range=30',
+  'Blowgun':'Category=Ranged Damage=d1 Range=10',
+  'Caltrop':'Category=Unarmed Damage=d1',
+  'Falchion Sword':'Category=One-Handed Damage=d6+1',
+  'Garrot':'Category=Two-Handed Damage=d4',
+  'Hand Crossbow':'Category=Ranged Damage=d3 Range=20',
+  'Harpoon':'Category=Ranged Damage=2d4 Range=10',
+  'Hook Fauchard':'Category=Two-Handed Damage=d4',
+  'Khopesh Sword':'Category=One-Handed Damage=2d4',
+  'Knife':'Category=One-Handed Damage=d3 Range=10',
+  'Man Catcher':'Category=Two-Handed Damage=d2',
+  'Sap':'Category=One-Handed Damage=d2',
+  'Spiked Buckler':'Category=One-Handed Damage=d4',
+  'Staff Sling':'Category=Ranged Damage=2d4 Range=30',
+  'Whip':'Category=One-Handed Damage=d2'
 };
 
 /* Defines rules related to character abilities. */
