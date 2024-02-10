@@ -41,17 +41,21 @@ function OldSchool(edition) {
     (edition + '').includes('2E') ? 'Second Edition' : 'First Edition';
 
   var rules = new QuilvynRules(edition, OldSchool.VERSION);
+  rules.plugin = OSRIC;
+  OSRIC.rules = rules;
   rules.edition = edition;
 
   rules.defineChoice('choices', OldSchool.CHOICES);
   rules.choiceEditorElements = OSRIC.choiceEditorElements;
   rules.choiceRules = OldSchool.choiceRules;
+  rules.removeChoice = OSRIC.removeChoice;
   rules.editorElements = OldSchool.initialEditorElements(edition);
   rules.getFormats = OSRIC.getFormats;
   rules.getPlugins = OldSchool.getPlugins;
   rules.makeValid = OSRIC.makeValid;
   rules.randomizeOneAttribute = OldSchool.randomizeOneAttribute;
   rules.defineChoice('random', OldSchool.RANDOMIZABLE_ATTRIBUTES);
+  rules.getChoices = OSRIC.getChoices;
   rules.ruleNotes = OldSchool.ruleNotes;
 
   OSRIC.createViewers(rules, OSRIC.VIEWERS);
@@ -85,12 +89,11 @@ function OldSchool(edition) {
 
 }
 
-OldSchool.VERSION = '2.3.2.2';
+OldSchool.VERSION = '2.4.1.0';
 
 /* List of choices that can be expanded by house rules. */
 OldSchool.CHOICES = [
-  'Armor', 'Class', 'Feature', 'Language', 'Race', 'School', 'Shield', 'Spell',
-  'Weapon'
+  'Armor', 'Class', 'Feature', 'Language', 'Race', 'Shield', 'Spell', 'Weapon'
 ];
 
 /*
@@ -152,7 +155,8 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
       '"intelligence >= 11","strength >= 12" ' +
-    'HitDie=d6,15,1 Attack=-1,2,4,+1@9 WeaponProficiency=3,4,2 ' +
+    'HitDie=d6,15,1 THAC10="11 9@5 6@9 4@13 4@15" ' +
+    'WeaponProficiency="3 4@7 5@11 6@15" NonproficientPenalty=-2 ' +
     'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
@@ -161,15 +165,23 @@ OldSchool.CLASSES = {
       '"1:Poison Use","3:Thief Skills","4:Limited Henchmen Classes",' +
       '"intelligence >= 15 ? 9:Bonus Languages",' +
       '"12:Read Scrolls" ' +
-    'Experience=0,1.5,3,6,12,25,50,100,200,300,425,575,750,1000,1500',
+    'Experience=' +
+      '"0 1500 3000 6000 12000 25000 50000 100000 200000 300000 425000' +
+      ' 575000 750000 1000000 1500000"' 
+/*
   'Bard':
     'Require=' +
       '"alignment =~ \'Neutral\'","charisma >= 15","constitution >= 10",' +
       '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
       '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
       '"race =~ \'Human|Half-Elf\'" ' +
-    'HitDie=d6,10,1 Attack=0,2,3,-1@19 WeaponProficiency=2,5,4 ' +
-    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
+    'HitDie=d6,10,1 Attack=0,2,3,-1@19 ' +
+    'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
+    'Breath=16,1,3 ' +
+    'Death=10,1,3 ' +
+    'Petrification=13,1,3 ' +
+    'Spell=15,1,3 ' +
+    'Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)",' +
       '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
@@ -178,21 +190,28 @@ OldSchool.CLASSES = {
       '"3:Druid\'s Knowledge","3:Wilderness Movement","3:Woodland Languages",' +
       '"4:Additional Languages","7:Immunity To Fey Charm",7:Shapeshift ' +
     'Experience=' +
-      '0,2,4,8,16,25,40,60,85,110,150,200,400,600,800,1000,1200,1400,1600,' +
-      '1800,2000,2200,3000 ' +
+      '"0 2000 4000 8000 16000 25000 40000 60000 85000 110000 150000 200000' +
+      ' 400000 600000 800000 1000000 1200000 1400000 1600000 1800000 2000000' +
+      ' 2200000 3000000" ' +
     'CasterLevelDivine=levels.Bard ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
-      'D1:1=1;2=2;3=3;16=4;19=5,' +
-      'D2:4=1;5=2;6=3;17=4;21=5,' +
-      'D3:7=1;8=2;9=3;18=4;22=5,' +
-      'D4:10=1;11=2;12=3;19=4;23=5,' +
-      'D5:13=1;14=2;15=3;20=4;23=5',
+      '"D1:1@1 2@2 3@3 4@16 5@19",' +
+      '"D2:1@4 2@5 3@6 4@17 5@21",' +
+      '"D3:1@7 2@8 3@9 4@18 5@22",' +
+      '"D4:1@10 2@11 3@12 4@19 5@23",' +
+      '"D5:1@13 2@14 3@15 4@20 5@23"',
+*/
   'Cleric':
     'Require=' +
       '"wisdom >= 9" ' +
-    'HitDie=d8,9,2 Attack=0,2,3,-1@19 WeaponProficiency=2,4,3 ' +
-    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
+    'HitDie=d8,9,2 THAC10="10 8@4 ...-1@19" ' +
+    'WeaponProficiency="2 3@5 ...9@29" NonproficientPenalty=-3 ' +
+    'Breath=16,1,3 ' +
+    'Death=10,1,3 ' +
+    'Petrification=13,1,3 ' +
+    'Spell=15,1,3 ' +
+    'Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"1:Turn Undead",' +
@@ -200,23 +219,30 @@ OldSchool.CLASSES = {
       '"wisdom >= 13 ? 1:Bonus Cleric Spells",' +
       '"wisdom <= 12 ? 1:Cleric Spell Failure" ' +
     'Experience=' +
-      '0,1.5,3,6,13,27.5,55,110,225,450,675,900,1125,1350,1575,1800,2025,' +
-      '2250,2475,2700,2925,3150,3375,3600,3825,4050,4275,4500,4725 ' +
+      '"0 1500 3000 6000 13000 27500 55000 110000 225000 450000 675000 900000' +
+      ' 1125000 1350000 1575000 1800000 2025000 2250000 2475000 2700000' +
+      ' 2925000 3150000 3375000 3600000 3825000 4050000 4275000 4500000' +
+      ' 4725000" ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
-      'C1:1=1;2=2;4=3;9=4;11=5;12=6;15=7;17=8;19=9,' +
-      'C2:3=1;4=2;5=3;9=4;12=5;13=6;15=7;17=8;19=9,' +
-      'C3:5=1;6=2;8=3;11=4;12=5;13=6;15=7;17=8;19=9,' +
-      'C4:7=1;8=2;10=3;13=4;14=5;16=6;18=7;20=8;21=9,' +
-      'C5:9=1;10=2;14=3;15=4;16=5;18=6;20=7;21=8;22=9,' +
-      'C6:11=1;12=2;16=3;18=4;20=5;21=6;23=7;24=8;26=9,' +
-      'C7:16=1;19=2;22=3;25=4;27=5;28=6;29=7',
+      '"C1:1=1;2=2;4=3;9=4;11=5;12=6;15=7;17=8;19=9",' +
+      '"C2:3=1;4=2;5=3;9=4;12=5;13=6;15=7;17=8;19=9",' +
+      '"C3:5=1;6=2;8=3;11=4;12=5;13=6;15=7;17=8;19=9",' +
+      '"C4:7=1;8=2;10=3;13=4;14=5;16=6;18=7;20=8;21=9",' +
+      '"C5:9=1;10=2;14=3;15=4;16=5;18=6;20=7;21=8;22=9",' +
+      '"C6:11=1;12=2;16=3;18=4;20=5;21=6;23=7;24=8;26=9",' +
+      '"C7:16=1;19=2;22=3;25=4;27=5;28=6;29=7"',
   'Druid':
     'Require=' +
       '"alignment =~ \'Neutral\'","charisma >= 15","wisdom >= 12" ' +
-    'HitDie=d8,14,1 Attack=0,2,3,- WeaponProficiency=2,5,4 ' +
-    'Breath=16,1,3 Death=10,1,3 Petrification=13,1,3 Spell=15,1,3 Wand=14,1,3 '+
+    'HitDie=d8,14,1 THAC10="10 8@4 ...-1@19" ' +
+    'WeaponProficiency="2 3@6 4@11" NonproficientPenalty=-4 ' +
+    'Breath=16,1,3 ' +
+    'Death=10,1,3 ' +
+    'Petrification=13,1,3 ' +
+    'Spell=15,1,3 ' +
+    'Wand=14,1,3 '+
     'Features=' +
       '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
       '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
@@ -224,76 +250,103 @@ OldSchool.CLASSES = {
       '"1:Resist Fire","1:Resist Lightning","3:Druid\'s Knowledge",' +
       '"3:Wilderness Movement","3:Woodland Languages",' +
       '"7:Immunity To Fey Charm",7:Shapeshift ' +
-    'Experience=0,2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500 ' +
+    'Experience=' +
+      '"0 2000 4000 7500 12500 20000 35000 60000 90000 125000 200000 300000' +
+      ' 750000 1500000" ' +
     'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
-      'D1:1=2;3=3;4=4;9=5;13=6,' +
-      'D2:2=1;3=2;5=3;7=4;11=5;14=6,' +
-      'D3:3=1;4=2;7=3;12=4;13=5;14=6,' +
-      'D4:6=1;8=2;10=3;12=4;13=5;14=6,' +
-      'D5:9=1;10=2;12=3;13=4;14=5,' +
-      'D6:11=1;12=2;13=3;14=4,' +
-      'D7:12=1;13=2;14=3',
+      '"D1:2@1 3@3 4@4 5@9 6@13",' +
+      '"D2:1@2 2@3 3@5 4@7 5@11 6@14",' +
+      '"D3:1@3 2@4 3@7 4@12 5@13 6@14",' +
+      '"D4:1@6 2@8 3@10 4@12 5@13 6@14",' +
+      '"D5:1@9 2@10 3@12 4@13 5@14",' +
+      '"D6:1@11 2@12 3@13 4@14",' +
+      '"D7:1@12 2@13 3@14"',
   'Fighter':
     'Require="constitution >= 7","strength >= 9" ' +
-    'HitDie=d10,9,3 Attack=0,2,2,-2@19 WeaponProficiency=4,3,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
+    'HitDie=d10,9,3 THAC10="10 8@3 ...-6@17" ' +
+    'WeaponProficiency="4 5@4 ...12@28" NonproficientPenalty=-2 ' +
+    'Breath=17,1.5,2 ' +
+    'Death=14,1.5,2 ' +
+    'Petrification=15,1.5,2 ' +
+    'Spell=17,1.5,2 ' +
+    'Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16 ? 1:Bonus Fighter Experience",' +
       '"1:Fighting The Unskilled" ' +
     'Experience=' +
-      '0,2,4,8,18,25,70,125,250,500,750,1000,1250,1500,1750,2000,2250,2500,' +
-      '2750,3000,3250,3500,3750,4000,4250,4500,4750,5000,5250',
+      '"0 2000 4000 8000 18000 25000 70000 125000 250000 500000 750000' +
+      ' 1000000 1250000 1500000 1750000 2000000 2250000 2500000 2750000' +
+      ' 3000000 3250000 3500000 3750000 4000000 4250000 4500000 475000' +
+      ' 5000000 5250000"',
   'Illusionist':
     'Require="dexterity >= 16","intelligence >= 15" ' +
-    'HitDie=d4,10,1 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
-    'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 Wand=11,2,5 '+
+    'HitDie=d4,10,1 THAC10="11 9@6 6@11 3@16 1@21" ' +
+    'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+    'Breath=15,2,5 ' +
+    'Death=14,1.5,5 ' +
+    'Petrification=13,2,5 ' +
+    'Spell=12,2,5 ' +
+    'Wand=11,2,5 '+
     'Features=' +
       '"10:Eldritch Craft" ' +
     'CasterLevelArcane=levels.Illusionist ' +
     'Experience=' +
-      '0,2.25,4.5,9,18,35,60,95,145,220,440,660,880,1100,1320,1540,1760,1980,' +
-      '2200,2420,2640,2860,3080,3300,3520,3740,3960,4180,4400 ' +
+      '"0 2250 4500 9000 18000 35000 60000 95000 145000 220000 440000 660000' +
+      ' 880000 1100000 1320000 1540000 1760000 1980000 2200000 2420000 ' +
+      ' 2640000 2860000 3080000 3300000 3520000 3740000 3960000 4180000 ' +
+      ' 4400000" ' +
     'SpellAbility=intelligence ' +
     'SpellSlots=' +
-      'I1:1=1;2=2;4=3;5=4;9=5;24=6;26=7,' +
-      'I2:3=1;4=2;6=3;10=4;12=5;24=6;26=7,' +
-      'I3:5=1;7=2;9=3;12=4;16=5;24=6;26=7,' +
-      'I4:8=1;9=2;11=3;15=4;17=5;24=6;26=7,' +
-      'I5:10=1;11=2;16=3;19=4;21=5;25=6,' +
-      'I6:12=1;13=2;18=3;21=4;22=5;25=6,' +
-      'I7:14=1;15=2;20=3;22=4;23=5;25=6',
+      '"I1:1@1 2@2 3@4 4@5 5@9 6@24 7@26",' +
+      '"I2:1@3 2@4 3@6 4@10 5@12 6@24 7@26",' +
+      '"I3:1@5 2@7 3@9 4@12 5@16 6@24 7@26",' +
+      '"I4:1@8 2@9 3@11 4@15 5@17 6@24 7@26",' +
+      '"I5:1@10 2@11 3@16 4@19 5@21 6@25",' +
+      '"I6:1@12 2@13 3@18 4@21 5@22 6@25",' +
+      '"I7:1@14 2@15 3@20 4@22 5@23 6@25"',
   'Magic User':
     'Require="dexterity >= 6","intelligence >= 9" ' +
-    'HitDie=d4,11,1 Attack=-1,3,5,-1@6 WeaponProficiency=1,6,5 ' +
-    'Breath=15,2,5 Death=14,1.5,5 Petrification=13,2,5 Spell=12,2,5 ' +
+    'HitDie=d4,11,1 Attack=-1,3,5,-1@6 ' +
+    'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+    'Breath=15,2,5 ' +
+    'Death=14,1.5,5 ' +
+    'Petrification=13,2,5 ' +
+    'Spell=12,2,5 ' +
     'Wand=11,2,5 '+
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
       '"7:Eldritch Craft" ' +
     'Experience=' +
-      '0,2.5,5,10,22.5,40,60,90,135,250,375,750,1125,1500,1875,2250,2625,' +
-      '3000,3375,3750,4125,4500,4875,4250,4625,5000,5375,5750,6125 ' +
+      '"0 2500 5000 10000 22500 40000 60000 90000 135000 250000 375000 750000' +
+      ' 1125000 1500000 1875000 2250000 2625000 3000000 3375000 3750000 ' +
+      ' 4125000 4500000 4875000 4250000 4625000 5000000 5375000 5750000 ' +
+      ' 6125000" ' +
     'CasterLevelArcane="levels.Magic User" ' +
     'SpellAbility=intelligence ' +
     'SpellSlots=' +
-      'M1:1=1;2=2;4=3;5=4;13=5;26=6;29=7,' +
-      'M2:3=1;4=2;7=3;10=4;13=5;26=6;29=7,' +
-      'M3:5=1;6=2;8=3;11=4;13=5;26=6;29=7,' +
-      'M4:7=1;8=2;11=3;12=4;15=5;26=6;29=7,' +
-      'M5:9=1;10=2;11=3;12=4;15=5;27=6,' +
-      'M6:12=1;13=2;16=3;20=4;22=5;27=6,' +
-      'M7:14=1;16=2;17=3;21=4;23=5;27=6,' +
-      'M8:16=1;17=2;19=3;21=4;23=5;28=6,' +
-      'M9:18=1;20=2;22=3;24=4;25=5;28=6',
+      '"M1:1@1 2@2 3@4 4@5 5@13 6@26 7@29",' +
+      '"M2:1@3 2@4 3@7 4@10 5@13 6@26 7@29",' +
+      '"M3:1@5 2@6 3@8 4@11 5@13 6@26 7@29",' +
+      '"M4:1@7 2@8 3@11 4@12 5@15 6@26 7@29",' +
+      '"M5:1@9 2@10 3@11 4@12 5@15 6@27",' +
+      '"M6:1@12 2@13 3@16 4@20 5@22 6@27",' +
+      '"M7:1@14 2@16 3@17 4@21 5@23 6@27",' +
+      '"M8:1@16 2@17 3@19 4@21 5@23 6@28",' +
+      '"M9:1@18 2@20 3@22 4@24 5@25 6@28"',
   'Monk':
     'Require=' +
       '"alignment =~ \'Lawful\'","constitution >= 11","dexterity >= 15",' +
       '"strength >= 15","wisdom >= 15" ' +
-    'HitDie=2d4,18,1 Attack=0,2,3,- WeaponProficiency=1,2,3 ' +
-    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
+    'HitDie=2d4,18,1 THAC10="10 8@4 ...-1@19" ' +
+    'WeaponProficiency="1 2@3 ... 9@17" NonproficientPenalty=-3' +
+    'Breath=16,1,4 ' +
+    'Death=13,1,4 ' +
+    'Petrification=12,1,4 ' +
+    'Spell=15,2,4 ' +
+    'Wand=14,2,4 '+
     'Features=' +
       '"1:Delayed Henchmen","1:Dodge Missiles",1:Evasion,"1:Killing Blow",' +
       '"1:Monk Skills","1:Precise Blow",1:Spiritual,"1:Stunning Blow",' +
@@ -304,14 +357,18 @@ OldSchool.CLASSES = {
       '"9:Resist Influence","10:Mental Discipline","11:Diamond Body",' +
       '"12:Free Will","13:Quivering Palm" ' +
     'Experience=' +
-      '0,2.25,4.75,10,22.5,47.5,98,200,350,500,700,950,1250,1750,2250,2750,' +
-      '3250',
+      '"0 2250 4750 10000 22500 47500 98000 200000 350000 500000 700000' +
+      ' 950000 1250000 1750000 2250000 2750000 3250000"',
   'Paladin':
     'Require=' +
       '"alignment == \'Lawful Good\'","charisma >= 17","constitution >= 9",' +
       '"intelligence >= 9","strength >= 12","wisdom >= 13" ' +
-    'HitDie=d10,9,3 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
+    'HitDie=d10,9,3 THAC10="10 8@3 ...-6@17" ' +
+    'WeaponProficiency="3 4@4 ...12@28" NonproficientPenalty=-2' +
+    'Breath=17,1.5,2 ' +
+    'Death=14,1.5,2 ' +
+    'Petrification=15,1.5,2 ' +
+    'Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -321,21 +378,27 @@ OldSchool.CLASSES = {
       '1:Non-Materialist,1:Philanthropist,"1:Protection From Evil",' +
       '"3:Turn Undead","4:Summon Warhorse" ' +
     'Experience=' +
-      '0,2.75,5.5,12,24,45,95,175,350,700,1050,1400,1750,2100,2450,2800,3150,' +
-      '3500,3850,4200,4550,4900,5250,5600,5950,6300,6650,7000,7350 ' +
+      '"0 2750 5500 12000 24000 45000 95000 175000 350000 700000 1050000' +
+      ' 1400000 1750000 2100000 2450000 2800000 3150000 3500000 3850000' +
+      ' 4200000 4550000 4900000 5250000 5600000 5950000 6300000 6650000' +
+      ' 7000000 7350000" ' +
     'CasterLevelDivine="levels.Paladin >= 9 ? levels.Paladin - 8 : null" ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
-      'C1:9=1;10=2;14=3;21=4,' +
-      'C2:11=1;12=2;16=3;22=4,' +
-      'C3:13=1;17=2;18=3;23=4,' +
-      'C4:15=1;19=2;20=3;24=4',
+      '"C1:1@9 2@10 3@14 4@21",' +
+      '"C2:1@11 2@12 3@16 4@22",' +
+      '"C3:1@13 2@17 3@18 4@23",' +
+      '"C4:1@15 2@19 3@20 4@24"',
   'Ranger':
     'Require=' +
       '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 6",' +
       '"intelligence >= 13","strength >= 13","wisdom >= 14" ' +
-    'HitDie=2d8,10,2 Attack=0,2,2,-2@19 WeaponProficiency=3,3,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 ' +
+    'HitDie=2d8,10,2 THAC10="10 8@3 ...-6@17" ' +
+    'WeaponProficiency="3 4@4 ...12@28" NonproficientPenalty=-2 ' +
+    'Breath=17,1.5,2 ' +
+    'Death=14,1.5,2 ' +
+    'Petrification=15,1.5,2 ' +
+    'Spell=17,1.5,2 ' +
     'Wand=16,1.5,2 ' +
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
@@ -344,31 +407,40 @@ OldSchool.CLASSES = {
       '"1:Fighting The Unskilled",1:Loner,1:Selective,1:Tracking,' +
       '"1:Travel Light","10:Scrying Device Use" ' +
     'Experience=' +
-      '0,2.25,4.5,10,20,40,90,150,225,325,650,975,1300,1625,2000,2325,2650,' +
-      '2975,3300,3625,3950,4275,4600,4925,5250,5575,5900,6225,6550 ' +
+      '"0 2250 4500 10000 20000 40000 90000 150000 225000 325000 650000' +
+      ' 975000 1300000 1625000 2000000 2325000 2650000 2975000 3300000' +
+      ' 3625000 3950000 4275000 4600000 4925000 5250000 5575000 5900000' +
+      ' 6225000 6550000" ' +
     'CasterLevelArcane=' +
       '"levels.Ranger >= 8 ? Math.floor((levels.Ranger - 6) / 2) : null" ' +
     'CasterLevelDivine=' +
       '"levels.Ranger >= 9 ? Math.floor((levels.Ranger - 6) / 2) : null" ' +
       'SpellAbility=wisdom ' +
       'SpellSlots=' +
-        'D1:8=1;10=2,' +
-        'D2:12=1;14=2,' +
-        'D3:16=1;17=2,' +
-        'M1:9=1;11=2,' +
-        'M2:12=1;14=2',
+        '"D1:1@8 2@10",' +
+        '"D2:1@12 2@14",' +
+        '"D3:1@16 2@17",' +
+        '"M1:1@9 2@11",' +
+        '"M2:1@12 2@14"',
   'Thief':
     'Require=' +
       '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
-    'HitDie=d6,10,2 Attack=-1,2,4,+1@9 WeaponProficiency=2,4,3 ' +
-    'Breath=16,1,4 Death=13,1,4 Petrification=12,1,4 Spell=15,2,4 Wand=14,2,4 '+
+    'HitDie=d6,10,2 THAC10="11 9@5 6@9 4@13 4@15" ' +
+    'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
+    'Breath=16,1,4 ' +
+    'Death=13,1,4 ' +
+    'Petrification=12,1,4 ' +
+    'Spell=15,2,4 ' +
+    'Wand=14,2,4 '+
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
       '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
     'Experience=' +
-      '0,1.25,2.5,5,10,20,42.5,70,110,160,220,440,660,880,1100,1320,1540,' +
-      '1760,1980,2200,2420,2640,2860,3080,3300,3520,3740,3960,4180'
+      '"0 1250 2500 5000 10000 20000 42500 70000 110000 160000 220000 440000' +
+      ' 660000 880000 1100000 1320000 1540000 1760000 1980000 2200000' +
+      ' 2420000 2640000 2860000 3080000 3300000 3520000 3740000 3960000' +
+      ' 4180000"'
 };
 OldSchool.FEATURES_ADDED = {
 
@@ -3413,58 +3485,24 @@ OldSchool.alignmentRules = function(rules, name) {
  */
 OldSchool.armorRules = function(rules, name, ac, maxMove, weight, skill) {
 
-  if(!name) {
-    console.log('Empty armor name');
-    return;
-  }
-  if(typeof ac != 'number') {
-    console.log('Bad ac "' + ac + '" for armor ' + name);
-    return;
-  }
-  if(typeof maxMove != 'number') {
-    console.log('Bad maxMove "' + maxMove + '" for armor ' + name);
-    return;
-  }
-  if(typeof weight != 'number') {
-    console.log('Bad weight "' + weight + '" for armor ' + name);
-    return;
-  }
+  OSRIC.armorRules(rules, name, ac, maxMove, weight);
   if(skill && typeof skill != 'string') {
     console.log('Bad skill "' + skill + '" for armor ' + name);
     return;
   }
 
-  if(rules.armorStats == null) {
-    rules.armorStats = {
-      ac:{},
-      move:{},
-      weight:{},
-      skill:{}
-    };
-  }
-  rules.armorStats.ac[name] = ac;
-  rules.armorStats.move[name] = maxMove;
-  rules.armorStats.weight[name] = weight;
+  if(rules.armorStats.skill == null)
+    rules.armorStats.skill = {};
   rules.armorStats.skill[name] = skill;
 
-  if(rules.edition == 'First Edition') {
-    rules.defineRule('abilityNotes.armorSpeedMaximum',
-      'armor', '+', QuilvynUtils.dictLit(rules.armorStats.move) + '[source]'
-    );
-  }
-  if(rules.edition == 'Second Edition' ||
-     window.UnearthedArcana1e != null) {
+  if(rules.edition == 'Second Edition')
+    // Disable armor speed maximum--not defined in 2E
+    rules.defineRule('abilityNotes.armorSpeedMaximum', 'armor', '?', null);
+  if(rules.edition == 'Second Edition' || window.UnearthedArcana1e != null) {
     rules.defineRule('skillNotes.armorSkillModifiers',
       'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
     );
   }
-  rules.defineRule('armorClass',
-    '', '=', '10',
-    'armor', '+', '-' + QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
-  );
-  rules.defineRule('armorWeight',
-    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.weight) + '[source]'
-  );
 
 };
 
