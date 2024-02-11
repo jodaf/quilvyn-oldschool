@@ -3636,9 +3636,6 @@ OldSchool.classRulesExtra = function(rules, name) {
           '(source>=24 ? source>=25 ? "x3" : "x2" : "") + ' +
        '(source>=23 ? ", ' + t + '7" : "")'
     );
-    rules.defineRule('magicNotes.clericSpellFailure',
-      'wisdom', '=', '(13 - source) * 5'
-    );
     rules.defineRule('spellSlots.' + t + '6', 'wisdom', '?', 'source > 16');
     rules.defineRule('spellSlots.' + t + '7', 'wisdom', '?', 'source > 17');
     for(let level = 1; level <= 7; level++) {
