@@ -153,7 +153,9 @@ OldSchool.CLASSES = {
       '"dexterity >= 15","intelligence >= 12","strength >= 15",' +
       '"wisdom >= 15","levels.Fighter >= 5","levels.Thief >= 5",' +
       '"race =~ \'Human|Half-Elf\'" ' +
-    'HitDie=d6,10,1 THAC10="10 8@3 ...-6@17" ' +
+    // "A bard always engages in combat at the level he or she attained as a
+    // fighter." (PHB 118) So, no improvement to THAC10.
+    'HitDie=d6,10,1 THAC10="20 20 ...20@23" ' +
     'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
     'Breath="16 15@4 13@7 12@10 11@13 10@16 8@19" ' +
     'Death="10 9@4 7@7 6@10 5@13 4@16 2@19" ' +
@@ -162,11 +164,12 @@ OldSchool.CLASSES = {
     'Wand="14 13@4 11@7 10@10 9@13 8@16 6@19" '+
     'Features=' +
       '"1:Armor Proficiency (Leather)",' +
-      '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
-      '"1:Charming Music","1:Defensive Song","1:Poetic Inspiration",' +
-      '"1:Resist Fire","1:Resist Lightning","2:Legend Lore",' +
-      '"3:Druid\'s Knowledge","3:Wilderness Movement","3:Woodland Languages",' +
-      '"4:Additional Languages","7:Immunity To Fey Charm",7:Shapeshift ' +
+      '"wisdom >= 13 ? 1:Bonus Spells",' +
+      '"1:Charming Music","1:Defensive Song","1:Druids\' Cant",' +
+      '"1:Poetic Inspiration","1:Resist Fire","1:Resist Lightning",' +
+      '"2:Legend Lore","3:Druid\'s Knowledge","3:Wilderness Movement",' +
+      '"3:Woodland Languages","4:Additional Languages",' +
+      '"7:Immunity To Fey Charm",7:Shapeshift ' +
     'Experience=' +
       '"0 2001 4001 8001 16001 25001 40001 60001 85001 110001 150001 200001' +
       ' 400001 600001 800001 1000001 1200001 1400001 1600001 1800001 2000001' +
@@ -220,8 +223,8 @@ OldSchool.CLASSES = {
       '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
       '"charisma >= 16/wisdom >= 16 ? 1:Bonus Druid Experience",' +
       '"wisdom >= 13 ? 1:Bonus Spells",' +
-      '"1:Resist Fire","1:Resist Lightning","3:Druid\'s Knowledge",' +
-      '"3:Wilderness Movement","3:Woodland Languages",' +
+      '"1:Druids\' Cant","1:Resist Fire","1:Resist Lightning",' +
+      '"3:Druid\'s Knowledge","3:Wilderness Movement","3:Woodland Languages",' +
       '"7:Immunity To Fey Charm",7:Shapeshift ' +
     'Experience=' +
       '"0 2001 4001 7501 12501 20001 35001 60001 90001 125001 200001 300001' +
@@ -390,7 +393,7 @@ OldSchool.CLASSES = {
   'Thief':
     'Require=' +
       '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
-    'HitDie=d6,10,2 THAC10="11 9@5 6@9 4@13 4@15" ' +
+    'HitDie=d6,10,2 THAC10="11 9@5 6@9 4@13 ...0@21" ' +
     'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
     'Breath="16 15@5 ...11@21" ' +
     'Death="13 12@5 ...8@21" ' +
@@ -400,7 +403,7 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Leather/Studded Leather)",' +
       '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
-      '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
+      '1:Backstab,"1:Thief Skills","1:Thieves\' Cant","10:Read Scrolls" ' +
     'Experience=' +
       '"0 1251 2501 5001 10001 20001 42501 70001 110001 160001 220001 440001' +
       ' 660001 880001 1100001 1320001 1540001 1760001 1980001 2200001' +
@@ -422,6 +425,9 @@ OldSchool.FEATURES_ADDED = {
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
   'Defensive Song':
     'Section=magic Note="Counteract song attacks, soothe shriekers"',
+  'Delayed Henchmen':
+    'Section=ability ' +
+    'Note="May not hire henchmen until level %{levels.Ranger?8:levels.Monk?6:4}"',
   'Diamond Body':'Section=save Note="Immune to poison"',
   'Divine Protection':'Section=save Note="+2 all saves"',
   'Dodge Missiles':
@@ -437,6 +443,9 @@ OldSchool.FEATURES_ADDED = {
     'Section=combat Note="%V+foe AC% kill w/Stunning Blow"',
   'Legend Lore':
     'Section=skill Note="%V% info about legendary item, person, place"',
+  'Limited Henchmen Classes':
+    'Section=ability ' +
+    'Note="Henchmen must be assassins%{levels.Monk?\', fighters, or thieves\':levels.Assassin<8?\'\':\' or thieves\'}"',
   'Masked Mind':'Section=save Note="%V% resistance to ESP"',
   'Mental Discipline':
     'Section=save Note="Resist telepathy and mind blast as int 18"',
@@ -3595,7 +3604,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('languageCount',
         classLevel, '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
       );
-      rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
       rules.defineRule('magicNotes.charmingMusic',
         classLevel, '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
       );
@@ -3759,10 +3767,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Monk') {
 
-    rules.defineRule('abilityNotes.limitedHenchmenClasses',
-      classLevel, '=', '"assassins, fighters, and thieves"'
-    );
-    rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '6');
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
@@ -3880,7 +3884,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       );
       rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
-    rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '8');
     rules.defineRule('maximumHenchmen',
       // Noop to show Delayed Henchmen note in italics
       'abilityNotes.delayedHenchmen', '+', 'null',
@@ -3893,11 +3896,7 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
-    rules.defineRule('languageCount', classLevel, '+', '1');
-    rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
-
     rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
-
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
