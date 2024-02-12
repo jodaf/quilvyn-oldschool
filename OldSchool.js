@@ -131,7 +131,7 @@ OldSchool.CLASSES = {
       '"alignment =~ \'Evil\'","constitution >= 6","dexterity >= 12",' +
       '"intelligence >= 11","strength >= 12" ' +
     'HitDie=d6,15,1 THAC10="11 9@5 6@9 4@13 4@15" ' +
-    'WeaponProficiency="3 4@7 5@11 6@15" NonproficientPenalty=-2 ' +
+    'WeaponProficiency="3 4@5 ...6@13" NonproficientPenalty=-2 ' +
     'Breath="16 15@5 ...13@15" ' +
     'Death="13 12@5 ...10@15" ' +
     'Petrification="12 11@5 ...9@15" ' +
@@ -417,6 +417,7 @@ OldSchool.FEATURES_ADDED = {
   'Charming Music':
     'Section=magic ' +
     'Note="R40\' %V% charm creatures while playing (Save 1 rd), make suggestion to charmed (Save -2 neg)"',
+  'Cleric Spell Failure':'Section=magic Note="%{(13-wisdom)*5}%"',
   'Controlled Movement':
     'Section=save Note="Immune <i>Haste</i> and <i>Slow</i>"',
   'Defensive Song':
@@ -469,7 +470,11 @@ OldSchool.FEATURES_ADDED = {
      'Section=combat ' +
     'Note="+%1 %{weaponSpecialization} Attack Modifier/+%2 %{weaponSpecialization} Damage Modifier/+%3 attacks/rd"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
-  'Woodland Languages':'Section=skill Note="+%V Language Count"'
+  'Woodland Languages':'Section=skill Note="+%V Language Count"',
+
+  // Race
+  'Detect Slope':
+    'Section=feature Note="R10\' %{race=~\'Gnome\'?80:75}% chance to detect slopes and grades"'
 
 };
 OldSchool.FEATURES =
@@ -2951,7 +2956,6 @@ OldSchool.abilityRules = function(rules) {
   rules.defineRule
     ('languageCount', 'skillNotes.intelligenceLanguageBonus', '+', null);
 
-
   // Strength
   rules.defineRule('combatNotes.strengthAttackAdjustment',
     'strengthRow', '=',
@@ -3544,10 +3548,10 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
-    rules.defineRule('abilityNotes.limitedHenchmenClasses',
-      classLevel, '=', 'source<8 ? "assassins" : source<12 ? "assassins and thieves" : "any class"'
+    // Remove Limited Henchmen Classes note once level 12 is reached
+    rules.defineRule('assassinFeatures.Limited Henchmen Classes',
+      classLevel, '=', 'source>=4 && source<12 ? 1 : null'
     );
-    rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '4');
     rules.defineRule('combatNotes.assassination',
       classLevel, '=', 'Math.min(5 * source + 45, 100)'
     );
@@ -3556,10 +3560,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
     rules.defineRule('maximumHenchmen', classLevel, 'v', 'source<4 ? 0 : null');
-    rules.defineRule('skillNotes.bonusLanguages',
-      'intelligence', '=', 'source>14 ? source - 14 : null',
-      classLevel, 'v', 'Math.min(source - 8, 4)'
-    );
     let skillLevel = 'source>2 ? source - 2 : null';
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', skillLevel);
     rules.defineRule('skillLevel.Find Traps', classLevel, '+=', skillLevel);
@@ -3592,9 +3592,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillNotes.legendLore', classLevel, '=', 'source * 5');
       rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
-      rules.defineRule('classBardSaveAdjustment',
-        classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
-      );
       rules.defineRule('languageCount',
         classLevel, '+', 'source>17 ? source - 7 : source>3 ? source - 2 - Math.floor((source-3) / 3) : 1'
       );
@@ -3616,34 +3613,8 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Cleric') {
 
     let t = rules.edition == 'Second Edition' ? 'P' : 'C';
-
-    rules.defineRule('classClericSaveAdjustment',
-      classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
-    );
-    rules.defineRule('magicNotes.bonusSpells',
-      'wisdom', '=',
-       '"Spell level ' + t + '1" + ' +
-         '(source>=14 ? source>=19 ? source>=23 ? "x4" : "x3" : "x2" : "") + ' +
-       '(source>=15 ? ", ' + t + '2" : "") + ' +
-         '(source>=16 ? source>=20 ? "x3" : "x2" : "") + ' +
-       '(source>=17 ? ", ' + t + '3" : "") + ' +
-          '(source>=19 ? source>=21 ? "x3" : "x2" : "") + ' +
-       '(source>=18 ? ", ' + t + '4" : "") + ' +
-          '(source>=20 ? source>=22 ? "x3" : "x2" : "") + ' +
-       '(source>=21 ? ", ' + t + '5" : "") + ' +
-          '(source>=22 ? source>=24 ? "x3" : "x2" : "") + ' +
-       '(source>=23 ? ", ' + t + '6" : "") + ' +
-          '(source>=24 ? source>=25 ? "x3" : "x2" : "") + ' +
-       '(source>=23 ? ", ' + t + '7" : "")'
-    );
     rules.defineRule('spellSlots.' + t + '6', 'wisdom', '?', 'source > 16');
     rules.defineRule('spellSlots.' + t + '7', 'wisdom', '?', 'source > 17');
-    for(let level = 1; level <= 7; level++) {
-      rules.defineRule('spellSlots.' + t + level,
-        'magicNotes.bonusSpells', '+', 'source.match(/' + t + level + 'x4/) ? 4 : source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
-      );
-    }
-    rules.defineRule('turningLevel', classLevel, '+=', null);
 
   } else if(name == 'Conjurer') {
 
@@ -3683,37 +3654,9 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Druid') {
 
-    let t = rules.edition == 'Second Edition' ? 'P' : 'D';
-
-    rules.defineRule('classDruidSaveAdjustment',
-      classLevel, '=', 'source>=19 ? -2 : source>=7 ? -1 : null'
-    );
-    rules.defineRule('languageCount', classLevel, '+', '1');
-    rules.defineRule("languages.Druids' Cant", classLevel, '=', '1');
-    rules.defineRule('magicNotes.bonusSpells',
-      'wisdom', '=',
-       '"Spell level ' + t + '1" + ' +
-         '(source>=14 ? source>=19 ? source>=23 ? "x4" : "x3" : "x2" : "") + ' +
-       '(source>=15 ? ", ' + t + '2" : "") + ' +
-         '(source>=16 ? source>=20 ? "x3" : "x2" : "") + ' +
-       '(source>=17 ? ", ' + t + '3" : "") + ' +
-          '(source>=19 ? source>=21 ? "x3" : "x2" : "") + ' +
-       '(source>=18 ? ", ' + t + '4" : "") + ' +
-          '(source>=20 ? source>=22 ? "x3" : "x2" : "") + ' +
-       '(source>=21 ? ", ' + t + '5" : "") + ' +
-          '(source>=22 ? source>=24 ? "x3" : "x2" : "") + ' +
-       '(source>=23 ? ", ' + t + '6" : "") + ' +
-          '(source>=24 ? source>=25 ? "x3" : "x2" : "") + ' +
-       '(source>=23 ? ", ' + t + '7" : "")'
-    );
     rules.defineRule('skillNotes.woodlandLanguages',
       classLevel, '=', 'source>2 ? source - 2 : null'
     );
-    for(let level = 1; level <= 4; level++) {
-      rules.defineRule('spellSlots.' + t + level,
-        'magicNotes.bonusSpells', '+', 'source.match(/' + t + level + 'x4/) ? 4 : source.match(/' + t + level + 'x3/) ? 3 : source.match(/' + t + level + 'x2/) ? 2 : source.match(/' + t + level + '/) ? 1 : 0'
-      );
-    }
 
   } else if(name == 'Enchanter') {
 
@@ -3738,12 +3681,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
     rules.defineRule('attacksPerRound',
       classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
-    );
-    rules.defineRule('classFighterBreathSaveAdjustment',
-      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
-    );
-    rules.defineRule('classFighterSaveAdjustment',
-      classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
     );
     rules.defineRule('warriorLevel', classLevel, '+', null);
 
@@ -3902,12 +3839,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('attacksPerRound',
       classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
     );
-    rules.defineRule('classPaladinBreathSaveAdjustment',
-      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
-    );
-    rules.defineRule('classPaladinSaveAdjustment',
-      classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
-    );
     if(rules.edition == 'Second Edition') {
       rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
     }
@@ -3950,12 +3881,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
     rules.defineRule('abilityNotes.delayedHenchmen', classLevel, '=', '8');
-    rules.defineRule('classRangerBreathSaveAdjustment',
-      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
-    );
-    rules.defineRule('classRangerSaveAdjustment',
-      classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
-    );
     rules.defineRule('maximumHenchmen',
       // Noop to show Delayed Henchmen note in italics
       'abilityNotes.delayedHenchmen', '+', 'null',
@@ -4075,9 +4000,6 @@ OldSchool.raceRulesExtra = function(rules, name) {
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
 
   if(name == 'Dwarf') {
-    rules.defineRule('featureNotes.detectSlope',
-      raceLevel, '+=', rules.edition == 'Second Edition' ? '83' : '75'
-    );
     rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
@@ -4101,9 +4023,6 @@ OldSchool.raceRulesExtra = function(rules, name) {
         '"+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets"'
       );
   } else if(name == 'Gnome') {
-    rules.defineRule('featureNotes.detectSlope',
-      raceLevel, '+=', rules.edition == 'Second Edition' ? '83' : '80'
-    );
     rules.defineRule('featureNotes.determineDepth',
       raceLevel, '+=', rules.edition == 'Second Edition' ? '67' : '60'
     );
@@ -4138,7 +4057,6 @@ OldSchool.raceRulesExtra = function(rules, name) {
         '"+5% Climb Walls/+5% Find Traps/+5% Hear Noise/+5% Open Locks/-5% Pick Pockets/-10% Read Languages"'
       );
   } else if(name == 'Halfling') {
-    rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
     if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, '+', '-5',
