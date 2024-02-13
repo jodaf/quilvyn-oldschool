@@ -413,7 +413,9 @@ OldSchool.CLASSES = {
 OldSchool.FEATURES_ADDED = {
 
   // Class
-  'Additional Languages':'Section=skill Note="+%V Language Count"',
+  'Additional Languages':
+    'Section=skill ' +
+    'Note="+%levels.Bard<=17?levels.Bard-3-(levels.Bard-2)//3:(levels.Bard-8)} Language Count"',
   'Assassination':
     'Section=combat ' +
     'Note="Base %{levels.Assassin>=11?100:levels.Assassin==10?99:levels.Assassin==9?95:(levels.Assassin*5+45)}% chance that a strike kills a surprised target"',
@@ -437,18 +439,20 @@ OldSchool.FEATURES_ADDED = {
     'Section=save Note="Successful save yields no damage instead of half"',
   'Favored Enemy':
     'Section=combat Note="+%{levels.Ranger} melee damage vs. giant-class foes"',
-  'Feign Death':'Section=feature Note="Appear dead for %V tn"',
-  'Flurry Of Blows':'Section=combat Note="%V unarmed attacks/rd"',
+  'Feign Death':'Section=feature Note="Appear dead for %{levels.Monk*2} tn"',
+  'Flurry Of Blows':
+    'Section=combat ' +
+    'Note="%{levels.Monk<6?1.25:levels.Monk<9?1.5:levels.Monk<11?2:levels.Monk<14?2.5:levels.Monk<16?3:4} unarmed attacks/rd"',
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Killing Blow':
-    'Section=combat Note="%V+foe AC% kill w/Stunning Blow"',
+    'Section=combat Note="%{levels.Monk-7}+foe AC% kill w/Stunning Blow"',
   'Legend Lore':
-    'Section=skill Note="%V% info about legendary item, person, place"',
+    'Section=skill Note="%{levels.Bard==23?99:levels.Bard>6?levels.Bard*5-15:levels.Bard>2?levels.Bard*3-2:(levels.Bard*5-5)}% info about legendary item, person, place"',
   'Limited Henchmen Classes':
     'Section=ability ' +
     'Note="Henchmen must be assassins%{levels.Monk?\', fighters, or thieves\':levels.Assassin<8?\'\':\' or thieves\'}"',
-  'Masked Mind':'Section=save Note="%V% resistance to ESP"',
+  'Masked Mind':'Section=save Note="%{62+levels.Monk*2}% resistance to ESP"',
   'Mental Discipline':
     'Section=save Note="Resist telepathy and mind blast as int 18"',
   'Monk Skills':
@@ -457,18 +461,18 @@ OldSchool.FEATURES_ADDED = {
   'Poetic Inspiration':
     'Section=magic ' +
     'Note="Performance gives allies +1 attack and +10% morale for 1 tn after 2 rd"',
-  'Precise Blow':'Section=combat Note="+%V HP weapon damage"',
+  'Precise Blow':'Section=combat Note="+%{levels.Monk/2} HP weapon damage"',
   'Purity Of Body':'Section=save Note="Immune to disease"',
   'Quivering Palm':
     'Section=combat ' +
-    'Note="Touched w/at most %1 HD and %2 HP dies w/in %V dy 1/wk"',
+    'Note="Touched w/at most %{hitDice} HD and %{hitPoints*2} HP dies w/in %{levels.Monk} dy 1/wk"',
   'Read Scrolls':
     'Section=magic ' +
-    'Note="May use arcane and druidic spell scrolls w/a %V% chance of success"',
+    'Note="May use arcane and druidic spell scrolls w/a %{levels.Bard?85:75}% chance of success"',
   'Resist Influence':
     'Section=save ' +
-    'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
-  'Slow Fall':'Section=save Note="No damage from fall of %1 w/in %2\' of wall"',
+    'Note="%{levels.Monk*5+5}% resistance to beguiling, charm, hypnosis and suggestion spells"',
+  'Slow Fall':'Section=save Note="No damage from fall of %{levels.Monk<6?\\"20\'\\":levels.Monk<13?\\"30\'\\":\'any distance\'} w/in %{levels.Monk<6?1:levels.Monk<13?4:8}\' of wall"',
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
   'Spell Book':
@@ -483,8 +487,8 @@ OldSchool.FEATURES_ADDED = {
   'Weapon Specialization':
      'Section=combat ' +
     'Note="+%1 %{weaponSpecialization} Attack Modifier/+%2 %{weaponSpecialization} Damage Modifier/+%3 attacks/rd"',
-  'Wholeness Of Body':'Section=magic Note="Heal 1d4+%V damage to self 1/dy"',
-  'Woodland Languages':'Section=skill Note="+%V Language Count"',
+  'Wholeness Of Body':'Section=magic Note="Heal 1d4+%{levels.Monk-6} damage to self 1/dy"',
+  'Woodland Languages':'Section=skill Note="+%{(levels.Bard||2)-2+(levels.Druid||2)-2} Language Count"',
 
   // Race
   'Detect Slope':
@@ -1186,7 +1190,7 @@ OldSchool.RULE_EDITS = {
         'Section=ability Note="10% added to awarded experience"',
       'Circle Of Power':
         'Section=magic ' +
-        'Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %V"',
+        'Note="R30\' Unsheathed <i>Holy Sword</i> dispels hostile magic up to level %{levels.Paladin}"',
       'Deadly Aim':'Section=combat Note="+1 attack w/slings and thrown"',
       'Fluid Appearance':'Section=magic Note="Alter appearance at will"',
       'Gnome Ability Adjustment':
@@ -3131,7 +3135,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
       secondEdition ? 'source.match(/bow/i) ? 0 : 2' : '2'
   );
   rules.defineRule('combatNotes.weaponSpecialization.3',
-    'features.Weapon Specialization', '?', null,
+    'features.Weapon Specialization', '?', null
   );
   if(rules.edition == 'Second Edition') {
     rules.defineRule('combatNotes.weaponSpecialization.3',
@@ -3407,10 +3411,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     OldSchool.skillRulesExtra(rules, name);
   } else if(type == 'Spell') {
     let description = QuilvynUtils.getAttrValue(attrs, 'Description');
-    let duration = QuilvynUtils.getAttrValue(attrs, 'Duration');
-    let effect =  QuilvynUtils.getAttrValue(attrs, 'Effect');
     let groupLevels = QuilvynUtils.getAttrValueArray(attrs, 'Level');
-    let range = QuilvynUtils.getAttrValue(attrs, 'Range');
     let school = QuilvynUtils.getAttrValue(attrs, 'School');
     let schoolAbbr = school.substring(0, 4);
     for(let i = 0; i < groupLevels.length; i++) {
@@ -3526,7 +3527,7 @@ OldSchool.classRules = function(
   if(nonweaponProficiency) {
     let nonweaponProgress = OSRIC.progressTable(nonweaponProficiency);
     rules.defineRule('nonweaponProficiencyCount',
-      classLevel, '+', '[' + nonweaponProgress.join(',') + '][source] || ' + nonweaponProgress[weaponProgress.length - 1]
+      'levels.' + name, '+', 'source<' + nonweaponProgress.length + ' ? [' + nonweaponProgress.join(',') + '][source] : ' + nonweaponProgress[nonweaponProgress.length - 1]
     );
   }
 
@@ -3546,7 +3547,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('assassinFeatures.Limited Henchmen Classes',
       classLevel, '=', 'source>=4 && source<12 ? 1 : null'
     );
-    rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
     rules.defineRule('maximumHenchmen', classLevel, 'v', 'source<4 ? 0 : null');
     let skillLevel = 'source>2 ? source - 2 : null';
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', skillLevel);
@@ -3562,10 +3562,6 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Bard') {
 
     if(rules.edition == 'Second Edition') {
-      rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '85');
-      rules.defineRule('magicNotes.charmingMusic.1',
-        classLevel, '=', 'Math.floor(source / 3)'
-      );
       rules.defineRule('magicNotes.poeticInspiration', classLevel, '=', null);
       rules.defineRule
         ('magicNotes.poeticInspiration.1', classLevel, '=', 'source * 10');
@@ -3586,15 +3582,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('magicNotes.charmingMusic',
         classLevel, '=', '[0,15,20,22,24,30,32,34,40,42,44,50,53,56,60,63,66,70,73,76,80,84,88,95][source]'
       );
-      rules.defineRule('skillNotes.additionalLanguages',
-        classLevel, '=', 'source<=17 ? source - 3 - Math.floor((source - 2) / 3) : (source - 8)'
-      );
-      rules.defineRule('skillNotes.legendLore',
-        classLevel, '=', 'source==23 ? 99 : source > 6 ? source*5 - 15 : source > 2 ? source*3 - 2 : (source*5 - 5)'
-      );
-      rules.defineRule('skillNotes.woodlandLanguages',
-        classLevel, '=', 'source>2 ? source - 2 : null'
-      );
     }
 
   } else if(name == 'Cleric') {
@@ -3602,12 +3589,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     let t = rules.edition == 'Second Edition' ? 'P' : 'C';
     rules.defineRule('spellSlots.' + t + '6', 'wisdom', '?', 'source > 16');
     rules.defineRule('spellSlots.' + t + '7', 'wisdom', '?', 'source > 17');
-
-  } else if(name == 'Druid') {
-
-    rules.defineRule('skillNotes.woodlandLanguages',
-      classLevel, '=', 'source>2 ? source - 2 : null'
-    );
 
   } else if(name == 'Illusionist') {
 
@@ -3630,39 +3611,12 @@ OldSchool.classRulesExtra = function(rules, name) {
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
     rules.defineRule
       ('combatNotes.dexterityArmorClassAdjustment', classLevel, '*', '0');
-    rules.defineRule('combatNotes.flurryOfBlows',
-      classLevel, '=', 'source<6 ? 1.25 : source<9 ? 1.5 : source<11 ? 2 : source<14 ? 2.5 : source<16 ? 3 : 4'
-    );
-    rules.defineRule('combatNotes.killingBlow', classLevel, '=', 'source - 7');
-    rules.defineRule('combatNotes.preciseBlow', classLevel, '=', 'source / 2');
-    rules.defineRule('combatNotes.quiveringPalm', classLevel, '=', null);
-    rules.defineRule('combatNotes.quiveringPalm.1',
-      'features.Quivering Palm', '?', null,
-      'hitDice', '=', null
-    );
-    rules.defineRule('combatNotes.quiveringPalm.2',
-      'features.Quivering Palm', '?', null,
-      'hitPoints', '=', 'source * 2'
-    );
     rules.defineRule
       ('combatNotes.strengthAttackAdjustment', classLevel, '*', '0');
     rules.defineRule
       ('combatNotes.strengthDamageAdjustment', classLevel, '*', '0');
-    rules.defineRule('featureNotes.feignDeath', classLevel, '=', 'source * 2');
-    rules.defineRule
-      ('magicNotes.wholenessOfBody', classLevel, '=', 'source - 6');
     rules.defineRule
       ('maximumHenchmen', classLevel, 'v', 'source>=6 ? source - 4 : 0');
-    rules.defineRule
-      ('saveNotes.maskedMind', classLevel, '=', '62 + source * 2');
-    rules.defineRule
-      ('saveNotes.resistInfluence', classLevel, '=', '5 + source * 5');
-    rules.defineRule('saveNotes.slowFall.1',
-      classLevel, '=', 'source<6 ? "20\'" : source<13 ? "30\'" : "any distance"'
-    );
-    rules.defineRule('saveNotes.slowFall.2',
-      classLevel, '=', 'source<6 ? 1 : source<13 ? 4 : 8'
-    );
     if(rules.edition == 'First Edition') {
       rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
       rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
@@ -3676,12 +3630,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('weapons.Unarmed.2',
       classLevel, '=', 'OldSchool.monkUnarmedDamage[source]'
     );
-
-  } else if(name == 'Paladin') {
-
-    if(rules.edition == 'Second Edition') {
-      rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
-    }
 
   } else if(name == 'Ranger') {
 
@@ -3721,7 +3669,6 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Thief') {
 
-    rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
