@@ -254,7 +254,7 @@ OldSchool.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
       '"strength >= 16 ? 1:Bonus Fighter Experience",' +
-      '"1:Fighting The Unskilled" ' +
+      '"1:Fighting The Unskilled","7:Bonus Attacks" ' +
     'Experience=' +
       '"0 2001 4001 8001 18001 25001 70001 125001 250001 500001 750001' +
       ' 1000001 1250001 1500001 1750001 2000001 2250001 2500001 2750001' +
@@ -270,7 +270,7 @@ OldSchool.CLASSES = {
     'Spell="12 10@6 ...4@21" ' +
     'Wand="11 9@6 ...3@21" '+
     'Features=' +
-      '"10:Eldritch Craft" ' +
+      '"1:Spell Book","10:Eldritch Craft" ' +
     'Experience=' +
       '"0 2251 4501 9001 18001 35001 60001 95001 145001 220001 440001 660001' +
       ' 880001 1100001 1320001 1540001 1760001 1980001 2200001 2420001' +
@@ -295,7 +295,7 @@ OldSchool.CLASSES = {
     'Wand="11 9@6 ...3@21" '+
     'Features=' +
       '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-      '"7:Eldritch Craft" ' +
+      '"1:Spell Book","7:Eldritch Craft" ' +
     'Experience=' +
       '"0 2501 5001 10001 22501 40001 60001 90001 135001 250001 375001 750001' +
       ' 1125001 1500001 1875001 2250001 2625001 3000001 3375001 3750001' +
@@ -351,7 +351,7 @@ OldSchool.CLASSES = {
       '"1:Cure Disease","1:Detect Evil",1:Discriminating,"1:Divine Health",' +
       '"1:Divine Protection","1:Fighting The Unskilled","1:Lay On Hands",' +
       '1:Non-Materialist,1:Philanthropist,"1:Protection From Evil",' +
-      '"3:Turn Undead","4:Summon Warhorse" ' +
+      '"3:Turn Undead","4:Summon Warhorse","7:Bonus Attacks" ' +
     'Experience=' +
       '"0 2751 5501 12001 24001 45001 95001 175001 350001 700001 1050001' +
       ' 1400001 1750001 2100001 2450001 2800001 3150001 3500001 3850001' +
@@ -378,7 +378,7 @@ OldSchool.CLASSES = {
       '"strength >= 16/intelligence >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
       '"1:Alert Against Surprise","1:Delayed Henchmen","1:Favored Enemy",' +
       '"1:Fighting The Unskilled",1:Loner,1:Selective,1:Tracking,' +
-      '"1:Travel Light","10:Scrying Device Use" ' +
+      '"1:Travel Light","8:Bonus Attacks","10:Scrying Device Use" ' +
     'Experience=' +
       '"0 2251 4501 10001 20001 40001 90001 150001 225001 325001 650001' +
       ' 975001 1300001 1625001 2000001 2325001 2650001 2975001 3300001' +
@@ -415,8 +415,9 @@ OldSchool.FEATURES_ADDED = {
   // Class
   'Additional Languages':'Section=skill Note="+%V Language Count"',
   'Assassination':
-    'Section=combat Note="Base %V% chance that strike kills surprised target"',
-  'Aware':'Section=combat Note="Surprised %V%"',
+    'Section=combat ' +
+    'Note="Base %{levels.Assassin>=11?100:levels.Assassin==10?99:levels.Assassin==9?95:(levels.Assassin*5+45)}% chance that a strike kills a surprised target"',
+  'Aware':'Section=combat Note="Surprised %{36-levels.Monk*2}%"',
   'Charming Music':
     'Section=magic ' +
     'Note="R40\' %V% charm creatures while playing (Save 1 rd), make suggestion to charmed (Save -2 neg)"',
@@ -434,7 +435,8 @@ OldSchool.FEATURES_ADDED = {
     'Section=combat Note="Petrification save to dodge non-magical missiles"',
   'Evasion':
     'Section=save Note="Successful save yields no damage instead of half"',
-  'Favored Enemy':'Section=combat Note="+%V melee damage vs. giant-class foes"',
+  'Favored Enemy':
+    'Section=combat Note="+%{levels.Ranger} melee damage vs. giant-class foes"',
   'Feign Death':'Section=feature Note="Appear dead for %V tn"',
   'Flurry Of Blows':'Section=combat Note="%V unarmed attacks/rd"',
   'Free Will':'Section=save Note="Immune <i>Geas</i> and <i>Quest</i> spells"',
@@ -461,13 +463,16 @@ OldSchool.FEATURES_ADDED = {
     'Section=combat ' +
     'Note="Touched w/at most %1 HD and %2 HP dies w/in %V dy 1/wk"',
   'Read Scrolls':
-    'Section=magic Note="%V% cast arcane or druidic spell from scroll"',
+    'Section=magic ' +
+    'Note="May use arcane and druidic spell scrolls w/a %V% chance of success"',
   'Resist Influence':
     'Section=save ' +
     'Note="%V% resistance to beguiling, charm, hypnosis and suggestion spells"',
   'Slow Fall':'Section=save Note="No damage from fall of %1 w/in %2\' of wall"',
   'Speak With Animals':'Section=magic Note="<i>Speak With Animals</i> at will"',
   'Speak With Plants':'Section=magic Note="<i>Speak With Plants</i> at will"',
+  'Spell Book':
+    OSRIC.FEATURES['Spell Book'].replace('22', "'all'").replace('90', '95'),
   'Spiritual':
     'Section=feature ' +
     'Note="Must donate 100% after expenses to religious institution"',
@@ -849,8 +854,8 @@ OldSchool.RULE_EDITS = {
         'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -870,7 +875,7 @@ OldSchool.RULE_EDITS = {
         'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
-          '"9:Eldritch Craft" ' +
+          '"1:Spell Book","9:Eldritch Craft" ' +
         'Experience=' +
           '"0000 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -952,8 +957,8 @@ OldSchool.RULE_EDITS = {
         'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Abjurer Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -980,8 +985,8 @@ OldSchool.RULE_EDITS = {
         'NonweaponProficiency=4,3 ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Conjurer Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -1008,8 +1013,8 @@ OldSchool.RULE_EDITS = {
         'Wand=11,2,5 '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Diviner Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -1036,8 +1041,8 @@ OldSchool.RULE_EDITS = {
         'Wand=11,2,5 '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Enchanter Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -1064,8 +1069,8 @@ OldSchool.RULE_EDITS = {
         'Wand=11,2,5 '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Invoker Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -1092,8 +1097,8 @@ OldSchool.RULE_EDITS = {
         'Wand=11,2,5 '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Necromancer Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -1120,8 +1125,8 @@ OldSchool.RULE_EDITS = {
         'Wand=11,2,5 '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Transmuter Experience",' +
-          '"1:School Expertise","1:School Focus","1:School Opposition",' +
-          '"1:School Specialization","9:Eldritch Craft" ' +
+          '"1:Spell Book","1:School Expertise","1:School Focus",' +
+          '"1:School Opposition","1:School Specialization","9:Eldritch Craft" '+
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
@@ -3249,8 +3254,6 @@ OldSchool.identityRules = function(rules, alignments, classes, races) {
   }
 
   // Rules that apply to multiple classes or races
-  rules.defineRule
-    ('combatNotes.fightingTheUnskilled', 'warriorLevel', '+=', null);
   rules.defineRule('level', /^levels\./, '+=', null);
   rules.defineRule('warriorLevel', '', '=', '0');
   QuilvynRules.validAllocationRules
@@ -3537,35 +3540,11 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   let classLevel = 'levels.' + name;
 
-  if(name == 'Abjurer') {
-
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Abjuration"');
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Alteration or Illusion"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Abjuration"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-
-  } else if(name == 'Assassin') {
+  if(name == 'Assassin') {
 
     // Remove Limited Henchmen Classes note once level 12 is reached
     rules.defineRule('assassinFeatures.Limited Henchmen Classes',
       classLevel, '=', 'source>=4 && source<12 ? 1 : null'
-    );
-    rules.defineRule('combatNotes.assassination',
-      classLevel, '=', 'Math.min(5 * source + 45, 100)'
-    );
-    rules.defineRule('combatNotes.backstab',
-      classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
     rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
     rules.defineRule('maximumHenchmen', classLevel, 'v', 'source<4 ? 0 : null');
@@ -3624,81 +3603,14 @@ OldSchool.classRulesExtra = function(rules, name) {
     rules.defineRule('spellSlots.' + t + '6', 'wisdom', '?', 'source > 16');
     rules.defineRule('spellSlots.' + t + '7', 'wisdom', '?', 'source > 17');
 
-  } else if(name == 'Conjurer') {
-
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
-    rules.defineRule
-      ('magicNotes.schoolFocus', classLevel, '=', '"Conjuration"');
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Divination or Evocation"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Conjuration"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-
-  } else if(name == 'Diviner') {
-
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Divination"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Divination"');
-    rules.defineRule
-      ('magicNotes.schoolOpposition', classLevel, '=', '"Conjuration"');
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Divination"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Divination"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-
   } else if(name == 'Druid') {
 
     rules.defineRule('skillNotes.woodlandLanguages',
       classLevel, '=', 'source>2 ? source - 2 : null'
     );
 
-  } else if(name == 'Enchanter') {
-
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
-    rules.defineRule
-      ('magicNotes.schoolFocus', classLevel, '=', '"Enchantment"');
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Evocation or Necromancy"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Enchantment"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-
-  } else if(name == 'Fighter') {
-
-    rules.defineRule('attacksPerRound',
-      classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
-    );
-    rules.defineRule('warriorLevel', classLevel, '+', null);
-
   } else if(name == 'Illusionist') {
 
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
     if(rules.edition == 'Second Edition') {
       rules.defineRule
         ('magicNotes.schoolExpertise', classLevel, '=', '"Illusion"');
@@ -3712,65 +3624,10 @@ OldSchool.classRulesExtra = function(rules, name) {
         ('saveNotes.schoolExpertise', classLevel, '=', '"Illusion"');
     }
 
-  } else if(name == 'Invoker') {
-
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Evocation"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Evocation"');
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Conjuration or Enchantment"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Evocation"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Evocation"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-
-  } else if(name == 'Magic User') {
-
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule('maximumSpellsPerLevel',
-      'wizardLevel', '?', null,
-      'intelligence', '=',
-        'source==9 ? 6 : source<=12 ? 7 : source<=14 ? 9 : source<=16 ? 11 : ' +
-        'source==17 ? 14 : source==18 ? 18 : "all"'
-    );
-    rules.defineRule('understandSpell',
-      'wizardLevel', '?', null,
-      'intelligence', '=',
-      rules.edition != 'Second Edition' ?
-        'source >= 19 ? 95 : ' +
-          'source == 18 ? 85 : ' +
-          'source == 17 ? 75 : ' +
-          'source >= 15 ? 65 : ' +
-          'source >= 13 ? 55 : ' +
-          'source >= 10 ? 45 : 35' :
-        'source == 25 ? 100 : ' +
-          'source >= 19 ? 95 + source - 19 : ' +
-          'source == 18 ? 85 : ' +
-          'source * 5 - 10'
-    );
-    rules.defineRule('magicNotes.craftMinorMagic.1', '', '=', '""');
-    if(rules.edition != 'Second Edition') {
-      rules.defineRule('magicNotes.craftMinorMagic.1',
-        classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-      );
-    }
-
   } else if(name == 'Monk') {
 
     rules.defineRule
       ('armorClass', classLevel, '=', '11 - source + Math.floor(source / 5)');
-    rules.defineRule
-      ('combatNotes.aware', classLevel, '=', '36 - source * 2');
     rules.defineRule
       ('combatNotes.dexterityArmorClassAdjustment', classLevel, '*', '0');
     rules.defineRule('combatNotes.flurryOfBlows',
@@ -3820,45 +3677,27 @@ OldSchool.classRulesExtra = function(rules, name) {
       classLevel, '=', 'OldSchool.monkUnarmedDamage[source]'
     );
 
-  } else if(name == 'Necromancer') {
-
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Necromancy"');
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Enchantment or Illusion"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Necromancy"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
-
   } else if(name == 'Paladin') {
 
-    rules.defineRule('attacksPerRound',
-      classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
-    );
     if(rules.edition == 'Second Edition') {
       rules.defineRule('magicNotes.circleOfPower', classLevel, '=', null);
     }
-    rules.defineRule
-      ('magicNotes.cureDisease', classLevel, '=', 'Math.ceil(source / 5)');
-    rules.defineRule('magicNotes.layOnHands', classLevel, '=', '2 * source');
-    rules.defineRule
-      ('turningLevel', classLevel, '+=', 'source>2 ? source - 2 : null');
-    rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Ranger') {
 
+    // Override casterLevel calculations from classRules
+    rules.defineRule('casterLevel.D',
+      classLevel, '^=', 'source<9 ? null : Math.min(Math.floor((source - 6) / 2), 6)'
+    );
+    rules.defineRule('casterLevel.M',
+      classLevel, '^=', 'source<9 ? null : Math.min(Math.floor((source - 6) / 2), 6)'
+    );
+    rules.defineRule('maximumHenchmen',
+      // Noop to show Delayed Henchmen note in italics
+      'abilityNotes.delayedHenchmen', '+', 'null',
+      classLevel, 'v', 'source<8 ? 0 : null'
+    );
     if(rules.edition == 'Second Edition') {
-      rules.defineRule('attacksPerRound',
-        classLevel, '+', 'source<7 ? null : source<13 ? 0.5 : 1'
-      );
       // Suppress v3.5 Tracking sanity note
       rules.defineRule('sanityNotes.tracking', classLevel, '?', '0');
       rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
@@ -3878,24 +3717,10 @@ OldSchool.classRulesExtra = function(rules, name) {
         classLevel, '+=', 'source<5 ? source * 6 + 9 : source<7 ? source * 7 + 5 : source==7 ? 55 : source==8 ? 62 : source<13 ? source * 8 - 2 : 99'
       );
       rules.defineRule('skillPoints', classLevel, '+=', '0');
-    } else {
-      rules.defineRule('attacksPerRound',
-        classLevel, '+', 'source<8 ? null : source<15 ? 0.5 : 1'
-      );
-      rules.defineRule('combatNotes.favoredEnemy', classLevel, '=', null);
     }
-    rules.defineRule('maximumHenchmen',
-      // Noop to show Delayed Henchmen note in italics
-      'abilityNotes.delayedHenchmen', '+', 'null',
-      classLevel, 'v', 'source<8 ? 0 : null'
-    );
-    rules.defineRule('warriorLevel', classLevel, '+', null);
 
   } else if(name == 'Thief') {
 
-    rules.defineRule('combatNotes.backstab',
-      classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
-    );
     rules.defineRule('magicNotes.readScrolls', classLevel, '^=', '75');
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Find Traps', classLevel, '+=', null);
@@ -3921,12 +3746,87 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillPoints', classLevel, '+=', '30 * source + 30');
     }
 
+  } else if(name == 'Abjurer') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Abjuration"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Alteration or Illusion"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Abjuration"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
+
+  } else if(name == 'Conjurer') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
+    rules.defineRule
+      ('magicNotes.schoolFocus', classLevel, '=', '"Conjuration"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Divination or Evocation"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Conjuration"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
+
+  } else if(name == 'Diviner') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Divination"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Divination"');
+    rules.defineRule
+      ('magicNotes.schoolOpposition', classLevel, '=', '"Conjuration"');
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Divination"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Divination"');
+
+  } else if(name == 'Enchanter') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
+    rules.defineRule
+      ('magicNotes.schoolFocus', classLevel, '=', '"Enchantment"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Evocation or Necromancy"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Enchantment"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
+
+  } else if(name == 'Invoker') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Evocation"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Evocation"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Conjuration or Enchantment"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Evocation"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Evocation"');
+
+  } else if(name == 'Necromancer') {
+
+    rules.defineRule
+      ('magicNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
+    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Necromancy"');
+    rules.defineRule('magicNotes.schoolOpposition',
+      classLevel, '=', '"Enchantment or Illusion"'
+    );
+    rules.defineRule
+      ('magicNotes.schoolSpecialization', classLevel, '=', '"Necromancy"');
+    rules.defineRule
+      ('saveNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
+
   } else if(name == 'Transmuter') {
 
-    rules.defineRule('magicNotes.eldritchCraft.1', '', '=', '""');
-    rules.defineRule('magicNotes.eldritchCraft.1',
-      classLevel, '=', 'source<11 ? " with aid of an alchemist" : null'
-    );
     rules.defineRule
       ('magicNotes.schoolExpertise', classLevel, '=', '"Alteration"');
     rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Alteration"');
@@ -3937,7 +3837,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Alteration"');
     rules.defineRule
       ('saveNotes.schoolExpertise', classLevel, '=', '"Alteration"');
-    rules.defineRule('wizardLevel', classLevel, '+=', null);
 
   }
 
