@@ -415,7 +415,7 @@ OldSchool.FEATURES_ADDED = {
   // Class
   'Additional Languages':
     'Section=skill ' +
-    'Note="+%levels.Bard<=17?levels.Bard-3-(levels.Bard-2)//3:(levels.Bard-8)} Language Count"',
+    'Note="+%{levels.Bard<=17?levels.Bard-3-(levels.Bard-2)//3:(levels.Bard-8)} Language Count"',
   'Assassination':
     'Section=combat ' +
     'Note="Base %{levels.Assassin>=11?100:levels.Assassin==10?99:levels.Assassin==9?95:(levels.Assassin*5+45)}% chance that a strike kills a surprised target"',
@@ -485,8 +485,8 @@ OldSchool.FEATURES_ADDED = {
     'Note="Foe stunned for 1d6 rd when unarmed attack succeeds by at least 5"',
   'Unburdened':'Section=feature Note="Own at most 5 magic items"',
   'Weapon Specialization':
-     'Section=combat ' +
-    'Note="+%1 %{weaponSpecialization} Attack Modifier/+%2 %{weaponSpecialization} Damage Modifier/+%3 attacks/rd"',
+    'Section=combat ' +
+    'Note="+1 %{weaponSpecialization} Attack Modifier/+2 %{weaponSpecialization} Damage Modifier/+%{level//2} attacks/rd"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%{levels.Monk-6} damage to self 1/dy"',
   'Woodland Languages':'Section=skill Note="+%{(levels.Bard||2)-2+(levels.Druid||2)-2} Language Count"',
 
@@ -3124,31 +3124,14 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('features.Weapon Specialization',
     'weaponSpecialization', '=', 'source == "None" ? null : source'
   );
-  rules.defineRule('combatNotes.weaponSpecialization.1',
-    'features.Weapon Specialization', '?', null,
-    'weaponSpecialization', '=',
-      secondEdition ? 'source.match(/bow/i) ? 2 : 1' : '1'
-  );
-  rules.defineRule('combatNotes.weaponSpecialization.2',
-    'features.Weapon Specialization', '?', null,
-    'weaponSpecialization', '=',
-      secondEdition ? 'source.match(/bow/i) ? 0 : 2' : '2'
-  );
-  rules.defineRule('combatNotes.weaponSpecialization.3',
-    'features.Weapon Specialization', '?', null
-  );
   if(rules.edition == 'Second Edition') {
-    rules.defineRule('combatNotes.weaponSpecialization.3',
+    rules.defineRule('combatNotes.weaponSpecialization.1',
       'weaponSpecialization', '=', 'source.indexOf("Crossbow") >= 0 ? -0.5 : 0',
       'levels.Fighter', '+', 'source < 7 ? 0.5 : source < 13 ? 1 : 1.5'
     );
     QuilvynRules.prerequisiteRules
       (rules, 'validation', 'weaponSpecialization',
        'combatNotes.weaponSpecialization', 'levels.Fighter >= 1');
-  } else {
-    rules.defineRule('combatNotes.weaponSpecialization.3',
-      'level', '=', 'Math.floor(source / 2)'
-    );
   }
   rules.defineRule('thac0Melee',
     'thac10Base', '=', 'Math.min(source + 10, 20)',
