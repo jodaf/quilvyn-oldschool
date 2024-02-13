@@ -1149,7 +1149,8 @@ OldSchool.RULE_EDITS = {
     'Feature':{
       // Modified
       'Charming Music':
-        'Section=magic Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
+        'Section=magic ' +
+        'Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
       'Defensive Song':
         'Note="R30\' Spell save to counteract magical song and poetry attacks"',
       'Detect Construction':'Note="R10\' 83% Detect new construction"',
@@ -1211,9 +1212,12 @@ OldSchool.RULE_EDITS = {
         'Section=skill Note="Hide In Shadows, Move Silently"',
       'School Expertise':
         'Section=magic,save ' +
-        'Note="Foes -1 save vs. %V spells","+1 vs. %V spells"',
+        'Note=' +
+          '"Foes -1 save vs. %{magicNotes.schoolSpecialization} spells",' +
+          '"+1 vs. %{magicNotes.schoolSpecialization} spells"',
       'School Focus':
-        'Section=magic Note="+15% understand %V spells, -15% others"',
+        'Section=magic ' +
+        'Note="+15% understand %{magicNotes.schoolSpecialization} spells, -15% others"',
       'School Opposition':'Section=magic Note="Cannot learn or cast %V spells"',
       'School Specialization':
         'Section=magic Note="Extra %V spell each spell level"',
@@ -3091,8 +3095,6 @@ OldSchool.abilityRules = function(rules) {
 /* Defines rules related to combat. */
 OldSchool.combatRules = function(rules, armors, shields, weapons) {
 
-  let secondEdition = rules.edition == 'Second Edition';
-
   QuilvynUtils.checkAttrTable(armors, ['AC', 'Move', 'Weight', 'Skill']);
   QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight']);
   QuilvynUtils.checkAttrTable(weapons, ['Category', 'Damage', 'Range']);
@@ -3576,16 +3578,11 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Illusionist') {
 
     if(rules.edition == 'Second Edition') {
-      rules.defineRule
-        ('magicNotes.schoolExpertise', classLevel, '=', '"Illusion"');
-      rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Illusion"');
       rules.defineRule('magicNotes.schoolOpposition',
         classLevel, '=', '"Abjuration, Evocation, or Necromancy"'
       );
       rules.defineRule
         ('magicNotes.schoolSpecialization', classLevel, '=', '"Illusion"');
-      rules.defineRule
-        ('saveNotes.schoolExpertise', classLevel, '=', '"Illusion"');
     }
 
   } else if(name == 'Monk') {
@@ -3678,95 +3675,58 @@ OldSchool.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Abjurer') {
 
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Abjuration"');
     rules.defineRule('magicNotes.schoolOpposition',
       classLevel, '=', '"Alteration or Illusion"'
     );
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Abjuration"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Abjuration"');
 
   } else if(name == 'Conjurer') {
 
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
-    rules.defineRule
-      ('magicNotes.schoolFocus', classLevel, '=', '"Conjuration"');
     rules.defineRule('magicNotes.schoolOpposition',
       classLevel, '=', '"Divination or Evocation"'
     );
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Conjuration"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Conjuration"');
 
   } else if(name == 'Diviner') {
 
     rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Divination"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Divination"');
-    rules.defineRule
       ('magicNotes.schoolOpposition', classLevel, '=', '"Conjuration"');
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Divination"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Divination"');
 
   } else if(name == 'Enchanter') {
 
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
-    rules.defineRule
-      ('magicNotes.schoolFocus', classLevel, '=', '"Enchantment"');
     rules.defineRule('magicNotes.schoolOpposition',
       classLevel, '=', '"Evocation or Necromancy"'
     );
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Enchantment"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Enchantment"');
 
   } else if(name == 'Invoker') {
 
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Evocation"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Evocation"');
     rules.defineRule('magicNotes.schoolOpposition',
       classLevel, '=', '"Conjuration or Enchantment"'
     );
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Evocation"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Evocation"');
 
   } else if(name == 'Necromancer') {
 
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Necromancy"');
     rules.defineRule('magicNotes.schoolOpposition',
       classLevel, '=', '"Enchantment or Illusion"'
     );
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Necromancy"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Necromancy"');
 
   } else if(name == 'Transmuter') {
 
-    rules.defineRule
-      ('magicNotes.schoolExpertise', classLevel, '=', '"Alteration"');
-    rules.defineRule('magicNotes.schoolFocus', classLevel, '=', '"Alteration"');
     rules.defineRule('magicNotes.schoolOpposition',
       classLevel, '=', '"Abjuration or Necromancy"'
     );
     rules.defineRule
       ('magicNotes.schoolSpecialization', classLevel, '=', '"Alteration"');
-    rules.defineRule
-      ('saveNotes.schoolExpertise', classLevel, '=', '"Alteration"');
 
   }
 
