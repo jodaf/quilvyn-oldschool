@@ -579,69 +579,66 @@ OldSchool.SKILLS = {
  */
 OldSchool.SPELLS_CHANGES = {
   'Animal Summoning II':
-    'Range="$L60\'"',
+    OSRIC.SPELLS['Animal Summoning II'].replace(/R[^']*/, 'R%{lvl*60}'),
   'Animal Summoning III':
-    'Description="R$R Draws 4 16 HD, 8 8 HD, or 16 4 HD animals to assist" ' +
-    'Range="$L80\'"',
+    'Description=' +
+      '"R%{lvl*80}\' Calls 4 16 HD, 8 8 HD, or 16 4 HD animals to assist self"',
   'Blade Barrier':
-    'Description="R$R 5\' - 60\' sq blade wall inflicts $E for $D"',
+    OSRIC.SPELLS['Blade Barrier'].replace(/2.*radius/, "5' - 60' sq"),
   'Call Woodland Beings':
-    'Range="$L10plus120\'"',
+    OSRIC.SPELLS['Call Woodland Beings'].replace(/R[^']*/, 'R%{lvl*10+120}'),
   'Chaos':
-    'Description="R$R Creatures in $E 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies for $D (Save by illusionists and fighters neg 1 rd)"',
+    'Description=' +
+      '"R%{lvl*5}\' Causes creatures in a 40\' sq to: 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies (Save by illusionists and fighters neg 1 rd), each rd for %{lvl} rd"',
   'Confusion':
-    'Description="R$R $E 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies for $D (Save neg 1 rd)"',
+    'Description=' +
+      '"R%{slv==\'M4\'?120:80}\' Causes 2d%{slv==\'D7\'?4:8} or more creatures in a %{slv==\'M4\'?60:40}\' sq to: 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies (Save neg 1 rd), each rd for %{lvl+(slv==\'M4\'?2:0)} rd"',
   'Create Food And Water':
-    'Effect="$L3 persons"',
+    OSRIC.SPELLS['Create Food And Water'].replace('lvl', 'lvl*3'),
   'Death Spell':
     'School=Conjuration',
   'Dispel Magic C3':
     'School=Abjuration',
   'Feeblemind':
-    'Description="R$R Reduces target Intelligence to 2 (Save Cleric +1, Druid -1, MU -4, Illusionist -5, non-human -2 neg)"',
-  'Feeblemind D6':
-    'Range="160\'"',
+    OSRIC.SPELLS.Feeblemind.replace('40', '160').replace('Illusionist -4 neg', 'Illusionist -5, non-human -2 neg'),
   'Flame Arrow':
     'School=Conjuration',
   'Guards And Wards':
     'School=Evocation ' +
-    'Duration="$L hr" ' +
-    'Effect="$L10plus20\' radius"',
+    'Description=' +
+      '"Creates multiple effects that protect a %{lvl*10+20}\' radius for %{lvl} hr"',
   'Heat Metal':
     'School=Alteration',
   'Hypnotic Pattern':
-    'Effect="30\' sq totaling 24 HD"',
+    OSRIC.SPELLS['Hypnotic Pattern'].replace('25', '24'),
   'Know Alignment':
-    'Effect="10 targets in 10\' radius"',
+    OSRIC.SPELLS['Know Alignment'].replace('touched', "targets in a 10' radius"),
   'Mass Invisibility':
-    'Effect="30\' sq"',
+    OSRIC.SPELLS['Mass Invisibility'].replace('sq', 'radius'),
   'Mass Suggestion':
-    'Range="30\'"',
+    OSRIC.SPELLS['Mass Suggestion'].replace(/R[^']*/, 'R30'),
   'Passwall':
-    'Effect="5\'x8\'x10\'"',
+    OSRIC.SPELLS.Passwall.replace('10', '8'),
   'Permanent Illusion':
-    'Range="$L10\'"',
+    OSRIC.SPELLS['Permanent Illusion'].replace(/R[^']*/, 'R%{lvl*10}'),
   'Phase Door':
-    'Duration="$Ldiv2 times"',
+    OSRIC.SPELLS['Phase Door'].replace('twice', '%{lvl//2} times'),
   'Plane Shift':
-    'Effect="Touched plus 6 touching"',
+    OSRIC.SPELLS['Plane Shift'].replace('Self plus 7 touched', 'Touched plus 6 touching'),
   'Produce Fire':
-    'Effect="120\' sq"',
+    OSRIC.SPELLS['Produce Fire'].replace("60' radius", "120' sq"),
   'Slow Poison':
-    'Duration="$L hr"',
-  'Sticks To Snakes D5':
-    'Effect="$L sticks in 10\' cu"',
+    OSRIC.SPELLS['Slow Poison'].replace('%{lvl*2} rd', '%{lvl} hr'),
   'Stinking Cloud':
-    'Effect="20\' cu"',
+    OSRIC.SPELLS['Stinking Cloud'].replace('radius', 'cu'),
   'Strength':
-    'Description="Touched gains +1d4 (HD d4), +1d6 (HD d8), or +1d8 (HD d10) Strength for $L hr"',
-  'Wall Of Fire M4':
-    'Description="$R inflicts $E to passers, 2d6 HP to creatures w/in 10\', and 1d6 to creatures w/in 20\' for $D" ' +
-    'Range="R60\' $L20\' sq wall or $Ldiv4plus10\' radius circle"',
+    'Description=' +
+      '"Touched gains +1d4 (HD d4), +1d6 (HD d8), or +1d8 (HD d10) Strength for %{lvl} hr"',
   'Wall Of Force':
-    'Duration="$Lplus10 rd"',
+    OSRIC.SPELLS['Wall Of Force'].replace('lvl+1', 'lvl+10'),
   'Water Breathing':
-    'Duration="$L3 tn"'
+    'Description=' +
+      '"Touched may breathe water (Reverse may breathe air) for %{lvl*(slv==\'D3\'?6:3)} tn"'
 };
 /*
  * Mapping of OSRIC spell names to 1E/2E--mostly Americanized spellings and
