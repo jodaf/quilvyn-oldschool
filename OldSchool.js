@@ -156,7 +156,8 @@ OldSchool.CLASSES = {
     // "A bard always engages in combat at the level he or she attained as a
     // fighter." (PHB 118) So, no improvement to THAC10.
     'HitDie=d6,10,1 THAC10="20 20 ...20@23" ' +
-    'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
+    // Can't first Bard weapon proficiencies in the PHB; used UA values
+    'WeaponProficiency="5 6@5 ...10@21" NonproficientPenalty=-2 ' +
     'Breath="16 15@4 13@7 12@10 11@13 10@16 8@19" ' +
     'Death="10 9@4 7@7 6@10 5@13 4@16 2@19" ' +
     'Petrification="13 12@4 10@7 9@10 8@13 7@16 5@19" ' +
@@ -240,7 +241,7 @@ OldSchool.CLASSES = {
   'Fighter':
     'Require="constitution >= 7","strength >= 9" ' +
     'HitDie=d10,9,3 THAC10="10 8@3 ...-6@17" ' +
-    'WeaponProficiency="4 5@4 ...12@28" NonproficientPenalty=-2 ' +
+    'WeaponProficiency="4 5@4 ...13@28" NonproficientPenalty=-2 ' +
     'Breath=17,1.5,2 ' +
     'Death=14,1.5,2 ' +
     'Petrification=15,1.5,2 ' +
@@ -394,7 +395,7 @@ OldSchool.CLASSES = {
     'Require=' +
       '"alignment =~ \'Neutral|Evil\'","dexterity >= 9" ' +
     'HitDie=d6,10,2 THAC10="11 9@5 6@9 4@13 ...0@21" ' +
-    'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
+    'WeaponProficiency="2 3@5 ...9@29" NonproficientPenalty=-3 ' +
     'Breath="16 15@5 ...11@21" ' +
     'Death="13 12@5 ...8@21" ' +
     'Petrification="12 11@5 ...7@21" ' +
@@ -486,7 +487,7 @@ OldSchool.FEATURES_ADDED = {
   'Unburdened':'Section=feature Note="Own at most 5 magic items"',
   'Weapon Specialization':
     'Section=combat ' +
-    'Note="+1 %{weaponSpecialization} Attack Modifier/+2 %{weaponSpecialization} Damage Modifier/+%{level//2} attacks/rd"',
+    'Note="+1 attacks, +2 damage, and %{level<7?1.5:level<13?2:2.5} attacks/rd w/%{weaponSpecialization}"',
   'Wholeness Of Body':'Section=magic Note="Heal 1d4+%{levels.Monk-6} damage to self 1/dy"',
   'Woodland Languages':'Section=skill Note="+%{(levels.Bard||2)-2+(levels.Druid||2)-2} Language Count"',
 
@@ -771,13 +772,14 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Neutral\'","charisma >= 15","dexterity >= 12",' +
           '"intelligence >= 13" ' +
-        'HitDie=d6,10,2 Attack=0,1,2,- ' +
-        'Breath=16,1,4 ' +
-        'Death=13,1,4 ' +
-        'Petrification=12,1,4 ' +
-        'Spell=15,2,4 ' +
-        'Wand=14,2,4 '+
-        'NonweaponProficiency=3,4 ' +
+        'HitDie=d6,10,2 THAC10="10 9@3 ...1@20" ' +
+        'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
+        'NonweaponProficiency="3 4@5 ...8@21" ' +
+        'Breath="16 15@5 ...11@21" ' +
+        'Death="13 12@5 ...8@21" ' +
+        'Petrification="12 11@5 ...7@21" ' +
+        'Spell="15 13@5 ...5@21" ' +
+        'Wand="14 12@5 ...4@21" ' +
         'Features=' +
           '"1:Armor Proficiency (Leather/Padded/Studded Leather/Scale Mail/Hide/Chain Mail)",' +
           '"1:Charming Music","1:Defensive Song","1:Legend Lore",' +
@@ -786,7 +788,6 @@ OldSchool.RULE_EDITS = {
           '"0 1250 2500 5000 10000 20000 42500 70000 110000 160000 220000' +
           ' 440000 660000 880000 1100000 1320000 1540000 1760000 1980000' +
           ' 2200000" ' +
-        'SpellAbility=intelligence ' +
         'SpellSlots=' +
           '"W1:1@2 2@3 3@5 4@16",' +
           '"W2:1@4 2@6 3@8 4@17",' +
@@ -795,8 +796,8 @@ OldSchool.RULE_EDITS = {
           '"W5:1@13 2@15 3@17 4@20",' +
           '"W6:1@16 2@18 3@20"',
       'Cleric':
-        'Attack=0,2,3,- ' +
-        'NonweaponProficiency=4,3 ' +
+        'THAC10="10 8@4 ...-2@20" ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
         'Experience=' +
           '"0 1500 3000 6000 13000 27500 55000 110000 225000 450000 675000' +
           ' 900000 1125000 1350000 1575000 1800000 2025000 2250000 2475000' +
@@ -812,14 +813,15 @@ OldSchool.RULE_EDITS = {
       'Druid':
         'Require=' +
           '"race =~ \'Human|Half-Elf\'","charisma >= 15","wisdom >= 12" ' +
-        'HitDie=d8,9,2 Attack=0,2,3,- ' +
-        'NonweaponProficiency=4,3 ' +
+        'HitDie=d8,9,2 THAC10="10 8@4 ...-2@20" ' +
+        'WeaponProficiency="2 3@5 ...7@21" NonproficientPenalty=-3 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
         'Features=' +
           '"1:Armor Proficiency (Leather)","1:Shield Proficiency (All)",' +
-          '"wisdom >= 13 ? 1:Bonus Druid Spells",' +
-          '"1:Resist Fire","1:Resist Lightning","3:Druid\'s Knowledge",' +
-          '"3:Wilderness Movement","3:Woodland Languages",' +
-          '"7:Immunity To Fey Charm",7:Shapeshift,' +
+          '"wisdom >= 13 ? 1:Bonus Spells",' +
+          '"1:Druids\' Cant","1:Resist Fire","1:Resist Lightning",' +
+          '"3:Druid\'s Knowledge","3:Wilderness Movement",' +
+          '"3:Woodland Languages","7:Immunity To Fey Charm",7:Shapeshift,' +
           // Hierophant
           '16:Ageless,"16:Fluid Appearance","16:Poison Immunity",' +
           '"17:Hibernation","17:Planar Travel (Earth)",' +
@@ -839,20 +841,19 @@ OldSchool.RULE_EDITS = {
           '"P7:1@14 2@17"',
       'Fighter':
         'Require="strength >= 9" ' +
-        'Attack=0,1,1,- ' +
-        'NonweaponProficiency=3,3 ' +
-        'Features-="1:Fighting The Unskilled" ' +
+        'THAC10="10 9@2 ...-9@20" ' +
+        'NonweaponProficiency="3 4@4 ...10@22" ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
-          '"strength >= 16 ? 1:Bonus Fighter Experience" ' +
+          '"strength >= 16 ? 1:Bonus Fighter Experience","7:Bonus Attacks" ' +
         'Experience=' +
           '"0 2000 4000 8000 16000 32000 64000 125000 250000 500000 750000' +
           ' 1000000 1250000 1500000 1750000 2000000 2250000 2500000 2750000' +
           ' 3000000"',
       'Illusionist':
         'Require="dexterity >= 16","intelligence >= 9" ' +
-        'Attack=0,1,3,- ' +
-        'NonweaponProficiency=4,3 ' +
+        'THAC10="10 9@4 ...4@20" ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Illusionist Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -872,15 +873,15 @@ OldSchool.RULE_EDITS = {
           '"W8:1@16 2@17 3@19",' +
           '"W9:1@18 2@20"',
       'Magic User':
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'NonweaponProficiency=4,3 ' +
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Magic User Experience",' +
           '"1:Spell Book","9:Eldritch Craft" ' +
         'Experience=' +
           '"0000 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -895,15 +896,17 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment == \'Lawful Good\'","charisma >= 17",' +
           '"constitution >= 9","strength >= 12","wisdom >= 13" ' +
-        'Attack=0,1,1,- ' +
-        'NonweaponProficiency=3,3 ' +
+        'THAC10="10 9@2 ...-9@20" ' +
+        'WeaponProficiency="4 5@4 ...11@22" NonproficientPenalty=-2 ' +
+        'NonweaponProficiency="3 4@4 ...10@22" ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/charisma >= 16 ? 1:Bonus Paladin Experience",' +
           '"1:Circle Of Power","1:Cure Disease","1:Detect Evil",' +
           '1:Discriminating,"1:Divine Health","1:Divine Protection",' +
           '"1:Lay On Hands",1:Non-Materialist,1:Philanthropist,' +
-          '"1:Protection From Evil","3:Turn Undead","4:Summon Warhorse" ' +
+          '"1:Protection From Evil","3:Turn Undead","4:Summon Warhorse",' +
+          '"7:Bonus Attacks" ' +
         'Experience=' +
           '"0 2000 4000 8000 16000 32000 64000 125000 250000 500000 750000' +
           ' 1000000 1250000 1500000 1750000 2000000 2250000 2500000 2750000' +
@@ -917,13 +920,15 @@ OldSchool.RULE_EDITS = {
         'Require=' +
           '"alignment =~ \'Good\'","constitution >= 14","dexterity >= 13",' +
           '"strength >= 13","wisdom >= 14" ' +
-        'HitDie=d10,9,3 Attack=0,1,1,- ' +
-        'NonweaponProficiency=3,3 ' +
+        'HitDie=d10,9,3 THAC10="10 9@2 ...-9@20" ' +
+        'WeaponProficiency="4 5@4 ...11@22" NonproficientPenalty=-2 ' +
+        'NonweaponProficiency="3 4@4 ...10@22" ' +
         'Features=' +
           '"1:Armor Proficiency (All)","1:Shield Proficiency (All)",' +
           '"strength >= 16/dexterity >= 16/wisdom >= 16 ? 1:Bonus Ranger Experience",' +
           '1:Ambidextrous,"1:Animal Empathy","1:Delayed Henchmen",' +
-          '"1:Ranger Skills","1:Travel Light","2:Favored Enemy",3:Tracking ' +
+          '"1:Ranger Skills","1:Travel Light","2:Favored Enemy",3:Tracking,' +
+          '"7:Bonus Attacks" ' +
         'Experience=' +
           '"0 2000 4000 8000 16000 32000 64000 125000 250000 500000 750000' +
           ' 1000000 1250000 1500000 1750000 2000000 2250000 2500000 2750000' +
@@ -935,12 +940,12 @@ OldSchool.RULE_EDITS = {
       'Thief':
         'Require=' +
           '"alignment != \'Lawful Good\'","dexterity >= 9" ' +
-        'Attack=0,1,2,- ' +
-        'NonweaponProficiency=3,4 ' +
+        'THAC10="10 9@3 ...1@20" ' +
+        'NonweaponProficiency="3 4@5 ...8@21" ' +
         'Features=' +
           '"1:Armor Proficiency (Elven Chain Mail/Leather/Padded/Studded Leather)",' +
           '"dexterity >= 16 ? 1:Bonus Thief Experience",' +
-          '1:Backstab,"1:Thief Skills","10:Read Scrolls" ' +
+          '1:Backstab,"1:Thief Skills","1:Thieves\' Cant","10:Read Scrolls" ' +
          'Experience=' +
            '"0 1250 2500 5000 10000 20000 40000 70000 110000 160000 220000' +
            ' 440000 660000 880000 1100000 1320000 1540000 1760000 1980000' +
@@ -948,14 +953,14 @@ OldSchool.RULE_EDITS = {
       // New
       'Abjurer':
         'Require="wisdom >= 15","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
-        'NonweaponProficiency=4,3 ' +
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Abjurer Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -963,7 +968,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -976,14 +981,14 @@ OldSchool.RULE_EDITS = {
           '"W9:1@18 2@20"',
       'Conjurer':
         'Require="constitution >= 15","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
-        'NonweaponProficiency=4,3 ' +
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Conjurer Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -991,7 +996,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -1004,14 +1009,14 @@ OldSchool.RULE_EDITS = {
           '"W9:1@18 2@20"',
       'Diviner':
         'Require="wisdom >= 16","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'NonweaponProficiency=4,3 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Diviner Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -1019,7 +1024,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -1032,14 +1037,14 @@ OldSchool.RULE_EDITS = {
           '"W9:1@18 2@20"',
       'Enchanter':
         'Require="charisma >= 16","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'NonweaponProficiency=4,3 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Enchanter Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -1047,7 +1052,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -1060,14 +1065,14 @@ OldSchool.RULE_EDITS = {
           '"W9:1@18 2@20"',
       'Invoker':
         'Require="constitution >= 16","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'NonweaponProficiency=4,3 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Invoker Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -1075,7 +1080,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -1088,14 +1093,14 @@ OldSchool.RULE_EDITS = {
           '"W9:1@18 2@20"',
       'Necromancer':
         'Require="wisdom >= 16","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'NonweaponProficiency=4,3 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Necromancer Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -1103,7 +1108,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -1116,14 +1121,14 @@ OldSchool.RULE_EDITS = {
           '"W9:1@18 2@20"',
       'Transmuter':
         'Require="dexterity >= 15","intelligence >= 9" ' +
-        'HitDie=d4,10,1 Attack=0,1,3,- ' +
-        'WeaponProficiency=1,6,5 ' +
-        'NonweaponProficiency=4,3 ' +
-        'Breath=15,2,5 ' +
-        'Death=14,1.5,5 ' +
-        'Petrification=13,2,5 ' +
-        'Spell=12,2,5 ' +
-        'Wand=11,2,5 '+
+        'HitDie=d4,10,1 THAC10="10 9@4 ...4@20" ' +
+        'WeaponProficiency="1 2@7 ...5@25" NonproficientPenalty=-5 ' +
+        'NonweaponProficiency="4 5@4 ...11@22" ' +
+        'Breath="15 13@6 ...7@21" ' +
+        'Death="14 13@6 11@11 10@16 8@21" ' +
+        'Petrification="13 11@6 ...5@21" ' +
+        'Spell="12 10@6 ...4@21" ' +
+        'Wand="11 9@6 ...3@21" '+
         'Features=' +
           '"intelligence >= 16 ? 1:Bonus Transmuter Experience",' +
           '"1:Spell Book","1:School Expertise","1:School Focus",' +
@@ -1131,7 +1136,7 @@ OldSchool.RULE_EDITS = {
         'Experience=' +
           '"0 2500 5000 10000 20000 40000 60000 90000 135000 250000 375000' +
           ' 750000 1125000 1500000 1875000 2250000 2625000 3000000 3375000' +
-          ' 3750000 ' +
+          ' 3750000" ' +
         'SpellSlots=' +
           '"W1:1@1 2@2 3@4 4@5 5@13",' +
           '"W2:1@3 2@4 3@7 4@10 5@13",' +
@@ -1147,15 +1152,22 @@ OldSchool.RULE_EDITS = {
       // Modified
       'Charming Music':
         'Section=magic ' +
-        'Note="Modify listener reaction 1 category (-%1 paralyzation save neg)"',
+        'Note="Modify listener reaction 1 category (-%{levels.Bard//3} paralyzation save neg)"',
       'Defensive Song':
         'Note="R30\' Spell save to counteract magical song and poetry attacks"',
       'Detect Construction':'Note="R10\' 83% Detect new construction"',
+      'Detect Slope':
+        'Note="R10\' %{race=~\'Halfling\'?75:83}% chance to detect slopes and grades"',
+      'Determine Depth':
+        'Note="%{race=~\'Dwarf\'?50:67}% chance to determine approximate depth underground"',
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
       'Legend Lore':'Note="%V% info about magic item"',
       'Poetic Inspiration':
         'Note="R%1\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
-      'Read Scrolls':'Note="%V% cast spell from scroll"',
+      'Read Scrolls':
+        'Note="May use spell scrolls w/a %{levels.Bard?85:75}% chance of success"',
+      'Spell Book':
+        'Note="Understands %{intelligence>=19?10:intelligence==18?9:intelligence==17?8:intelligence>=15?7:intelligence>=13?6:intelligence>=10?5:4}-%{intelligence>=19?\'all\':intelligence==18?18:intelligence==17?14:intelligence>=15?11:intelligence>=13?9:intelligence>=10?7:6} spells of each level; has a %{intelligence<18?75-(17-intelligence)*5:intelligence==18?85:(76+intelligence<?100)}% chance to understand a particular spell"',
       'Stealthy':
         'Note="Foe -4 surprise roll when traveling quietly, -2 opening doors"',
       'Tracking':'Section=skill Note="+%V Tracking"',
@@ -1169,7 +1181,7 @@ OldSchool.RULE_EDITS = {
         'Note="Befriend domestic animals, shift wild reaction one category (%V Wand save neg)"',
       'Bard Skills':
         'Section=skill ' +
-        'Note="Climb Walls, Hear Noise, Pick Pockets, Read Languages"',
+        'Note="May Climb Walls, Hear Noise, Pick Pockets, and Read Languages"',
       'Bonus Abjurer Experience':
         'Section=ability Note="10% added to awarded experience"',
       'Bonus Conjurer Experience':
@@ -1206,7 +1218,7 @@ OldSchool.RULE_EDITS = {
         'Section=magic Note="At-will travel in Plane Of Water"',
       'Poison Immunity':'Section=save Note="Immune to poison"',
       'Ranger Skills':
-        'Section=skill Note="Hide In Shadows, Move Silently"',
+        'Section=skill Note="May Hide In Shadows and Move Silently"',
       'School Expertise':
         'Section=magic,save ' +
         'Note=' +
@@ -2952,9 +2964,8 @@ OldSchool.abilityRules = function(rules) {
         'source>16 ? "+" + (source - 16) * 5 + "% Pick Pockets" : "",' +
       '].filter(x => x != "").join("/")'
   );
-  rules.defineRule('skillNotes.dexteritySkillModifiers',
-    'sumThiefSkills', '?', 'source != null'
-  );
+  rules.defineRule
+    ('skillNotes.dexteritySkillModifiers', 'hasSkills', '?', null);
 
   // Intelligence
   if(rules.edition == 'Second Edition') {
@@ -3192,8 +3203,7 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
       'turnUndeadColumn', '=', '"' + turningTable[u] +'".split(":")[source - 1].trim()'
     );
   }
-  rules.defineRule
-    ('skillNotes.armorSkillModifiers', 'sumThiefSkills', '?', null);
+  rules.defineRule('skillNotes.armorSkillModifiers', 'hasSkills', '?', null);
   // Replace SRD35's two-handedWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
   rules.defineChoice
@@ -3207,7 +3217,6 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   rules.defineSheetElement('Weapon Proficiency Count', 'EquipmentInfo/');
   rules.defineSheetElement
     ('Weapon Proficiency', 'EquipmentInfo/', null, '; ');
-  rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
   rules.defineSheetElement
     ('Thac0Info', 'CombatStats/', '<b>THAC0 Melee/Ranged</b>: %V', '/');
   rules.defineSheetElement('Thac0 Melee', 'Thac0Info/', '%V');
@@ -3229,15 +3238,12 @@ OldSchool.identityRules = function(rules, alignments, classes, races) {
     (classes, ['Require', 'HitDie', 'THAC10', 'WeaponProficiency', 'NonproficientPenalty', 'NonweaponProficiency', 'Breath', 'Death', 'Petrification', 'Spell', 'Wand', 'Features', 'Experience', 'SpellSlots']);
   QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Languages']);
 
-  for(let alignment in alignments) {
-    rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
-  }
-  for(let clas in classes) {
-    rules.choiceRules(rules, 'Class', clas, classes[clas]);
-  }
-  for(let race in races) {
-    rules.choiceRules(rules, 'Race', race, races[race]);
-  }
+  for(let a in alignments)
+    rules.choiceRules(rules, 'Alignment', a, alignments[a]);
+  for(let c in classes)
+    rules.choiceRules(rules, 'Class', c, classes[c]);
+  for(let r in races)
+    rules.choiceRules(rules, 'Race', r, races[r]);
 
   // Rules that apply to multiple classes or races
   rules.defineRule('level', /^levels\./, '+=', null);
@@ -3258,22 +3264,21 @@ OldSchool.magicRules = function(rules, schools, spells) {
   QuilvynUtils.checkAttrTable
     (spells, ['School', 'Level', 'Description', 'Effect', 'Duration', 'Range']);
 
-  for(let school in schools) {
-    rules.choiceRules(rules, 'School', school, schools[school]);
-  }
+  for(let s in schools)
+    rules.choiceRules(rules, 'School', s, schools[s]);
   for(let level = 1; level <= 9; level++) {
     rules.defineRule
       ('spellSlots.W' + level, 'magicNotes.schoolSpecialization', '+', '1');
   }
-  for(let spell in spells) {
-    if(spell.match(/\s[A-Z]\d$/))
+  for(let s in spells) {
+    if(s.match(/\s[A-Z]\d$/))
       continue;
-    let groupLevels = QuilvynUtils.getAttrValueArray(spells[spell], 'Level');
+    let groupLevels = QuilvynUtils.getAttrValueArray(spells[s], 'Level');
     for(let i = 0; i < groupLevels.length; i++) {
       let groupLevel = groupLevels[i];
       let attrs =
-        spells[spell] + ' ' + (spells[spell + ' ' + groupLevel] || '');
-      rules.choiceRules(rules, 'Spell', spell, attrs + ' Level=' + groupLevel);
+        spells[s] + ' ' + (spells[s + ' ' + groupLevel] || '');
+      rules.choiceRules(rules, 'Spell', s, attrs + ' Level=' + groupLevel);
     }
   }
 
@@ -3293,32 +3298,36 @@ OldSchool.talentRules = function(rules, features, goodies, languages, skills) {
   QuilvynUtils.checkAttrTable(languages, []);
   QuilvynUtils.checkAttrTable(skills, ['Ability', 'Modifier', 'Class']);
 
-  for(let feature in features) {
-    rules.choiceRules(rules, 'Feature', feature, features[feature]);
-  }
-  for(let goody in goodies) {
-    rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
-  }
-  for(let language in languages) {
-    rules.choiceRules(rules, 'Language', language, languages[language]);
-  }
-  for(let skill in skills) {
-    rules.choiceRules(rules, 'Goody', skill,
-      'Pattern="([-+]\\d).*\\s+' + skill + '\\s+Skill|' + skill + '\\s+skill\\s+([-+]\\d)"' +
+  for(let f in features)
+    rules.choiceRules(rules, 'Feature', f, features[f]);
+  for(let g in goodies)
+    rules.choiceRules(rules, 'Goody', g, goodies[g]);
+  for(let l in languages)
+    rules.choiceRules(rules, 'Language', l, languages[l]);
+  for(let s in skills) {
+    rules.choiceRules(rules, 'Goody', s,
+      'Pattern="([-+]\\d).*\\s+' + s + '\\s+Skill|' + s + '\\s+skill\\s+([-+]\\d)"' +
       'Effect=add ' +
       'Value="$1 || $2" ' +
-      'Attribute="skillModifier.' + skill + '" ' +
-      'Section=skill Note="%V ' + skill + '"'
+      'Attribute="skillModifier.' + s + '" ' +
+      'Section=skill Note="%V ' + s + '"'
     );
-    rules.choiceRules(rules, 'Skill', skill, skills[skill]);
+    rules.choiceRules(rules, 'Skill', s, skills[s]);
   }
-  if(rules.edition == 'Second Edition')
-    QuilvynRules.validAllocationRules
-      (rules, 'skill', 'skillPoints', 'sumThiefSkills');
+  rules.defineRule('hasSkills',
+    'features.Bard Skills', '=', '1',
+    'features.Ranger Skills', '=', '1',
+    'features.Thief Skills', '=', '1'
+  );
   QuilvynRules.validAllocationRules
     (rules, 'language', 'languageCount', 'Sum "^languages\\."');
-  QuilvynRules.validAllocationRules
-    (rules, 'nonweaponProficiency', 'nonweaponProficiencyCount', 'sumNonThiefSkills');
+  if(rules.edition == 'Second Edition') {
+    QuilvynRules.validAllocationRules
+      (rules, 'skill', 'skillPoints', 'sumThiefSkills');
+    QuilvynRules.validAllocationRules
+      (rules, 'nonweaponProficiency', 'nonweaponProficiencyCount', 'sumNonThiefSkills');
+    rules.defineSheetElement('Nonweapon Proficiency Count', 'SkillStats');
+  }
 
 };
 
@@ -3495,7 +3504,7 @@ OldSchool.classRules = function(
   nonproficientPenalty, nonweaponProficiency, spellSlots
 ) {
 
-  if(nonweaponProficiency && !Array.isArray(nonweaponProficiency)) {
+  if(nonweaponProficiency && typeof(nonweaponProficiency) != 'string') {
     console.log('Bad nonweaponProficiency "' + nonweaponProficiency + '" for class ' + name);
     return;
   }
@@ -3509,7 +3518,29 @@ OldSchool.classRules = function(
   if(nonweaponProficiency) {
     let nonweaponProgress = OSRIC.progressTable(nonweaponProficiency);
     rules.defineRule('nonweaponProficiencyCount',
+      '', '=', '0',
       'levels.' + name, '+', 'source<' + nonweaponProgress.length + ' ? [' + nonweaponProgress.join(',') + '][source] : ' + nonweaponProgress[nonweaponProgress.length - 1]
+    );
+  }
+
+  if(rules.edition == 'Second Edition' &&
+     features.join('').includes('Bonus Spells')) {
+    // Override and extend OSRIC values as per 2E PHB
+    rules.defineRule('bonusSpellTemplate',
+      'features.Bonus Spells', '?', null,
+      'wisdom', '=',
+        'source==25 ? "t1x4, t2x3, t3x3, t4x3, t5x3, t6x3, t7" : ' +
+        'source==24 ? "t1x4, t2x3, t3x3, t4x3, t5x3, t6x2" : ' +
+        'source==23 ? "t1x4, t2x3, t3x3, t4x3, t5x2, t6" : ' +
+        'source==22 ? "t1x3, t2x3, t3x3, t4x3, t5x2" : ' +
+        'source==21 ? "t1x3, t2x3, t3x3, t4x2, t5" : ' +
+        'source==20 ? "t1x3, t2x3, t3x2, t4x2" : ' +
+        'source==19 ? "t1x3, t2x2, t3x2, t4" : ' +
+        'source==18 ? "t1x2, t2x2, t3, t4" : ' +
+        'source==17 ? "t1x2, t2x2, t3" : ' +
+        'source==16 ? "t1x2, t2x2" : ' +
+        'source==15 ? "t1x2, t2" : ' +
+        'source==14 ? "t1x2" : "t1"'
     );
   }
 
@@ -3794,7 +3825,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('skillNotes.raceSkillModifiers',
       raceLevel, '=',
         '"-10% Climb Walls/+15% Find Traps/+10% Open Locks/-5% Read Languages"'
-      );
+    );
   } else if(name == 'Elf') {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
@@ -3806,7 +3837,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('skillNotes.raceSkillModifiers',
       raceLevel, '=',
         '"+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets"'
-      );
+     );
   } else if(name == 'Gnome') {
     rules.defineRule('featureNotes.determineDepth',
       raceLevel, '+=', rules.edition == 'Second Edition' ? '67' : '60'
@@ -3819,7 +3850,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('skillNotes.raceSkillModifiers',
       raceLevel, '=',
         '"-15% Climb Walls/+10% Find Traps/+10% Hear Noise/+5% Hide In Shadows/+5% Move Silently/+5% Open Locks"'
-      );
+     );
   } else if(name == 'Half-Elf') {
     rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '30');
     rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '30');
@@ -3840,7 +3871,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('skillNotes.raceSkillModifiers',
       raceLevel, '=',
         '"+5% Climb Walls/+5% Find Traps/+5% Hear Noise/+5% Open Locks/-5% Pick Pockets/-10% Read Languages"'
-      );
+     );
   } else if(name == 'Halfling') {
     if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
@@ -3850,7 +3881,7 @@ OldSchool.raceRulesExtra = function(rules, name) {
     rules.defineRule('skillNotes.raceSkillModifiers',
       raceLevel, '=',
         '"-15% Climb Walls/+5% Find Traps/+5% Hear Noise/+15% Hide In Shadows/+10% Move Silently/+5% Open Locks/+5% Pick Pockets/-5% Read Languages"'
-      );
+     );
   } else if(name == 'Human') {
     // empty
   }
@@ -4053,16 +4084,14 @@ OldSchool.initialEditorElements = function(edition) {
     let index = result.findIndex(x => x[0] == 'languages');
     result.splice(index, 0, ['skills', 'Skills', 'bag', 'skills']);
   }
-  if(edition == 'Second Edition' || window.UnearthedArcana1e != null) {
-    let index = result.findIndex(x => x[0] == 'spells');
-    result.splice(index, 0,
-      ['weaponSpecialization', 'Specialization', 'select-one',
-       ['None'].concat(QuilvynUtils.getKeys(OldSchool.WEAPONS))]
-    );
-    if(edition == 'First Edition')
-      result.splice(index + 1, 0,
-        ['doubleSpecialization', '', 'checkbox', ['Doubled']]
-      );
+  if(edition == 'First Edition' && window.UnearthedArcana1e != null)
+    ; // empty -- both specialization and double specialization applicable
+  else if(edition == 'Second Edition') {
+    let index = result.findIndex(x => x[0] == 'doubleSpecialization');
+    result.splice(index, 1);
+  } else {
+    let index = result.findIndex(x => x[0] == 'weaponSpecialization');
+    result.splice(index, 2);
   }
   return result;
 };
