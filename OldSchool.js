@@ -579,23 +579,19 @@ OldSchool.SKILLS = {
  * that would require duplicating these changes for 1E and 2E.
  */
 OldSchool.SPELLS_CHANGES = {
+  'Animal Summoning I':OSRIC.SPELLS['Animal Summoning I'].replace('120', '40'),
   'Animal Summoning II':
-    OSRIC.SPELLS['Animal Summoning II'].replace(/R[^']*/, 'R%{lvl*60}'),
+    OSRIC.SPELLS['Animal Summoning II'].replace('180', '60'),
   'Animal Summoning III':
-    'Description=' +
-      '"R%{lvl*80}\' Calls 4 16 HD, 8 8 HD, or 16 4 HD animals to assist self"',
-  'Blade Barrier':
-    OSRIC.SPELLS['Blade Barrier'].replace(/2.*radius/, "5' - 60' sq"),
-  'Call Woodland Beings':
-    OSRIC.SPELLS['Call Woodland Beings'].replace(/R[^']*/, 'R%{lvl*10+120}'),
+    OSRIC.SPELLS['Animal Summoning III'].replace('240', '80'),
+  'Anti-Magic Shell':
+    OSRIC.SPELLS['Anti-Magic Shell'].replace('lvl*5', 'lvl*0.5'),
+  'Blade Barrier':OSRIC.SPELLS['Blade Barrier'].replace("10' radius", "20' sq"),
   'Chaos':
     'Description=' +
       '"R%{lvl*5}\' Causes creatures in a 40\' sq to: 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies (Save by illusionists and fighters neg 1 rd), each rd for %{lvl} rd"',
   'Confusion':
-    'Description=' +
-      '"R%{slv==\'M4\'?120:80}\' Causes 2d%{slv==\'D7\'?4:8} or more creatures in a %{slv==\'M4\'?60:40}\' sq to: 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies (Save neg 1 rd), each rd for %{lvl+(slv==\'M4\'?2:0)} rd"',
-  'Create Food And Water':
-    OSRIC.SPELLS['Create Food And Water'].replace('lvl', 'lvl*3'),
+    OSRIC.SPELLS.Confusion.replace("20' radius", "40' sq"),
   'Death Spell':
     'School=Conjuration',
   'Dispel Magic C3':
@@ -647,10 +643,10 @@ OldSchool.SPELLS_CHANGES = {
  */
 OldSchool.SPELLS_RENAMES = {
   'Audible Glamour':'Audible Glamer',
-  'Audible Glamour M2':'Audible Glamer M2',
   'Chariot Of Fire':'Chariot Of Sustarre',
   'Clenched Fist':"Bigby's Clenched Fist",
   'Colour Spray':'Color Spray',
+  'Create Food And Water':'Create Food & Water',
   'Crushing Hand':"Bigby's Crushing Hand",
   'Detect Pits And Snares':'Detect Snares And Pits',
   'False Trap':"Leomund's Trap",
@@ -1378,27 +1374,34 @@ OldSchool.RULE_EDITS = {
       'Write':null,
       // Renamed
       'Anti-Animal Shell':null,
-      'Antianimal Shell':OldSchool.SPELLS['Anti-Animal Shell'] + ' ' +
+      'Antianimal Shell':
+        OSRIC.SPELLS['Anti-Animal Shell'] + ' ' +
         'Level=P6',
       'Anti-Magic Shell':null,
-      'Antimagic Shell':OldSchool.SPELLS['Anti-Magic Shell'] + ' ' +
+      'Antimagic Shell':
+        OSRIC.SPELLS['Anti-Magic Shell'].replace('lvl*5', 'lvl*0.5') + ' ' +
         'Level=W6',
       'Anti-Plant Shell':null,
-      'Antiplant Shell':OldSchool.SPELLS['Anti-Plant Shell'] + ' ' +
+      'Antiplant Shell':
+        OSRIC.SPELLS['Anti-Plant Shell'].replace('80', '7.5') + ' ' +
         'Level=P5 ' +
         'Range="7.5\' radius"',
+      'Antipathy/Sympathy':null,
+      'Antipathy-Sympathy':
+        OSRIC.SPELLS['Antipathy/Sympathy'] + ' ' +
+        'Level=W8',
       'Demi-Shadow Magic':null,
-      'Demishadow Magic':OldSchool.SPELLS['Demi-Shadow Magic'] + ' ' +
+      'Demishadow Magic':OSRIC.SPELLS['Demi-Shadow Magic'] + ' ' +
         'Level=W6 ' +
         'Description="R$L10plus60\' Mimics spell level 4 - 5"',
       'Demi-Shadow Monsters':null,
-      'Demishadow Monsters':OldSchool.SPELLS['Demi-Shadow Monsters'] + ' ' +
+      'Demishadow Monsters':OSRIC.SPELLS['Demi-Shadow Monsters'] + ' ' +
         'Level=W5',
       'Fools Gold':null,
-      "Fool's Gold":OldSchool.SPELLS['Fools Gold'] + ' ' +
+      "Fool's Gold":OSRIC.SPELLS["Fool's Gold"] + ' ' +
         'Level=W2',
       'Non-Detection':null,
-      'Nondetection':OldSchool.SPELLS['Non-Detection'] + ' ' +
+      'Nondetection':OSRIC.SPELLS['Non-Detection'] + ' ' +
         'Level=W3 ' +
         'Duration="$L hr" ' +
         'Effect="Touched"',
@@ -1406,37 +1409,34 @@ OldSchool.RULE_EDITS = {
       'Aerial Servant':
         'Level=P6',
       'Affect Normal Fires':
-        'Level=W1 ' +
-        'Duration="$L2 rd" ' +
-        'Effect="10\' radius"',
+        OSRIC.SPELLS['Affect Normal Fires'].replaceAll('1.5', '10').replace('{lvl} rd', '{lvl*2} rd') + ' ' +
+        'Level=W1',
       'Airy Water':
         'Level=W5',
-      'Animal Growth':
-        'Level=P5,W5',
-      'Animal Growth P5':
-        'Duration="$L2 rd" ' +
-        'Range="80\'"',
       'Animal Friendship':
         'Level=P1',
+      'Animal Growth':
+        OSRIC.SPELLS['Animal Growth'].replaceAll('D5', 'P5') + ' ' +
+        'Level=P5,W5',
       'Animal Summoning I':
-        'Level=P4 ' +
-        'Range="1 miles"',
+        OSRIC.SPELLS['Animal Summoning I'].replace("%{lvl*120}'", '1 mile') + ' ' +
+        'Level=P4',
       'Animal Summoning II':
         'Level=P5',
       'Animal Summoning III':
-        'Level=P6 ' +
-        'Range="$L100\'"',
+        OSRIC.SPELLS['Animal Summoning III'].replace('240', '100') + ' ' +
+        'Level=P6',
       'Animate Dead':
         'Level=P3,W5',
       'Animate Object':
         'Level=P6',
       'Animate Rock':
         'Level=P7',
-      'Antipathy/Sympathy':
-        'Level=W8',
       'Astral Spell':
-        'Level=P7,W9 ' +
-        'Range="Self and 7 touched"',
+        OSRIC.SPELLS['Astral Spell'].replace('5', '7') + ' ' +
+        'Level=P7,W9',
+      'Astral Spell W9':
+        'School=Evocation',
       'Atonement':
         'Level=P5',
       'Audible Glamer':
@@ -1445,8 +1445,8 @@ OldSchool.RULE_EDITS = {
         'Level=P2 ' +
         'School="Lesser Divination"',
       'Barkskin':
-        'Level=P2 ' +
-        'Effect="unarmored AC ${6-lvl//4}, +1 non-spell saves"',
+        OSRIC.SPELLS.Barkskin.replace('+1 AC', '+%{4+lvl//4} AC') + ' ' +
+        'Level=P2',
       "Bigby's Clenched Fist":
         'Level=W8',
       "Bigby's Crushing Hand":
@@ -1458,25 +1458,26 @@ OldSchool.RULE_EDITS = {
       "Bigby's Interposing Hand":
         'Level=W5',
       'Blade Barrier':
+        OSRIC.SPELLS['Blade Barrier'].replace("10' radius", "60' sq") + ' ' +
         'Level=P6',
       'Bless':
         'Level=P1',
       'Blindness':
-        'Level=W2 ' +
-        'Range="R$L10plus30\'"',
+        OSRIC.SPELLS.Blindness.replace('30', '%{lvl*10+30}') + ' ' +
+        'Level=W2',
       'Blink':
-        'Level=W3 ' +
-        'Effect="10\'/rd"',
+        OSRIC.SPELLS.Blink.replace('2', '10') + ' ' +
+        'Level=W3',
       'Blur':
         'Level=W2',
       'Burning Hands':
-        'Level=W1 ' +
-        'Effect="5\' cone"',
+        OSRIC.SPELLS['Burning Hands'].replace("3'", "5'") + ' ' +
+        'Level=W1',
       'Call Lightning':
         'Level=P3',
       'Call Woodland Beings':
-        'Level=P4 ' +
-        'Range="$L100\'"',
+        OSRIC.SPELLS['Call Woodland Beings'].replace('30+360', '100') + ' '+
+        'Level=P4',
       'Change Self':
         'Level=W1',
       'Chant':
@@ -1484,8 +1485,8 @@ OldSchool.RULE_EDITS = {
       'Chaos':
         'Level=W5',
       'Chariot Of Sustarre':
-        'Level=P7 ' +
-        'Duration="12 hr"',
+        OSRIC.SPELLS['Chariot Of Fire'].replace('%{lvl+6} tn', '12 hr') + ' ' +
+        'Level=P7',
       'Charm Monster':
         'Level=W4',
       'Charm Person':
@@ -1505,15 +1506,16 @@ OldSchool.RULE_EDITS = {
       'Cloudkill':
         'Level=W5',
       'Color Spray':
-        'Level=W1 ' +
-        'Effect="20\' cone"',
+        OSRIC.SPELLS['Colour Spray'].replace('%{lvl*10}', '20') + ' ' +
+        'Level=W1',
       'Command':
-        'Level=P1 ' +
-        'Range="30\'"',
+        OSRIC.SPELLS.Command.replace('10', '30') + ' ' +
+        'Level=P1',
       'Commune':
         'Level=P5 ' +
         'School="Greater Divination"',
       'Commune With Nature':
+        OSRIC.SPELLS['Commune With Nature'].replace("%{lvl//2} mile", "%{lvl*30}'") + ' ' +
         'Level=P5 ' +
         'School="Greater Divination"',
       'Comprehend Languages':
@@ -1521,56 +1523,47 @@ OldSchool.RULE_EDITS = {
       'Cone Of Cold':
         'Level=W5',
       'Confusion':
-        'Level=P7,W4 ' +
-        'Description="R$R $E 10% wander away/50% stand confused/30% attack nearest creature/10% attack self or allies for $D (Save neg 1 rd)" ' +
-        'Effect="1d4 + $L or more creatures in 60\' sq"',
-      'Confusion P7':
-        'Duration="$L rd" ' +
-        'Effect="1d4 creatures in 40\' sq" ' +
-        'Range="80\'"',
+        OSRIC.SPELLS.Confusion
+          .replaceAll('D7', 'P7').replaceAll('M4', 'W4')
+          .replace("20' radius", "40' sq")
+          .replace(/2d\S*/, "1d4+%{lvl//(slvl=='W4'?2:1)}"),
       'Conjure Animals':
-        'Level=P6,W6 ' +
-        'Effect="$L2 HD"',
-      'Conjure Animals P6':
-        'Duration="$L2 rd"',
+        OSRIC.SPELLS['Conjure Animals']
+          .replaceAll('C6', 'P6').replaceAll('I6', 'W6')
+          .replace('lvl', 'lvl*2'),
       'Conjure Earth Elemental':
-        'Level=P7 ' +
-        'Effect="elemental"',
+        'Level=P7',
       'Conjure Elemental':
         'Level=W5',
       'Conjure Fire Elemental':
-        'Level=P6 ' +
-        'Effect="elemental"',
+        'Level=P6',
       'Contact Other Plane':
         'Level=W5 ' +
         'School="Greater Divination"',
-      'Create Water':
-        'Level=P1 ' +
-        'Range="30\'"',
       'Continual Light':
-        'Level=P3,W2',
-      'Continual Light P3':
-        'Range="120\'"',
+        OSRIC.SPELLS['Continual Light']
+          .replaceAll('C3', 'P3').replaceAll('M2', 'W2'),
       "Control Temperature 10' Radius":
-        'Level=P4 ' +
-        'Effect="${lvl*10}F"',
+        OSRIC.SPELLS["Control Temperature 10' Radius"]
+          .replace('lvl*9', 'lvl*10') + ' ' +
+        'Level=P4',
       'Control Weather':
-        'Level=P7,W6',
-      'Control Weather P7':
-        'Duration="4d12 hr"',
+        OSRIC.SPELLS['Control Weather']
+          .replaceAll('C7', 'P7').replaceAll('M6', 'W6'),
       'Control Winds':
         'Level=P5',
-      'Create Food And Water':
-        'Level=P3 ' +
-        'Effect="$L persons"',
+      'Create Food & Water':
+        'Level=P3',
+      'Create Water':
+        OSRIC.SPELLS['Create Water']
+          .replace('10', '30').replaceAll('C1', 'P1') + ' ' +
+        'Level=P1',
       'Creeping Doom':
-        'Level=P7 ' +
-        'Effect="20\' sq"',
+        'Level=P7',
       'Cure Critical Wounds':
         'Level=P5',
       'Cure Disease':
-        'Level=P3 ' +
-        'School=Abjuration',
+        'Level=P3',
       'Cure Light Wounds':
         'Level=P1',
       'Cure Serious Wounds':
@@ -2286,7 +2279,7 @@ OldSchool.RULE_EDITS = {
       'Alarm':
         'Level=W1 ' +
         'School=Abjuration ' +
-        'Description="R10\' Entry into 20\' cu triggers audible alarm for $L30plus240 rd"',
+        'Description="R10\' Entry into 20\' cu triggers audible alarm for %{4+lvl*0.5} hr"',
       'Alter Self':
         'Level=W2 ' +
         'School=Alteration ' +
@@ -2842,7 +2835,7 @@ OldSchool.editedRules = function(edition, base, type) {
           QuilvynUtils.getAttrValueArray(edits[a].replace(/\+=/g, '='), attr);
         for(let j = 0; j < values.length; j++) {
           if(!(values[j] + '').match(/^[-+]?\d+$/))
-            values[j] = '"' + values[j] + '"';
+            values[j] = '"' + values[j].replaceAll('"', '\\"') + '"';
         }
         let valuesText = values.join(',');
         if(op == '=') {
