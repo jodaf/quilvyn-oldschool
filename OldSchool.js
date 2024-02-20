@@ -592,8 +592,12 @@ OldSchool.SPELLS_CHANGES = {
       '"R%{lvl*5}\' Causes creatures in a 40\' sq to: 10% wander away/50% stand confused/20% attack nearest creature/20% attack self or allies (Save by illusionists and fighters neg 1 rd), each rd for %{lvl} rd"',
   'Confusion':
     OSRIC.SPELLS.Confusion.replace("20' radius", "40' sq"),
+  'Darkness':
+    OSRIC.SPELLS.Darkness.replace('40', '0'),
   'Death Spell':
     'School=Conjuration',
+  'Disintegrate':
+    OSRIC.SPELLS.Disintegrate.replace("%{lvl*10}' sq", "10' cu"),
   'Dispel Magic C3':
     'School=Abjuration',
   'Feeblemind':
@@ -648,7 +652,7 @@ OldSchool.SPELLS_RENAMES = {
   'Colour Spray':'Color Spray',
   'Create Food And Water':'Create Food & Water',
   'Crushing Hand':"Bigby's Crushing Hand",
-  'Detect Pits And Snares':'Detect Snares And Pits',
+  'Detect Pits And Snares':'Detect Snares & Pits',
   'False Trap':"Leomund's Trap",
   'Floating Disk':"Tenser's Floating Disc",
   'Freezing Sphere':"Otiluke's Freezing Sphere",
@@ -1393,7 +1397,7 @@ OldSchool.RULE_EDITS = {
       'Demi-Shadow Magic':null,
       'Demishadow Magic':OSRIC.SPELLS['Demi-Shadow Magic'] + ' ' +
         'Level=W6 ' +
-        'Description="R$L10plus60\' Mimics spell level 4 - 5"',
+        'Description="R%{lvl*10+60}\' Mimics Wizard level 1 - 5 spells"',
       'Demi-Shadow Monsters':null,
       'Demishadow Monsters':OSRIC.SPELLS['Demi-Shadow Monsters'] + ' ' +
         'Level=W5',
@@ -1575,54 +1579,49 @@ OldSchool.RULE_EDITS = {
       'Deafness':
         'Level=W2',
       'Death Spell':
-        'Level=W6 ' +
-        'School=Necromancy ' +
-        'Effect="$L30\' cu"',
+        OSRIC.SPELLS['Death Spell']
+          .replace('M6', 'W6').replace('lvl*5', 'lvl*30'),
       'Delayed Blast Fireball':
         'Level=W7',
       'Detect Charm':
         'Level=P2 ' +
         'School="Lesser Divination"',
       'Detect Evil':
-        'Level=P1,W2 ' +
+        OSRIC.SPELLS['Detect Evil']
+          .replaceAll('C1', 'P1').replaceAll('M2', 'W2') + ' ' +
         'School="Lesser Divination"',
-      'Detect Evil P1':
-        'Duration="$L5plus10 rd" ' +
-        'Range="10\'x120\' path"',
       'Detect Invisibility':
         'Level=W2 ' +
         'School="Lesser Divination"',
       'Detect Lie':
+        OSRIC.SPELLS['Detect Lie'].replace('Target', 'Self') + ' ' +
         'Level=P4 ' +
-        'School="Lesser Divination" ' +
-        'Effect="Self"',
+        'School="Lesser Divination"',
       'Detect Magic':
+        OSRIC.SPELLS['Detect Magic'].replaceAll('C1', 'P1') + ' ' +
         'Level=P1,W1 ' +
         'School="Lesser Divination"',
-      'Detect Magic P1':
-        'Duration="1 tn" ' +
-        'Range="10\'x30\' path"',
-      'Detect Snares And Pits':
+      'Detect Snares & Pits':
         'Level=P1 ' +
         'School="Lesser Divination"',
       'Dig':
         'Level=W4',
       'Dimension Door':
         'Level=W4',
+      'Disintegrate':
+        'Level=W6',
       'Dispel Evil':
         'Level=P5',
       'Dispel Magic':
-        'Level=P3,W3 ' +
-        'Description="R120\' Extinguishes magic in 30\' cu (50% +5%/-5% per caster level delta)"',
-      'Dispel Magic P3':
-        'Range="60\'"',
-      'Disintegrate':
-        'Level=W6 ' +
-        'Effect="10\' sq"',
+        OSRIC.SPELLS['Dispel Magic']
+          .replaceAll('C3', 'P3')
+          .replace('radius', 'cu') + ' ' +
+        'Level=P3,W3',
       'Distance Distortion':
-        'Level=W5 ' +
-        'Duration="$L2 tn" ' +
-        'Effect="$L10\'"',
+        OSRIC.SPELLS['Distance Distortion']
+          .replace("{lvl*100}' sq", "{lvl*10}' cu")
+          .replace('{lvl}', '{lvl*2}') + ' ' +
+        'Level=W5',
       'Divination':
         'Level=P4 ' +
         'School="Lesser Divination"',
@@ -1634,23 +1633,26 @@ OldSchool.RULE_EDITS = {
         'Level=P7',
       'Emotion':
         'Level=W4 ' +
-        'Description="R$L10\' Targets in 20\' sq experience courage (gain +1 attack, +3 damage, +5 HP), fear (flee), friendship (react positively), happiness (+4 reaction), hate (react negatively), hope (gain +2 morale, save, attack, damage), hopelessness (walk away or surrender), or sadness (suffer -1 surprise, +1 init) for conc"',
+        'Description=' +
+          '"R%{lvl*10}\' Targets in a 20\' cu experience courage (gain +1 attack, +3 damage, +5 HP), fear (flee), friendship (react positively), happiness (+4 reaction), hate (react negatively), hope (gain +2 morale, save, attack, damage), hopelessness (walk away or surrender), or sadness (suffer -1 surprise, +1 init) for conc"',
       'Enchant An Item':
         'Level=W6 ' +
         'School=Enchantment',
       'Enchanted Weapon':
+        OSRIC.SPELLS['Enchanted Weapon']
+          .replace('but w/no attack bonuses', '+1 attack and damage')
+          .replace(' or until next hit', '') + ' ' +
         'Level=W4 ' +
-        'School=Enchantment ' +
-        'Effect="(+1 attack and damage)"',
+        'School=Enchantment',
       'Enlarge':
         'Level=W1 ' +
-        'Description="R$L5\' Creature or object grows $L10% for $L5 rd (rev shrinks, save neg)"',
+        'Description="R%{lvl*5}\' Expands (Reverse shrinks) target creature or object by %{lvl*10}% (Save neg) for $L5 rd"',
       'Entangle':
-        'Level=P1 ' +
-        'Effect="40\' cu"',
+        OSRIC.SPELLS.Entangle.replace("20' radius", "40' cu") + ' ' +
+        'Level=P1',
       'Erase':
         'Level=W1 ' +
-        'Description="R30\' Erases magical ($L5plus30% chance) or normal (90%) writing from 2-page area"',
+        'Description="R30\' Erases magical (%{lvl*5+30}% chance) or normal (90% chance) writing from a 2-page area"',
       'ESP':
         'Level=W2 ' +
         'School="Lesser Divination"',
@@ -2351,7 +2353,7 @@ OldSchool.RULE_EDITS = {
       'Death Fog':
         'Level=W6 ' +
         'School=Alteration ' +
-        'Description="R30\' $L20\' fog kills plants, animals take 1, 2, 4, 8 HP for 1d4 + $L rd"',
+        'Description="R30\' %{lvl*2} x 10\' cu fog kills plants; animals take 1, 2, 4, 8 HP for 1d4 + %{lvl} rd"',
       'Deeppockets':
         'Level=W2 ' +
         'School=Alteration ' +
@@ -2359,7 +2361,7 @@ OldSchool.RULE_EDITS = {
       'Delude':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Self aura shows alignment of creature in 10\' radius for $L tn"',
+        'Description="Self aura shows alignment of any creature in a 30\' radius for %{lvl} tn"',
       'Demand':
         'Level=W8 ' +
         'School=Evocation ' +
@@ -2367,7 +2369,7 @@ OldSchool.RULE_EDITS = {
       'Detect Poison':
         'Level=P1 ' +
         'School="Lesser Divination" ' +
-        'Description="Self detects poison in target, $L5% to know type, for $Lplus10 rd"',
+        'Description="Self detects poison in 1 target/rd, $L5% to know type, for $Lplus10 rd"',
       'Detect Scrying':
         'Level=W4 ' +
         'School="Lesser Divination" ' +
@@ -2386,7 +2388,7 @@ OldSchool.RULE_EDITS = {
         'Description="R$L10\' Target obeys self thoughts until save"',
       'Dream':
         'Level=W5 ' +
-        'School=Evocation ' +
+        'School=Illusion ' +
         'Description="Touched sends message to sleeping target"',
       'Dust Devil':
         'Level=P2 ' +
@@ -2395,11 +2397,11 @@ OldSchool.RULE_EDITS = {
       'Endure Cold':
         'Level=P1 ' +
         'School=Alteration ' +
-        'Description="Touched remains comfortable to -30F for $L30 min"',
+        'Description="Touched remains comfortable to -30F for %{lvl*1.5} hr"',
       'Endure Heat':
         'Level=P1 ' +
         'School=Alteration ' +
-        'Description="Touched remains comfortable to 130F for $L30 min"',
+        'Description="Touched remains comfortable to 130F for %{lvl*1.5} hr"',
       'Energy Drain':
         'Level=W9 ' +
         'School=Evocation ' +
@@ -2419,7 +2421,7 @@ OldSchool.RULE_EDITS = {
       "Evard's Black Tentacles":
         'Level=W4 ' +
         'School=Conjuration ' +
-        'Description="R30\' Tentacles (AC 4, $L HP) in 30\' sq attack and inflict 2d4 - 3d4/rd for $L hr (Save suffer 1d4 HP)"',
+        'Description="R30\' Tentacles (AC 4, %{lvl} HP) in %{lvl*30}\' sq attack and inflict 2d4 - 3d4/rd for %{lvl} hr (Save suffer 1d4 HP)"',
       'Exaction':
         'Level=P7 ' +
         'School=Evocation ' +
