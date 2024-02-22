@@ -610,15 +610,24 @@ OldSchool.SPELLS_CHANGES = {
   'Fly':
     OSRIC.SPELLS.Fly.replace('lvl*6', 'lvl'),
   'Guards And Wards':
-    'School=Evocation ' +
-    'Description=' +
-      '"Creates multiple effects that protect a %{lvl*10+20}\' radius for %{lvl} hr"',
+    OSRIC.SPELLS['Guards And Wards']
+      .replace('lvl*200', 'lvl*10+10')
+      .replace('sq', 'radius')
+      .replace('lvl*2', 'lvl') + ' ' +
+    'School=Evocation',
   'Heat Metal':
     'School=Alteration',
   'Hypnotic Pattern':
     OSRIC.SPELLS['Hypnotic Pattern'].replace('25', '24'),
+  'Ice Storm':
+    OSRIC.SPELLS['Ice Storm']
+      .replace('40', '20').replace('80', '40')
+      .replaceAll('sq ', 'radius '),
+  'Incendiary Cloud':
+    OSRIC.SPELLS['Incendiary Cloud'].replace('radius', 'sq'),
   'Know Alignment':
-    OSRIC.SPELLS['Know Alignment'].replace('touched', "targets in a 10' radius"),
+    OSRIC.SPELLS['Know Alignment']
+      .replace('Self', "R10' Self").replace('touched', 'target'),
   'Mass Invisibility':
     OSRIC.SPELLS['Mass Invisibility'].replace('sq', 'radius'),
   'Mass Suggestion':
@@ -1727,17 +1736,18 @@ OldSchool.RULE_EDITS = {
       'Friends':
         'Level=W1 ' +
         'Description="R60\' Self gains +2d4 Charisma for 1d4 + %{lvl} rd"',
+      'Fumble':
+        OSRIC.SPELLS.Fumble
+          .replace('Target falls and drops', "Creatures in 30' sq fall and drop") + ' ' +
+        'Level=W4',
       'Gate':
         'Level=P7,W9',
       'Gaze Reflection':
-        'Level=W1 ' +
-        'Duration="%{lvl+2} rd"',
-      'Fumble':
-        'Level=W4 ' +
-        'Effect="30\' cu"',
+        OSRIC.SPELLS['Gaze Reflection'].replace('1 rd', '%{lvl+2} rd') + ' ' +
+        'Level=W1',
       'Geas':
-        'Level=W6 ' +
-        'Range="R10\' Target"',
+        OSRIC.SPELLS.Geas.replace('Touched', "R10' Target") + ' ' +
+        'Level=W6',
       'Glassee':
         'Level=W6',
       'Glassteel':
@@ -1745,29 +1755,31 @@ OldSchool.RULE_EDITS = {
       'Globe Of Invulnerability':
         'Level=W6',
       'Glyph Of Warding':
-        'Level=P3 ' +
-        'Effect="%{lvl}d4 HP" ' +
-        'Range="%{lvl}\' sq"',
+        OSRIC.SPELLS['Glyph Of Warding']
+          .replace('*25', '').replace('{lvl*2}', '{lvl}d4') + ' ' +
+        'Level=P3',
       'Guards And Wards':
+        OSRIC.SPELLS['Guards And Wards']
+          .replace('lvl*200', '400').replace('lvl*2', 'lvl') + ' ' +
         'Level=W6 ' +
-        'Effect="400\' sq"',
+        'School=Evocation',
       'Gust Of Wind':
-        'Level=W3 ' +
-        'Duration="1 rd"',
+        OSRIC.SPELLS['Gust Of Wind'].replace('seg', 'rd') + ' ' +
+        'Level=W3',
       'Hallucinatory Forest':
         'Level=P4',
       'Hallucinatory Terrain':
-        'Level=W4 ' +
-        'Duration="for %{lvl} hr (Save disbelieve)" ' +
-        'Effect="%{lvl*30}\' cu"',
+        OSRIC.SPELLS['Hallucinatory Terrain']
+          .replace('*10', '*30')
+          .replace('until touched', 'for %{lvl} hr (Save disbelieve)') + ' ' +
+        'Level=W4',
       'Haste':
         'Level=W3',
       'Heal':
-        'Level=P6 ' +
-        'Effect="all HP"',
+        OSRIC.SPELLS.Heal.replace('all but 1d4', 'full') + ' ' +
+        'Level=P6',
       'Heat Metal':
-        'Level=P2 ' +
-        'School=Necromancy',
+        'Level=P2',
       'Hold Animal':
         'Level=P3',
       'Hold Monster':
@@ -1777,60 +1789,69 @@ OldSchool.RULE_EDITS = {
       'Hold Plant':
         'Level=P4',
       'Hold Portal':
-        'Level=W1 ' +
-        'Effect="%{lvl*20}\' sq"',
+        'Level=W1',
       'Holy Word':
         'Level=P7',
       'Hypnotic Pattern':
+        OSRIC.SPELLS['Hypnotic Pattern']
+          .replace('25', '24')
+          .replace('conc', 'conc + 2 rd') + ' ' +
         'Level=W2',
       'Hypnotism':
-        'Level=W1 ' +
-        'Range="5\'"',
+        OSRIC.SPELLS.Hypnotism
+          .replace('30', '5')
+          .replace('creatures', "creatures in a 30' sq") + ' ' +
+        'Level=W1',
       'Ice Storm':
         'Level=W4',
       'Identify':
+        OSRIC.SPELLS.Identify.replace('5+15', '10<?90') + ' ' +
         'Level=W1 ' +
-        'School="Lesser Divination" ' +
-        'Effect="%{lvl*10}%"',
+        'School="Lesser Divination"',
       'Illusionary Script':
-        'Level=W3 ' +
-        'Description="Obscured writing transmits <i>Suggestion</i> (Save neg) to unauthorized readers for %{lvl} dy"',
+        OSRIC.SPELLS['Illusory Script']
+          .replace('inflicts 5d4 rd confusion', 'transmits <i>Suggestion</i>') + ' ' +
+        'Level=W3',
       'Imprisonment':
         'Level=W9',
       'Improved Invisibility':
         'Level=W4',
       'Improved Phantasmal Force':
-        'Level=W2 ' +
-        'Effect="%{lvl*50+200}\' sq"',
+        OSRIC.SPELLS['Improved Phantasmal Force']
+          .replace('10+40', '50+200') + ' ' +
+        'Level=W2',
       'Incendiary Cloud':
-        'Level=W8 ' +
-        'Effect="%{lvl}d2, %{lvl}d4, %{lvl}d2 HP"',
+        OSRIC.SPELLS['Incendiary Cloud']
+          .replace('radius', 'sq')
+          .replace('{lvl}', '{lvl}d4')
+          .replaceAll('{lvl//2}', '{lvl}d2') + ' ' +
+        'Level=W8',
       'Infravision':
         'Level=W3',
       'Insect Plague':
-        'Level=P5 ' +
-        'Range="120\'"',
+        OSRIC.SPELLS['Insect Plague'].replace('{lvl} tn', '{lvl*2} rd') + ' ' +
+        'Level=P5',
       'Invisibility':
         'Level=W2',
       "Invisibility 10' Radius":
         'Level=W3',
       'Invisibility To Animals':
-        'Level=P1 ' +
-        'Effect="%{lvl} touched"',
+        OSRIC.SPELLS['Invisibility To Animals']
+          .replace('Touched', '%{lvl} touched') + ' ' +
+        'Level=P1',
       'Invisible Stalker':
         'Level=W6',
       'Jump':
-        'Level=W1 ' +
-        'Duration="for %{lvl}+1d3 rd"',
+        OSRIC.SPELLS.Jump
+          .replace(/%.*times/, '1/rd for 1d3 + %{lvl} rd') + ' ' +
+        'Level=W1',
       'Knock':
         'Level=W2 ' +
         'Description="R60\' Opens stuck or locked item (rev locks)"',
       'Know Alignment':
+        'Description="R10\' Self discerns alignment aura of 1 target/%{slvl==\'W2\'?\'2 \':\'\'}rd for 1 tn (Reverse obscures)" ' +
         'Level=P2,W2 ' +
-        'School="Lesser Divination" ' +
-        'Effect="1 target/2 rd"',
-      'Know Alignment P2':
-        'Effect="1 target/rd"',
+        'School="Lesser Divination"',
       'Legend Lore':
         'Level=W6 ' +
         'School="Greater Divination"',
