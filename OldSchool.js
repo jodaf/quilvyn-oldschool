@@ -601,9 +601,14 @@ OldSchool.SPELLS_CHANGES = {
   'Dispel Magic C3':
     'School=Abjuration',
   'Feeblemind':
-    OSRIC.SPELLS.Feeblemind.replace('40', '160').replace('Illusionist -4 neg', 'Illusionist -5, non-human -2 neg'),
+    OSRIC.SPELLS.Feeblemind
+      .replace('40', '160').replace('-4 neg', '-5, non-human -2 neg'),
+  'Fire Storm':
+    OSRIC.SPELLS['Fire Storm'].replace('150', '160'),
   'Flame Arrow':
     'School=Conjuration',
+  'Fly':
+    OSRIC.SPELLS.Fly.replace('lvl*6', 'lvl'),
   'Guards And Wards':
     'School=Evocation ' +
     'Description=' +
@@ -1407,7 +1412,7 @@ OldSchool.RULE_EDITS = {
       'Non-Detection':null,
       'Nondetection':OSRIC.SPELLS['Non-Detection'] + ' ' +
         'Level=W3 ' +
-        'Duration="$L hr" ' +
+        'Duration="%{lvl} hr" ' +
         'Effect="Touched"',
       // Modified
       'Aerial Servant':
@@ -1646,7 +1651,7 @@ OldSchool.RULE_EDITS = {
         'School=Enchantment',
       'Enlarge':
         'Level=W1 ' +
-        'Description="R%{lvl*5}\' Expands (Reverse shrinks) target creature or object by %{lvl*10}% (Save neg) for $L5 rd"',
+        'Description="R%{lvl*5}\' Expands (Reverse shrinks) target creature or object by %{lvl*10}% (Save neg) for %{lvl*5} rd"',
       'Entangle':
         OSRIC.SPELLS.Entangle.replace("20' radius", "40' cu") + ' ' +
         'Level=P1',
@@ -1669,16 +1674,14 @@ OldSchool.RULE_EDITS = {
       'Fear':
         'Level=W4',
       'Feather Fall':
-        'Level=W1 ' +
-        'Duration="$L rd"',
+        OSRIC.SPELLS['Feather Fall'].replace('seg', 'rd') + ' ' +
+        'Level=W1',
       'Feeblemind':
-        'Level=W5 ' +
-        'Description="R$L10\' Reduces target Intelligence to 2 (Save Priest +1, Wizard -4 and non-human -2 neg)"',
+        OSRIC.SPELLS.Feeblemind.replace(/Save.*neg/, 'Save Priest +1, Wizard -4, nonhuman -2 neg') + ' ' +
+        'Level=W5',
       'Feign Death':
-        'Level=P3,W3 ' +
-        'Duration="$Lplus6 tn"',
-      'Feign Death P3':
-        'Duration="$Lplus10 rd"',
+        OSRIC.SPELLS['Feign Death'].replace('M3', 'W3').replace('lvl+6', 'lvl*10+60') + ' ' +
+        'Level=P3,W3',
       'Find Familiar':
         'Level=W1',
       'Find The Path':
@@ -1697,37 +1700,38 @@ OldSchool.RULE_EDITS = {
       'Fire Shield':
         'Level=W4',
       'Fire Storm':
-        'Level=P7 ' +
-        'Range="160\'"',
+        OSRIC.SPELLS['Fire Storm']
+          .replace('150', '160')
+          .replace('a %{lvl*20}', '%{lvl*2} 10') + ' ' +
+        'Level=P7',
       'Fire Trap':
-        'Level=P2,W4 ' +
-        'School=Abjuration',
+        'Level=P2,W4',
       'Fireball':
-        'Level=W3 ' +
-        'Effect="${Lmin10}d6 HP" ' +
-        'Range="$L10plus10\'"',
+        OSRIC.SPELLS.Fireball
+          .replace('100', '10')
+          .replace('lvl}d6', 'lvl<?10}d6') + ' ' +
+        'Level=W3',
       'Flame Arrow':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="Touched arrow inflicts +1 HP fire damage within 1 rd or self casts $Ldiv5 R$L10plus30\' bolts that inflict 5d6 HP (Save half)"',
+        'Description="Touched arrows or bolts inflict +1 HP fire damage and disintegrate after 1 rd, or self casts %{lvl//5} R%{lvl*10+30}\' bolts that inflict 5d6 HP (Save half)"',
       'Flame Strike':
         'Level=P5',
       'Fly':
-        'Level=W3 ' +
-        'Duration="1d6 + $L tn" ' +
-        'Effect="180\'/rd"',
+        OSRIC.SPELLS.Fly.replace('lvl*6', 'lvl').replace('120', '180') + ' ' +
+        'Level=W3',
       'Fog Cloud':
         'Level=W2',
       'Forget':
         'Level=W2',
       'Friends':
         'Level=W1 ' +
-        'Description="R60\' Self gains +2d4 Charisma for 1d4 + $L rd"',
+        'Description="R60\' Self gains +2d4 Charisma for 1d4 + %{lvl} rd"',
       'Gate':
         'Level=P7,W9',
       'Gaze Reflection':
         'Level=W1 ' +
-        'Duration="$Lplus2 rd"',
+        'Duration="%{lvl+2} rd"',
       'Fumble':
         'Level=W4 ' +
         'Effect="30\' cu"',
@@ -1742,8 +1746,8 @@ OldSchool.RULE_EDITS = {
         'Level=W6',
       'Glyph Of Warding':
         'Level=P3 ' +
-        'Effect="${lvl}d4 HP" ' +
-        'Range="$L\' sq"',
+        'Effect="%{lvl}d4 HP" ' +
+        'Range="%{lvl}\' sq"',
       'Guards And Wards':
         'Level=W6 ' +
         'Effect="400\' sq"',
@@ -1754,8 +1758,8 @@ OldSchool.RULE_EDITS = {
         'Level=P4',
       'Hallucinatory Terrain':
         'Level=W4 ' +
-        'Duration="for $L hr (Save disbelieve)" ' +
-        'Effect="$L30\' cu"',
+        'Duration="for %{lvl} hr (Save disbelieve)" ' +
+        'Effect="%{lvl*30}\' cu"',
       'Haste':
         'Level=W3',
       'Heal':
@@ -1774,7 +1778,7 @@ OldSchool.RULE_EDITS = {
         'Level=P4',
       'Hold Portal':
         'Level=W1 ' +
-        'Effect="$L20\' sq"',
+        'Effect="%{lvl*20}\' sq"',
       'Holy Word':
         'Level=P7',
       'Hypnotic Pattern':
@@ -1787,20 +1791,20 @@ OldSchool.RULE_EDITS = {
       'Identify':
         'Level=W1 ' +
         'School="Lesser Divination" ' +
-        'Effect="$L10%"',
+        'Effect="%{lvl*10}%"',
       'Illusionary Script':
         'Level=W3 ' +
-        'Description="Obscured writing transmits <i>Suggestion</i> (Save neg) to unauthorized readers for $L dy"',
+        'Description="Obscured writing transmits <i>Suggestion</i> (Save neg) to unauthorized readers for %{lvl} dy"',
       'Imprisonment':
         'Level=W9',
       'Improved Invisibility':
         'Level=W4',
       'Improved Phantasmal Force':
         'Level=W2 ' +
-        'Effect="$L50plus200\' sq"',
+        'Effect="%{lvl*50+200}\' sq"',
       'Incendiary Cloud':
         'Level=W8 ' +
-        'Effect="${lvl}d2, ${lvl}d4, ${lvl}d2 HP"',
+        'Effect="%{lvl}d2, %{lvl}d4, %{lvl}d2 HP"',
       'Infravision':
         'Level=W3',
       'Insect Plague':
@@ -1812,12 +1816,12 @@ OldSchool.RULE_EDITS = {
         'Level=W3',
       'Invisibility To Animals':
         'Level=P1 ' +
-        'Effect="$L touched"',
+        'Effect="%{lvl} touched"',
       'Invisible Stalker':
         'Level=W6',
       'Jump':
         'Level=W1 ' +
-        'Duration="for $L+1d3 rd"',
+        'Duration="for %{lvl}+1d3 rd"',
       'Knock':
         'Level=W2 ' +
         'Description="R60\' Opens stuck or locked item (rev locks)"',
@@ -1834,7 +1838,7 @@ OldSchool.RULE_EDITS = {
         'Level=W5',
       "Leomund's Tiny Hut":
         'Level=W3 ' +
-        'Duration="$Lplus4 hr" ' +
+        'Duration="%{lvl+4} hr" ' +
         'Range="7.5\' radius"',
       "Leomund's Trap":
         'Level=W2',
@@ -1842,11 +1846,11 @@ OldSchool.RULE_EDITS = {
         'Level=W2',
       'Lightning Bolt':
         'Level=W3 ' +
-        'Effect="${Lmin10}d6"',
+        'Effect="%{lvl<?10}d6"',
       'Light':
         'Level=P1,W1',
       'Light P1':
-        'Duration="$Lplus6 tn" ' +
+        'Duration="%{lvl+6} tn" ' +
         'Range="120\'"',
       'Limited Wish':
         'Level=W7',
@@ -1854,14 +1858,14 @@ OldSchool.RULE_EDITS = {
         'Level=P3,W2 ' +
         'School="Lesser Divination"',
       'Locate Object P3':
-        'Range="$L10plus60\'"',
+        'Range="%{lvl*10+60}\'"',
       'Lower Water':
         'Level=P4,W6 ' +
-        'Description="R$R $L10\' sq fluid subsides by $L2\' for $D (rev raises)" ' +
-        'Duration="$L5 rd" ' +
+        'Description="R$R %{lvl*10}\' sq fluid subsides by %{lvl*2}\' for $D (rev raises)" ' +
+        'Duration="%{lvl*5} rd" ' +
         'Range="80\'"',
       'Lower Water P4':
-        'Duration="$L tn" ' +
+        'Duration="%{lvl} tn" ' +
         'Range="120\'"',
       'Magic Jar':
         'School=Necromancy ' +
@@ -1892,7 +1896,7 @@ OldSchool.RULE_EDITS = {
       'Message':
         'Level=W1 ' +
         'Description="Self has long-range whispered dialogues for $D" ' +
-        'Duration="$L5 rd"',
+        'Duration="%{lvl*5} rd"',
       'Meteor Swarm':
         'Level=W9',
       'Mind Blank':
@@ -1928,7 +1932,7 @@ OldSchool.RULE_EDITS = {
         'Level=W9',
       "Mordenkainen's Faithful Hound":
         'Level=W5 ' +
-        'Duration="$L3plus6 tn"',
+        'Duration="%{lvl*3+6} tn"',
       "Mordenkainen's Sword":
         'Level=W7',
       'Move Earth':
@@ -1948,8 +1952,8 @@ OldSchool.RULE_EDITS = {
       'Part Water':
         'Level=P6,W6',
       'Part Water P6':
-        'Duration="$L tn" ' +
-        'Range="$L20\'"',
+        'Duration="%{lvl} tn" ' +
+        'Range="%{lvl*20}\'"',
       'Pass Plant':
         'Level=P5',
       'Pass Without Trace':
@@ -1960,7 +1964,7 @@ OldSchool.RULE_EDITS = {
         'Level=W8',
       'Permanent Illusion':
         'Level=W6 ' +
-        'Effect="$L10plus20\' cu"',
+        'Effect="%{lvl*10+20}\' cu"',
       'Phase Door':
         'Level=W7',
       'Phantasmal Force':
@@ -1975,7 +1979,7 @@ OldSchool.RULE_EDITS = {
       'Plant Growth':
         'Level=P3,W4',
       'Plant Growth P3':
-        'Effect="$L20\' sq" ' +
+        'Effect="%{lvl*20}\' sq" ' +
         'Range="160\'"',
       'Polymorph Any Object':
         'Level=W8',
@@ -2005,20 +2009,20 @@ OldSchool.RULE_EDITS = {
         'Effect="12\' sq"',
       'Produce Flame':
         'Level=P2 ' +
-        'Duration="$L rd"',
+        'Duration="%{lvl} rd"',
       'Programmed Illusion':
         'Level=W6 ' +
-        'Effect="$L10plus20\' cu"',
+        'Effect="%{lvl*10+20}\' cu"',
       'Project Image':
         'Level=W6',
       'Protection From Evil':
         'Level=P1,W1',
       'Protection From Evil P1':
-        'Duration="$L3 rd"',
+        'Duration="%{lvl*3} rd"',
       "Protection From Evil 10' Radius":
         'Level=P4,W3',
       "Protection From Evil 10' Radius P4":
-        'Duration="$L tn"',
+        'Duration="%{lvl} tn"',
       'Protection From Fire':
         'Level=P3',
       'Protection From Lightning':
@@ -2039,7 +2043,7 @@ OldSchool.RULE_EDITS = {
         'Level=W4',
       'Ray Of Enfeeblement':
         'Level=W2 ' +
-        'Range="$L5plus10\'"',
+        'Range="%{lvl*5+10}\'"',
       'Read Magic':
         'Level=W1 ' +
         'School="Lesser Divination"',
@@ -2053,7 +2057,7 @@ OldSchool.RULE_EDITS = {
         'Level=P3,W4',
       'Remove Fear':
         'Level=P1 ' +
-        'Effect="R10\' $Ldiv4plus1 targets"',
+        'Effect="R10\' %{lvl//4+1} targets"',
       'Repel Insects':
         'Level=P4',
       'Repulsion':
@@ -2074,33 +2078,33 @@ OldSchool.RULE_EDITS = {
         'Effect="8"',
       'Scare':
         'Level=W2 ' +
-        'Duration="1d4 + $L rd" ' +
-        'Range="$L10plus30\'"',
+        'Duration="1d4 + %{lvl} rd" ' +
+        'Range="%{lvl*10+30}\'"',
       'Sanctuary':
         'Level=P1 ' +
         'Effect="touched"',
       "Serten's Spell Immunity":
         'Level=W8 ' +
-        'Description="Touched immune to specified spell for $L tn"',
+        'Description="Touched immune to specified spell for %{lvl} tn"',
       'Shades':
         'Level=W6',
       'Shadow Door':
         'Level=W5',
       'Shadow Magic':
         'Level=W5 ' +
-        'Description="R$L10plus50\' Mimics spell level 1 - 3"',
+        'Description="R%{lvl*10+50}\' Mimics spell level 1 - 3"',
       'Shadow Monsters':
         'Level=W4',
       'Shape Change':
         'Level=W9',
       'Shatter':
         'Level=W2 ' +
-        'Range="$L10plus30\'"',
+        'Range="%{lvl*10+30}\'"',
       'Shield':
         'Level=W1',
       'Shillelagh':
         'Level=P1 ' +
-        'Duration="$Lplus4 rd"',
+        'Duration="%{lvl+4} rd"',
       'Shocking Grasp':
         'Level=W1',
       "Silence 15' Radius":
@@ -2124,30 +2128,30 @@ OldSchool.RULE_EDITS = {
         'Level=P3',
       'Speak With Monsters':
         'Level=P6 ' +
-        'Duration="$L2 rd"',
+        'Duration="%{lvl*2} rd"',
       'Speak With Plants':
         'Level=P4',
       'Spectral Force':
         'Level=W3 ' +
-        'Range="$Lplus60\'"',
+        'Range="%{lvl+60}\'"',
       'Spider Climb':
         'Level=W1 ' +
-        'Duration="$Lplus3 rd"',
+        'Duration="%{lvl+3} rd"',
       'Spiritual Hammer':
         'Level=P2 ' +
-        'Duration="$Lplus3 rd" ' +
-        'Range="$L10\'"',
+        'Duration="%{lvl+3} rd" ' +
+        'Range="%{lvl*10}\'"',
       'Statue':
         'Level=W7',
       'Sticks To Snakes':
         'Level=P4 ' +
-        'Effect="1d4 + $L sticks in 10\' cu"',
+        'Effect="1d4 + %{lvl} sticks in 10\' cu"',
       'Stinking Cloud':
         'Level=W2',
       'Stone Shape':
         'Level=P3,W5',
       'Stone Shape P3':
-        'Effect="$Lplus3\' cu"',
+        'Effect="%{lvl+3}\' cu"',
       'Stone Tell':
         'Level=P6 ' +
         'School="Greater Divination"',
@@ -2161,11 +2165,11 @@ OldSchool.RULE_EDITS = {
         'Level=P3',
       'Summon Shadow':
         'Level=W5 ' +
-        'Effect="$Ldiv3"',
+        'Effect="%{lvl//3}"',
       'Symbol':
         'Level=P7,W8',
       'Symbol P7':
-        'Description="Glowing symbol causes hopelessness, pain, or persuasion for $L tn"',
+        'Description="Glowing symbol causes hopelessness, pain, or persuasion for %{lvl} tn"',
       'Telekinesis':
         'Level=W5',
       'Teleport':
@@ -2188,7 +2192,7 @@ OldSchool.RULE_EDITS = {
         'Level=W8',
       'Transmute Metal To Wood':
         'Level=P7 ' +
-        'Effect="$L10 lb"',
+        'Effect="%{lvl*10} lb"',
       'Transmute Rock To Mud':
         'Level=P5,W5',
       'Transmute Rock To Mud P5':
@@ -2210,7 +2214,7 @@ OldSchool.RULE_EDITS = {
         'Range="40\'"',
       'Turn Wood':
         'Level=P6 ' +
-        'Duration="$L rd"',
+        'Duration="%{lvl} rd"',
       'Unseen Servant':
         'Level=W1',
       'Vanish':
@@ -2224,21 +2228,21 @@ OldSchool.RULE_EDITS = {
         'School="Greater Divination"',
       'Wall Of Thorns':
         'Level=P6 ' +
-        'Effect="$L10\' cu"',
+        'Effect="%{lvl*10}\' cu"',
       'Water Breathing':
         'Level=P3,W3 ' +
-        'Duration="1d4 + $L hr"',
+        'Duration="1d4 + %{lvl} hr"',
       'Water Breathing P3':
-        'Duration="$L hr"',
+        'Duration="%{lvl} hr"',
       'Wall Of Fire':
         'Level=P5,W4 ' +
-        'Range="R60\' $L20\' sq wall or $L5div2plus10\' radius circle"',
+        'Range="R60\' %{lvl*20}\' sq wall or %{lvl*5//2+10}\' radius circle"',
       'Wall Of Fog':
         'Level=W1 ' +
-        'Effect="$L10plus20\' cu"',
+        'Effect="%{lvl*10+20}\' cu"',
       'Wall Of Force':
         'Level=W5 ' +
-        'Effect="$L10\' sq"',
+        'Effect="%{lvl*10}\' sq"',
       'Wall Of Ice':
         'Level=W4',
       'Wall Of Iron':
@@ -2269,15 +2273,15 @@ OldSchool.RULE_EDITS = {
       'Advanced Illusion':
         'Level=W5 ' +
         'School=Illusion ' +
-        'Description="R$L10plus60\' Creates $L10plus40\' sq sight, sound, smell, and temperature moving illusion for $L rd (Save disbelieve)"',
+        'Description="R%{lvl*10+60}\' Creates %{lvl*10+40}\' sq sight, sound, smell, and temperature moving illusion for %{lvl} rd (Save disbelieve)"',
       'Aid':
         'Level=P2 ' +
         'School=Necromancy ' +
-        'Description="Touched gains +1 attack and damage and +1d8 temporary HP for $Lplus1 rd"',
+        'Description="Touched gains +1 attack and damage and +1d8 temporary HP for %{lvl+1} rd"',
       'Air Walk':
         'Level=P5 ' +
         'School=Alteration ' +
-        'Description="Touched walks on air for $Lplus6 tn"',
+        'Description="Touched walks on air for %{lvl+6} tn"',
       'Alarm':
         'Level=W1 ' +
         'School=Abjuration ' +
@@ -2285,11 +2289,11 @@ OldSchool.RULE_EDITS = {
       'Alter Self':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="Self takes on different humanoid form for 3d4 + $L2 rd"',
+        'Description="Self takes on different humanoid form for 3d4 + %{lvl*2} rd"',
       'Armor':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="Touched gains AC 6 for $Lplus8 HP"',
+        'Description="Touched gains AC 6 for %{lvl+8} HP"',
       'Avoidance':
         'Level=W5 ' +
         'School=Abjuration ' +
@@ -2297,11 +2301,11 @@ OldSchool.RULE_EDITS = {
       'Banishment':
         'Level=W7 ' +
         'School=Abjuration ' +
-        'Description="R20\' $L2 HD extraplanar creatures banished from plane (Save neg)"',
+        'Description="R20\' %{lvl*2} HD extraplanar creatures banished from plane (Save neg)"',
       'Bind':
         'Level=W2 ' +
         'School=Enchantment ' +
-        'Description="R30\' $L5plus50\' rope-like item entangles or trips target (Save neg) for $L rd"',
+        'Description="R30\' %{lvl*5+50}\' rope-like item entangles or trips target (Save neg) for %{lvl} rd"',
       'Binding':
         'Level=W8 ' +
         'School=Enchantment ' +
@@ -2309,7 +2313,7 @@ OldSchool.RULE_EDITS = {
       'Cantrip':
         'Level=W1 ' +
         'School=All ' +
-        'Description="R10\' Self performs minor magical effects for $L hr"',
+        'Description="R10\' Self performs minor magical effects for %{lvl} hr"',
       'Changestaff':
         'Level=P7 ' +
         'School=Evocation ' +
@@ -2317,11 +2321,11 @@ OldSchool.RULE_EDITS = {
       'Chain Lightning':
         'Level=W6 ' +
         'School=Evocation ' +
-        'Description="R$L5plus40\' Bolt inflicts ${Lmin12}d6 HP down to 1d6 HP on $L targets (Save half)"',
+        'Description="R%{lvl*5+40}\' Bolt inflicts %{lvl<?12}d6 HP down to 1d6 HP on %{lvl} targets (Save half)"',
       'Chill Touch':
         'Level=W1 ' +
         'School=Necromancy ' +
-        'Description="Touched living suffer 1d4 HP and -1 Str (Save neg) or undead flee for 1d4 + $L rd for $Lplus3 rd"',
+        'Description="Touched living suffer 1d4 HP and -1 Str (Save neg) or undead flee for 1d4 + %{lvl} rd for %{lvl+3} rd"',
       'Cloak Of Bravery':
         'Level=P4 ' +
         'School=Conjuration ' +
@@ -2337,15 +2341,15 @@ OldSchool.RULE_EDITS = {
       'Contingency':
         'Level=W6 ' +
         'School=Evocation ' +
-        'Description="Sets trigger for level $Ldiv3min6 self spell for $L dy"',
+        'Description="Sets trigger for level %{lvl//3<?6} self spell for %{lvl} dy"',
       'Control Undead':
         'Level=W7 ' +
         'School=Necromancy ' +
-        'Description="R20\' 1d6 undead totaling $L HD obey self for 3d4 + $L rd (Save 3 HD neg)"',
+        'Description="R20\' 1d6 undead totaling %{lvl} HD obey self for 3d4 + %{lvl} rd (Save 3 HD neg)"',
       'Crystalbrittle':
         'Level=W9 ' +
         'School=Alteration ' +
-        'Description="Touched $L2\' cu metal becomes fragile"',
+        'Description="Touched %{lvl*2}\' cu metal becomes fragile"',
       'Cure Blindness Or Deafness':
         'Level=P3 ' +
         'School=Abjuration ' +
@@ -2357,7 +2361,7 @@ OldSchool.RULE_EDITS = {
       'Deeppockets':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="Touched garment carries 100 lbs comfortably for $Lplus12 hr"',
+        'Description="Touched garment carries 100 lbs comfortably for %{lvl+12} hr"',
       'Delude':
         'Level=W3 ' +
         'School=Alteration ' +
@@ -2369,15 +2373,15 @@ OldSchool.RULE_EDITS = {
       'Detect Poison':
         'Level=P1 ' +
         'School="Lesser Divination" ' +
-        'Description="Self detects poison in 1 target/rd, $L5% to know type, for $Lplus10 rd"',
+        'Description="Self detects poison in 1 target/rd, %{lvl*5}% to know type, for %{lvl+10} rd"',
       'Detect Scrying':
         'Level=W4 ' +
         'School="Lesser Divination" ' +
-        'Description="R120\' Self discerns scrying for 1d6 + $L tn"',
+        'Description="R120\' Self discerns scrying for 1d6 + %{lvl} tn"',
       'Detect Undead':
         'Level=W1 ' +
         'School="Lesser Divination" ' +
-        'Description="60\'x$L10\' area gives self info on undead for 3 tn"',
+        'Description="60\'x%{lvl*10}\' area gives self info on undead for 3 tn"',
       'Dismissal':
         'Level=W5 ' +
         'School=Abjuration ' +
@@ -2385,7 +2389,7 @@ OldSchool.RULE_EDITS = {
       'Domination':
         'Level=W5 ' +
         'School=Enchantment ' +
-        'Description="R$L10\' Target obeys self thoughts until save"',
+        'Description="R%{lvl*10}\' Target obeys self thoughts until save"',
       'Dream':
         'Level=W5 ' +
         'School=Illusion ' +
@@ -2393,7 +2397,7 @@ OldSchool.RULE_EDITS = {
       'Dust Devil':
         'Level=P2 ' +
         'School=Conjuration ' +
-        'Description="R30\' Creates minor air elemental (AC 4, 2 HD, inflicts 1d4 HP) that attacks for $L2 rd"',
+        'Description="R30\' Creates minor air elemental (AC 4, 2 HD, inflicts 1d4 HP) that attacks for %{lvl*2} rd"',
       'Endure Cold':
         'Level=P1 ' +
         'School=Alteration ' +
@@ -2409,7 +2413,7 @@ OldSchool.RULE_EDITS = {
       'Enervation':
         'Level=W4 ' +
         'School=Necromancy ' +
-        'Description="R$L10\' Target suffers -$Ldiv4 levels for 1d4 + $L hr (Save neg)"',
+        'Description="R%{lvl*10}\' Target suffers -%{lvl//4} levels for 1d4 + %{lvl} hr (Save neg)"',
       'Ensnarement':
         'Level=W6 ' +
         'School=Conjuration ' +
@@ -2429,67 +2433,67 @@ OldSchool.RULE_EDITS = {
       'Eyebite':
         'Level=W6 ' +
         'School=Enchantment ' +
-        'Description="R20\' Self gains charm, fear, sicken, or sleep gaze attack for $Ldiv3 rd"',
+        'Description="R20\' Self gains charm, fear, sicken, or sleep gaze attack for %{lvl//3} rd"',
       'Fabricate':
         'Level=W5 ' +
         'School=Enchantment ' +
-        'Description="R$L5\' Creates $L3\' cu of finished items from raw materials"',
+        'Description="R%{lvl*5}\' Creates %{lvl*3}\' cu of finished items from raw materials"',
       'False Vision':
         'Level=W5 ' +
         'School="Greater Divination" ' +
-        'Description="Scrying of 30\' radius shows illusion for 1d4 + $L rd"',
+        'Description="Scrying of 30\' radius shows illusion for 1d4 + %{lvl} rd"',
       'Flame Blade':
         'Level=P2 ' +
         'School=Evocation ' +
-        'Description="Self wields flaming scimitar (inflicts 1d4+4 HP, +2 vs. vulnerable or undead) for $Ldiv2plus4 rd"',
+        'Description="Self wields flaming scimitar (inflicts 1d4+4 HP, +2 vs. vulnerable or undead) for %{lvl//2+4} rd"',
       'Flame Walk':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="$Ldiv5plus1 touched gain immunity to non-magical fire and +2 saves and half dmg from magical fire for $Lplus1 rd"',
+        'Description="%{lvl//5+1} touched gain immunity to non-magical fire and +2 saves and half dmg from magical fire for %{lvl+1} rd"',
       'Flaming Sphere':
         'Level=W2 ' +
         'School=Evocation ' +
-        'Description="R10\' 3\' radius sphere inflicts 2d4 HP (Save neg), moves 30\'/rd, for $L rd"',
+        'Description="R10\' 3\' radius sphere inflicts 2d4 HP (Save neg), moves 30\'/rd, for %{lvl} rd"',
       'Forbiddance':
         'Level=P6 ' +
         'School=Abjuration ' +
-        'Description="R30\' $L60\' cu limits magical entry based on alignment and password"',
+        'Description="R30\' %{lvl*60}\' cu limits magical entry based on alignment and password"',
       'Forcecage':
         'Level=W7 ' +
         'School=Evocation ' +
-        'Description="R$L5\' Creates 20\' cu of 1/2\\"-spaced bars for $Lplus6 tn"',
+        'Description="R%{lvl*5}\' Creates 20\' cu of 1/2\\"-spaced bars for %{lvl+6} tn"',
       'Foresight':
         'Level=W9 ' +
         'School="Greater Divination" ' +
-        'Description="Self receives advance warning of harm to self or another for 2d4 + $L rd"',
+        'Description="Self receives advance warning of harm to self or another for 2d4 + %{lvl} rd"',
       'Free Action':
         'Level=P4 ' +
         'School=Abjuration ' +
-        'Description="Touched moves freely for $L tn"',
+        'Description="Touched moves freely for %{lvl} tn"',
       'Giant Insect':
         'Level=P4 ' +
         'School=Alteration ' +
-        'Description="R20\' 1 - 6 insects become ${lvl<10?3:lvl<13?4:6} HD giant versions"',
+        'Description="R20\' 1 - 6 insects become %{lvl<10?3:lvl<13?4:6} HD giant versions"',
       'Glitterdust':
         'Level=W2 ' +
         'School=Conjuration ' +
-        'Description="R10\' Creatures in 20\' cu lit and blind for 1d4 + 1 rd (Save neg) for 1d4 + $L rd"',
+        'Description="R10\' Creatures in 20\' cu lit and blind for 1d4 + 1 rd (Save neg) for 1d4 + %{lvl} rd"',
       'Grease':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="R10\' 10\' sq becomes slippery, causing falls (Save neg) for $Lplus3 rd"',
+        'Description="R10\' 10\' sq becomes slippery, causing falls (Save neg) for %{lvl+3} rd"',
       'Goodberry':
         'Level=P2 ' +
         'School=Alteration ' +
-        'Description="2d4 berries provide full meal and heal 1 HP (Reverse 1 HP poison) for $Lplus1 day"',
+        'Description="2d4 berries provide full meal and heal 1 HP (Reverse 1 HP poison) for %{lvl+1} day"',
       "Heroes' Feast":
         'Level=P6 ' +
         'School=Evocation ' +
-        'Description="R10\' Food for $L creatures cures disease, heals 1d4+4 HP, gives +1 attack and immunity to poison and fear for 12 hr"',
+        'Description="R10\' Food for %{lvl} creatures cures disease, heals 1d4+4 HP, gives +1 attack and immunity to poison and fear for 12 hr"',
       'Hold Undead':
         'Level=W3 ' +
         'School=Necromancy ' +
-        'Description="R60\' Immobilizes 1 - 3 targets (Save neg) totaling $L HD for 1d4 + $L rd"',
+        'Description="R60\' Immobilizes 1 - 3 targets (Save neg) totaling %{lvl} HD for 1d4 + %{lvl} rd"',
       'Illusionary Wall':
         'Level=W4 ' +
         'School=Illusion ' +
@@ -2505,11 +2509,11 @@ OldSchool.RULE_EDITS = {
       'Irritation':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="R$L10\' 1 - 4 targets in 15\' radius itch (+4 AC, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
+        'Description="R%{lvl*10}\' 1 - 4 targets in 15\' radius itch (+4 AC, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
       'Item':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Shrinks touched $L2\' cu item to 1/12 size cloth for $L4 hr"',
+        'Description="Shrinks touched %{lvl*2}\' cu item to 1/12 size cloth for %{lvl*4} hr"',
       "Leomund's Lamentable Belaborment":
         'Level=W5 ' +
         'School=Enchantment ' +
@@ -2517,15 +2521,15 @@ OldSchool.RULE_EDITS = {
       "Leomund's Secure Shelter":
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R20\' Creates $L30\' sq shelter that lasts 1d4 + $Lplus1 hr"',
+        'Description="R20\' Creates %{lvl*30}\' sq shelter that lasts 1d4 + %{lvl+1} hr"',
       'Liveoak':
         'Level=P6 ' +
         'School=Enchantment ' +
-        'Description="Oak tree guards (S 7 - 8 HD, 2d8 dmg; M 9 - 10 HD, 3d6 dmg; L 11 - 12 HD, 4d6 dmg) based on $L-word command for $L dy"',
+        'Description="Oak tree guards (S 7 - 8 HD, 2d8 dmg; M 9 - 10 HD, 3d6 dmg; L 11 - 12 HD, 4d6 dmg) based on %{lvl}-word command for %{lvl} dy"',
       'Locate Animals Or Plants':
         'Level=P1 ' +
         'School="Lesser Divination" ' +
-        'Description="R$L20plus100\' Self discerns presence of animal or plant type in 20\' path for $L rd"',
+        'Description="R%{lvl*20+100}\' Self discerns presence of animal or plant type in 20\' path for %{lvl} rd"',
       "Mordenkainen's Lucubration":
         'Level=W6 ' +
         'School=Alteration ' +
@@ -2537,7 +2541,7 @@ OldSchool.RULE_EDITS = {
       'Magic Mirror':
         'Level=W4 ' +
         'School=Enchantment ' +
-        'Description="Touched mirror becomes scrying device for $L rd"',
+        'Description="Touched mirror becomes scrying device for %{lvl} rd"',
       'Magical Stone':
         'Level=P1 ' +
         'School=Enchantment ' +
@@ -2545,7 +2549,7 @@ OldSchool.RULE_EDITS = {
       'Magical Vestment':
         'Level=P3 ' +
         'School=Enchantment ' +
-        'Description="Touched vestment gives AC ${7-(lvl+1)//3} for $L5 rd"',
+        'Description="Touched vestment gives AC %{7-(lvl+1)//3} for %{lvl*5} rd"',
       'Meld Into Stone':
         'Level=P3 ' +
         'School=Alteration ' +
@@ -2553,39 +2557,39 @@ OldSchool.RULE_EDITS = {
       "Melf's Acid Arrow":
         'Level=W2 ' +
         'School=Conjuration ' +
-        'Description="R180\' Inflicts 2d4 HP/rd for $Ldiv3plus1 rd"',
+        'Description="R180\' Inflicts 2d4 HP/rd for %{lvl//3+1} rd"',
       "Melf's Minute Meteors":
         'Level=W3 ' +
         'School=Evocation ' +
-        'Description="R$L10plus70\' $L +2 ranged globes inflict 1d4 HP"',
+        'Description="R%{lvl*10+70}\' %{lvl} +2 ranged globes inflict 1d4 HP"',
       'Messenger':
         'Level=P2 ' +
         'School=Enchantment ' +
-        'Description="R$L20\' Tiny animal target goes to specified place for $L dy"',
+        'Description="R%{lvl*20}\' Tiny animal target goes to specified place for %{lvl} dy"',
       'Mirage Arcana':
         'Level=W6 ' +
         'School=Illusion ' +
-        'Description="R$L10\' Creates $L10\' radius terrain or structure illusion for conc + $Lplus6 tn"',
+        'Description="R%{lvl*10}\' Creates %{lvl*10}\' radius terrain or structure illusion for conc + %{lvl+6} tn"',
       'Mislead':
         'Level=W6 ' +
         'School=Illusion ' +
-        'Description="R10\' Makes self invisible for $L rd and creates false double for $L rd"',
+        'Description="R10\' Makes self invisible for %{lvl} rd and creates false double for %{lvl} rd"',
       'Moonbeam':
         'Level=P5 ' +
         'School=Evocation ' +
-        'Description="R$L10plus60\' 5\' radius shines with moonlight for $L rd"',
+        'Description="R%{lvl*10+60}\' 5\' radius shines with moonlight for %{lvl} rd"',
       "Mordenkainen's Disjunction":
         'Level=W9 ' +
         'School=Alteration ' +
-        'Description="30\' radius dispels spells, disenchants magic items, $L% chance to disenchant artifacts or destroy antimagic field"',
+        'Description="30\' radius dispels spells, disenchants magic items, %{lvl}% chance to disenchant artifacts or destroy antimagic field"',
       "Mordenkainen's Magnificent Mansion":
         'Level=W7 ' +
         'School=Alteration ' +
-        'Description="R10\' Creates door to extradimensional mansion for $L hr"',
+        'Description="R10\' Creates door to extradimensional mansion for %{lvl} hr"',
       'Mount':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="R10\' Summons riding horse for $Lplus2 hr"',
+        'Description="R10\' Summons riding horse for %{lvl+2} hr"',
       'Negative Plane Protection':
         'Level=P3 ' +
         'School=Abjuration ' +
@@ -2593,23 +2597,23 @@ OldSchool.RULE_EDITS = {
       "Otiluke's Resilient Sphere":
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R20\' Impassible $L\'-diameter sphere surrounds target for $L rd (Save neg)"',
+        'Description="R20\' Impassible %{lvl}\'-diameter sphere surrounds target for %{lvl} rd (Save neg)"',
       "Otiluke's Telekinetic Sphere":
         'Level=W8 ' +
         'School=Evocation ' +
-        'Description="R20\' Impassible $L\'-diameter sphere surrounds target and causes weightlessness for $L2 rd (Save neg)"',
+        'Description="R20\' Impassible %{lvl}\'-diameter sphere surrounds target and causes weightlessness for %{lvl*2} rd (Save neg)"',
       'Phantom Steed':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="Creates mount ($Lplus7 HP, AC 2, MV $L4min48\') that only touched can ride for $L hr"',
+        'Description="Creates mount (%{lvl+7} HP, AC 2, MV %{lvl*4<?48}\') that only touched can ride for %{lvl} hr"',
       'Protection From Cantrips':
         'Level=W2 ' +
         'School=Abjuration ' +
-        'Description="Touched gains immunity to cantrips for $Lplus5 hr"',
+        'Description="Touched gains immunity to cantrips for %{lvl+5} hr"',
       'Rainbow':
         'Level=P5 ' +
         'School=Evocation ' +
-        'Description="R120\' Creates magical +2 bow or 1x120 yd bridge for $L rd"',
+        'Description="R120\' Creates magical +2 bow or 1x120 yd bridge for %{lvl} rd"',
       'Rainbow Pattern':
         'Level=W4 ' +
         'School=Alteration ' +
@@ -2617,15 +2621,15 @@ OldSchool.RULE_EDITS = {
       'Reflecting Pool':
         'Level=P4 ' +
         'School="Lesser Divination" ' +
-        'Description="R10\' Self uses pool to scry for $L rd"',
+        'Description="R10\' Self uses pool to scry for %{lvl} rd"',
       'Remove Paralysis':
         'Level=P3 ' +
         'School=Abjuration ' +
-        'Description="R$L10\' Gives extra save to 1d4 paralyzed targets in 20\' cu"',
+        'Description="R%{lvl*10}\' Gives extra save to 1d4 paralyzed targets in 20\' cu"',
       'Screen':
         'Level=W8 ' +
         'School="Greater Divination" ' +
-        'Description="Illusion hides 30\' cu from vision and scrying for $L hr"',
+        'Description="Illusion hides 30\' cu from vision and scrying for %{lvl} hr"',
       'Secret Page':
         'Level=W3 ' +
         'School=Alteration ' +
@@ -2633,7 +2637,7 @@ OldSchool.RULE_EDITS = {
       'Seeming':
         'Level=W5 ' +
         'School=Illusion ' +
-        'Description="R10\' Appearance of $Ldiv2 targets changes for 12 hr"',
+        'Description="R10\' Appearance of %{lvl//2} targets changes for 12 hr"',
       'Sending':
         'Level=W5 ' +
         'School=Evocation ' +
@@ -2641,15 +2645,15 @@ OldSchool.RULE_EDITS = {
       'Sepia Snake Sigil':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="Safely immobilizes reader for 1d4 + $L dy"',
+        'Description="Safely immobilizes reader for 1d4 + %{lvl} dy"',
       'Sequester':
         'Level=W7 ' +
         'School=Illusion ' +
-        'Description="Touched becomes invisible and unscryable for $Lplus7 dy (Save neg)"',
+        'Description="Touched becomes invisible and unscryable for %{lvl+7} dy (Save neg)"',
       'Shadow Walk':
         'Level=W7 ' +
         'School=Illusion ' +
-        'Description="Self and touched move 7 miles/tn via Demiplane of Shadow for $L hr"',
+        'Description="Self and touched move 7 miles/tn via Demiplane of Shadow for %{lvl} hr"',
       'Shout':
         'Level=W4 ' +
         'School=Evocation ' +
@@ -2657,31 +2661,31 @@ OldSchool.RULE_EDITS = {
       'Sink':
         'Level=W8 ' +
         'School=Enchantment ' +
-        'Description="R$L10\' Target becomes embedded in floor (Save neg)"',
+        'Description="R%{lvl*10}\' Target becomes embedded in floor (Save neg)"',
       'Solid Fog':
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="R30\' Fog in $L10\' cu slows and reduces vision to 2\' for 2d4 + $L rd"',
+        'Description="R30\' Fog in %{lvl*10}\' cu slows and reduces vision to 2\' for 2d4 + %{lvl} rd"',
       'Spell Immunity':
         'School=Abjuration ' +
         'Level=P4 ' +
-        'Description="Touched gains immunity to specified spell for $L tn"',
+        'Description="Touched gains immunity to specified spell for %{lvl} tn"',
       'Spike Growth':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="R60\' Spikes on vegetation in $L10\' sq inflict 2d4 HP each 10\' movement and slow to half speed for 1 dy (Save neg) for 3d4 + $L tn"',
+        'Description="R60\' Spikes on vegetation in %{lvl*10}\' sq inflict 2d4 HP each 10\' movement and slow to half speed for 1 dy (Save neg) for 3d4 + %{lvl} tn"',
       'Spike Stones':
         'Level=P5 ' +
         'School=Alteration ' +
-        'Description="R30\' Sharp stones in $L10\' sq inflict 1d4 HP/rd for 3d4 + $L tn"',
+        'Description="R30\' Sharp stones in %{lvl*10}\' sq inflict 1d4 HP/rd for 3d4 + %{lvl} tn"',
       'Spectral Hand':
         'Level=W2 ' +
         'School=Necromancy ' +
-        'Description="R$L5plus30 Glowing hand delivers +2 touch attacks for $L2 rd"',
+        'Description="R%{lvl*5+30} Glowing hand delivers +2 touch attacks for %{lvl*2} rd"',
       'Spell Turning':
         'Level=W7 ' +
         'School=Abjuration ' +
-        'Description="Non-area, non-touch spells aimed at self reflect onto caster for $L3 rd"',
+        'Description="Non-area, non-touch spells aimed at self reflect onto caster for %{lvl*3} rd"',
       'Spook':
         'Level=W1 ' +
         'School=Illusion ' +
@@ -2689,11 +2693,11 @@ OldSchool.RULE_EDITS = {
       'Starshine':
         'Level=P3 ' +
         'School=Evocation ' +
-        'Description="R$L10\' Creates soft illumination in $L10\' sq for $L tn"',
+        'Description="R%{lvl*10}\' Creates soft illumination in %{lvl*10}\' sq for %{lvl} tn"',
       'Stoneskin':
         'Level=W4 ' +
         'School=Alteration ' +
-        'Description="Touched gains immunity to next 1d4 + $Ldiv2 blows"',
+        'Description="Touched gains immunity to next 1d4 + %{lvl//2} blows"',
       'Succor':
         'Level=P7,W9 ' +
         'School=Alteration ' +
@@ -2705,11 +2709,11 @@ OldSchool.RULE_EDITS = {
       'Sunray':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="R$L10\' 5\' radius blinds 1d3 rd and inflicts 8d6 HP on undead (3d6 within 20\') for 2 - 5 rd"',
+        'Description="R%{lvl*10}\' 5\' radius blinds 1d3 rd and inflicts 8d6 HP on undead (3d6 within 20\') for 2 - 5 rd"',
       "Tasha's Uncontrollable Hideous Laughter":
         'Level=W2 ' +
         'School=Enchantment ' +
-        'Description="R60\' $Ldiv3 targets in 30\' cu suffer -2 attack and damage for $L rd"',
+        'Description="R60\' %{lvl//3} targets in 30\' cu suffer -2 attack and damage for %{lvl} rd"',
       'Taunt':
         'Level=W1 ' +
         'School=Enchantment ' +
@@ -2717,26 +2721,26 @@ OldSchool.RULE_EDITS = {
       'Teleport Without Error':
         'Level=W7 ' +
         'School=Alteration ' +
-        'Description="Instantly transports self + ${250+((lvl-10)>?0)*150} lb to known location"',
+        'Description="Instantly transports self + %{250+((lvl-10)>?0)*150} lb to known location"',
       'Transmute Water To Dust':
         'Level=W6,P6 ' +
         'School=Alteration ' +
         'Description="R60\' $E water becomes powder" ' +
-        'Effect="$L10\' cu"',
+        'Effect="%{lvl*10}\' cu"',
       'Transmute Water To Dust P6':
-        'Effect="$L3\' cu"',
+        'Effect="%{lvl*3}\' cu"',
       'Vacancy':
         'Level=W4 ' +
         'School=Illusion ' +
-        'Description="R$L10\' $L10\' radius appears abandoned for $L hr"',
+        'Description="R%{lvl*10}\' %{lvl*10}\' radius appears abandoned for %{lvl} hr"',
       'Vampiric Touch':
         'Level=W3 ' +
         'School=Necromancy ' +
-        'Description="Touched suffers ${Ldiv2min6}d6 HP, self gains same as temporary HP for 1 hr"',
+        'Description="Touched suffers %{lvl//2<?6}d6 HP, self gains same as temporary HP for 1 hr"',
       'Water Walk':
         'Level=P3 ' +
         'School=Alteration ' +
-        'Description="%{(lvl-4)>?1} touched walk on liquid as if it were a solid surface for $Lplus1 tn"',
+        'Description="%{(lvl-4)>?1} touched walk on liquid as if it were a solid surface for %{lvl+1} tn"',
       'Weird':
         'Level=W9 ' +
         'School=Illusion ' +
@@ -2744,15 +2748,15 @@ OldSchool.RULE_EDITS = {
       'Whispering Wind':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="R$L miles Self sends 25-word message or sound to known location"',
+        'Description="R%{lvl} miles Self sends 25-word message or sound to known location"',
       'Wind Wall':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="R$L10\' $L10\'x5\' curtain of air scatters objects, deflects arrows and bolts for $L rd"',
+        'Description="R%{lvl*10}\' %{lvl*10}\'x5\' curtain of air scatters objects, deflects arrows and bolts for %{lvl} rd"',
       'Withdraw':
         'Level=P2 ' +
         'School=Alteration ' +
-        'Description="Self gains $Lplus1 rd extra time to cast divination or self cure"',
+        'Description="Self gains %{lvl+1} rd extra time to cast divination or self cure"',
       'Wizard Mark':
         'Level=W1 ' +
         'School=Alteration ' +
@@ -2760,11 +2764,11 @@ OldSchool.RULE_EDITS = {
       'Wraithform':
         'Level=W3 ' +
         'School=Alteration ' +
-        'Description="Self becomes insubstantial and immune to non-magical weapons for $L2 rd"',
+        'Description="Self becomes insubstantial and immune to non-magical weapons for %{lvl*2} rd"',
       'Wyvern Watch':
         'Level=P2 ' +
         'School=Evocation ' +
-        'Description="R30\' Paralyzes first trespasser in 10\' radius for $L rd (Save neg)"'
+        'Description="R30\' Paralyzes first trespasser in 10\' radius for %{lvl} rd (Save neg)"'
     },
     'Weapon':{
       // Removed
