@@ -628,10 +628,13 @@ OldSchool.SPELLS_CHANGES = {
   'Know Alignment':
     OSRIC.SPELLS['Know Alignment']
       .replace('Self', "R10' Self").replace('touched', 'target'),
-  'Mass Invisibility':
-    OSRIC.SPELLS['Mass Invisibility'].replace('sq', 'radius'),
+  'Major Creation':
+    OSRIC.SPELLS['Major Creation']
+      .replace('{lvl} hr', '{lvl} or %{lvl*2} hr'),
   'Mass Suggestion':
-    OSRIC.SPELLS['Mass Suggestion'].replace(/R[^']*/, 'R30'),
+    OSRIC.SPELLS['Mass Suggestion'].replace('lvl*10', '30'),
+  'Monster Summoning IV':
+    OSRIC.SPELLS['Monster Summoning IV'].replace('1d4', '1d3'),
   'Passwall':
     OSRIC.SPELLS.Passwall.replace('10', '8'),
   'Permanent Illusion':
@@ -1419,10 +1422,10 @@ OldSchool.RULE_EDITS = {
       "Fool's Gold":OSRIC.SPELLS["Fool's Gold"] + ' ' +
         'Level=W2',
       'Non-Detection':null,
-      'Nondetection':OSRIC.SPELLS['Non-Detection'] + ' ' +
-        'Level=W3 ' +
-        'Duration="%{lvl} hr" ' +
-        'Effect="Touched"',
+      'Nondetection':
+        OSRIC.SPELLS['Non-Detection']
+          .replace('Self', 'Touched').replace('tn', 'hr') + ' ' +
+        'Level=W3',
       // Modified
       'Aerial Servant':
         'Level=P6',
@@ -1858,53 +1861,49 @@ OldSchool.RULE_EDITS = {
       "Leomund's Secret Chest":
         'Level=W5',
       "Leomund's Tiny Hut":
-        'Level=W3 ' +
-        'Duration="%{lvl+4} hr" ' +
-        'Range="7.5\' radius"',
+        OSRIC.SPELLS['Tiny Hut']
+          .replace('5', "7.5").replace('lvl', 'lvl+4') + ' ' +
+        'Level=W3',
       "Leomund's Trap":
         'Level=W2',
       'Levitate':
         'Level=W2',
-      'Lightning Bolt':
-        'Level=W3 ' +
-        'Effect="%{lvl<?10}d6"',
       'Light':
+        OSRIC.SPELLS.Light.replaceAll('C1', 'P1') + ' ' +
         'Level=P1,W1',
-      'Light P1':
-        'Duration="%{lvl+6} tn" ' +
-        'Range="120\'"',
+      'Lightning Bolt':
+        OSRIC.SPELLS['Lightning Bolt'].replace('{lvl}', '{lvl<?10}') + ' ' +
+        'Level=W3',
       'Limited Wish':
         'Level=W7',
       'Locate Object':
+        OSRIC.SPELLS['Locate Object']
+          .replaceAll('C3', 'P3').replace('{lvl} rd', "{slvl!='P3'?lvl+' rd':'8 hr'}") + ' ' +
+
         'Level=P3,W2 ' +
         'School="Lesser Divination"',
-      'Locate Object P3':
-        'Range="%{lvl*10+60}\'"',
       'Lower Water':
-        'Level=P4,W6 ' +
-        'Description="R$R %{lvl*10}\' sq fluid subsides by %{lvl*2}\' for $D (rev raises)" ' +
-        'Duration="%{lvl*5} rd" ' +
-        'Range="80\'"',
-      'Lower Water P4':
-        'Duration="%{lvl} tn" ' +
-        'Range="120\'"',
+        OSRIC.SPELLS['Lower Water']
+          .replaceAll('M6', 'W6').replace('5:10', '10:10') + ' ' +
+        'Level=P4,W6',
       'Magic Jar':
         'School=Necromancy ' +
         'Level=W5',
       'Magic Missile':
         'Level=W1',
       'Magic Mouth':
-        'Level=W2 ' +
-        'Range="R10\' Target"',
+        OSRIC.SPELLS['Magic Mouth'].replace('Touched', "R10' Target") + ' ' +
+        'Level=W2',
       'Major Creation':
+        OSRIC.SPELLS['Major Creation']
+          .replace('%{lvl} hr', 'up to %{lvl*2} hr') + ' ' +
         'Level=W5 ' +
-        'School=Illusion ' +
-        'Duration="variable duration"',
+        'School=Illusion',
       'Mass Charm':
         'Level=W8',
       'Mass Invisibility':
-        'Level=W7 ' +
-        'Effect="180\' sq"',
+        OSRIC.SPELLS['Mass Invisibility'].replace('30', '60') + ' ' +
+        'Level=W7',
       'Mass Suggestion':
         'Level=W6',
       'Massmorph':
@@ -1915,25 +1914,27 @@ OldSchool.RULE_EDITS = {
       'Mending':
         'Level=W1',
       'Message':
-        'Level=W1 ' +
-        'Description="Self has long-range whispered dialogues for $D" ' +
-        'Duration="%{lvl*5} rd"',
+        OSRIC.SPELLS.Message
+          .replace('60', '30').replace('{lvl+5} seg', '{lvl*5} rd') + ' ' +
+        'Level=W1',
       'Meteor Swarm':
         'Level=W9',
       'Mind Blank':
-        'Level=W8 ' +
-        'Effect="divination, mental control"',
+        OSRIC.SPELLS['Mind Blank']
+          .replace('divination', 'divination and mental control') + ' ' +
+        'Level=W8',
       'Minor Creation':
         'Level=W4 ' +
         'School=Illusion',
       'Minor Globe Of Invulnerability':
         'Level=W4',
       'Mirror Image':
-        'Level=W2 ' +
-        'Effect="2d4"',
+        OSRIC.SPELLS['Mirror Image']
+          .replace(/1d4.*copies/, '2d4 copies') + ' ' +
+        'Level=W2',
       'Misdirection':
-        'Level=W2 ' +
-        'Duration="8 hr"',
+        OSRIC.SPELLS.Misdirection.replace('%{lvl} rd', '8 hr') + ' ' +
+        'Level=W2',
       'Monster Summoning I':
         'Level=W3',
       'Monster Summoning II':
@@ -1941,24 +1942,24 @@ OldSchool.RULE_EDITS = {
       'Monster Summoning III':
         'Level=W5',
       'Monster Summoning IV':
-        'Level=W6 ' +
-        'Effect="1d3 4 HD creatures"',
+        'Level=W6',
       'Monster Summoning V':
-        'Level=W7 ' +
-        'Effect="1d3 5 HD creatures"',
+        OSRIC.SPELLS['Monster Summoning V'].replace('1d2', '1d3') + ' ' +
+        'Level=W7',
       'Monster Summoning VI':
-        'Level=W8 ' +
-        'Effect="1d3 6 HD creatures"',
+        OSRIC.SPELLS['Monster Summoning VI'].replace('1d2', '1d3') + ' ' +
+        'Level=W8',
       'Monster Summoning VII':
         'Level=W9',
       "Mordenkainen's Faithful Hound":
-        'Level=W5 ' +
-        'Duration="%{lvl*3+6} tn"',
+        OSRIC.SPELLS["Mage's Faithful Hound"]
+          .replace('{lvl*2} rd', '{1+lvl/2} hr') + ' ' +
+        'Level=W5',
       "Mordenkainen's Sword":
         'Level=W7',
       'Move Earth':
-        'Level=W6 ' +
-        'Effect="40\'x40\'x10\'"',
+        OSRIC.SPELLS['Move Earth'].replace("40' cu", "40'x40'x10'") + ' ' +
+        'Level=W6',
       'Neutralize Poison':
         'Level=P4 ' +
         'School=Necromancy',
