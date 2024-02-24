@@ -635,16 +635,29 @@ OldSchool.SPELLS_CHANGES = {
     OSRIC.SPELLS['Mass Suggestion'].replace('lvl*10', '30'),
   'Monster Summoning IV':
     OSRIC.SPELLS['Monster Summoning IV'].replace('1d4', '1d3'),
+  'Part Water':
+    OSRIC.SPELLS['Part Water'].replace("20'x%{lvl*30}'x3'", "3'x%{lvl}'x%{lvl*20}'"),
   'Passwall':
     OSRIC.SPELLS.Passwall.replace('10', '8'),
   'Permanent Illusion':
-    OSRIC.SPELLS['Permanent Illusion'].replace(/R[^']*/, 'R%{lvl*10}'),
+    OSRIC.SPELLS['Permanent Illusion'].replace('30', '%{lvl*10}'),
   'Phase Door':
     OSRIC.SPELLS['Phase Door'].replace('twice', '%{lvl//2} times'),
   'Plane Shift':
-    OSRIC.SPELLS['Plane Shift'].replace('Self plus 7 touched', 'Touched plus 6 touching'),
+    OSRIC.SPELLS['Plane Shift']
+      .replace('Self plus 7 touched', 'Touched plus 6 touching'),
+  'Prismatic Sphere':
+    'School=Abjuration',
   'Produce Fire':
-    OSRIC.SPELLS['Produce Fire'].replace("60' radius", "120' sq"),
+    OSRIC.SPELLS['Produce Fire'].replace("60' radius", "12' sq"),
+  'Project Image':
+    OSRIC.SPELLS['Project Image'].replace('I5,', ''),
+  'Push':
+    OSRIC.SPELLS.Push.replace('3', '2.5'),
+  'Ray Of Enfeeblement':
+    OSRIC.SPELLS['Ray Of Enfeeblement'].replace('3', '2.5'),
+  'Reverse Gravity':
+    OSRIC.SPELLS['Reverse Gravity'].replace('1 sec', '1 seg'),
   'Slow Poison':
     OSRIC.SPELLS['Slow Poison'].replace('%{lvl*2} rd', '%{lvl} hr'),
   'Stinking Cloud':
@@ -696,6 +709,8 @@ OldSchool.SPELLS_RENAMES = {
   'Transformation':"Tenser's Transformation"
 };
 OldSchool.SPELLS = Object.assign({}, OSRIC.SPELLS);
+OldSchool.SPELLS['Projected Image'] =
+  OSRIC.SPELLS['Project Image'].replace(',M6', '');
 for(let s in OSRIC.SPELLS) {
   if(s in OldSchool.SPELLS_CHANGES)
     OldSchool.SPELLS[s] += ' ' + OldSchool.SPELLS_CHANGES[s];
@@ -1388,6 +1403,7 @@ OldSchool.RULE_EDITS = {
       'Locate Plants':null,
       'Paralyzation':null,
       'Predict Weather':null,
+      'Projected Image':null,
       'Purify Water':null,
       'Push':null,
       'Spiritwrack':null,
@@ -1564,8 +1580,8 @@ OldSchool.RULE_EDITS = {
       'Continual Light':
         OSRIC.SPELLS['Continual Light']
           .replaceAll('C3', 'P3').replaceAll('M2', 'W2'),
-      "Control Temperature 10' Radius":
-        OSRIC.SPELLS["Control Temperature 10' Radius"]
+      "Control Temperature, 10' Radius":
+        OSRIC.SPELLS["Control Temperature, 10' Radius"]
           .replace('lvl*9', 'lvl*10') + ' ' +
         'Level=P4',
       'Control Weather':
@@ -1836,7 +1852,7 @@ OldSchool.RULE_EDITS = {
         'Level=P5',
       'Invisibility':
         'Level=W2',
-      "Invisibility 10' Radius":
+      "Invisibility, 10' Radius":
         'Level=W3',
       'Invisibility To Animals':
         OSRIC.SPELLS['Invisibility To Animals']
@@ -1972,10 +1988,10 @@ OldSchool.RULE_EDITS = {
       "Otto's Irresistible Dance":
         'Level=W8',
       'Part Water':
+        OSRIC.SPELLS['Part Water']
+          .replaceAll('M6', 'W6')
+          .replace("20'x%{lvl*30}'x3'", "%{lvl*3}'x%{slvl=='W6'?lvl*30:(lvl*20)}'x%{slvl=='W6'?20:30}'") + ' ' +
         'Level=P6,W6',
-      'Part Water P6':
-        'Duration="%{lvl} tn" ' +
-        'Range="%{lvl*20}\'"',
       'Pass Plant':
         'Level=P5',
       'Pass Without Trace':
@@ -1985,66 +2001,68 @@ OldSchool.RULE_EDITS = {
       'Permanency':
         'Level=W8',
       'Permanent Illusion':
-        'Level=W6 ' +
-        'Effect="%{lvl*10+20}\' cu"',
-      'Phase Door':
-        'Level=W7',
+        OSRIC.SPELLS['Permanent Illusion']
+          .replace('30', '%{lvl*10}').replace('40', '20') + ' ' +
+        'Level=W6',
       'Phantasmal Force':
+        OSRIC.SPELLS['Phantasmal Force'].replace('40', '20') + ' ' +
         'Level=W1',
       'Phantasmal Killer':
         'Level=W4',
+      'Phase Door':
+        'Level=W7',
       'Plane Shift':
-        'Level=P5  ' +
-        'Effect="Touched plus 7 touching"',
+        OSRIC.SPELLS['Plane Shift']
+          .replace('Self plus 7 touched', 'Touched plus 7 touching') + ' ' +
+        'Level=P5',
       'Plant Door':
         'Level=P4',
       'Plant Growth':
+        OSRIC.SPELLS['Plant Growth'].replaceAll('M4', 'W4') + ' ' +
         'Level=P3,W4',
-      'Plant Growth P3':
-        'Effect="%{lvl*20}\' sq" ' +
-        'Range="160\'"',
       'Polymorph Any Object':
         'Level=W8',
       'Polymorph Other':
         'Level=W4',
       'Polymorph Self':
         'Level=W4',
-      'Power Word Blind':
+      'Power Word, Blind':
+        OSRIC.SPELLS['Power Word, Blind']
+          .replace(' or 1d4 + 1 tn', ', 1d4 + 1 tn, or permaently') + ' ' +
         'Level=W8',
-      'Power Word Kill':
+      'Power Word, Kill':
         'Level=W9',
-      'Power Word Stun':
+      'Power Word, Stun':
         'Level=W7',
       'Prayer':
         'Level=P3',
       'Prismatic Sphere':
-        'Level=W9 ' +
-        'School=Abjuration',
+        'Level=W9',
       'Prismatic Spray':
         'Level=W7 ' +
         'School=Conjuration',
       'Prismatic Wall':
+        OSRIC.SPELLS['Prismatic Wall']
+          .replace('40', '4').replace('20', '2') + ' ' +
         'Level=W8 ' +
         'School=Conjuration',
       'Produce Fire':
-        'Level=P4 ' +
-        'Effect="12\' sq"',
+        'Level=P4',
       'Produce Flame':
-        'Level=P2 ' +
-        'Duration="%{lvl} rd"',
+        OSRIC.SPELLS['Produce Flame'].replace('lvl*2', 'lvl') + ' ' +
+        'Level=P2',
       'Programmed Illusion':
-        'Level=W6 ' +
-        'Effect="%{lvl*10+20}\' cu"',
+        OSRIC.SPELLS['Programmed Illusion'].replace('40', '20') + ' ' +
+        'Level=W6',
       'Project Image':
         'Level=W6',
       'Protection From Evil':
+        OSRIC.SPELLS['Protection From Evil'].replaceAll('M1', 'W1') + ' ' +
         'Level=P1,W1',
-      'Protection From Evil P1':
-        'Duration="%{lvl*3} rd"',
-      "Protection From Evil 10' Radius":
+      "Protection From Evil, 10' Radius":
+        OSRIC.SPELLS["Protection From Evil, 10' Radius"]
+          .replaceAll('M3', 'W3') + ' ' +
         'Level=P4,W3',
-      "Protection From Evil 10' Radius P4":
-        'Duration="%{lvl} tn"',
       'Protection From Fire':
         'Level=P3',
       'Protection From Lightning':
@@ -2054,9 +2072,8 @@ OldSchool.RULE_EDITS = {
       'Purify Food And Drink':
         'Level=P1',
       'Pyrotechnics':
+        OSRIC.SPELLS.Pyrotechnics.replaceAll('M2', 'W2') + ' ' +
         'Level=P3,W2',
-      'Pyrotechnics P3':
-        'Range="160\'"',
       'Quest':
         'Level=P5',
       'Raise Dead':
@@ -2064,8 +2081,8 @@ OldSchool.RULE_EDITS = {
       "Rary's Mnemonic Enhancer":
         'Level=W4',
       'Ray Of Enfeeblement':
-        'Level=W2 ' +
-        'Range="%{lvl*5+10}\'"',
+        OSRIC.SPELLS['Ray Of Enfeeblement'].replace('3', '5') + ' ' +
+        'Level=W2',
       'Read Magic':
         'Level=W1 ' +
         'School="Lesser Divination"',
@@ -2078,8 +2095,9 @@ OldSchool.RULE_EDITS = {
       'Remove Curse':
         'Level=P3,W4',
       'Remove Fear':
-        'Level=P1 ' +
-        'Effect="R10\' %{lvl//4+1} targets"',
+        OSRIC.SPELLS['Remove Fear']
+          .replace('Touched', "R10\' %{lvl//4+1} targets") + ' ' +
+        'Level=P1',
       'Repel Insects':
         'Level=P4',
       'Repulsion':
@@ -2093,11 +2111,11 @@ OldSchool.RULE_EDITS = {
       'Resurrection':
         'Level=P7',
       'Reverse Gravity':
-        'Level=W7 ' +
-        'Duration="1 rd"',
+        OSRIC.SPELLS['Reverse Gravity'].replace('1 sec', '%{lvl} rd') + ' ' +
+        'Level=W7',
       'Rope Trick':
-        'Level=W2 ' +
-        'Effect="8"',
+        OSRIC.SPELLS['Rope Trick'].replace('6', '8') + ' ' +
+        'Level=W2',
       'Scare':
         'Level=W2 ' +
         'Duration="1d4 + %{lvl} rd" ' +
