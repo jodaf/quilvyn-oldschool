@@ -659,12 +659,16 @@ OldSchool.SPELLS_CHANGES = {
   'Reverse Gravity':
     OSRIC.SPELLS['Reverse Gravity'].replace('1 sec', '1 seg'),
   'Slow Poison':
-    OSRIC.SPELLS['Slow Poison'].replace('%{lvl*2} rd', '%{lvl} hr'),
+    OSRIC.SPELLS['Slow Poison'].replace('{lvl*2} rd', '{lvl} hr'),
+  'Sticks To Snakes':
+    OSRIC.SPELLS['Sticks To Snakes'].replace("5' radius", "10' cu"),
   'Stinking Cloud':
     OSRIC.SPELLS['Stinking Cloud'].replace('radius', 'cu'),
   'Strength':
     'Description=' +
-      '"Touched gains +1d4 (HD d4), +1d6 (HD d8), or +1d8 (HD d10) Strength for %{lvl} hr"',
+      '"Touched gains +1d8 (warrior), +1d6 (priest or rogue), or +1d4 (wizard) Strength for %{lvl} hr"',
+  'Summon Shadow':
+    OSRIC.SPELLS['Summon Shadow'].replace('{lvl}', '{lvl//3}'),
   'Wall Of Force':
     OSRIC.SPELLS['Wall Of Force'].replace('lvl+1', 'lvl+10'),
   'Water Breathing':
@@ -2116,44 +2120,45 @@ OldSchool.RULE_EDITS = {
       'Rope Trick':
         OSRIC.SPELLS['Rope Trick'].replace('6', '8') + ' ' +
         'Level=W2',
-      'Scare':
-        'Level=W2 ' +
-        'Duration="1d4 + %{lvl} rd" ' +
-        'Range="%{lvl*10+30}\'"',
       'Sanctuary':
-        'Level=P1 ' +
-        'Effect="touched"',
+        OSRIC.SPELLS.Sanctuary.replace('self', 'touched') + ' ' +
+        'Level=P1',
+      'Scare':
+        OSRIC.SPELLS.Scare
+          .replace('R10', 'R%{lvl*10+30}')
+          .replace('Target', "Creatures in a 15' radius")
+          .replace('3d4 rd', '1d4 + %{lvl} rd') + ' ' +
+        'Level=W2',
       "Serten's Spell Immunity":
-        'Level=W8 ' +
-        'Description="Touched immune to specified spell for %{lvl} tn"',
+        'Level=W8',
       'Shades':
         'Level=W6',
       'Shadow Door':
         'Level=W5',
       'Shadow Magic':
         'Level=W5 ' +
-        'Description="R%{lvl*10+50}\' Mimics spell level 1 - 3"',
+        'Description="R%{lvl*10+50}\' Mimics a level 1-3 Evocation spell"',
       'Shadow Monsters':
         'Level=W4',
       'Shape Change':
         'Level=W9',
       'Shatter':
-        'Level=W2 ' +
-        'Range="%{lvl*10+30}\'"',
+        OSRIC.SPELLS.Shatter.replace('60', '%{lvl*10+30}') + ' ' +
+        'Level=W2',
       'Shield':
         'Level=W1',
       'Shillelagh':
-        'Level=P1 ' +
-        'Duration="%{lvl+4} rd"',
+        OSRIC.SPELLS.Shillelagh.replace('{lvl} rd', '{lvl+4} rd') + ' ' +
+        'Level=P1',
       'Shocking Grasp':
         'Level=W1',
-      "Silence 15' Radius":
+      "Silence, 15' Radius":
         'Level=P2',
       'Simulacrum':
         'Level=W7',
       'Sleep':
-        'Level=W1 ' +
-        'Range="30\'"',
+        OSRIC.SPELLS.Sleep.replace('%{lvl*10+30}', '30') + ' ' +
+        'Level=W1',
       'Slow':
         'Level=W3',
       'Slow Poison':
@@ -2167,31 +2172,31 @@ OldSchool.RULE_EDITS = {
       'Speak With Dead':
         'Level=P3',
       'Speak With Monsters':
-        'Level=P6 ' +
-        'Duration="%{lvl*2} rd"',
+        OSRIC.SPELLS['Speak With Monsters']
+          .replace('{lvl} rd', '{lvl*2} rd') + ' ' +
+        'Level=P6',
       'Speak With Plants':
         'Level=P4',
       'Spectral Force':
-        'Level=W3 ' +
-        'Range="%{lvl+60}\'"',
+        OSRIC.SPELLS['Spectral Force'].replace('lvl*10+60', 'lvl+60') + ' ' +
+        'Level=W3',
       'Spider Climb':
-        'Level=W1 ' +
-        'Duration="%{lvl+3} rd"',
+        OSRIC.SPELLS['Spider Climb'].replace('lvl+1', 'lvl+3') + ' ' +
+        'Level=W1',
       'Spiritual Hammer':
-        'Level=P2 ' +
-        'Duration="%{lvl+3} rd" ' +
-        'Range="%{lvl*10}\'"',
+        OSRIC.SPELLS['Spiritual Weapon']
+          .replace('30', '%{lvl*10}').replace('{lvl}', '{3+lvl}') + ' ' +
+        'Level=P2',
       'Statue':
         'Level=W7',
       'Sticks To Snakes':
-        'Level=P4 ' +
-        'Effect="1d4 + %{lvl} sticks in 10\' cu"',
+        'Level=P4',
       'Stinking Cloud':
         'Level=W2',
       'Stone Shape':
+        OSRIC.SPELLS['Stone Shape']
+          .replaceAll('D3', 'P3').replace('3:0', '9:0') + ' ' +
         'Level=P3,W5',
-      'Stone Shape P3':
-        'Effect="%{lvl+3}\' cu"',
       'Stone Tell':
         'Level=P6 ' +
         'School="Greater Divination"',
@@ -2204,12 +2209,12 @@ OldSchool.RULE_EDITS = {
       'Summon Insects':
         'Level=P3',
       'Summon Shadow':
-        'Level=W5 ' +
-        'Effect="%{lvl//3}"',
+        'Level=W5',
       'Symbol':
         'Level=P7,W8',
       'Symbol P7':
-        'Description="Glowing symbol causes hopelessness, pain, or persuasion for %{lvl} tn"',
+        'Description=' +
+          '"Glowing symbol causes hopelessness, pain, or persuasion for %{lvl} tn"',
       'Telekinesis':
         'Level=W5',
       'Teleport':
