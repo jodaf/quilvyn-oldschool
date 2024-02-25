@@ -2221,45 +2221,40 @@ OldSchool.RULE_EDITS = {
         'Level=W5',
       'Temporal Stasis':
         'Level=W9',
+      "Tenser's Floating Disc":
+        'Level=W1',
       "Tenser's Transformation":
         'Level=W6',
-      "Tenser's Floating Disc":
-        'Level=W1 ' +
-        'Range="20\'"',
       'Time Stop':
-        'Level=W9 ' +
-        'Duration="1d3 rd"',
+        OSRIC.SPELLS['Time Stop'].replace("1d8+%{lvl//2} seg", '1d3 rd') + ' ' +
+        'Level=W9',
       'Tongues':
+        OSRIC.SPELLS.Tongues.replaceAll('M3', 'W3') + ' ' +
         'Level=P4,W3',
-      'Tongues P4':
-        'Duration="1 tn"',
       'Trap The Soul':
         'Level=W8',
       'Transmute Metal To Wood':
-        'Level=P7 ' +
-        'Effect="%{lvl*10} lb"',
+        OSRIC.SPELLS['Transmute Metal To Wood']
+          .replace('lvl*8', 'lvl*10') + ' ' +
+        'Level=P7',
       'Transmute Rock To Mud':
+        OSRIC.SPELLS['Transmute Rock To Mud'].replaceAll('M5', 'W5') + ' ' +
         'Level=P5,W5',
-      'Transmute Rock To Mud P5':
-        'Range="160\'"',
       'Transport Via Plants':
         'Level=P6',
       'Tree':
         'Level=P3',
       'Trip':
-        'Level=P2 ' +
-        'Effect="1 HP"',
+        'Level=P2',
       'True Seeing':
+        OSRIC.SPELLS['True Seeing']
+          .replace(' and alignment auras', "%{slvl=='P5'?' and alignment auras':''}")
+          .replace('120', "%{slvl=='P5'?120:60}") + ' ' +
         'Level=P5,W6 ' +
-        'School="Greater Divination" ' +
-        'Effect="" ' +
-        'Range="60\'"',
-      'True Seeing P5':
-        'Effect=", alignment auras" ' +
-        'Range="40\'"',
+        'School="Greater Divination"',
       'Turn Wood':
-        'Level=P6 ' +
-        'Duration="%{lvl} rd"',
+        OSRIC.SPELLS['Turn Wood'].replace('{lvl*4}', '{lvl}') + ' ' +
+        'Level=P6',
       'Unseen Servant':
         'Level=W1',
       'Vanish':
