@@ -672,8 +672,7 @@ OldSchool.SPELLS_CHANGES = {
   'Wall Of Force':
     OSRIC.SPELLS['Wall Of Force'].replace('lvl+1', 'lvl+10'),
   'Water Breathing':
-    'Description=' +
-      '"Touched may breathe water (Reverse may breathe air) for %{lvl*(slv==\'D3\'?6:3)} tn"'
+    OSRIC.SPELLS['Water Breathing'].replace("+(slvl=='M3'?' rd':' hr')", "/(slvl=='M3'?2:1)+' hr'")
 };
 /*
  * Mapping of OSRIC spell names to 1E/2E--mostly Americanized spellings and
@@ -2266,21 +2265,17 @@ OldSchool.RULE_EDITS = {
       'Vision':
         'Level=W7 ' +
         'School="Greater Divination"',
-      'Wall Of Thorns':
-        'Level=P6 ' +
-        'Effect="%{lvl*10}\' cu"',
-      'Water Breathing':
-        'Level=P3,W3 ' +
-        'Duration="1d4 + %{lvl} hr"',
-      'Water Breathing P3':
-        'Duration="%{lvl} hr"',
       'Wall Of Fire':
-        'Level=P5,W4 ' +
-        'Range="R60\' %{lvl*20}\' sq wall or %{lvl*5//2+10}\' radius circle"',
+        OSRIC.SPELLS['Wall Of Fire'].replaceAll('M4', 'W4') + ' ' +
+        'Level=P5,W4',
+      'Wall Of Fire P5':
+        'School=Conjuration',
       'Wall Of Fog':
+        OSRIC.SPELLS['Wall Of Fog'].replace('lvl*20', 'lvl*10+20') + ' ' +
         'Level=W1 ' +
-        'Effect="%{lvl*10+20}\' cu"',
+        'School=Evocation',
       'Wall Of Force':
+        OSRIC.SPELLS['Wall Of Force'].replace('lvl*20', 'lvl*10') + ' ' +
         'Level=W5 ' +
         'Effect="%{lvl*10}\' sq"',
       'Wall Of Ice':
@@ -2289,11 +2284,18 @@ OldSchool.RULE_EDITS = {
         'Level=W5',
       'Wall Of Stone':
         'Level=W5',
+      'Wall Of Thorns':
+        OSRIC.SPELLS['Wall Of Thorns'].replace('lvl*100', 'lvl*10') + ' ' +
+        'Level=P6',
       'Warp Wood':
         'Level=P2',
+      'Water Breathing':
+        OSRIC.SPELLS['Water Breathing'].replace("+(slvl=='M3'?' rd':' hr')", "+' hr'+(slvl=='W3'?' + 1d4 rd':'')") + ' ' +
+        'Level=P3,W3',
       'Weather Summoning':
         'Level=P6',
       'Web':
+        OSRIC.SPELLS.Web.replace('80', '8000') + ' ' +
         'Level=W2',
       'Wind Walk':
         'Level=P7',
