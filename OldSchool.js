@@ -1485,7 +1485,7 @@ OldSchool.RULE_EDITS = {
         'Level=P2 ' +
         'School="Lesser Divination"',
       'Barkskin':
-        OSRIC.SPELLS.Barkskin.replace('+1 AC', '+%{4+lvl//4} AC') + ' ' +
+        OSRIC.SPELLS.Barkskin.replace('-1 Armor Class', '-%{4+lvl//4} Armor Class') + ' ' +
         'Level=P2',
       "Bigby's Clenched Fist":
         'Level=W8',
@@ -1610,7 +1610,7 @@ OldSchool.RULE_EDITS = {
         'Level=P4',
       'Dancing Lights':
         'Level=W1',
-      "Darkness 15' Radius":
+      "Darkness, 15' Radius":
         'Level=W2',
       'Deafness':
         'Level=W2',
@@ -1832,7 +1832,7 @@ OldSchool.RULE_EDITS = {
         'School="Lesser Divination"',
       'Illusionary Script':
         OSRIC.SPELLS['Illusory Script']
-          .replace('inflicts 5d4 rd confusion', 'transmits <i>Suggestion</i>') + ' ' +
+          .replace('inflicts confusion for 5d4 rd', 'transmits <i>Suggestion</i>') + ' ' +
         'Level=W3',
       'Imprisonment':
         'Level=W9',
@@ -2031,7 +2031,7 @@ OldSchool.RULE_EDITS = {
         'Level=W4',
       'Power Word, Blind':
         OSRIC.SPELLS['Power Word, Blind']
-          .replace(' or 1d4 + 1 tn', ', 1d4 + 1 tn, or permaently') + ' ' +
+          .replace(' or 1d4+1 tn', ', 1d4+1 tn, or permanently') + ' ' +
         'Level=W8',
       'Power Word, Kill':
         'Level=W9',
@@ -2335,7 +2335,7 @@ OldSchool.RULE_EDITS = {
       'Armor':
         'Level=W1 ' +
         'School=Conjuration ' +
-        'Description="Touched gains AC 6 for %{lvl+8} HP"',
+        'Description="Touched gains Armor Class 6 for %{lvl+8} HP"',
       'Avoidance':
         'Level=W5 ' +
         'School=Abjuration ' +
@@ -2359,7 +2359,7 @@ OldSchool.RULE_EDITS = {
       'Changestaff':
         'Level=P7 ' +
         'School=Evocation ' +
-        'Description="Touched staff becomes treant (12 HD, 40 HP, AC 0)"',
+        'Description="Touched staff becomes treant (12 HD, 40 HP, Armor Class 0)"',
       'Chain Lightning':
         'Level=W6 ' +
         'School=Evocation ' +
@@ -2439,7 +2439,7 @@ OldSchool.RULE_EDITS = {
       'Dust Devil':
         'Level=P2 ' +
         'School=Conjuration ' +
-        'Description="R30\' Creates minor air elemental (AC 4, 2 HD, inflicts 1d4 HP) that attacks for %{lvl*2} rd"',
+        'Description="R30\' Creates minor air elemental (Armor Class 4, 2 HD, inflicts 1d4 HP) that attacks for %{lvl*2} rd"',
       'Endure Cold':
         'Level=P1 ' +
         'School=Alteration ' +
@@ -2467,7 +2467,7 @@ OldSchool.RULE_EDITS = {
       "Evard's Black Tentacles":
         'Level=W4 ' +
         'School=Conjuration ' +
-        'Description="R30\' Tentacles (AC 4, %{lvl} HP) in %{lvl*30}\' sq attack and inflict 2d4 - 3d4/rd for %{lvl} hr (Save suffer 1d4 HP)"',
+        'Description="R30\' Tentacles (Armor Class 4, %{lvl} HP) in %{lvl*30}\' sq attack and inflict 2d4 - 3d4/rd for %{lvl} hr (Save suffer 1d4 HP)"',
       'Exaction':
         'Level=P7 ' +
         'School=Evocation ' +
@@ -2551,7 +2551,7 @@ OldSchool.RULE_EDITS = {
       'Irritation':
         'Level=W2 ' +
         'School=Alteration ' +
-        'Description="R%{lvl*10}\' 1 - 4 targets in 15\' radius itch (+4 AC, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
+        'Description="R%{lvl*10}\' 1 - 4 targets in 15\' radius itch (+4 Armor Class, -2 attack) for 3 rd or develop rash (-1 Charisma/dy) for 4 dy (Save neg)"',
       'Item':
         'Level=W3 ' +
         'School=Alteration ' +
@@ -2591,7 +2591,7 @@ OldSchool.RULE_EDITS = {
       'Magical Vestment':
         'Level=P3 ' +
         'School=Enchantment ' +
-        'Description="Touched vestment gives AC %{7-(lvl+1)//3} for %{lvl*5} rd"',
+        'Description="Touched vestment gives Armor Class %{7-(lvl+1)//3} for %{lvl*5} rd"',
       'Meld Into Stone':
         'Level=P3 ' +
         'School=Alteration ' +
@@ -2647,7 +2647,7 @@ OldSchool.RULE_EDITS = {
       'Phantom Steed':
         'Level=W3 ' +
         'School=Conjuration ' +
-        'Description="Creates mount (%{lvl+7} HP, AC 2, MV %{lvl*4<?48}\') that only touched can ride for %{lvl} hr"',
+        'Description="Creates mount (%{lvl+7} HP, Armor Class 2, MV %{lvl*4<?48}\') that only touched can ride for %{lvl} hr"',
       'Protection From Cantrips':
         'Level=W2 ' +
         'School=Abjuration ' +
