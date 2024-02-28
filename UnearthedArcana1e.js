@@ -1,5 +1,5 @@
 /*
-Copyright 2021, James J. Hayes
+Copyright 2024, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -30,7 +30,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function UnearthedArcana1e(edition, rules) {
 }
 
-UnearthedArcana1e.VERSION = '2.3.1.2';
+UnearthedArcana1e.VERSION = '2.4.1.0';
 
 UnearthedArcana1e.ARMORS = {
   // Two sets of skills are defined for each type of armor: one for Thief-
@@ -68,7 +68,7 @@ UnearthedArcana1e.ARMORS = {
       '-10% Hide In Shadows/-10% Move Silently/-5% Open Locks/' +
       '-20% Pick Pockets"',
   'Field Plate':
-    'AC=8 Move=60 Weight=55 ' +
+    'AC=-8 Move=60 Weight=55 ' +
     'Skill=' +
       '"-100% Tightrope Walking/-18\' Pole Vaulting/-18\' High Jumping/' +
       '-20\' Running Broad Jumping/-10\' Standing Broad Jumping/' +
@@ -77,7 +77,7 @@ UnearthedArcana1e.ARMORS = {
       '-110% Hide In Shadows/-100% Move Silently/-80% Open Locks/' +
       '-100% Pick Pockets"',
   'Full Plate':
-    'AC=9 Move=60 Weight=65 ' +
+    'AC=-9 Move=60 Weight=65 ' +
     'Skill=' +
       '"-100% Tightrope Walking/-18\' Pole Vaulting/-18\' High Jumping/' +
       '-20\' Running Broad Jumping/-10\' Standing Broad Jumping/' +
@@ -141,8 +141,13 @@ UnearthedArcana1e.CLASSES = {
     'Require=' +
       '"alignment !~ \'Lawful\'","race == \'Human\'","strength >= 15",' +
       '"constitution >= 15","dexterity >= 14","wisdom <= 16" ' +
-    'HitDie=d10,8,4 Attack=0,1,1,- WeaponProficiency=4,2,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
+    'HitDie=d12,8,4 THAC10="10 8@3 ...-6@17" ' +
+    'WeaponProficiency="6 7@3 ...20@29" NonproficientPenalty=-1 ' +
+    'Breath="17 16@3 13@5 12@7 9@9 8@11 5@13 4@15" ' +
+    'Death="14 13@3 11@5 10@7 8@9 7@11 5@13 4@15 3@17" ' +
+    'Petrification="15 14@3 12@5 11@7 9@9 8@11 6@13 5@15 4@17" ' +
+    'Spell="17 16@3 14@5 13@7 11@9 10@11 8@13 7@15 6@17" ' +
+    'Wand="16 15@3 13@5 12@7 10@9 9@11 7@13 6@15 5@17" ' +
     'Features=' +
       '"Armor Proficiency (All)","Shield Proficiency (All)",' +
       '"Fighting The Unskilled","Animal Handling","Back Protection",' +
@@ -151,26 +156,36 @@ UnearthedArcana1e.CLASSES = {
       '"Hide In Natural Surroundings",Horsemanship,Leadership,' +
       '"Leaping And Springing","Long Distance Signaling","Outdoor Craft",' +
       'Running,"Small Craft","Snare Building","Sound Imitation",Surprise,' +
-      'Survival,Tracking,"4:Irresistible Assault" ' +
+      'Survival,Tracking,"4:Irresistible Assault","6:Bonus Attacks" ' +
     'Experience=' +
-      '0,6,12,24,48,80,150,275,500,1000,1500,2000,2500,3000,3500,4000,4500,' +
-      '5000,5500,6000,6500,7000,7500,8000,8500,9000,9500,10000,10500',
+      '"0 6001 12001 24001 48001 80001 150001 275001 500001 1000001 1500001' +
+      ' 2000001 2500001 3000001 3500001 4000001 4500001 5000001 5500001' +
+      ' 6000001 6500001 7000001 7500001 8000001 8500001 9000001 9500001' +
+      ' 10000001 10500001"',
   'Cavalier':
     'Require=' +
       '"alignment =~ \'Good\'","strength >= 15","dexterity >= 15",' +
       '"constitution >= 15","intelligence >= 10","wisdom >= 10" ' +
-    'HitDie=d10,9,3 Attack=0,2,2,-2@19 WeaponProficiency=4,3,2 ' +
-    'Breath=17,1.5,2 Death=14,1.5,2 Petrification=15,1.5,2 Spell=17,1.5,2 Wand=16,1.5,2 ' +
+    'HitDie=d10,10,3 THAC10="10 8@3 ...-6@17" ' +
+    'WeaponProficiency="3 4@3 ...17@29" NonproficientPenalty=-3 ' +
+    'Breath="17 16@3 13@5 12@7 9@9 8@11 5@13 4@15" ' +
+    'Death="14 13@3 11@5 10@7 8@9 7@11 5@13 4@15 3@17" ' +
+    'Petrification="15 14@3 12@5 11@7 9@9 8@11 6@13 5@15 4@17" ' +
+    'Spell="17 16@3 14@5 13@7 11@9 10@11 8@13 7@15 6@17" ' +
+    'Wand="16 15@3 13@5 12@7 10@9 9@11 7@13 6@15 5@17" ' +
     'Features=' +
       '"Armor Proficiency (All)","Shield Proficiency (All)",' +
       '"Continuous Training","Deadly Lancer",Diehard,Equestrian,' +
       '"Fear Immunity","Fighting The Unskilled","Lance Expertise",' +
       '"Mental Resistance","Mount Knowledge","Mounted Combatant",' +
       '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
-      '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","7:Special Mount" ' +
+      '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","6:Bonus Attacks",' +
+      '"7:Special Mount" ' +
     'Experience=' +
-      '0,2.5,5,10,18.5,37,85,140,220,300,600,900,1200,1500,1800,2100,2400,' +
-      '2700,3000,3300,3600,3900,4200,4500,4800,5100,5400,5700,6000',
+      '"1 2501 5001 10001 18501 37001 85001 140001 220001 300001 600001' +
+      ' 900001 1200001 1500001 1800001 2100001 2400001 2700001 3000001' +
+      ' 3300001 3600001 3900001 4200001 4500001 4800001 5100001 5400001' +
+      ' 5700001 6000001"',
   'Druid':
     OldSchool.CLASSES.Druid
       .replace('Features=',
@@ -179,9 +194,11 @@ UnearthedArcana1e.CLASSES = {
         '"16:Alter Appearance",17:Hibernate,"17:Planar Travel",' +
         '"17:Summon Elemental",'
       ) + ' ' +
-      'Experience=' +
-        '0,2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500,3000,3500,4000,' +
-        '4500,5000,5500,6000,6500,7000 ',
+    'WeaponProficiency="2 3@6 ...6@21" ' +
+    'Experience=' +
+      '"0 2001 4001 7501 12501 20001 35001 60001 90001 125001 200001 300001' +
+      ' 750001 1500001 3000001 3500001 4000001 4500001 5000001 5500001' +
+      ' 6000001 6500001 7000001"',
   'Paladin':
     OldSchool.CLASSES.Paladin
       .replace('Features=',
@@ -193,9 +210,10 @@ UnearthedArcana1e.CLASSES = {
         '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
         '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","7:Special Mount",'
       ) + ' ' +
-      'Require=' +
-        '"alignment =~ \'Lawful Good\'","strength>=15","dexterity>=15",' +
-        '"constitution>=15","intelligence>=10","wisdom>=13","charisma>=17"',
+    'Require=' +
+      '"alignment =~ \'Lawful Good\'","strength>=15","dexterity>=15",' +
+      '"constitution>=15","intelligence>=10","wisdom>=13","charisma>=17" ' +
+    'WeaponProficiency="3 4@3 ...17@29" NonproficientPenalty=-3',
   'Ranger':
     OldSchool.CLASSES.Ranger
       .replace('Features=', 'Features="Weapon Specialization",'),
@@ -206,10 +224,12 @@ UnearthedArcana1e.CLASSES = {
         '"strength>=16/dexterity>=17 ? 6:Bonus Thief-Acrobat Experience",' +
         '"6:Thief-Acrobat Skills",'
       ).replace(/,"(\d+:)?Read Scrolls"/, '') + ' ' +
-      'Require="alignment=~\'Neutral|Evil\'","strength>=15","dexterity>=16" ' +
-      'Experience=' +
-        '0,1.25,2.5,5,10,20,45,75,125,180,250,500,750,1000,1250,1500,1750,' +
-        '2000,2250,2500,2750,3000,3250,3500,3750,4000,4250,4500,4750'
+    'Require="alignment=~\'Neutral|Evil\'","strength>=15","dexterity>=16" ' +
+    'Experience=' +
+      '"0 1251 2501 5001 10001 20001 45001 75001 125001 180001 250001 500001' +
+      ' 750001 1000001 1250001 1500001 1750001 2000001 2250001 2500001' +
+      ' 2750001 3000001 3250001 3500001 3750001 4000001 4250001 4500001' +
+      ' 4750001"'
 };
 UnearthedArcana1e.FEATURES = {
 
@@ -229,6 +249,10 @@ UnearthedArcana1e.FEATURES = {
   'Back Protection':
     'Section=combat ' +
     'Note="%{levels.Barbarian*5}% chance of noticing attacks from behind"',
+  // Thief-Acrobat advancement in Backstab ends at level 5 (3x damage)
+  'Backstab':
+    'Section=combat ' +
+    'Note="+4 melee attack and x%{((levels.Assassin||0)+7>?(levels.Thief||0)+7>?(($\'levels.Thief-Acrobat\'||0)+7<?12))//4<?5} damage when surprising"',
   'Barbarian Armor Bonus':'Section=combat Note="-%V AC"',
   'Barbarian Hit Point Bonus':'Section=combat Note="+%V HP"',
   'Barbarian Resistance':
@@ -322,6 +346,9 @@ UnearthedArcana1e.FEATURES = {
   'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, <i>Change Self</i>%1 1/dy"',
   'Deep Gnome Resistance':
     'Section=save Note="+2 vs. poison/+3 all others/Immune illusions"',
+  'Determine Depth':
+    'Section=feature ' +
+    'Note="%{race=~\'Dwarf|Dark Elf\'?50:60}% chance to determine approximate depth underground"',
   'Drow Magic':
     'Section=magic ' +
     'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%1%2 1/dy"',
@@ -1328,12 +1355,6 @@ UnearthedArcana1e.armorRulesExtra = function(rules, name) {
 UnearthedArcana1e.classRulesExtra = function(rules, name) {
   var classLevel = 'levels.' + name;
   if(name == 'Barbarian') {
-    rules.defineRule('classBarbarianBreathSaveAdjustment',
-      classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
-    );
-    rules.defineRule('classBarbarianSaveAdjustment',
-      classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
-    );
     rules.defineRule('combatNotes.barbarianArmorBonus',
       'armor', '?', 'source.match(/None|^Leather|Elfin Chain Mail/)',
       'dexterity', '=', 'source>=15 ? source - 14 : null'
@@ -1364,6 +1385,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       'gender', '?', 'source == "Female"',
       'race', '?', 'source.match(/(^|\\s)Elf/)'
     );
+    rules.defineRule
+      ('combatNotes.bonusAttacks', 'additionalBonusAttacks', '+', null);
     rules.defineRule('combatNotes.deadlyLancer', classLevel, '+=', null);
     rules.defineRule('combatNotes.lanceExpertise.1',
       classLevel, '=', 'Math.floor((source + 5) / 6)'
@@ -1394,9 +1417,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     if(name == 'Paladin') {
       rules.defineRule
         ('abilityNotes.continuousTraining.1', classLevel, '=', '"charisma, "');
-      rules.defineRule('attacksPerRound',
-        classLevel, '+', 'source<7?null : source<13?0.5 : source<19?1 : 1.5'
-      );
+      rules.defineRule
+        ('additionalBonusAttacks', classLevel, '+=', 'source>18 ? 0.5 : null');
       rules.defineRule
         ('paladinFeatures.Bonus Paladin Experience', classLevel, 'v', '0');
       rules.defineRule('paladinFeatures.Extra Attacks',
@@ -1405,15 +1427,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     } else {
       rules.defineRule
         ('abilityNotes.continuousTraining.1', classLevel, '=', '""');
-      rules.defineRule('attacksPerRound',
-        classLevel, '+', 'source<6?null : source<11?0.5 : source<16?1 : 1.5'
-      );
-      rules.defineRule('classCavalierBreathSaveAdjustment',
-        classLevel, '=', 'source>=17 ? -2 : -Math.floor((source - 1) / 4)'
-      );
-      rules.defineRule('classCavalierSaveAdjustment',
-        classLevel, '=', 'source<17 ? null : source>18 ? 2 : 1'
-      );
+      rules.defineRule
+        ('additionalBonusAttacks', classLevel, '+=', 'source>15 ? 0.5 : null');
       rules.defineRule('cavalierFeatures.Extra Attacks',
         classLevel, '=', 'source>16 ? null : 1'
       );
@@ -1430,7 +1445,6 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.backstab',
       classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
     );
-    rules.defineRule('languageCount', classLevel, '+', '1');
     rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule

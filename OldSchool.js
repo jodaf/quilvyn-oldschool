@@ -242,11 +242,6 @@ OldSchool.CLASSES = {
     'Require="constitution >= 7","strength >= 9" ' +
     'HitDie=d10,9,3 THAC10="10 8@3 ...-6@17" ' +
     'WeaponProficiency="4 5@4 ...13@28" NonproficientPenalty=-2 ' +
-    'Breath=17,1.5,2 ' +
-    'Death=14,1.5,2 ' +
-    'Petrification=15,1.5,2 ' +
-    'Spell=17,1.5,2 ' +
-    'Wand=16,1.5,2 ' +
     'Breath="17 16@3 13@5 12@7 9@9 8@11 5@13 4@15" ' +
     'Death="14 13@3 11@5 10@7 8@9 7@11 5@13 4@15 3@17" ' +
     'Petrification="15 14@3 12@5 11@7 9@9 8@11 6@13 5@15 4@17" ' +
@@ -427,6 +422,8 @@ OldSchool.FEATURES_ADDED = {
   'Cleric Spell Failure':'Section=magic Note="%{(13-wisdom)*5}%"',
   'Controlled Movement':
     'Section=save Note="Immune to <i>Haste</i> and <i>Slow</i> spells"',
+  'Cure Disease':
+    OSRIC.FEATURES['Cure Disease'].replace('<?3', ''),
   'Defensive Song':
     'Section=magic ' +
     'Note="Performance counteracts song attacks and soothes shriekers"',
@@ -1222,7 +1219,7 @@ OldSchool.RULE_EDITS = {
         'Note="Suffers no penalty for two-handed fighting in light armor"',
       'Animal Empathy':
         'Section=skill ' +
-        'Note="May befriend domestic animals and shift wild animals\' reaction 1 category (%-{(levels.Ranger+2)//3} Wand save neg)"',
+        'Note="May befriend domestic animals and shift wild animals\' reaction 1 category (-%{(levels.Ranger+2)//3} Wand save neg)"',
       'Bard Skills':
         'Section=skill ' +
         'Note="May Climb Walls, Hear Noise, Pick Pockets, and Read Languages"',
@@ -3913,7 +3910,6 @@ OldSchool.raceRulesExtra = function(rules, name) {
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
 
   if(name == 'Dwarf') {
-    rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
@@ -3936,9 +3932,6 @@ OldSchool.raceRulesExtra = function(rules, name) {
         '"+5% Hear Noise/+10% Hide In Shadows/+5% Move Silently/-5% Open Locks/+5% Pick Pockets"'
      );
   } else if(name == 'Gnome') {
-    rules.defineRule('featureNotes.determineDepth',
-      raceLevel, '+=', rules.edition == 'Second Edition' ? '67' : '60'
-    );
     if(rules.edition != 'Second Edition')
       rules.defineRule('skillNotes.intelligenceLanguageBonus',
         raceLevel, 'v', '2',
