@@ -1204,9 +1204,10 @@ OldSchool.RULE_EDITS = {
       'Determine Depth':
         OSRIC.FEATURES['Determine Depth'].replace('60', '67'),
       'Favored Enemy':'Note="+4 attack vs. chosen foe type"',
-      'Legend Lore':'Note="%V% chance to know info about a magic item"',
+      'Legend Lore':
+        'Note="%{levels.Bard*5}% chance to know info about a magic item"',
       'Poetic Inspiration':
-        'Note="R%1\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %V rd"',
+        'Note="R%{levels.Bard*10}\' 3 rd performance gives allies +1 attack, +1 saves, or +2 morale for %{levels.Bard} rd"',
       'Read Scrolls':
         'Note="May use spell scrolls w/a %{levels.Bard?85:75}% chance of success"',
       'Spell Book':
@@ -1221,7 +1222,7 @@ OldSchool.RULE_EDITS = {
         'Note="Suffers no penalty for two-handed fighting in light armor"',
       'Animal Empathy':
         'Section=skill ' +
-        'Note="May befriend domestic animals and shift wild animals\' reaction 1 category (%V Wand save neg)"',
+        'Note="May befriend domestic animals and shift wild animals\' reaction 1 category (%-{(levels.Ranger+2)//3} Wand save neg)"',
       'Bard Skills':
         'Section=skill ' +
         'Note="May Climb Walls, Hear Noise, Pick Pockets, and Read Languages"',
@@ -1268,14 +1269,39 @@ OldSchool.RULE_EDITS = {
       'School Expertise':
         'Section=magic,save ' +
         'Note=' +
-          '"Foes suffer -1 save vs. %{magicNotes.schoolSpecialization} spells",' +
-          '"+1 vs. %{magicNotes.schoolSpecialization} spells"',
+          '"Foes suffer -1 save vs. spells from specialization school",' +
+          '"+1 vs. spells from specialization school"',
       'School Focus':
         'Section=magic ' +
-        'Note="Has a +15% chance to understand %{magicNotes.schoolSpecialization} spells and a -15% chance to understand spells from other schools"',
-      'School Opposition':'Section=magic Note="Cannot learn or cast %V spells"',
+        'Note="Has a +15% chance to understand spells from specialization school and a -15% chance to understand spells from other schools"',
+      'School Opposition':
+        'Section=magic ' +
+        'Note=' +
+          '"Cannot learn or cast %{' +
+          'levels.Abjurer?\'Alteration or Illusion\':' +
+          'levels.Conjurer?\'Divination or Evocation\':' +
+          'levels.Diviner?\'Conjuration\':' +
+          'levels.Enchanter?\'Evocation or Necromancy\':' +
+          'levels.Invoker?\'Conjuration or Enchantment\':' +
+          'levels.Necromancer?\'Enchantment or Illusion\':' +
+          'levels.Transmuter?\'Abjuration or Necromancy\':' +
+          // Illusionist
+          '\'Abjuration, Evocation, or Necromancy\'' +
+          '} spells"',
       'School Specialization':
-        'Section=magic Note="Gains an extra %V spell at each spell level"',
+        'Section=magic ' +
+        'Note=' +
+          '"Gains an extra %{' +
+          'levels.Abjurer?\'Abjuration\':' +
+          'levels.Conjurer?\'Conjuration\':' +
+          'levels.Diviner?\'Divination\':' +
+          'levels.Enchanter?\'Enchantment\':' +
+          'levels.Invoker?\'Evocation\':' +
+          'levels.Necromancer?\'Necromancy\':' +
+          'levels.Transmuter?\'Alteration\':' +
+          // Illusionist
+          '\'Illusion\'' +
+          '} spell at each spell level"',
       'Slow':'Section=ability Note="-60 Speed"'
     },
     'Race':{
@@ -3718,9 +3744,6 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Bard') {
 
     if(rules.edition == 'Second Edition') {
-      rules.defineRule('magicNotes.poeticInspiration', classLevel, '=', null);
-      rules.defineRule
-        ('magicNotes.poeticInspiration.1', classLevel, '=', 'source * 10');
       rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
       rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
       rules.defineRule('skillLevel.Pick Pockets', classLevel, '+=', null);
@@ -3729,7 +3752,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Hear Noise', classLevel, '+=', '20');
       rules.defineRule('skillModifier.Pick Pockets', classLevel, '+=', '10');
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '5');
-      rules.defineRule('skillNotes.legendLore', classLevel, '=', 'source * 5');
       rules.defineRule('skillPoints', classLevel, '+=', '15 * source + 5');
     } else {
       rules.defineRule('languageCount',
@@ -3745,16 +3767,6 @@ OldSchool.classRulesExtra = function(rules, name) {
     let t = rules.edition == 'Second Edition' ? 'P' : 'C';
     rules.defineRule('spellSlots.' + t + '6', 'wisdom', '?', 'source > 16');
     rules.defineRule('spellSlots.' + t + '7', 'wisdom', '?', 'source > 17');
-
-  } else if(name == 'Illusionist') {
-
-    if(rules.edition == 'Second Edition') {
-      rules.defineRule('magicNotes.schoolOpposition',
-        classLevel, '=', '"Abjuration, Evocation, or Necromancy"'
-      );
-      rules.defineRule
-        ('magicNotes.schoolSpecialization', classLevel, '=', '"Illusion"');
-    }
 
   } else if(name == 'Monk') {
 
@@ -3801,9 +3813,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('sanityNotes.tracking', classLevel, '?', '0');
       rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
       rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
-      rules.defineRule('skillNotes.animalEmpathy',
-        classLevel, '=', '-Math.floor((source + 2) / 3)'
-      );
       rules.defineRule
         ('skillNotes.tracking', classLevel, '=', 'Math.floor(source / 3)');
       rules.defineRule
@@ -3843,61 +3852,6 @@ OldSchool.classRulesExtra = function(rules, name) {
       rules.defineRule('skillModifier.Read Languages', classLevel, '+=', '0');
       rules.defineRule('skillPoints', classLevel, '+=', '30 * source + 30');
     }
-
-  } else if(name == 'Abjurer') {
-
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Alteration or Illusion"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Abjuration"');
-
-  } else if(name == 'Conjurer') {
-
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Divination or Evocation"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Conjuration"');
-
-  } else if(name == 'Diviner') {
-
-    rules.defineRule
-      ('magicNotes.schoolOpposition', classLevel, '=', '"Conjuration"');
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Divination"');
-
-  } else if(name == 'Enchanter') {
-
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Evocation or Necromancy"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Enchantment"');
-
-  } else if(name == 'Invoker') {
-
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Conjuration or Enchantment"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Evocation"');
-
-  } else if(name == 'Necromancer') {
-
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Enchantment or Illusion"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Necromancy"');
-
-  } else if(name == 'Transmuter') {
-
-    rules.defineRule('magicNotes.schoolOpposition',
-      classLevel, '=', '"Abjuration or Necromancy"'
-    );
-    rules.defineRule
-      ('magicNotes.schoolSpecialization', classLevel, '=', '"Alteration"');
 
   }
 
