@@ -176,10 +176,12 @@ UnearthedArcana1e.CLASSES = {
     'Features=' +
       '"Armor Proficiency (All)","Shield Proficiency (All)",' +
       '"Continuous Training","Deadly Lancer",Diehard,Equestrian,' +
-      '"Fear Immunity","Fighting The Unskilled","Lance Expertise",' +
-      '"Mental Resistance","Mount Knowledge","Mounted Combatant",' +
-      '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
-      '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","6:Bonus Attacks",' +
+      '"Bonus Expertise Attacks","Fear Immunity","Fighting The Unskilled",' +
+      '"Lance Expertise","Mental Resistance","Mount Knowledge",' +
+      '"race =~ \'Human\' ? 1:Mounted Combatant",' +
+      '"3:Quick Mount","3:Sword Expertise",' +
+      '"gender == \'Female\' && race =~ \'^Elf| Elf\' ? 4:Unicorn Rider",' +
+      '"5:Fast Ride","5:Mace Expertise","6:Bonus Attacks",' +
       '"7:Special Mount" ' +
     'Experience=' +
       '"1 2501 5001 10001 18501 37001 85001 140001 220001 300001 600001' +
@@ -204,11 +206,13 @@ UnearthedArcana1e.CLASSES = {
       .replace('Features=',
       'Features=' +
         '"Armor Proficiency (All)","Shield Proficiency (All)",' +
-        '"Continuous Training","Deadly Lancer",Diehard,Equestrian,' +
-        '"Fear Immunity","Fighting The Unskilled","Lance Expertise",' +
-        '"Mental Resistance","Mount Knowledge","Mounted Combatant",' +
-        '"2:Extra Attacks","3:Quick Mount","3:Sword Expertise",' +
-        '"4:Unicorn Rider","5:Fast Ride","5:Mace Expertise","7:Special Mount",'
+        '"Bonus Expertise Attacks","Continuous Training","Deadly Lancer",' +
+        'Diehard,Equestrian,"Fear Immunity","Fighting The Unskilled",' +
+        '"Lance Expertise","Mental Resistance","Mount Knowledge",' +
+        '"race =~ \'Human\' ? 1:Mounted Combatant",' +
+        '"3:Quick Mount","3:Sword Expertise",' +
+        '"gender == \'Female\' && race =~ \'^Elf| Elf\' ? 4:Unicorn Rider",' +
+        '"5:Fast Ride","5:Mace Expertise","7:Special Mount",'
       ) + ' ' +
     'Require=' +
       '"alignment =~ \'Lawful Good\'","strength>=15","dexterity>=15",' +
@@ -262,6 +266,9 @@ UnearthedArcana1e.FEATURES = {
   'Barbarian Resistance':
     'Section=save ' +
     'Note="+4 vs. poison/+3 Petrification/+3 Death/+3 vs. polymorph/+2 Wand/+2 Breath/+%1 Spell"',
+  'Bonus Expertise Attacks':
+    'Section=combat ' +
+    'Note="+0.5 attacks per round when using an expertise weapon"',
   'Bonus Thief-Acrobat Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Climbing':
@@ -280,8 +287,6 @@ UnearthedArcana1e.FEATURES = {
   'Equestrian':
     'Section=skill ' +
     'Note="Has a %{16-((levels.Cavalier||0)>?(levels.Paladin||0))}% chance of being unsaddled or being injured when mount falls"',
-  'Extra Attacks':
-    'Section=combat Note="+0.5 attacks/rd with expertise weapons"',
   'Extra Longevity':
     'Section=feature Note="May live an additional %{levels.Druid*10} years"',
   'Fast Ride':'Section=skill Note="May ride at +2\\" pace for 1 hr"',
@@ -414,8 +419,9 @@ UnearthedArcana1e.RACES = {
     'Features=' +
       '"Detect Construction","Detect Secret Doors","Detect Sliding",' +
       '"Detect Traps","Determine Depth","Drow Magic","Extended Infravision",' +
-      'Fast,"Light Sensitivity","Resist Charm","Resist Magical Effects",' +
-      '"Resist Sleep","Sharp Eye",Stealthy,"Two-Weapon Fighter" '+
+      '"Light Sensitivity","Resist Charm","Resist Magical Effects",' +
+      '"Resist Sleep","Sharp Eye",Stealthy,"Two-Weapon Fighter",' +
+      '"gender==\'Female\'? 1:Fast" ' +
     'Languages=' +
       'Common,Undercommon,Elf,Gnome,"Drow Sign"',
   'Deep Gnome':
@@ -1369,45 +1375,28 @@ UnearthedArcana1e.classRulesExtra = function(rules, name, attrs) {
     );
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
-  } else if(name == 'Cavalier' || name == 'Paladin') {
-    rules.defineRule(name.toLowerCase() + 'Features.Mounted Combatant',
-      'race', '?', 'source =~ /Human/'
+  } else if(name == 'Cavalier') {
+    // Override bonus attacks computation to reflect additional 0.5 at level 16
+    rules.defineRule('combatNotes.bonusAttacks',
+      classLevel, '^=', 'source<6 ? null : source<11 ? 0.5 : source<16 ? 1 : 1.5'
     );
-    rules.defineRule(name.toLowerCase() + 'Features.Unicorn Rider',
-      'gender', '?', 'source == "Female"',
-      'race', '?', 'source.match(/(^|\\s)Elf/)'
+  } else if(name == 'Paladin') {
+    // Override bonus attacks computation to reflect additional 0.5 at level 19
+    rules.defineRule('combatNotes.bonusAttacks',
+      classLevel, '^=', 'source<7 ? null : source<13 ? 0.5 : source<19 ? 1 : 1.5'
     );
     rules.defineRule
-      ('combatNotes.bonusAttacks', 'additionalBonusAttacks', '+', null);
-    rules.defineRule('warriorLevel', classLevel, '+', null);
-    if(name == 'Paladin') {
-      rules.defineRule
-        ('additionalBonusAttacks', classLevel, '+=', 'source>18 ? 0.5 : null');
-      rules.defineRule
-        ('paladinFeatures.Bonus Paladin Experience', classLevel, 'v', '0');
-      rules.defineRule('paladinFeatures.Extra Attacks',
-        classLevel, '=', 'source==1||source==7||source==13||source>18 ? null : 1'
-      );
-    } else {
-      rules.defineRule
-        ('additionalBonusAttacks', classLevel, '+=', 'source>15 ? 0.5 : null');
-      rules.defineRule('cavalierFeatures.Extra Attacks',
-        classLevel, '=', 'source>16 ? null : 1'
-      );
-    }
+      ('paladinFeatures.Bonus Paladin Experience', classLevel, 'v', '0');
   } else if(name == 'Thief-Acrobat') {
 
-    rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
-    rules.defineRule
-      ('skillLevel.Find Traps', classLevel, '+=', 'Math.min(source, 5)');
-    rules.defineRule('skillLevel.Hear Noise', classLevel, '+=', null);
-    rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
-    rules.defineRule('skillLevel.Move Silently', classLevel, '+=', null);
-    rules.defineRule
-      ('skillLevel.Open Locks', classLevel, '+=', 'Math.min(source, 5)');
-    rules.defineRule
-      ('skillLevel.Pick Pockets', classLevel, '+=', 'Math.min(source, 5)');
-    rules.defineRule('skillLevel.Read Languages', classLevel, '+=', null);
+    ['Climb Walls', 'Hear Noise', 'Hide In Shadows', 'Move Silently',
+     'Read Languages'].forEach(s => {
+      rules.defineRule('skillLevel.' + s, classLevel, '+=', null);
+    });
+    ['Find Traps', 'Open Locks', 'Pick Pockets'].forEach(s => {
+      rules.defineRule
+        ('skillLevel.' + s, classLevel, '+=', 'Math.min(source, 5)');
+    });
     rules.defineRule('skills.Tightrope Walking',
       classLevel, '=', 'source<6 ? null : source<12 ? source * 5 + 45 : 100'
     );
@@ -1475,29 +1464,26 @@ UnearthedArcana1e.classRulesExtra = function(rules, name, attrs) {
           'source>15 ? "+" + [.5,1,2][source - 16] + "\' Running Broad Jumping" : ""' +
         '].filter(x => x != "").join("/")'
     );
-    for(let skill in {'Tightrope Walking':'', 'Pole Vaulting':'', 'High Jumping':'', 'Running Broad Jumping':'', 'Standing Broad Jumping':'', 'Tumbling Attack':'', 'Tumbling Evasion':'', 'Tumbling Falling':''}) {
-      rules.defineRule('skills.' + skill,
+
+    ['High Jumping', 'Pole Vaulting', 'Running Broad Jumping',
+     'Standing Broad Jumping', 'Tightrope Walking', 'Tumbling Attack',
+     'Tumbling Evasion', 'Tumbling Falling'].forEach(s => {
+      rules.defineChoice
+        ('notes', 'skills.' + s + ':' + (s=='Tumbling Falling' ? "%1%,%V'" : s.charAt(0) == 'T' ? '%V%' : "%V'"));
+      rules.defineRule('skills.' + s,
         'skillNotes.armorSkillModifiers.1', '+',
-          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
+          'source.match(/' + s + '/) ? source.match(/([-+][\\d\\.]+). ' + s + '/)[1] * 1 : null',
         'skillNotes.dexteritySkillModifiers.1', '+',
-          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
+          'source.match(/' + s + '/) ? source.match(/([-+][\\d\\.]+). ' + s + '/)[1] * 1 : null',
         'skillNotes.strengthSkillModifiers', '+',
-          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null'
+          'source.match(/' + s + '/) ? source.match(/([-+][\\d\\.]+). ' + s + '/)[1] * 1 : null'
       );
-      rules.defineRule('skills.' + skill + (skill == 'Tumbling Falling' ? '.1' : ''),
+      rules.defineRule('skills.' + s + (s == 'Tumbling Falling' ? '.1' : ''),
         'skillNotes.raceSkillModifiers.1', '+',
-          'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null'
+          'source.match(/' + s + '/) ? source.match(/([-+][\\d\\.]+). ' + s + '/)[1] * 1 : null'
       );
-    }
+    });
     rules.defineChoice('notes',
-      "skills.High Jumping:%V'",
-      "skills.Pole Vaulting:%V'",
-      "skills.Running Broad Jumping:%V'",
-      "skills.Standing Broad Jumping:%V'",
-      "skills.Tightrope Walking:%V%",
-      "skills.Tumbling Attack:%V%",
-      "skills.Tumbling Evasion:%V%",
-      "skills.Tumbling Falling:%1%,%V'",
       "skillNotes.armorSkillModifiers:%V%1",
       "skillNotes.dexteritySkillModifiers:%V%1",
       "skillNotes.raceSkillModifiers:%V%1"
@@ -1526,8 +1512,7 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name, attrs) {
     );
   } else if(name.includes('Half-Elf')) {
     rules.defineRule('skillNotes.raceSkillModifiers.2',
-      raceLevel, '=',
-      '"/+5% Tightrope Walking/+5% Tumbling Attack"'
+      raceLevel, '=', '"/+5% Tightrope Walking/+5% Tumbling Attack"'
     );
   } else if(name.includes('Elf')) {
     rules.defineRule('skillNotes.raceSkillModifiers',
@@ -1562,9 +1547,6 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name, attrs) {
     rules.defineRule('darkElfComelinessModifier',
       'race', '?', 'source == "Dark Elf"',
       'gender', '=', 'source == "Female" ? 1 : -1'
-    );
-    rules.defineRule('darkElfFeatures.Drowess Speed Bonus',
-      'gender', '?', 'source == "Female"'
     );
     rules.defineRule('abilityNotes.raceComelinessModifier',
       'darkElfComelinessModifier', '=', null
