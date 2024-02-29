@@ -236,7 +236,7 @@ UnearthedArcana1e.FEATURES = {
   // Comeliness
   'Gorgeous':
     'Section=magic ' +
-    'Note="May <i>Fascinate</i> creatures with wisdom %V or lower"',
+    'Note="May <i>Fascinate</i> creatures with wisdom %{comeliness*(comeliness<26?0.667:0.75)//1} or lower"',
 
   // Class
   'Alter Appearance':
@@ -253,8 +253,12 @@ UnearthedArcana1e.FEATURES = {
   'Backstab':
     'Section=combat ' +
     'Note="+4 melee attack and x%{((levels.Assassin||0)+7>?(levels.Thief||0)+7>?(($\'levels.Thief-Acrobat\'||0)+7<?12))//4<?5} damage when surprising"',
-  'Barbarian Armor Bonus':'Section=combat Note="-%V AC"',
-  'Barbarian Hit Point Bonus':'Section=combat Note="+%V HP"',
+  'Barbarian Armor Bonus':
+    'Section=combat ' +
+    'Note="+%{armor=~\'None|^Leather|Elfin Chain Mail\'&&dexterity>=15?14-dexterity:0} Armor Class"',
+  'Barbarian Hit Point Bonus':
+    'Section=combat ' +
+    'Note="+%{(constitution-14)*(levels.Barbarian<?8)} Hit Points"',
   'Barbarian Resistance':
     'Section=save ' +
     'Note="+4 vs. poison/+3 Petrification/+3 Death/+3 vs. polymorph/+2 Wand/+2 Breath/+%1 Spell"',
@@ -264,16 +268,17 @@ UnearthedArcana1e.FEATURES = {
     'Section=skill Note="Climb cliffs and trees; other surfaces with practice"',
   'Continuous Training':
     'Section=ability ' +
-    'Note="Gains d100/100 %1strength, dexterity, and constitution at 1st level, 2d10/100 additional at each subsequent level"',
+    'Note="Gains d100/100 %{levels.Paladin?\'charisma, \':\'\'}strength, dexterity, and constitution at 1st level, 2d10/100 additional at each subsequent level"',
   'Deadly Lancer':
-    'Section=combat Note="+%V lance damage when mounted, +1 dismounted"',
+    'Section=combat ' +
+    'Note="+%{(levels.Cavalier||0)>?(levels.Paladin||0)} lance damage when mounted, +1 dismounted"',
   'Detect Magic':
     'Section=save ' +
     'Note="%{levels.Barbarian*5<?75}% chance of detecting illusions, %{levels.Barbarian*5+20<?90}% other magic"',
   'Diehard':'Section=combat Note="Remains conscious at negative HP"',
   'Equestrian':
     'Section=skill ' +
-    'Note="%V% chance of being unsaddled or being injured when mount falls"',
+    'Note="%{16-((levels.Cavalier||0)>?(levels.Paladin||0))}% chance of being unsaddled or being injured when mount falls"',
   'Extra Attacks':
     'Section=combat Note="+0.5 attacks/rd with expertise weapons"',
   'Extra Longevity':
@@ -292,7 +297,7 @@ UnearthedArcana1e.FEATURES = {
     'Note="Attacks bypass +%{(levels.Barbarian-2)//2<?5} magic weapon requirement"',
   'Lance Expertise':
     'Section=combat ' +
-    'Note="+%1 attack with lance when mounted, or parry for foe -%2 attack"',
+    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+5)//6} attack with lance when mounted, or parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+5)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
   'Leadership':
     'Section=ability Note="+%{levels.Barbarian} Charisma (other barbarians)"',
   'Leaping And Springing':
@@ -302,7 +307,7 @@ UnearthedArcana1e.FEATURES = {
     'Section=skill Note="May send messages over distances"',
   'Mace Expertise':
     'Section=combat ' +
-    'Note="+%1 attack with choice of horseman\'s mace, flail, or military pick, or parry for foe -%2 attack"',
+    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+1)//6} attack with choice of horseman\'s mace, flail, or military pick, or parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+1)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
   'Mental Resistance':
     'Section=save Note="90% resistance to mental attacks, +2 vs. illusions"',
   'Mount Knowledge':'Section=feature Note="Knows basic worth of mounts"',
@@ -311,7 +316,7 @@ UnearthedArcana1e.FEATURES = {
     'Section=skill ' +
     'Note="Determine Direction and Druid\'s Knowledge features; able to Predict Weather as with the spell"',
   'Poison Immunity':'Section=save Note="Immunity to natural poisons"',
-  'Planar Travel':'Section=magic Note="May move to %V 1/dy"',
+  'Planar Travel':'Section=magic Note="May move to Plane%{levels.Druid>=18?\'s\':\'\'} of Earth%{levels.Druid>=18?\', Fire\':\'\'}%{levels.Druid>=19?\', Water\':\'\'}%{levels.Druid>=20?\', Air\':\'\'}%{levels.Druid>=21?\', Para-Elemental\':\'\'}%{levels.Druid>=22?\', Shadow\':\'\'}%{levels.Druid>=23?\', Inner Planes\':\'\'} 1/dy"',
   'Running':'Section=ability Note="May move at dbl speed for three days"',
   'Quick Mount':'Section=skill Note="Can vault into saddle and ride in 1 seg"',
   'Small Craft':
@@ -319,15 +324,15 @@ UnearthedArcana1e.FEATURES = {
   'Snare Building':
     'Section=skill Note="Can construct and conceal traps and snares"',
   'Sound Imitation':'Section=skill Note="Can imitate birds and animal calls"',
-  'Special Mount':'Section=skill Note="Can ride a %V"',
-  'Summon Elemental':'Section=magic Note="Can conjure %V elemental 1/dy"',
+  'Special Mount':'Section=skill Note="Can ride a pegasus%{((levels.Cavalier||0)>?(levels.Paladin||0))>=11?\', hippogriff, or griffin\':((levels.Cavalier||0)>?(levels.Paladin||0))>=9?\' or hippogriff\':\'\'}"',
+  'Summon Elemental':'Section=magic Note="Can conjure water%{levels.Druid>=18?\', air\':\'\'}%{levels.Druid>=19?\', magma, smoke\':\'\'}%{levels.Druid>=20?\', ice, ooze\':\'\'} elemental 1/dy"',
   'Surprise':
     'Section=combat ' +
     'Note="Surprise 3in6 (4in6 familiar terrain); surprised 1in10 (1in20 familiar terrain)"',
   'Survival':'Section=skill Note="May hunt and forage in familiar terrain"',
   'Sword Expertise':
     'Section=combat ' +
-    'Note="+%1 attack with choice of broad sword, long sword, or scimitar, or parry for foe -%2 attack"',
+    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+3)//6} attack with choice of broad sword, long sword, or scimitar, or parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+3)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
   'Thief-Acrobat Skills':
     'Section=skill ' +
     'Note="Tightrope Walking, Pole Vaulting, High Jumping, Standing Broad Jumping, Running Broad Jumping, Tumbling Attack, Tumbling Evasion, Tumbling Falling"',
@@ -343,7 +348,7 @@ UnearthedArcana1e.FEATURES = {
     'Section=magic Note="May befriend and train woodland creatures"',
   'Dark Elf Resistance':'Section=save Note="+2 vs. magic"',
   'Deep Gnome Enmity':'Section=combat Note="+1 attack vs. drow and kuo-toa"',
-  'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, <i>Change Self</i>%1 1/dy"',
+  'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, <i>Change Self</i>%{levels.Illusionist||level<6?\'\':\', <i>Conjure Elemental</i> (earth)\'} 1/dy"',
   'Deep Gnome Resistance':
     'Section=save Note="+2 vs. poison/+3 all others/Immune illusions"',
   'Determine Depth':
@@ -351,7 +356,7 @@ UnearthedArcana1e.FEATURES = {
     'Note="%{race=~\'Dwarf|Dark Elf\'?50:60}% chance to determine approximate depth underground"',
   'Drow Magic':
     'Section=magic ' +
-    'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%1%2 1/dy"',
+    'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%{level<4?\'\':\', <i>Detect Magic</i>, <i>Know Alignment</i>, <i>Levitate</i>\'}%{level<4||gender!=\'Female\'?\'\':\', <i>Clairvoyance</i>, <i>Detect Lie</i>, <i>Suggestion</i>, <i>Dispel Magic</i>\'} 1/dy"',
   'Extended Infravision':'Section=feature Note="120\' vision in darkness"',
   'Extremely Stealthy':
     'Section=combat Note="Surprised 1in12; surprise 9in10"',
@@ -1305,9 +1310,6 @@ UnearthedArcana1e.abilityRules = function(rules) {
   );
   rules.defineRule
     ('features.Gorgeous', 'comeliness', '=', 'source<18 ? null : 1');
-  rules.defineRule('magicNotes.gorgeous',
-    'comeliness', '=', 'Math.floor(source * (source<26 ? 0.667 : 0.75))'
-  );
   rules.defineChoice('random', 'comeliness');
 
   rules.defineChoice('notes',
@@ -1355,14 +1357,6 @@ UnearthedArcana1e.armorRulesExtra = function(rules, name) {
 UnearthedArcana1e.classRulesExtra = function(rules, name) {
   var classLevel = 'levels.' + name;
   if(name == 'Barbarian') {
-    rules.defineRule('combatNotes.barbarianArmorBonus',
-      'armor', '?', 'source.match(/None|^Leather|Elfin Chain Mail/)',
-      'dexterity', '=', 'source>=15 ? source - 14 : null'
-    );
-    rules.defineRule('combatNotes.barbarianHitPointBonus',
-      'constitution', '=', 'source - 14',
-      classLevel, '*', 'Math.min(source, 8)'
-    );
     rules.defineRule('features.Determine Direction', classLevel, '=', '1');
     rules.defineRule("features.Druid's Knowledge", classLevel, '=', '1');
     rules.defineRule('saveNotes.barbarianResistance.1',
@@ -1387,36 +1381,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('combatNotes.bonusAttacks', 'additionalBonusAttacks', '+', null);
-    rules.defineRule('combatNotes.deadlyLancer', classLevel, '+=', null);
-    rules.defineRule('combatNotes.lanceExpertise.1',
-      classLevel, '=', 'Math.floor((source + 5) / 6)'
-    );
-    rules.defineRule('combatNotes.lanceExpertise.2',
-      'combatNotes.lanceExpertise.1', '=', null,
-      'combatNotes.strengthAttackAdjustment', '+', null
-    );
-    rules.defineRule('combatNotes.maceExpertise.1',
-      classLevel, '=', 'Math.floor((source + 1) / 6)'
-    );
-    rules.defineRule('combatNotes.maceExpertise.2',
-      'combatNotes.maceExpertise.1', '=', null,
-      'combatNotes.strengthAttackAdjustment', '+', null
-    );
-    rules.defineRule('combatNotes.swordExpertise.1',
-      classLevel, '=', 'Math.floor((source + 3) / 6)'
-    );
-    rules.defineRule('combatNotes.swordExpertise.2',
-      'combatNotes.swordExpertise.1', '=', null,
-      'combatNotes.strengthAttackAdjustment', '+', null
-    );
-    rules.defineRule('skillNotes.equestrian', classLevel, '=', '16 - source');
-    rules.defineRule('skillNotes.specialMount',
-      classLevel, '=', '"pegasus" + (source>=11 ? ", hippogriff, or griffin" : source>9 ? " or hippogriff" : "")'
-    );
     rules.defineRule('warriorLevel', classLevel, '+', null);
     if(name == 'Paladin') {
-      rules.defineRule
-        ('abilityNotes.continuousTraining.1', classLevel, '=', '"charisma, "');
       rules.defineRule
         ('additionalBonusAttacks', classLevel, '+=', 'source>18 ? 0.5 : null');
       rules.defineRule
@@ -1426,20 +1392,11 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
       );
     } else {
       rules.defineRule
-        ('abilityNotes.continuousTraining.1', classLevel, '=', '""');
-      rules.defineRule
         ('additionalBonusAttacks', classLevel, '+=', 'source>15 ? 0.5 : null');
       rules.defineRule('cavalierFeatures.Extra Attacks',
         classLevel, '=', 'source>16 ? null : 1'
       );
     }
-  } else if(name == 'Druid') {
-    rules.defineRule('magicNotes.planarTravel',
-      classLevel, '=', '"Plane" + (source>=18 ? "s" : "") + " of Earth" + (source>=18 ? ", Fire" : "") + (source>=19 ? ", Water" : "") + (source>=20 ? ", Air" : "") + (source>=21 ? ", Para-Elemental" : "") + (source>=22 ? ", Shadow" : "") + (source>=23 ? ", Inner Planes" : "")'
-    );
-    rules.defineRule('magicNotes.summonElemental',
-      classLevel, '=', '"water" + (source>=18 ? ", air" : "") + (source>=19 ? ", magma, smoke" : "") + (source>=20 ? ", ice, ooze" : "")'
-    );
   } else if(name == 'Thief-Acrobat') {
 
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
@@ -1618,13 +1575,6 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.raceComelinessModifier.1',
       'darkElfComelinessModifier', '=', null
     );
-    rules.defineRule('magicNotes.drowMagic.1',
-      'level', '=', 'source<4 ? "" : ", <i>Detect Magic</i>, <i>Know Alignment</i>, <i>Levitate</i>"'
-    );
-    rules.defineRule('magicNotes.drowMagic.2',
-      'level', '=', 'source<4 ? "" : ", <i>Clairvoyance</i>, <i>Detect Lie</i>, <i>Suggestion</i>, <i>Dispel Magic</i>"',
-      'gender', '=', 'source != "Female" ? "" : null'
-    );
   } else if(name.includes('Dwarf')) {
     rules.defineRule
       ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
@@ -1633,13 +1583,6 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
   } else if(name.includes('Gnome')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
-    if(name == 'Deep Gnome') {
-      rules.defineRule('magicNotes.deepGnomeMagic.1',
-        'features.Deep Gnome Magic', '?', null,
-        raceLevel, '=', 'source<6 ? "" : ", <i>Conjure Elemental</i> (earth)"',
-        'levels.Illusionist', '=', '""'
-      );
-    }
   } else if(name == 'Gray Elf' || name == 'High Elf' || name == 'Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
