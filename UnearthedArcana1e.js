@@ -265,82 +265,85 @@ UnearthedArcana1e.FEATURES = {
   'Bonus Thief-Acrobat Experience':
     'Section=ability Note="10% added to awarded experience"',
   'Climbing':
-    'Section=skill Note="Climb cliffs and trees; other surfaces with practice"',
+    'Section=skill ' +
+    'Note="May climb cliffs and trees; may climb other surfaces with practice"',
   'Continuous Training':
     'Section=ability ' +
-    'Note="Gains d100/100 %{levels.Paladin?\'charisma, \':\'\'}strength, dexterity, and constitution at 1st level, 2d10/100 additional at each subsequent level"',
+    'Note="Gains d100/100 %{levels.Paladin?\'charisma, \':\'\'}strength, dexterity, and constitution at 1st level and 2d10/100 additional at each subsequent level"',
   'Deadly Lancer':
     'Section=combat ' +
-    'Note="+%{(levels.Cavalier||0)>?(levels.Paladin||0)} lance damage when mounted, +1 dismounted"',
+    'Note="+%{(levels.Cavalier||0)>?(levels.Paladin||0)} lance damage when mounted; +1 when dismounted"',
   'Detect Magic':
     'Section=save ' +
-    'Note="%{levels.Barbarian*5<?75}% chance of detecting illusions, %{levels.Barbarian*5+20<?90}% other magic"',
-  'Diehard':'Section=combat Note="Remains conscious at negative HP"',
+    'Note="Has a %{levels.Barbarian*5<?75}% chance of detecting illusions and a %{levels.Barbarian*5+20<?90}% chance of detecting other magic"',
+  'Diehard':'Section=combat Note="Remains conscious at negative Hit Points"',
   'Equestrian':
     'Section=skill ' +
-    'Note="%{16-((levels.Cavalier||0)>?(levels.Paladin||0))}% chance of being unsaddled or being injured when mount falls"',
+    'Note="Has a %{16-((levels.Cavalier||0)>?(levels.Paladin||0))}% chance of being unsaddled or being injured when mount falls"',
   'Extra Attacks':
     'Section=combat Note="+0.5 attacks/rd with expertise weapons"',
   'Extra Longevity':
     'Section=feature Note="May live an additional %{levels.Druid*10} years"',
-  'Fast Ride':'Section=skill Note="Can ride at +2\\" pace for 1 hr"',
+  'Fast Ride':'Section=skill Note="May ride at +2\\" pace for 1 hr"',
   'Fear Immunity':'Section=save Note="R10\' Immune to fear"',
   'First Aid':
     'Section=skill ' +
-    'Note="Binding wounds restores 1 HP and doubles healing rate; 10% chance of curing poison or disease"',
-  'Hibernate':'Section=feature Note="May enter ageless hibernation"',
+    'Note="Binding wounds restores 1 HP and doubles healing rate; has a 10% chance of curing poison or disease"',
+  'Hibernate':'Section=feature Note="May enter an ageless hibernation"',
   'Hide In Natural Surroundings':
-    'Section=skill Note="Use Hide In Shadows skill in natural surroundings"',
-  'Horsemanship':'Section=combat Note="May ride horse into battle"',
+    'Section=skill Note="May use Hide In Shadows in natural surroundings"',
+  'Horsemanship':'Section=combat Note="May ride a horse into battle"',
   'Irresistible Assault':
     'Section=combat ' +
     'Note="Attacks bypass +%{(levels.Barbarian-2)//2<?5} magic weapon requirement"',
   'Lance Expertise':
     'Section=combat ' +
-    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+5)//6} attack with lance when mounted, or parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+5)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
+    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+5)//6} attack with lance when mounted; may parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+5)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
   'Leadership':
     'Section=ability Note="+%{levels.Barbarian} Charisma (other barbarians)"',
   'Leaping And Springing':
     'Section=skill ' +
-    'Note="May jump 10\' forward, 3\' up or back, from standing start; d6+15\' forward, d4/2+4\' up, with running start"',
+    'Note="May jump 10\' forward, 3\' up, or 3\' back from a standing start and d6+15\' forward or d4/2+4\' up with a running start"',
   'Long Distance Signaling':
     'Section=skill Note="May send messages over distances"',
   'Mace Expertise':
     'Section=combat ' +
-    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+1)//6} attack with choice of horseman\'s mace, flail, or military pick, or parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+1)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
+    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+1)//6} attack with choice of horseman\'s mace, flail, or military pick; may parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+1)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
   'Mental Resistance':
-    'Section=save Note="90% resistance to mental attacks, +2 vs. illusions"',
+    'Section=save Note="90% resistance to mental attacks/+2 vs. illusions"',
   'Mount Knowledge':'Section=feature Note="Knows basic worth of mounts"',
-  'Mounted Combatant':'Section=combat Note="+1 attack from mount"',
+  'Mounted Combatant':'Section=combat Note="+1 attacks from mount"',
   'Outdoor Craft':
-    'Section=skill ' +
-    'Note="Determine Direction and Druid\'s Knowledge features; able to Predict Weather as with the spell"',
-  'Poison Immunity':'Section=save Note="Immunity to natural poisons"',
+    'Section=magic,skill ' +
+    'Note=' +
+      '"May use <i>Predict Weather</i> effects at will",' +
+      '"Has Determine Direction and Druid\'s Knowledge features"',
+  'Poison Immunity':'Section=save Note="Immune to natural poisons"',
   'Planar Travel':'Section=magic Note="May move to Plane%{levels.Druid>=18?\'s\':\'\'} of Earth%{levels.Druid>=18?\', Fire\':\'\'}%{levels.Druid>=19?\', Water\':\'\'}%{levels.Druid>=20?\', Air\':\'\'}%{levels.Druid>=21?\', Para-Elemental\':\'\'}%{levels.Druid>=22?\', Shadow\':\'\'}%{levels.Druid>=23?\', Inner Planes\':\'\'} 1/dy"',
   'Running':'Section=ability Note="May move at dbl speed for three days"',
-  'Quick Mount':'Section=skill Note="Can vault into saddle and ride in 1 seg"',
+  'Quick Mount':'Section=skill Note="May vault into saddle and ride in 1 seg"',
   'Small Craft':
-    'Section=skill Note="May build and use rowed or paddled water transport"',
+    'Section=skill Note="May build and use a rowed or paddled water transport"',
   'Snare Building':
-    'Section=skill Note="Can construct and conceal traps and snares"',
-  'Sound Imitation':'Section=skill Note="Can imitate birds and animal calls"',
-  'Special Mount':'Section=skill Note="Can ride a pegasus%{((levels.Cavalier||0)>?(levels.Paladin||0))>=11?\', hippogriff, or griffin\':((levels.Cavalier||0)>?(levels.Paladin||0))>=9?\' or hippogriff\':\'\'}"',
-  'Summon Elemental':'Section=magic Note="Can conjure water%{levels.Druid>=18?\', air\':\'\'}%{levels.Druid>=19?\', magma, smoke\':\'\'}%{levels.Druid>=20?\', ice, ooze\':\'\'} elemental 1/dy"',
+    'Section=skill Note="May construct and conceal traps and snares"',
+  'Sound Imitation':'Section=skill Note="May imitate birds and animal calls"',
+  'Special Mount':'Section=skill Note="May ride a pegasus%{((levels.Cavalier||0)>?(levels.Paladin||0))>=11?\', hippogriff, or griffin\':((levels.Cavalier||0)>?(levels.Paladin||0))>=9?\' or hippogriff\':\'\'}"',
+  'Summon Elemental':'Section=magic Note="May conjure a water%{levels.Druid>=18?\', air\':\'\'}%{levels.Druid>=19?\', magma, smoke\':\'\'}%{levels.Druid>=20?\', ice, ooze\':\'\'} elemental 1/dy"',
   'Surprise':
     'Section=combat ' +
-    'Note="Surprise 3in6 (4in6 familiar terrain); surprised 1in10 (1in20 familiar terrain)"',
+    'Note="Surprised 1in10 (1in20 in familiar terrain); surprises 3in6 (4in6 in familiar terrain)"',
   'Survival':'Section=skill Note="May hunt and forage in familiar terrain"',
   'Sword Expertise':
     'Section=combat ' +
-    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+3)//6} attack with choice of broad sword, long sword, or scimitar, or parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+3)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
+    'Note="+%{(((levels.Cavalier||0)>?(levels.Paladin||0))+3)//6} attack with choice of broad sword, long sword, or scimitar; may parry for foe -%{(((levels.Cavalier||0)>?(levels.Paladin||0))+3)//6+(combatNotes.strengthAttackAdjustment||0)} attack"',
   'Thief-Acrobat Skills':
     'Section=skill ' +
-    'Note="Tightrope Walking, Pole Vaulting, High Jumping, Standing Broad Jumping, Running Broad Jumping, Tumbling Attack, Tumbling Evasion, Tumbling Falling"',
+    'Note="May use Tightrope Walking, Pole Vaulting, High Jumping, Standing Broad Jumping, Running Broad Jumping, Tumbling Attack, Tumbling Evasion, and Tumbling Falling"',
   // Override OSRIC Tracking defn
   'Tracking':
     'Section=feature ' +
     'Note="%{((levels.Ranger||0)+(levels.Barbarian||0))*10+10<?110}% base change to track creature"',
-  'Unicorn Rider':'Section=skill Note="Can ride a unicorn"',
+  'Unicorn Rider':'Section=skill Note="May ride a unicorn"',
   'Vigorous Health':'Section=feature Note="Has full health and vigor"',
 
   // Race
@@ -348,36 +351,40 @@ UnearthedArcana1e.FEATURES = {
     'Section=magic Note="May befriend and train woodland creatures"',
   'Dark Elf Resistance':'Section=save Note="+2 vs. magic"',
   'Deep Gnome Enmity':'Section=combat Note="+1 attack vs. drow and kuo-toa"',
-  'Deep Gnome Magic':'Section=magic Note="Cast <i>Blindness</i>, <i>Blur</i>, <i>Change Self</i>%{levels.Illusionist||level<6?\'\':\', <i>Conjure Elemental</i> (earth)\'} 1/dy"',
+  'Deep Gnome Magic':'Section=magic Note="May cast <i>Blindness</i>, <i>Blur</i>, <i>Change Self</i>%{levels.Illusionist||level<6?\'\':\', <i>Conjure Elemental</i> (earth)\'} 1/dy"',
   'Deep Gnome Resistance':
-    'Section=save Note="+2 vs. poison/+3 all others/Immune illusions"',
+    'Section=save Note="+2 vs. poison/+3 all others/Immune to illusions"',
   'Determine Depth':
     'Section=feature ' +
     'Note="%{race=~\'Dwarf|Dark Elf\'?50:60}% chance to determine approximate depth underground"',
   'Drow Magic':
     'Section=magic ' +
-    'Note="Cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%{level<4?\'\':\', <i>Detect Magic</i>, <i>Know Alignment</i>, <i>Levitate</i>\'}%{level<4||gender!=\'Female\'?\'\':\', <i>Clairvoyance</i>, <i>Detect Lie</i>, <i>Suggestion</i>, <i>Dispel Magic</i>\'} 1/dy"',
+    'Note="May cast <i>Dancing Lights</i>, <i>Faerie Fire</i>, <i>Darkness</i> (5\' radius)%{level<4?\'\':\', <i>Detect Magic</i>, <i>Know Alignment</i>, <i>Levitate</i>\'}%{level<4||gender!=\'Female\'?\'\':\', <i>Clairvoyance</i>, <i>Detect Lie</i>, <i>Suggestion</i>, <i>Dispel Magic</i>\'} 1/dy"',
   'Extended Infravision':'Section=feature Note="120\' vision in darkness"',
-  'Extremely Stealthy':
-    'Section=combat Note="Surprised 1in12; surprise 9in10"',
+  'Extremely Stealthy':'Section=combat Note="Surprised 1in12; surprises 9in10"',
   'Fast':'Section=ability Note="+30 Speed"',
   'Gray Dwarf Immunities':
     'Section=save ' +
-    'Note="Immunity to illusions, paralyzation, and non-natural poison"',
+    'Note="Immune to illusions, paralyzation, and non-natural poisons"',
   'Gray Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Intelligence"',
   'Light Blindness':
     'Section=combat,feature ' +
-    'Note="3\\" vision in bright light","-1 attack in bright light"',
+    'Note=' +
+      '"-1 attack in bright light",' +
+      '"3\\" vision in bright light"',
   'Light Sensitivity':
     'Section=ability,combat ' +
-    'Note="-2 Dexterity in full light",' +
-         '"-2 attacks and foes +2 saves in full light"',
+    'Note=' +
+      '"-2 Dexterity in full light",' +
+      '"-2 attacks, and foes +2 saves, in full light"',
   'Resist Magical Effects':'Section=save Note="+2 vs. magic"',
   'Sharp Eye':'Section=combat Note="Surprised 1in8 in less than full light"',
-  'Shielded':'Section=magic Note="Continuous self <i>Non-Detection</i> effect"',
+  'Shielded':
+    'Section=magic Note="Has a continuous self <i>Non-Detection</i> effect"',
   'Stone Camouflage':
-    'Section=feature Note="60% chance of hiding against natural stone"',
+    'Section=feature ' +
+    'Note="60% chance of hiding successfully against natural stone"',
   'Trapper':'Section=skill Note="May set traps with 90% success"',
   'Two-Weapon Fighter':
     'Section=combat ' +
@@ -386,7 +393,7 @@ UnearthedArcana1e.FEATURES = {
     'Section=ability Note="+1 Dexterity/-1 Constitution/+1 Intelligence"',
   'Very Stealthy':
     'Section=combat ' +
-    'Note="Surprised 1in10 and surprise 3in6 in less than full light"',
+    'Note="Surprised 1in10 and surprises 3in6 in less than full light"',
   'Wild Elf Ability Adjustment':
     'Section=ability Note="+1 Dexterity/-1 Constitution/+2 Strength"',
   'Wood Elf Ability Adjustment':
