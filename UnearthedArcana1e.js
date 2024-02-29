@@ -1301,14 +1301,7 @@ UnearthedArcana1e.WEAPONS = {
 
 /* Defines rules related to character abilities. */
 UnearthedArcana1e.abilityRules = function(rules) {
-
   rules.defineRule('abilityNotes.charismaComelinessModifier',
-    'charismaComelinessModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('abilityNotes.raceComelinessModifier',
-    'abilityNotes.raceComelinessModifier.1', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('charismaComelinessModifier',
     'charisma', '=', 'source<3 ? -8 : source<4 ? -5 : source<6 ? -3 : source<9 ? -1 : source<13 ? null : source<16 ? 1 : source<18 ? 2 : source<19 ? 3 : 5'
   );
   rules.defineRule('comeliness',
@@ -1318,10 +1311,9 @@ UnearthedArcana1e.abilityRules = function(rules) {
   rules.defineRule
     ('features.Gorgeous', 'comeliness', '=', 'source<18 ? null : 1');
   rules.defineChoice('random', 'comeliness');
-
   rules.defineChoice('notes',
-    'abilityNotes.charismaComelinessModifier:%V',
-    'abilityNotes.raceComelinessModifier:%V'
+    'abilityNotes.charismaComelinessModifier:%S',
+    'abilityNotes.raceComelinessModifier:%S'
   );
   rules.defineEditorElement
     ('comeliness', 'Comeliness', 'select-one', [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 'gender');
@@ -1334,25 +1326,24 @@ UnearthedArcana1e.abilityRules = function(rules) {
  */
 UnearthedArcana1e.choiceRules = function(rules, type, name, attrs) {
   if(type == 'Armor')
-    UnearthedArcana1e.armorRulesExtra(rules, name);
+    UnearthedArcana1e.armorRulesExtra(rules, name, attrs);
   else if(type == 'Class')
-    UnearthedArcana1e.classRulesExtra(rules, name);
+    UnearthedArcana1e.classRulesExtra(rules, name, attrs);
   else if(type == 'Race')
-    UnearthedArcana1e.raceRulesExtra(rules, name);
+    UnearthedArcana1e.raceRulesExtra(rules, name, attrs);
 };
 
 /*
  * Defines in #rules# the rules associated with armor #name# that cannot be
  * derived directly from the abilities passed to armorRules.
  */
-UnearthedArcana1e.armorRulesExtra = function(rules, name) {
+UnearthedArcana1e.armorRulesExtra = function(rules, name, attrs) {
   if(rules.armorStats.acrobatics == null)
     rules.armorStats.acrobatics = {};
-  var allSkills =
-    QuilvynUtils.getAttrValueArray(UnearthedArcana1e.ARMORS[name], 'Skill');
+  let allSkills = QuilvynUtils.getAttrValueArray(attrs, 'Skill');
   rules.armorStats.acrobatics[name] =
     allSkills.length > 1 ? '/' + allSkills[allSkills.length - 2] : '';
-  rules.defineRule('skillNotes.armorSkillModifiers.2',
+  rules.defineRule('skillNotes.armorSkillModifiers.1',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.acrobatics) + '[source]'
   );
 };
@@ -1361,21 +1352,21 @@ UnearthedArcana1e.armorRulesExtra = function(rules, name) {
  * Defines in #rules# the rules associated with class #name# that cannot be
  * derived directly from the abilities passed to classRules.
  */
-UnearthedArcana1e.classRulesExtra = function(rules, name) {
-  var classLevel = 'levels.' + name;
+UnearthedArcana1e.classRulesExtra = function(rules, name, attrs) {
+  let classLevel = 'levels.' + name;
   if(name == 'Barbarian') {
     rules.defineRule('features.Determine Direction', classLevel, '=', '1');
     rules.defineRule("features.Druid's Knowledge", classLevel, '=', '1');
-    rules.defineRule('saveNotes.barbarianResistance.1',
-      classLevel, '=', 'Math.floor(source / 4)'
-    );
     rules.defineRule('save.Breath', 'saveNotes.barbarianResistance', '+', '-2');
     rules.defineRule('save.Death', 'saveNotes.barbarianResistance', '+', '-3');
     rules.defineRule
       ('save.Petrification', 'saveNotes.barbarianResistance', '+', '-3');
     rules.defineRule
-      ('save.Spell', 'saveNotes.barbarianResistance.1', '+', '-source');
+      ('save.Spell', 'saveNotes.barbarianResistance.1', '+', null);
     rules.defineRule('save.Wand', 'saveNotes.barbarianResistance', '+', '-2');
+    rules.defineRule('saveNotes.barbarianResistance.1',
+      classLevel, '=', 'Math.floor(source / 4)'
+    );
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
   } else if(name == 'Cavalier' || name == 'Paladin') {
@@ -1446,12 +1437,8 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('skillNotes.armorSkillModifiers.1',
       'skillNotes.armorSkillModifiers', '?', null,
-      '', '=', '""',
-      'skillNotes.armorSkillModifiers.2', '=', null
-    );
-    rules.defineRule('skillNotes.armorSkillModifiers.2',
-      'skillNotes.armorSkillModifiers', '?', null,
-      classLevel, '?', 'source>=6'
+      classLevel, '?', 'source>=6',
+      '', '=', '""'
     );
     rules.defineRule('skillNotes.dexteritySkillModifiers.1',
       'skillNotes.dexteritySkillModifiers', '?', null,
@@ -1488,7 +1475,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
           'source>15 ? "+" + [.5,1,2][source - 16] + "\' Running Broad Jumping" : ""' +
         '].filter(x => x != "").join("/")'
     );
-    for(var skill in {'Tightrope Walking':'', 'Pole Vaulting':'', 'High Jumping':'', 'Running Broad Jumping':'', 'Standing Broad Jumping':'', 'Tumbling Attack':'', 'Tumbling Evasion':'', 'Tumbling Falling':''}) {
+    for(let skill in {'Tightrope Walking':'', 'Pole Vaulting':'', 'High Jumping':'', 'Running Broad Jumping':'', 'Standing Broad Jumping':'', 'Tumbling Attack':'', 'Tumbling Evasion':'', 'Tumbling Falling':''}) {
       rules.defineRule('skills.' + skill,
         'skillNotes.armorSkillModifiers.1', '+',
           'source.match(/' + skill + '/) ? source.match(/([-+][\\d\\.]+). ' + skill + '/)[1] * 1 : null',
@@ -1522,9 +1509,9 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
  * Defines in #rules# the rules associated with race #name# that cannot be
  * derived directly from the abilities passed to raceRules.
  */
-UnearthedArcana1e.raceRulesExtra = function(rules, name) {
+UnearthedArcana1e.raceRulesExtra = function(rules, name, attrs) {
 
-  var raceLevel =
+  let raceLevel =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
 
   // Extend thief skill racial modifiers to new sub-races
@@ -1579,31 +1566,31 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('darkElfFeatures.Drowess Speed Bonus',
       'gender', '?', 'source == "Female"'
     );
-    rules.defineRule('abilityNotes.raceComelinessModifier.1',
+    rules.defineRule('abilityNotes.raceComelinessModifier',
       'darkElfComelinessModifier', '=', null
     );
   } else if(name.includes('Dwarf')) {
     rules.defineRule
       ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
     rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
+      ('abilityNotes.raceComelinessModifier', raceLevel, '=', -1);
   } else if(name.includes('Gnome')) {
     rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
+      ('abilityNotes.raceComelinessModifier', raceLevel, '=', -1);
   } else if(name == 'Gray Elf' || name == 'High Elf' || name == 'Elf') {
     rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
+      ('abilityNotes.raceComelinessModifier', raceLevel, '=', 2);
   } else if(name.includes('Half-Elf')) {
     rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
+      ('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
   } else if(name.includes('Half-Orc')) {
     rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -3);
+      ('abilityNotes.raceComelinessModifier', raceLevel, '=', -3);
   } else if(name == 'Wild Elf') {
     rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   } else if(name == 'Wood Elf') {
     rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
+      ('abilityNotes.raceComelinessModifier', raceLevel, '=', 1);
     rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   }
 
@@ -1612,8 +1599,8 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
 /* Sets #attributes#'s #attribute# attribute to a random value. */
 UnearthedArcana1e.randomizeOneAttribute = function(attributes, attribute) {
   if(attribute == 'comeliness' || attribute == 'abilities') {
-    var rolls = [];
-    for(var i = 0; i < 4; i++)
+    let rolls = [];
+    for(let i = 0; i < 4; i++)
       rolls.push(QuilvynUtils.random(1, 6));
     rolls.sort();
     attributes.comeliness = rolls[1] + rolls[2] + rolls[3];
