@@ -1377,7 +1377,7 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     rules.defineRule('save.Wand', 'saveNotes.barbarianResistance', '+', '-2');
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule('skillLevel.Hide In Shadows', classLevel, '+=', null);
-  } if(name == 'Cavalier' || name == 'Paladin') {
+  } else if(name == 'Cavalier' || name == 'Paladin') {
     rules.defineRule(name.toLowerCase() + 'Features.Mounted Combatant',
       'race', '?', 'source =~ /Human/'
     );
@@ -1442,10 +1442,6 @@ UnearthedArcana1e.classRulesExtra = function(rules, name) {
     );
   } else if(name == 'Thief-Acrobat') {
 
-    rules.defineRule('combatNotes.backstab',
-      classLevel, '+=', 'Math.min(Math.ceil(source / 4) + 1, 5)'
-    );
-    rules.defineRule("languages.Thieves' Cant", classLevel, '=', '1');
     rules.defineRule('skillLevel.Climb Walls', classLevel, '+=', null);
     rules.defineRule
       ('skillLevel.Find Traps', classLevel, '+=', 'Math.min(source, 5)');
@@ -1622,7 +1618,6 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.raceComelinessModifier.1',
       'darkElfComelinessModifier', '=', null
     );
-    rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
     rules.defineRule('magicNotes.drowMagic.1',
       'level', '=', 'source<4 ? "" : ", <i>Detect Magic</i>, <i>Know Alignment</i>, <i>Levitate</i>"'
     );
@@ -1630,56 +1625,35 @@ UnearthedArcana1e.raceRulesExtra = function(rules, name) {
       'level', '=', 'source<4 ? "" : ", <i>Clairvoyance</i>, <i>Detect Lie</i>, <i>Suggestion</i>, <i>Dispel Magic</i>"',
       'gender', '=', 'source != "Female" ? "" : null'
     );
-    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
-    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
-  } else if(name == 'Dwarf') {
+  } else if(name.includes('Dwarf')) {
+    rules.defineRule
+      ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
   } else if(name.includes('Gnome')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
     if(name == 'Deep Gnome') {
-      rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '80');
-      rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '60');
       rules.defineRule('magicNotes.deepGnomeMagic.1',
         'features.Deep Gnome Magic', '?', null,
         raceLevel, '=', 'source<6 ? "" : ", <i>Conjure Elemental</i> (earth)"',
         'levels.Illusionist', '=', '""'
       );
     }
-  } else if(name == 'Gray Dwarf') {
-    rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -1);
-    rules.defineRule('featureNotes.detectSlope', raceLevel, '+=', '75');
-    rules.defineRule('featureNotes.determineDepth', raceLevel, '+=', '50');
-    rules.defineRule
-      ('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', '2');
-  } else if(name == 'Gray Elf') {
+  } else if(name == 'Gray Elf' || name == 'High Elf' || name == 'Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
-    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
-    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
   } else if(name.includes('Half-Elf')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
   } else if(name.includes('Half-Orc')) {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', -3);
-  } else if(name == 'High Elf' || name == 'Elf') {
-    rules.defineRule
-      ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 2);
-  } else if(name == 'Valley Elf') {
-    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
-    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
   } else if(name == 'Wild Elf') {
-    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
-    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
     rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   } else if(name == 'Wood Elf') {
     rules.defineRule
       ('abilityNotes.raceComelinessModifier.1', raceLevel, '=', 1);
-    rules.defineRule('saveNotes.resistCharm', raceLevel, '+=', '90');
-    rules.defineRule('saveNotes.resistSleep', raceLevel, '+=', '90');
     rules.defineRule('skillNotes.intelligenceLanguageBonus', raceLevel, 'v', 0);
   }
 
