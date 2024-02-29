@@ -3595,7 +3595,7 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
   }
   if(window.UnearthedArcana1e != null && rules.edition == 'First Edition')
     UnearthedArcana1e.choiceRules(rules, type, name, attrs);
-  if(type != 'Feature' && type != 'Spell') {
+  if(type != 'Spell') {
     type = type == 'Class' ? 'levels' :
     (type.substring(0,1).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
     rules.addChoice(type, name, attrs);
