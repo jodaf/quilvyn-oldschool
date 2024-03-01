@@ -1,5 +1,5 @@
 /*
-Copyright 2022, James J. Hayes
+Copyright 2024, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -29,23 +29,28 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function OSPsionics() {
 }
 
-OSPsionics.VERSION = '2.3.1.0';
+OSPsionics.VERSION = '2.4.1.0';
 
 OSPsionics.CLASSES = {
   'Psionicist':
     'Require=' +
       '"alignment !~ \'Chaotic\'","constitution >= 11","intelligence >= 13",' +
       '"wisdom >= 15" ' +
-    'HitDie=d6,9,2 Attack=0,1,2,- WeaponProficiency=2,5,4 ' +
-    'NonweaponProficiency=3,3 ' +
-    'Breath=16,1,4 Death=13,1,4 Petrification=10,1,4 Spell=15,2,4 Wand=15,2,4 '+
+    'HitDie=d6,9,2 THAC10="10 9@3 ...1@19" ' +
+    'WeaponProficiency="2 3@6 ...5@16" NonproficientPenalty=-4 ' +
+    'NonweaponProficiency="3 4@4 ...9@19" ' +
+    'Breath="16 15@5 13@9 12@13 11@17 9@21" ' +
+    'Death="13 12@5 ...8@21" ' +
+    'Petrification="10 9@5 ...5@21" ' +
+    'Spell="15 14@5 12@9 11@13 9@17 7@21" ' +
+    'Wand="15 13@5 ...5@21" '+
     'Features=' +
       '"Armor Proficiency (Hide/Leather/Studded Leather)",' +
       '"Shield Proficiency (Small)",' +
       '"Psionic Powers","Resist Enchantment" ' +
     'Experience=' +
-      '0,2.2,4.4,8.8,16.5,30,55,100,200,400,600,800,1000,1200,1500,1800,2100,' +
-      '2400,2700,3000'
+      '"0 2200 4400 8800 16500 30000 55000 100000 200000 400000 600000 800000' +
+      ' 1000000 1200000 1500000 1800000 2100000 2400000 2700000 3000000"'
 };
 OSPsionics.DISCIPLINES = {
   'Clairsentience':'',
@@ -58,10 +63,10 @@ OSPsionics.DISCIPLINES = {
 OSPsionics.FEATURES = {
   'Psionic Powers':
     'Section=magic ' +
-    'Note="Access to %V disciplines, %1 sciences, %2 devotions, and %3 defense modes"',
+    'Note="May access %V disciplines, %1 sciences, %2 devotions, and %3 defense modes"',
   'Psionic Talent':
     'Section=magic ' +
-    'Note="Access to 1 or more powers; %V Psionic Strength Points"',
+    'Note="May access 1 or more powers/Has %V Psionic Strength Points"',
   'Resist Enchantment':'Section=save Note="+2 vs. enchantment spells"'
 };
 OSPsionics.GOODIES = {
@@ -1074,28 +1079,25 @@ OSPsionics.SKILLS = {
 /* Defines rules related to psionics use. */
 OSPsionics.psionicsRules = function(rules, firstEdition) {
 
-  var classes = Object.assign({}, firstEdition ? {} : OSPsionics.CLASSES);
-  var disciplines = Object.assign({}, OSPsionics.DISCIPLINES);
-  var features = Object.assign({}, OSPsionics.FEATURES);
-  var goodies = Object.assign({}, OSPsionics.GOODIES);
-  var powers = Object.assign({}, OSPsionics.POWERS);
-  var skills = Object.assign({}, firstEdition ? {} : OSPsionics.SKILLS);
+  let classes = Object.assign({}, firstEdition ? {} : OSPsionics.CLASSES);
+  let disciplines = Object.assign({}, OSPsionics.DISCIPLINES);
+  let features = Object.assign({}, OSPsionics.FEATURES);
+  let goodies = Object.assign({}, OSPsionics.GOODIES);
+  let powers = Object.assign({}, OSPsionics.POWERS);
+  let skills = Object.assign({}, firstEdition ? {} : OSPsionics.SKILLS);
 
   QuilvynUtils.checkAttrTable(disciplines, []);
   QuilvynUtils.checkAttrTable
     (powers, ['Discipline', 'Type', 'Score', 'Preparation', 'Cost', 'Description']);
 
   OldSchool.identityRules(rules, {}, classes, {});
-  for(var c in classes) {
+  for(let c in classes)
     OSPsionics.classRulesExtra(rules, c);
-  }
   OldSchool.talentRules(rules, features, goodies, {}, skills);
-  for(var d in disciplines) {
+  for(let d in disciplines)
     OSPsionics.choiceRules(rules, 'Discipline', d, disciplines[d]);
-  }
-  for(var p in powers) {
+  for(let p in powers)
     OSPsionics.choiceRules(rules, 'Power', p, powers[p]);
-  }
 
   QuilvynRules.validAllocationRules
     (rules, 'discipline', 'psionicDisciplineCount', 'Sum "^disciplines\\."');
@@ -1131,11 +1133,11 @@ OSPsionics.psionicsRules = function(rules, firstEdition) {
   rules.defineSheetElement('Psionic Strength Points', 'Disciplines+');
   // defineSheetElement doesn't allow specification of columns; have to access
   // viewers directly
-  var element = {
+  let element = {
     name:'Powers', format: '<b>Powers</b>:\n%V', before:'Spells',
     separator: '\n', columns:'1L'
   };
-  for(var v in rules.viewers)
+  for(let v in rules.viewers)
     rules.viewers[v].addElements(element);
 
 };
@@ -1164,17 +1166,8 @@ OSPsionics.choiceRules = function(rules, type, name, attrs) {
  * derived directly from the abilities passed to classRules.
  */
 OSPsionics.classRulesExtra = function(rules, name) {
-  var classLevel = 'levels.' + name;
+  let classLevel = 'levels.' + name;
   if(name == 'Psionicist') {
-    rules.defineRule('classPsionicistBreathSaveAdjustment',
-      classLevel, '=', 'source>=21 ? -2 : source>=9 ? -1 : null'
-    );
-    rules.defineRule('classPsionicistSpellSaveAdjustment',
-      classLevel, '=', 'source>=13 ? 2 : source>=5 ? 1 : null'
-    );
-    rules.defineRule('classPsionicistSpellSave',
-      'classPsionicistSpellSaveAdjustment', '+', null
-    );
     rules.defineRule
       ('psionicDisciplineCount', 'magicNotes.psionicPowers', '+=', null);
     rules.defineRule
@@ -1182,7 +1175,7 @@ OSPsionics.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('psionicDevotionCount', 'magicNotes.psionicPowers.2', '+=', null);
     rules.defineRule
-      ('psionicDefenseCount', 'magicNotes.psionicPowers.2', '+=', null);
+      ('psionicDefenseCount', 'magicNotes.psionicPowers.3', '+=', null);
     rules.defineRule('magicNotes.psionicPowers',
       classLevel, '+=', 'Math.floor((source + 6) / 4)'
     );
@@ -1268,7 +1261,7 @@ OSPsionics.powerRules = function(
     return;
   }
 
-  var testAndCost =
+  let testAndCost =
     score[0].substring(0, 3) +
     (score.length==1 ? '' : score[1]>=0 ? '+' + score[1] : score[1]);
   if(score[0] != 'variable')
@@ -1289,11 +1282,11 @@ OSPsionics.powerRules = function(
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
 OSPsionics.randomizeOneAttribute = function(attributes, attribute) {
-  var attr;
-  var attrs;
-  var choices;
-  var howMany;
-  var i;
+  let attr;
+  let attrs;
+  let choices;
+  let howMany;
+  let i;
   if(attribute == 'disciplines') {
     attrs = this.applyRules(attributes);
     howMany = attrs.psionicDisciplineCount || 0;
@@ -1312,19 +1305,19 @@ OSPsionics.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'powers') {
     attrs = this.applyRules(attributes);
-    var allowedDisciplines = {};
+    let allowedDisciplines = {};
     for(attr in attrs) {
       if(attr.match(/^disciplines\./))
         allowedDisciplines[attr.replace('disciplines.', '')] = 1;
     }
-    var allPowers = this.getChoices('powers');
+    let allPowers = this.getChoices('powers');
     ['Science', 'Devotion', 'Defense'].forEach(type => {
       howMany = attrs['psionic' + type + 'Count'] || 0;
       choices = [];
       for(attr in allPowers) {
         if(!allPowers[attr].includes('Type=' + type))
           continue;
-        var discipline =
+        let discipline =
           QuilvynUtils.getAttrValue(allPowers[attr], 'Discipline');
         if(type != 'Defense' && !(discipline in allowedDisciplines))
           continue;
