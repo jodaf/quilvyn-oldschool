@@ -1,12 +1,13 @@
 ## 1st and 2nd Edition plugin for the Quilvyn RPG character sheet generator
 
 The quilvyn-oldschool package bundles modules that extend Quilvyn to work
-with the 1st and 2nd editions of D&D, applying the rules of the
-<a href="https://www.drivethrurpg.com/product/17003/Players-Handbook-1e">1st
+with the 1st and 2nd editions of D&D, applying the rules of
+the <a href="https://www.drivethrurpg.com/product/17003/Players-Handbook-1e">1st
 Edition Players Handbook</a>, 
-<a href="https://www.drivethrurpg.com/product/170096/Unearthed-Arcana-1e?term=unearthed+arcana">1st Edition Unearthed Arcana supplement</a>, and 
-<a href="https://www.drivethrurpg.com/product/16868/Players-Handbook-Revised-2e">2nd
-Edition Players Handbook</a>.
+the <a href="https://www.drivethrurpg.com/product/170096/Unearthed-Arcana-1e?term=unearthed+arcana">1st Edition Unearthed Arcana supplement</a>,
+the <a href="https://www.drivethrurpg.com/product/16868/Players-Handbook-Revised-2e">2nd Edition Players Handbook</a>,
+<a href="https://preview.drivethrurpg.com/en/product/16891/phbr5-the-complete-psionics-handbook-2e">The Complete Psionics Handbook</a>, and
+the <a href="https://preview.drivethrurpg.com/en/product/17203/dark-sun-campaign-setting-expanded-and-revised-edition-2e">Dark Sun Campaign Setting</a>.
 
 ### Requirements
 
@@ -38,6 +39,11 @@ following lines to the file plugins/plugins.js:
       url:'plugins/OSPsionics.js',
       group:'Old School D&D',
       supplement:'AD&D Second Edition (2E)'
+    };
+    RULESETS['Dark Sun Campaign Setting using AD&D 2E rules'] = {
+      url:'plugins/DarkSun2E.js',
+      group:'Old School D&D',
+      require:['OSRIC.js', 'OldSchool.js', 'OSPsionics.js']
     };
 
 ### Usage
