@@ -464,81 +464,87 @@ UnearthedArcana1e.SPELLS = {
     'Level=C1,D1 ' +
     'Description="Hour-long rite conveys various effects on touched"',
   'Combine':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Combine'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Combine + ' ' +
     'Level=C1',
   'Endure Cold/Endure Heat':
     'School=Alteration ' +
     'Level=C1 ' +
-    'Description="Touched comfortable in -30F/130F for %{lvl*9} tn"',
+    'Description="Touched remains comfortable in -30F/130F for %{lvl*1.5} hr"',
   'Invisibility To Undead':
     'School=Illusion ' +
     'Level=C1 ' +
-    'Description="Touched becomes undetectable by undead up to 4 HD (Save neg) for 6 rd"',
+    'Description=' +
+      '"Touched cannot be detected by undead up to 4 HD (Save neg) for 6 rd"',
   'Magic Stone':
     'School=Alteration ' +
     'Level=C1 ' +
-    'Description="Touched stone becomes +1 weapon w/range 2/3/4 for 6 rd, does 1 HP and breaks concentration (Spell neg)"',
+    'Description=' +
+      '"Touched stone becomes a +1 weapon w/range 2/3/4 that does 1 HP and breaks concentration (Spell neg) for 6 rd"',
   'Penetrate Disguise':
     'School=Divination ' +
     'Level=C1 ' +
-    'Description="R120\' Self sees through non-magical disguise (Save neg) for 1 rd"',
+    'Description=' +
+      '"R120\' Self may see through non-magical disguises (Save neg) for 1 rd"',
   'Portent':
     'School=Divination ' +
     'Level=C1 ' +
-    'Description="Self notes increment or decrement to touched\'s future attack or save roll"',
+    'Description=' +
+      '"Self learns of future increment or decrement to touched\'s attack or save roll"',
   'Precipitation':
     'School=Alteration ' +
     'Level=C1,D1,M1 ' +
-    'Description="R%{lvl*10}\' Causes 3\' diameter light rain for %{lvl} seg"',
+    'Description=' +
+      '"R%{lvl*10}\' Creates a 3\' diameter light rain for %{lvl} seg"',
   'Aid':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Aid'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Aid + ' ' +
     'Level=C2',
   'Detect Life':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="R%{lvl*100}\' Self determine whether target is alive for 5 rd"',
+    'Description=' +
+      '"R%{lvl*100}\' Self may determine whether target is alive for 5 rd"',
   'Dust Devil':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Dust Devil']
-    .replace(/for.*rd/, 'for %{lvl} rd') + ' ' +
+      .replace('lvl*2', 'lvl') + ' ' +
     'Level=C2',
   'Enthrall':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Enthrall']
-    .replace('3 HD', '4 HD/Wisdom 15') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Enthrall
+      .replace('3 HD', '4 HD or Wisdom 15') + ' ' +
     'Level=C2',
   'Holy Symbol':
     'School=Conjuration ' +
     'Level=C2 ' +
-    'Description="Makes touched into a holy symbol"',
+    'Description="Converts touched into a holy symbol"',
   'Messenger':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Messenger']
-    .replace('Tiny', 'Small')
-    .replace('dy', 'hr') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Messenger
+      .replace('Tiny', 'Small')
+      .replace('dy', 'hr') + ' ' +
     'Level=C2',
   'Withdraw':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Withdraw'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Withdraw + ' ' +
     'Level=C2',
   'Wyvern Watch':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wyvern Watch'] + ' ' +
-    'Level=C2 ' +
-    'Description="R30\' Paralyzes trespassers in 10\' radius for %{lvl} rd (Save neg) for 8 hr"',
+    'Level=C2',
   'Cloudburst':
     'School=Alteration ' +
     'Level=C3,D3,M3 ' +
-    'Description="R%{lvl*10}\' Causes 3\' diameter heavy rain for 1 rd"',
+    'Description="R%{lvl*10}\' Causes a 3\' diameter heavy rain for 1 rd"',
   "Death's Door":
     'School=Necromancy ' +
     'Level=C3 ' +
-    'Description="Raises touched to 0 HP for %{lvl} hr"',
+    'Description="Increases touched HP to 0 for %{lvl} hr"',
   'Flame Walk':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Flame Walk']
-    .replace(' and half dmg', '')
-    .replace('rd', 'tn') + ' ' +
+      .replace(' and half dmg', '')
+      .replace('rd', 'tn') + ' ' +
     'Level=C3',
   'Magical Vestment':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Magical Vestment'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Magical Vestment']
+      .replace('7-(lvl+1)//3', '5-lvl//4', '')
+      .replace('lvl*5', 'lvl*6') + ' ' +
     'School=Conjuration ' +
-    'Level=C3 ' +
-    'Description="Touched vestment gives AC %{5-(lvl//4)} for %{lvl*6} rd"',
+    'Level=C3',
   'Meld Into Stone':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Meld Into Stone'] + ' ' +
     'Level=C3',
@@ -552,78 +558,81 @@ UnearthedArcana1e.SPELLS = {
     OldSchool.RULE_EDITS['Second Edition'].Spell['Water Walk'] + ' ' +
     'Level=C3',
   'Abjure':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Abjure'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Abjure + ' ' +
     'Level=C4',
   'Cloak Of Fear':
     'School=Illusion ' +
     'Level=C4 ' +
-    'Description="30\' radius causes creatures to flee (Save neg) 6 rd for %{lvl} tn"',
+    'Description=' +
+      '"30\' radius causes creatures to flee for 6 rd (Save neg) for %{lvl} tn"',
   'Giant Insect':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Giant Insect'] + ' ' +
-    'Level=C4 ' +
-    'Description="R20\' 1 - 6 insects become %{lvl<10?3:lvl<13?4:6} HD giant versions for %{lvl*2} rd"',
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Giant Insect']
+      .replace('versions', 'versions for %{lvl*2} rd') + ' ' +
+    'Level=C4',
   'Imbue With Spell Ability':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Imbue With Spell Ability'] + ' ' +
     'Level=C4',
   'Spell Immunity':
-    OSRIC.SPELLS['Spell Immunity']
-    .replace('Level=', 'Level=C4,') + ' ' +
-    'Description="Touched immune to named spell for %{lvl} tn"',
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Spell Immunity']
+      .replace('Level=', 'Level=C4,'),
   'Spike Growth':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Growth'] + ' ' +
-    'Level=C4,D3 ' +
-    'Description="R60\' Spikes on vegetation in %{lvl*10}\' sq inflict 2x1d4 HP each 10\' movement (Requires successful attack) for $D tn" ' +
-    'Duration="1d6 + %{lvl}"',
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Growth']
+      .replace('and slow to half speed for 1 dy (Save neg) ', '')
+      .replace('3d4', '1d6') + ' ' +
+    'Level=C4,D3',
   'Air Walk':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Air Walk'] + ' ' +
     'Level=C5',
   'Animate Dead Monsters':
     'School=Necromancy ' +
     'Level=C5 ' +
-    'Description="R10\' %{lvl//2} humanoid or semi-humanoid corpses animate and obey self"',
+    'Description=' +
+      '"R10\' Animates %{lvl//2} obedient humanoid or semi-humanoid corpses"',
   'Golem':
     'School=Enchantment ' +
     'Level=C5 ' +
-    'Description="R10\' Construct made of straw%{lvl>10?\', rope\':\'\'}%{lvl>12?\', leather\':\'\'}%{lvl>14?\', wood\':\'\'} animates and obeys self"',
+    'Description=' +
+      '"R10\' Animates an obedient construct made of straw%{lvl>10?\', rope\':\'\'}%{lvl>12?\', leather\':\'\'}%{lvl>14?\', wood\':\'\'}"',
   'Magic Font':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Magic Font']
-    .replace('hr', 'rd') + ' ' +
+      .replace('hr', 'rd') + ' ' +
     'School=Divination ' +
     'Level=C5',
   'Rainbow':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Rainbow'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Rainbow + ' ' +
     'Level=C5 ' +
-    'Description="Uses existing rainbow to create +3 bow, %{lvl}\' wide bridge, 10\' radius elevator, or potion font for %{lvl} rd"',
+    'Description="Uses an existing rainbow to create +3 bow, a %{lvl}\' wide bridge, a 10\' radius elevator, or a potion font, for %{lvl} rd"',
   'Spike Stones':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Stones'] + ' ' +
     'Level=C5,D5',
   'Forbiddance':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Forbiddance'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Forbiddance + ' ' +
     'Level=C6',
   "Heroes' Feast":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Heroes' Feast"] + ' ' +
     'Level=C6',
   'Exaction':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Exaction'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Exaction + ' ' +
     'Level=C7',
   'Succor':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Succor'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Succor + ' ' +
     'Level=C7,M9',
   'Detect Balance':
     'School=Divination ' +
     'Level=D1 ' +
-    'Description="R60\' Self detects non-neutral alignment in target object or creature 1/rd for %{lvl} rd"',
+    'Description=' +
+      '"R60\' Self discerns non-neutral alignment in target object or creature 1/rd for %{lvl} rd"',
   'Detect Poison':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Detect Poison']
-    .replace(/for\s\S+\srd/, 'for %{lvl} rd') + ' ' +
+      .replace('lvl+10', 'lvl') + ' ' +
     'School=Divination ' +
     'Level=D1',
   'Flame Blade':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Flame Blade']
-    .replace(/for\s\S+\srd/, 'for %{lvl} rd') + ' ' +
+      .replace('lvl//2+4', 'lvl') + ' ' +
     'Level=D2',
   'Goodberry':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Goodberry'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Goodberry + ' ' +
     'Level=D2',
   'Reflecting Pool':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Reflecting Pool'] + ' ' +
@@ -631,45 +640,39 @@ UnearthedArcana1e.SPELLS = {
     'Level=D2',
   'Slow Poison':
     OSRIC.SPELLS['Slow Poison']
-    .replace('Level=', 'Level=D2,') + ' ' +
-    'Duration="%{lvl} hr"',
+      .replace('Level=', 'Level=D2,'),
   'Know Alignment':
+    OldSchool.RULE_EDITS['Second Edition'].Spell['Know Alignment']
+      .replace('W2', 'M2')
+      .replace('1 tn', "%{slvl=='D3'?'5 rd':slvl=='M2'?lvl+' rd':'1 tn'}") + ' ' +
     'School=Divination ' +
-    'Level=C2,D3,M2 ' +
-    'Description="R10\' Self discerns aura of $E for $D rd (Reverse obscures)" ' +
-    'Effect="1 target/rd" ' +
-    'Duration=10',
-  'Know Alignment D3':
-    'Duration=5',
-  'Spike Growth D3':
-    'Range=60 ' +
-    'Duration="3d4 + %{lvl}"',
+    'Level=C2,D3,M2',
   'Starshine':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Starshine'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Starshine + ' ' +
     'Level=D3',
   'Moonbeam':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Moonbeam']
-    .replace(/Description=\S+/, 'Description="%{lvl*10}\'')
-    .replace("5' radius", "10' diameter") + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Moonbeam
+      .replace('+60', '')
+      .replace("5' radius", "10' diameter") + ' ' +
     'Level=D5',
   'Liveoak':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Liveoak'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Liveoak + ' ' +
     'Level=D6',
   'Transmute Water To Dust':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Transmute Water To Dust'] + ' ' +
     'Level=D6,M6',
   'Changestaff':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Changestaff'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Changestaff + ' ' +
     'Level=D7',
   'Sunray':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Sunray']
-    .replace(/5.*radius/, "10' diameter")
-    .replace(/2 - 5/, '1') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Sunray
+      .replace("5' radius", "10' diameter")
+      .replace('2-5', '1') + ' ' +
     'Level=D7',
   'Chill':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' 1\' cu drops 40F for 1/2 seg"',
+    'Description="R10\' Temperature in a 1\' cu drops 40F for 1/2 seg"',
   'Clean':
     'School=Abjuration ' +
     'Level=M0 ' +
@@ -677,7 +680,7 @@ UnearthedArcana1e.SPELLS = {
   'Color':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Adds color to 1 cu yd object"',
+    'Description="R10\' Adds color to a 1 cu yd object"',
   'Dampen':
     'School=Evocation ' +
     'Level=M0 ' +
@@ -689,7 +692,7 @@ UnearthedArcana1e.SPELLS = {
   'Dust':
     'School=Abjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Remove dust from 10\' radius"',
+    'Description="R10\' Removes dust from a 10\' radius"',
   'Exterminate':
     'School=Abjuration ' +
     'Level=M0 ' +
@@ -729,11 +732,11 @@ UnearthedArcana1e.SPELLS = {
   'Stitch':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="R10\' Sews seems in target cloth or leather object"',
+    'Description="R10\' Sews seams in target cloth or leather object"',
   'Sweeten':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Adds sweetener taste to target"',
+    'Description="R10\' Adds sweet taste to target"',
   'Tie':
     'School=Alteration ' +
     'Level=M0 ' +
@@ -741,11 +744,11 @@ UnearthedArcana1e.SPELLS = {
   'Warm':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Target 1\' cu rises 40F for 1/2 seg"',
+    'Description="R10\' Temperature in 1\' cu rises 40F for 1/2 seg"',
   'Wrap':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="R10\' Creates wrapping around 1 cu yd target"',
+    'Description="R10\' Creates wrapping around a 1 cu yd target"',
   'Curdle':
     'School=Enchantment ' +
     'Level=M0 ' +
@@ -757,7 +760,7 @@ UnearthedArcana1e.SPELLS = {
   'Dusty':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Adds dust to 10\' radius"',
+    'Description="R10\' Adds dust to a 10\' radius"',
   'Hairy':
     'School=Alteration ' +
     'Level=M0 ' +
@@ -765,7 +768,8 @@ UnearthedArcana1e.SPELLS = {
   'Knot':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="R10\' Causes target to wrap into a knot that is difficult to untie"',
+    'Description=' +
+      '"R10\' Causes target to wrap into a knot that is difficult to untie"',
   'Ravel':
     'School=Alteration ' +
     'Level=M0 ' +
@@ -797,7 +801,8 @@ UnearthedArcana1e.SPELLS = {
   'Change':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="R10\' Changes animal or vegetable object to similar object for 1 tn+"',
+    'Description=' +
+      '"R10\' Changes animal or vegetable target into a similar object for 1 tn+"',
   'Distract':
     'School=Enchantment ' +
     'Level=M0 ' +
@@ -813,11 +818,12 @@ UnearthedArcana1e.SPELLS = {
   'Palm':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Makes target invisible and creates illusionary duplicate for 1 seg"',
+    'Description=' +
+      '"R10\' Makes target invisible and creates an illusionary duplicate for 1 seg"',
   'Present':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="R2\' Brings target object to hand"',
+    'Description="R2\' Brings target object to self hand"',
   'Belch':
     'School=Evocation ' +
     'Level=M0 ' +
@@ -833,7 +839,7 @@ UnearthedArcana1e.SPELLS = {
   'Giggle':
     'School=Enchantment ' +
     'Level=M0 ' +
-    'Description="R10\' Target laughs for 2 - 3 sec (Save brief laugh)"',
+    'Description="R10\' Target laughs for 2-3 sec (Save brief laugh)"',
   'Nod':
     'School=Evocation ' +
     'Level=M0 ' +
@@ -857,171 +863,183 @@ UnearthedArcana1e.SPELLS = {
   'Yawn':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Target yawns and becomes vulnerable to <i>Sleep</i> (Save neg) for 1 rd"',
+    'Description=' +
+      '"R10\' Target yawns and becomes vulnerable to <i>Sleep</i> (Save neg) for 1 rd"',
   'Bee':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Bee appears and stings target"',
+    'Description="R10\' Creates a bee that stings target"',
   'Bluelight':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Creates 3\\" sphere that dimly lights 5\' radius"',
+    'Description="R10\' Creates a 3\\" sphere that dimly lights a 5\' radius"',
   'Bug':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Crawling insect appears and attacks target"',
+    'Description="R10\' Creates a crawling insect that attacks target"',
   'Firefinger':
     'School=Alteration ' +
     'Level=M0 ' +
-    'Description="5\' flame jet ignites flammable objects"',
+    'Description="Creates a 5\' flame jet that ignites flammable objects"',
   'Gnats':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Cloud of gnats appears and distracts target (Save vs. poison neg)"',
+    'Description=' +
+      '"R10\' Creates a cloud of gnats that distracts target (Save vs. poison neg)"',
   'Mouse':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Mouse appears"',
+    'Description="R10\' Creates a mouse"',
   'Smokepuff':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Creates 1\' diameter smoke puff"',
+    'Description="R10\' Creates a 1\' diameter smoke puff"',
   'Spider':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Spider (5% poisonous) appears and attacks target"',
+    'Description="R10\' Creates a spider (5% poisonous) that attacks target"',
   'Tweak':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Creates thumb and forefinger that tugs on target"',
+    'Description="R10\' Creates a thumb and forefinger that tug on target"',
   'Unlock':
     'School=Conjuration ' +
     'Level=M0 ' +
-    'Description="R10\' Unlocks simple lock"',
+    'Description="R10\' Unlocks a simple lock"',
   'Creak':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of squeaking hinges or floorboards for 1/2 seg"',
+    'Description=' +
+      '"R10\' Creates the sound of squeaking hinges or floorboards for 1/2 seg"',
   'Footfall':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of walking for 10\'"',
+    'Description="R10\' Creates the sound of walking for 10\'"',
   'Groan':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of wracking cry"',
+    'Description="R10\' Creates the sound of a wracking cry"',
   'Moan':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of moan"',
+    'Description="R10\' Creates the sound of a moan"',
   'Rattle':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Creates rattling sound for 2 sec"',
+    'Description="R10\' Creates a rattling sound for 2 sec"',
   'Tap':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of 1 - 3 taps"',
+    'Description="R10\' Creates the sound of 1-3 taps"',
   'Thump':
     'School=Illusion ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of falling object"',
+    'Description="R10\' Creates the sound of a falling object"',
   'Whistle':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Creates sound of wind whistling"',
+    'Description="R10\' Creates the sound of wind whistling"',
   'Alarm':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Alarm'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Alarm
+      .replace('20', '%{lvl*20}')
+      .replace('%{4+lvl*0.5} hr', '2d4+%{lvl} tn') + ' ' +
     'School=Evocation ' +
-    'Level=M1 ' +
-    'Description="R10\' Entry into %{lvl*20}\' sq triggers audible alarm for 2d4 + %{lvl} tn"',
+    'Level=M1',
   'Armor':
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Armor
+      .replace('Armor Class 6', '-1 Armor Class (max 8)') + ' ' +
     'School=Conjuration ' +
-    'Level=M1 ' +
-    'Description="Unarmored touched gains -1 AC (max 8) until takes %{lvl+8} HP"',
+    'Level=M1',
   'Firewater':
     'School=Alteration ' +
     'Level=M1 ' +
-    'Description="Transmutes %{lvl} pints of water into flammable liquid for 1 rd"',
+    'Description=' +
+      '"Transforms %{lvl} pints of water into a flammable liquid for 1 rd"',
   'Grease':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Grease']
-    .replace(/10. sq/, "%{lvl}' sq")
-    .replace(/ for.*rd/, '') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Grease
+      .replace("10' sq", "%{lvl}' sq")
+      .replace(/ for.*rd/, '') + ' ' +
     'School=Evocation ' +
     'Level=M1',
   'Melt':
     'School=Alteration ' +
     'Level=M1 ' +
-    'Description="R30\' Melts up to 2 cu yd ice or snow or inflicts %{lvl*2} HP on cold creatures (Save half)"',
+    'Description=' +
+      '"R30\' Melts up to 2 cu yd of ice or snow or inflicts %{lvl*2} HP on cold creatures (Save half)"',
   'Mount':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Mount'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Mount + ' ' +
     'Level=M1',
   'Run':
     'School=Enchantment ' +
     'Level=M1 ' +
-    'Description="Touched can run 1d4 + 4 hr without tiring, must rest equal time afterwards"',
+    'Description=' +
+      '"Touched may run 1d4+4 hr without tiring; must rest an equal time afterwards"',
   'Taunt':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Taunt'] + ' ' +
-    'Level=M1 ' +
-    'Description="R30\' %{lvl*2} HD of targets attack caster"',
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Taunt
+      .replace('30', '15')
+      .replace('60', '30')
+      .replace('lvl//3', 'lvl*2') + ' ' +
+    'Level=M1',
   'Wizard Mark':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wizard Mark'] + ' ' +
     'Level=M1',
   'Bind':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Bind'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Bind + ' ' +
     'School=Alteration ' +
     'Level=M2',
   'Deeppockets':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Deeppockets']
-    .replace('$Lplus12', '%{lvl+4}') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Deeppockets
+      .replace('lvl+12', 'lvl+4') + ' ' +
     'Level=M2',
   'Flaming Sphere':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Flaming Sphere']
-    .replace("30'/rd", "10'/rd") + ' ' +
+      .replace("30'/rd", "10'/rd") + ' ' +
     'School=Alteration ' +
     'Level=M2',
   'Irritation':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Irritation']
-    .replace(/1 - 4.*radius/, 'Target')
-    .replace('Charisma', 'Comeliness') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Irritation
+      .replace(/1-4.*itch/, 'Target itches')
+      .replace('Charisma', 'Comeliness') + ' ' +
     'Level=M2',
-  'Know Alignment M2':
-    'Effect="1 target/2 rd" ' +
-    'Duration=%{lvl}',
   "Melf's Acid Arrow":
     'School=Evocation ' +
     'Level=M2 ' +
-    'Description="R30\' +1 attack inflicts 1d4+1 force, 2d4 HP/rd acid for %{lvl//3+1} rd"',
+    'Description=' +
+      '"R30\' +1 attack inflicts 1d4+1 HP plus 2d4 HP/rd for %{lvl//3+1} rd"',
   'Preserve':
     'School=Abjuration ' +
     'Level=M2 ' +
-    'Description="Preserves %{lvl//2}\' cu touched material for later use"',
+    'Description=' +
+      '"Preserves %{lvl//2}\' cu touched material for later use"',
   'Protection From Cantrips':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Protection From Cantrips']
-    .replace('Lplus5 hr', 'L dy') + ' ' +
+      .replace('lvl+5', 'lvl')
+      .replace('hr', 'dy') + ' ' +
     'Level=M2',
   "Tasha's Uncontrollable Hideous Laughter":
     'School=Evocation ' +
     'Level=M2 ' +
-    'Description="R50\' Target suffers -2 attack and damage for 2 rd (Save neg)"',
+    'Description=' +
+      '"R50\' Target suffers -2 attack and damage for 2 rd (Save neg)"',
   'Vocalize':
     'School=Alteration ' +
     'Level=M2 ' +
-    'Description="Touched can cast without vocal component for 5 rd"',
+    'Description="Touched may cast without a vocal component for 5 rd"',
   'Whip':
     'School=Evocation ' +
     'Level=M2 ' +
-    'Description="R10\' Remote whip repels animals (Save neg) for %{lvl} rd"',
+    'Description=' +
+      '"R10\' Creates a remote whip that repels animals (Save neg) for %{lvl} rd"',
   'Zephyr':
     'School=Evocation ' +
     'Level=M2 ' +
-    'Description="Creates 10\' x %{lvl//2*10}\' gentle breeze for 1 seg"',
+    'Description="Creates a 10\'x%{lvl//2*10}\' gentle breeze for 1 seg"',
   'Detect Illusion':
-    OSRIC.SPELLS['Detect Illusion'].replace('Level=', 'Level=M3,'),
-  'Detect Illusion M3':
-    'Duration="%{lvl+2} rd"',
+    OSRIC.SPELLS['Detect Illusion']
+      .replace('Level=', 'Level=M3,')
+      .replace('lvl*2+3', "slvl=='M3'?lvl*2:(lvl*2+3)"),
   'Item':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Item'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Item + ' ' +
     'Level=M3',
   'Material':
     'School=Evocation ' +
@@ -1029,32 +1047,31 @@ UnearthedArcana1e.SPELLS = {
     'Description="R10\' Creates %{lvl}\' cu of raw materials"',
   "Melf's Minute Meteors":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Melf's Minute Meteors"]
-    .replace('+2 ', '')
-    .replace('L10plus70', 'L10') + ' ' +
+      .replace('+2 ', '')
+      .replace('+70', '') + ' ' +
     'Level=M3',
   'Secret Page':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Secret Page'] + ' ' +
     'Level=M3',
   'Sepia Snake Sigil':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Sepia Snake Sigil']
-    .replace(/for.*dy/, 'until released') + ' ' +
+      .replace(/for.*dy/, 'until released') + ' ' +
     'Level=M3',
   'Wind Wall':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wind Wall']
-    .replace(/L10.x5/, "10\'x%{lvl/2*5}") + ' ' +
+      .replace("%{lvl*10}'x5'", "10\'x%{lvl/2*5}") + ' ' +
     'Level=M3',
   'Dispel Illusion':
-    OSRIC.SPELLS['Dispel Illusion'].replace('Level=', 'Level=M4,'),
-  'Dispel Illusion M4':
-    'Range="%{lvl//2*10}\'"',
+    OSRIC.SPELLS['Dispel Illusion']
+      .replace('Level=', 'Level=M4,')
+      .replace('lvl*10', "slvl=='M4'?lvl/2*10:(lvl*10)"),
   "Evard's Black Tentacles":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Evard's Black Tentacles"]
-    .replace('in 30', 'in %{lvl*30}')
-    .replace('hr', 'rd') + ' ' +
+      .replace('hr', 'rd') + ' ' +
     'Level=M4',
   "Leomund's Secure Shelter":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Leomund's Secure Shelter"]
-   .replace(/1d4.*hr/, '%{lvl} hr') + ' ' +
+      .replace('1d4+{lvl+1}', '%{lvl}') + ' ' +
     'Level=M4',
   'Magic Mirror':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Magic Mirror'] + ' ' +
@@ -1063,67 +1080,66 @@ UnearthedArcana1e.SPELLS = {
     OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Resilient Sphere"] + ' ' +
     'Level=M4',
   'Shout':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Shout']
-    .replace(/\(Save.*\)/, '(Save neg)') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Shout
+      .replace('half duration deafness only', 'neg') + ' ' +
     'Level=M4',
   'Stoneskin':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Stoneskin']
-    .replace(/next.*blows/, 'next blow') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Stoneskin
+      .replace('1d4+%{lvl//2} blows', 'blow') + ' ' +
     'Level=M4',
   'Ultravision':
     'School=Alteration ' +
     'Level=M4,I2 ' +
-    'Description="Touched sees 100 yd clearly at night for $D tn" ' +
-    'Duration="%{lvl*6+6}"',
-  'Ultravision I2':
-    'Duration="%{lvl+6}"',
+    'Description=' +
+      '"Touched sees 100 yd clearly at night for %{lvl*(slvl==\'M4\'?6:1)+6} tn"',
   'Avoidance':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Avoidance'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Avoidance + ' ' +
     'Level=M5',
   'Dismissal':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Dismissal'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Dismissal + ' ' +
     'Level=M5',
   'Dolor':
     'School=Enchantment ' +
     'Level=M5 ' +
-    'Description="R10\' Target hostile extraplanar creature suffers penalty to save vs. command and non-offensive spells for 3 rd"',
+    'Description=' +
+      '"R10\' Target hostile extraplanar creature suffers penalty to save vs. command and non-offensive spells for 3 rd"',
   'Fabricate':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Fabricate'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Fabricate + ' ' +
     'Level=M5',
   "Leomund's Lamentable Belabourment":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Leomund's Lamentable Belaborment"] + ' ' + // spelling change
     'Level=M5',
   'Sending':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Sending']
-    .replace('25-word', '%{lvl}-word') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Sending
+      .replace('25-word', '%{lvl}-word') + ' ' +
     'Level=M5',
   'Chain Lightning':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Chain Lightning'] + ' ' +
     'Level=M6',
   'Contingency':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Contingency'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Contingency + ' ' +
     'Level=M6',
   'Ensnarement':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Ensnarement'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Ensnarement + ' ' +
     'Level=M6',
   'Eyebite':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Eyebite']
-    .replace(/for.*rd/, 'for 1 rd') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Eyebite
+      .replace('%{lvl//3}', '1') + ' ' +
     'Level=M6',
   "Mordenkainen's Lucubration":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Mordenkainen's Lucubration"] + ' ' +
     'Level=M6',
   'Banishment':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Banishment'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Banishment + ' ' +
     'Level=M7',
   'Forcecage':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Forcecage'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Forcecage + ' ' +
     'Level=M7',
   "Mordenkainen's Magnificent Mansion":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Mordenkainen's Magnificent Mansion"] + ' ' +
     'Level=M7',
   'Sequester':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Sequester'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Sequester + ' ' +
     'Level=M7',
   'Teleport Without Error':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Teleport Without Error'] + ' ' +
@@ -1131,32 +1147,34 @@ UnearthedArcana1e.SPELLS = {
   'Torment':
     'School=Evocation ' +
     'Level=M7 ' +
-    'Description="R10\' Uses pain to force compliance from extraplanar creature (Save neg)"',
+    'Description=' +
+      '"R10\' Causes pain in extraplanar target to force compliance (Save neg)"',
   'Truename':
     'School=Enchantment ' +
     'Level=M7 ' +
-    'Description="R30\' Imposes suggestions, surrender, polymorph, or transport on creature whose true name is known"',
+    'Description=' +
+      '"R30\' Inflicts suggestions, surrender, polymorph, or transport on target whose true name is known"',
   'Volley':
     'School=Abjuration ' +
     'Level=M7 ' +
-    'Description="Reflects spell cast on self back upon caster"',
+    'Description="Reflects spell cast on self back onto caster"',
   'Binding':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Binding'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Binding + ' ' +
     'Level=M8',
   'Demand':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Demand']
-    .replace('25-word', '%{lvl}-word')
-    .replace('Save -2 neg', 'Save neg') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Demand
+      .replace('25-word', '%{lvl}-word')
+      .replace('-2 ', '') + ' ' +
     'Level=M8',
   "Otiluke's Telekinetic Sphere":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Otiluke's Telekinetic Sphere"]
-    .replace('L2 rd', 'L rd') + ' ' +
+      .replace('lvl*2', 'lvl') + ' ' +
     'Level=M8',
   'Sink':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Sink'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Sink + ' ' +
     'Level=M8',
   'Crystalbrittle':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Crystalbrittle'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Crystalbrittle + ' ' +
     'Level=M9',
   'Energy Drain':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Energy Drain'] + ' ' +
@@ -1167,15 +1185,17 @@ UnearthedArcana1e.SPELLS = {
   'Colored Lights':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="R10\' Creates 1\'-diameter movable colored light(s) for conc"',
+    'Description=' +
+      '"R10\' Creates 1\'-diameter movable colored lights for conc"',
   'Dim':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="Halves brightness in 10\' radius"',
+    'Description="Halves brightness in a 10\' radius"',
   'Haze':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="Fills 10\' cu with smoky haze (-1 missile attacks, +1 saves) for 1 rd"',
+    'Description=' +
+      '"Fills a 10\' cu with a smoky haze, inflicting -1 missile attacks and +1 saves, for 1 rd"',
   'Mask':
     'School=Illusion ' +
     'Level=I0 ' +
@@ -1183,19 +1203,21 @@ UnearthedArcana1e.SPELLS = {
   'Mirage':
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="R10\' Covers 20\' sq area w/image of known location for conc or until touched"',
+    'Description="R10\' Covers a 20\' sq area w/an image of a known location for conc or until touched"',
   'Noise':
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="R10\' Creates indistinct sound for conc (Save neg)"',
+    'Description="R10\' Creates an indistinct sound for conc (Save neg)"',
   'Rainbow Cantrip':
     'School=Alteration ' +
     'Level=I0 ' +
-    'Description="R10\' Creates movable 30\' rainbow that fascinates (Save neg) for 1 rd"',
+    'Description=' +
+      '"R10\' Creates a movable 30\' rainbow that fascinates (Save neg) for 1 rd"',
   "Two-D'lusion":
     'School=Illusion ' +
     'Level=I0 ' +
-    'Description="R10\' Creates 40\' sq illusion for conc or until touched (Save or angled view disbelieve)"',
+    'Description=' +
+      '"R10\' Creates a 40\' sq illusion for conc or until touched (Save or angled view disbelieve)"',
   'Chromatic Orb':
     'School=Alteration ' +
     'Level=I1 ' +
@@ -1203,13 +1225,14 @@ UnearthedArcana1e.SPELLS = {
   'Phantom Armor':
     'School=Alteration ' +
     'Level=I1 ' +
-    'Description="Touched gains AC 3, absorbs %{lvl} HP"',
+    'Description="Gives touched Armor Class 3 and absorbs %{lvl} HP"',
   'Read Illusionist Magic':
     'School=Divination ' +
     'Level=I1 ' +
-    'Description="Self understands illusionist writing for %{lvl*2} rd (Reverse obscures)"',
+    'Description=' +
+      '"Self may understand illusionist writing for %{lvl*2} rd (Reverse obscures)"',
   'Spook':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Spook'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Spook + ' ' +
     'Level=I1',
   'Alter Self':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Alter Self'] + ' ' +
@@ -1217,40 +1240,41 @@ UnearthedArcana1e.SPELLS = {
   'Fascinate':
     'School=Illusion ' +
     'Level=I2 ' +
-    'Description="R30\' Target captivated by self for 1d4 dy (Save neg, failed comeliness ends)"',
+    'Description=' +
+      '"R30\' Target becomes captivated by self (Save neg, failed comeliness ends) for 1d4 dy"',
   'Whispering Wind':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Whispering Wind']
-    .replace('25', '12') + ' ' +
+      .replace('25', '12') + ' ' +
     'Level=I2',
   'Delude':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Delude']
-    .replace("10' radius", "30' radius") + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Delude + ' ' +
     'Level=I3',
   'Phantom Steed':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Phantom Steed']
-    .replace(/\(\S+ HP, AC 2/, '(12 HP') + ' ' +
+      .replace('%{lvl+7} HP, Armor Class 2', '12 HP') + ' ' +
     'Level=I3',
   'Phantom Wind':
     'School=Alteration ' +
     'Level=I3 ' +
-    'Description="R%{lvl*10}\' Breeze-like effect moves objects for %{lvl} rd"',
+    'Description=' +
+      '"R%{lvl*10}\' Creates a breeze that moves objects for %{lvl} rd"',
   'Wraithform':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Wraithform'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Wraithform + ' ' +
     'Level=I3',
   'Dispel Magic':
-    OSRIC.SPELLS['Dispel Magic'].replace('Level=', 'Level=I4,'),
-  'Dispel Magic I4':
-    'Range=90\'',
+    OSRIC.SPELLS['Dispel Magic']
+      .replace('Level=', 'Level=I4,')
+      .replace('120', "slvl=='I4'?90:120"),
   'Rainbow Pattern':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Rainbow Pattern'] + ' ' +
     'Level=I4',
   'Solid Fog':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Solid Fog']
-    .replace('L10', 'L20') + ' ' +
+      .replace('10', '20') + ' ' +
     'Level=I4',
   'Vacancy':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Vacancy']
-    .replace('hr', 'tn') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Vacancy
+      .replace('hr', 'tn') + ' ' +
     'School=Alteration ' +
     'Level=I4',
   'Advanced Illusion':
@@ -1259,30 +1283,32 @@ UnearthedArcana1e.SPELLS = {
   'Dream':
     'School=Alteration ' +
     'Level=I5 ' +
-    'Description="Full night\'s sleep gives self <i>Limited Wish</i> effects"',
+    'Description=' +
+      '"A full night\'s sleep gives self <i>Limited Wish</i> effects"',
   'Tempus Fugit':
     'School=Illusion ' +
     'Level=I5 ' +
-    'Description="10\' radius speeds time x6 for %{lvl*5} tn"',
+    'Description="10\' radius speeds time by 6x for %{lvl*5} tn"',
   'Death Fog':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Death Fog'] + ' ' +
     'Level=I6',
   'Mislead':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Mislead'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Mislead + ' ' +
     'Level=I6',
   'Phantasmagoria':
     'School=Illusion ' +
     'Level=I6 ' +
-    'Description="R60\' Creates triggered %{lvl*10+40}\' sq sight, sound, smell, and temperature illusion for %{lvl} rd"',
+    'Description=' +
+      '"R60\' Creates a triggered %{lvl*10+40}\' sq sight, sound, smell, and temperature illusion for %{lvl} rd"',
   'Mirage Arcane':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Mirage Arcana'] + ' ' +
     'Level=I6',
   'Shadow Walk':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Shadow Walk']
-    .replace('7 miles', '21 miles') + ' ' +
+      .replace('7', '21') + ' ' +
     'Level=I7',
   'Weird':
-    OldSchool.RULE_EDITS['Second Edition'].Spell['Weird'] + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Weird + ' ' +
     'School=Evocation ' +
     'Level=I7'
 };
