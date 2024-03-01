@@ -2452,7 +2452,7 @@ OldSchool.RULE_EDITS = {
         'Level=W6 ' +
         'School=Alteration ' +
         'Description=' +
-          '"R30\' %{lvl*2}x10\' cu fog kills plants; animals take 1, 2, 4, 8 HP for 1d4+%{lvl} rd"',
+          '"R30\' %{lvl*2}x10\' cu fog kills plants; animals suffer 1, 2, 4, 8 HP for 1d4+%{lvl} rd"',
       'Deeppockets':
         'Level=W2 ' +
         'School=Alteration ' +
@@ -2652,7 +2652,7 @@ OldSchool.RULE_EDITS = {
         'Level=P6 ' +
         'School=Enchantment ' +
         'Description=' +
-          '"Oak tree guards (Small 7-8 HD and 2d8 damage; Medium 9-10 HD and 3d6 dmg; Large 11-12 HD and 4d6 dmg) based on a %{lvl}-word command for %{lvl} dy"',
+          '"Animates an oak tree (Small 7-8 HD and 2d8 damage; Medium 9-10 HD and 3d6 dmg; Large 11-12 HD and 4d6 dmg) to guard based on a %{lvl}-word command for %{lvl} dy"',
       'Locate Animals Or Plants':
         'Level=P1 ' +
         'School="Lesser Divination" ' +
@@ -2693,7 +2693,7 @@ OldSchool.RULE_EDITS = {
       "Melf's Minute Meteors":
         'Level=W3 ' +
         'School=Evocation ' +
-        'Description="R%{lvl*10+70}\' %{lvl} +2 ranged attacks inflict 1d4 HP"',
+        'Description="R%{lvl*10+70}\' %{lvl} +2 ranged attacks inflict 1d4 HP each"',
       'Messenger':
         'Level=P2 ' +
         'School=Enchantment ' +

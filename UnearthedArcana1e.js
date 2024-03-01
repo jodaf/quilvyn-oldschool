@@ -469,7 +469,7 @@ UnearthedArcana1e.SPELLS = {
   'Endure Cold/Endure Heat':
     'School=Alteration ' +
     'Level=C1 ' +
-    'Description="Touched remains comfortable in -30F/130F for %{lvl*1.5} hr"',
+    'Description="Touched remains comfortable in -30F to 130F for %{lvl*1.5} hr"',
   'Invisibility To Undead':
     'School=Illusion ' +
     'Level=C1 ' +
@@ -587,7 +587,7 @@ UnearthedArcana1e.SPELLS = {
     'School=Necromancy ' +
     'Level=C5 ' +
     'Description=' +
-      '"R10\' Animates %{lvl//2} obedient humanoid or semi-humanoid corpses"',
+      '"R10\' Animates %{lvl//2} obedient humanoid or semi-humanoid corpse%{lvl>3?\'s\':\'\'}"',
   'Golem':
     'School=Enchantment ' +
     'Level=C5 ' +
@@ -601,7 +601,7 @@ UnearthedArcana1e.SPELLS = {
   'Rainbow':
     OldSchool.RULE_EDITS['Second Edition'].Spell.Rainbow + ' ' +
     'Level=C5 ' +
-    'Description="Uses an existing rainbow to create +3 bow, a %{lvl}\' wide bridge, a 10\' radius elevator, or a potion font, for %{lvl} rd"',
+    'Description="Uses an existing rainbow to create a +3 bow, a %{lvl}\' wide bridge, a 10\' radius elevator, or a potion font, for %{lvl} rd"',
   'Spike Stones':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Spike Stones'] + ' ' +
     'Level=C5,D5',
@@ -640,6 +640,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=D2',
   'Slow Poison':
     OSRIC.SPELLS['Slow Poison']
+      .replace('{lvl*2} rd', '{lvl} hr')
       .replace('Level=', 'Level=D2,'),
   'Know Alignment':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Know Alignment']
@@ -744,7 +745,7 @@ UnearthedArcana1e.SPELLS = {
   'Warm':
     'School=Evocation ' +
     'Level=M0 ' +
-    'Description="R10\' Temperature in 1\' cu rises 40F for 1/2 seg"',
+    'Description="R10\' Temperature in a 1\' cu rises 40F for 1/2 seg"',
   'Wrap':
     'School=Alteration ' +
     'Level=M0 ' +
@@ -958,7 +959,7 @@ UnearthedArcana1e.SPELLS = {
   'Grease':
     OldSchool.RULE_EDITS['Second Edition'].Spell.Grease
       .replace("10' sq", "%{lvl}' sq")
-      .replace(/ for.*rd/, '') + ' ' +
+      .replace(/, for.*rd/, '') + ' ' +
     'School=Evocation ' +
     'Level=M1',
   'Melt':
@@ -975,10 +976,8 @@ UnearthedArcana1e.SPELLS = {
     'Description=' +
       '"Touched may run 1d4+4 hr without tiring; must rest an equal time afterwards"',
   'Taunt':
-    OldSchool.RULE_EDITS['Second Edition'].Spell.Taunt
-      .replace('30', '15')
-      .replace('60', '30')
-      .replace('lvl//3', 'lvl*2') + ' ' +
+    OldSchool.RULE_EDITS['Second Edition'].Spell.Taunt + ' ' +
+    'Description="R30\' %{lvl*2} HD of creatures in a 15\' radius attack caster" ' +
     'Level=M1',
   'Wizard Mark':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wizard Mark'] + ' ' +
@@ -999,6 +998,7 @@ UnearthedArcana1e.SPELLS = {
   'Irritation':
     OldSchool.RULE_EDITS['Second Edition'].Spell.Irritation
       .replace(/1-4.*itch/, 'Target itches')
+      .replace('develop', 'develops')
       .replace('Charisma', 'Comeliness') + ' ' +
     'Level=M2',
   "Melf's Acid Arrow":
@@ -1059,7 +1059,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=M3',
   'Wind Wall':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Wind Wall']
-      .replace("%{lvl*10}'x5'", "10\'x%{lvl/2*5}") + ' ' +
+      .replace("%{lvl*10}'x5'", "10\'x%{lvl/2*5}'") + ' ' +
     'Level=M3',
   'Dispel Illusion':
     OSRIC.SPELLS['Dispel Illusion']
@@ -1071,7 +1071,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=M4',
   "Leomund's Secure Shelter":
     OldSchool.RULE_EDITS['Second Edition'].Spell["Leomund's Secure Shelter"]
-      .replace('1d4+{lvl+1}', '%{lvl}') + ' ' +
+      .replace('1d4+%{lvl+1}', '%{lvl}') + ' ' +
     'Level=M4',
   'Magic Mirror':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Magic Mirror'] + ' ' +
@@ -1153,7 +1153,7 @@ UnearthedArcana1e.SPELLS = {
     'School=Enchantment ' +
     'Level=M7 ' +
     'Description=' +
-      '"R30\' Inflicts suggestions, surrender, polymorph, or transport on target whose true name is known"',
+      '"R30\' Inflicts suggestions, surrender, polymorph, or transport on a target whose true name is known"',
   'Volley':
     'School=Abjuration ' +
     'Level=M7 ' +
@@ -1195,7 +1195,7 @@ UnearthedArcana1e.SPELLS = {
     'School=Alteration ' +
     'Level=I0 ' +
     'Description=' +
-      '"Fills a 10\' cu with a smoky haze, inflicting -1 missile attacks and +1 saves, for 1 rd"',
+      '"Fills a 10\' cu with a smoky haze, inflicting -1 missile attacks and giving +1 saves, for 1 rd"',
   'Mask':
     'School=Illusion ' +
     'Level=I0 ' +
@@ -1225,7 +1225,7 @@ UnearthedArcana1e.SPELLS = {
   'Phantom Armor':
     'School=Alteration ' +
     'Level=I1 ' +
-    'Description="Gives touched Armor Class 3 and absorbs %{lvl} HP"',
+    'Description="Gives touched Armor Class 3 and absorbs %{lvl} HP of damage"',
   'Read Illusionist Magic':
     'School=Divination ' +
     'Level=I1 ' +
@@ -1305,7 +1305,7 @@ UnearthedArcana1e.SPELLS = {
     'Level=I6',
   'Shadow Walk':
     OldSchool.RULE_EDITS['Second Edition'].Spell['Shadow Walk']
-      .replace('7', '21') + ' ' +
+      .replace('7 miles', '21 miles') + ' ' +
     'Level=I7',
   'Weird':
     OldSchool.RULE_EDITS['Second Edition'].Spell.Weird + ' ' +
