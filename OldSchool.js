@@ -3336,39 +3336,38 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
       'source <= 8 ? source : source <= 13 ? 9 : source <= 18 ? 10 : 11'
     );
   let turningTable = rules.edition == 'Second Edition' ? {
-    'skeleton':'10:7 :4 :T :T :D :D :D :D :D :D :D ',
-    'zombie'  :'13:10:7 :4 :T :T :D :D :D :D :D :D ',
-    'ghoul'   :'16:13:10:7 :4 :T :T :D :D :D :D :D ',
-    'shadow'  :'19:16:13:10:7 :4 :T :T :D :D :D :D ',
-    'wight'   :'20:19:16:13:10:7 :4 :T :T :D :D :D ',
-    'ghast'   :'- :20:19:16:13:10:7 :4 :T :T :D :D ',
-    'wraith'  :'- :- :20:19:16:13:10:7 :4 :T :T :D ',
-    'mummy'   :'- :- :- :20:19:16:13:10:7 :4 :T :T ',
-    'spectre' :'- :- :- :- :20:19:16:13:10:7 :4 :T ',
-    'vampire' :'- :- :- :- :- :20:19:16:13:10:7 :4 ',
-    'ghost'   :'- :- :- :- :- :- :20:19:16:13:10:7 ',
-    'lich'    :'- :- :- :- :- :- :- :20:19:16:13:10',
-    'fiend'   :'- :- :- :- :- :- :- :- :20:19:16:13'
+    'Skeleton':'10:7 :4 :T :T :D :D :D :D :D :D :D ',
+    'Zombie'  :'13:10:7 :4 :T :T :D :D :D :D :D :D ',
+    'Ghoul'   :'16:13:10:7 :4 :T :T :D :D :D :D :D ',
+    'Shadow'  :'19:16:13:10:7 :4 :T :T :D :D :D :D ',
+    'Wight'   :'20:19:16:13:10:7 :4 :T :T :D :D :D ',
+    'Ghast'   :'- :20:19:16:13:10:7 :4 :T :T :D :D ',
+    'Wraith'  :'- :- :20:19:16:13:10:7 :4 :T :T :D ',
+    'Mummy'   :'- :- :- :20:19:16:13:10:7 :4 :T :T ',
+    'Spectre' :'- :- :- :- :20:19:16:13:10:7 :4 :T ',
+    'Vampire' :'- :- :- :- :- :20:19:16:13:10:7 :4 ',
+    'Ghost'   :'- :- :- :- :- :- :20:19:16:13:10:7 ',
+    'Lich'    :'- :- :- :- :- :- :- :20:19:16:13:10',
+    'Fiend'   :'- :- :- :- :- :- :- :- :20:19:16:13'
   } : {
-    'skeleton':'10:7 :4 :T :T :D :D :D :D :D :D',
-    'zombie'  :'13:10:7 :T :T :D :D :D :D :D :D',
-    'ghoul'   :'16:13:10:4 :T :T :D :D :D :D :D',
-    'shadow'  :'19:16:13:7 :4 :T :T :D :D :D :D',
-    'wight'   :'20:19:16:10:7 :4 :T :T :D :D :D',
-    'ghast'   :'- :20:19:13:10:7 :4 :T :T :D :D',
+    'Skeleton':'10:7 :4 :T :T :D :D :D :D :D :D',
+    'Zombie'  :'13:10:7 :T :T :D :D :D :D :D :D',
+    'Ghoul'   :'16:13:10:4 :T :T :D :D :D :D :D',
+    'Shadow'  :'19:16:13:7 :4 :T :T :D :D :D :D',
+    'Wight'   :'20:19:16:10:7 :4 :T :T :D :D :D',
+    'Ghast'   :'- :20:19:13:10:7 :4 :T :T :D :D',
     'wraith'  :'- :- :20:16:13:10:7 :4 :T :D :D',
-    'mummy'   :'- :- :- :20:16:13:10:7 :4 :T :T',
-    'spectre' :'- :- :- :- :20:16:13:10:7 :T :T',
-    'vampire' :'- :- :- :- :- :20:16:13:10:4 :4',
-    'ghost'   :'- :- :- :- :- :- :20:16:13:7 :7',
-    'lich'    :'- :- :- :- :- :- :- :19:16:10:10',
-    'fiend'   :'- :- :- :- :- :- :- :20:19:13:13'
+    'Mummy'   :'- :- :- :20:16:13:10:7 :4 :T :T',
+    'Spectre' :'- :- :- :- :20:16:13:10:7 :T :T',
+    'Vampire' :'- :- :- :- :- :20:16:13:10:4 :4',
+    'Ghost'   :'- :- :- :- :- :- :20:16:13:7 :7',
+    'Lich'    :'- :- :- :- :- :- :- :19:16:10:10',
+    'Fiend'   :'- :- :- :- :- :- :- :20:19:13:13'
   };
-  for(let u in turningTable) {
+  for(let u in turningTable)
     rules.defineRule('turnUndead.' + u,
       'turnUndeadColumn', '=', '"' + turningTable[u] +'".split(":")[source - 1].trim()'
     );
-  }
   rules.defineRule('skillNotes.armorSkillModifiers', 'hasSkills', '?', null);
   // Replace SRD35's two-handedWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
@@ -3794,10 +3793,10 @@ OldSchool.classRulesExtra = function(rules, name) {
   } else if(name == 'Ranger') {
 
     // Override casterLevel calculations from classRules
-    rules.defineRule('casterLevel.D',
+    rules.defineRule('casterLevels.D',
       classLevel, '^=', 'source<9 ? null : Math.min(Math.floor((source - 6) / 2), 6)'
     );
-    rules.defineRule('casterLevel.M',
+    rules.defineRule('casterLevels.M',
       classLevel, '^=', 'source<9 ? null : Math.min(Math.floor((source - 6) / 2), 6)'
     );
     rules.defineRule('maximumHenchmen',
@@ -4017,13 +4016,6 @@ OldSchool.skillRules = function(rules, name, ability, modifier, classes) {
     return;
   }
 
-  for(let i = 0; i < classes.length; i++) {
-    let clas = classes[i];
-    if(clas == 'all')
-      rules.defineRule('classSkill.' + name, 'level', '=', '1');
-    else
-      rules.defineRule('classSkill.' + name, 'levels.' + clas, '=', '1');
-  }
   rules.defineRule('skillModifier.' + name,
     'skills.' + name, '=', ability ? '0' : 'source',
     'skillNotes.armorSkillModifiers', '+',
@@ -4235,12 +4227,9 @@ OldSchool.ruleNotes = function() {
     '<h3>Limitations</h3>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '  Quilvyn does not note racial restrictions on class and level.\n' +
-    '  </li><li>\n' +
-    '  Quilvyn does not note class restrictions on weapon choice.\n' +
-    '  </li><li>\n' +
-    '  Quilvyn does not note the First Edition prohibition on Neutral' +
-    '  clerics.\n' +
+    '  Quilvyn does not note racial restrictions on class and level, class' +
+    '  restrictions on weapon choice, or the First Edition prohibition on' +
+    '  Neutral clerics.\n' +
     '  </li><li>\n' +
     '  Support for character levels 21+ is incomplete.\n' +
     '  </li><li>\n' +
