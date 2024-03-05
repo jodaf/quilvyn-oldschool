@@ -320,7 +320,7 @@ DarkSun2E.FEATURES_ADDED = {
 
 };
 DarkSun2E.FEATURES =
-  Object.assign(OldSchool.editedRules('Second Edition', Object.assign(OSRIC.FEATURES, OldSchool.FEATURES_ADDED), 'Feature'), DarkSun2E.FEATURES_ADDED);
+  Object.assign(OldSchool.editedRules('Second Edition', Object.assign({}, OSRIC.FEATURES, OldSchool.FEATURES_ADDED), 'Feature'), DarkSun2E.FEATURES_ADDED);
 DarkSun2E.GOODIES =
   OldSchool.editedRules('Second Edition', OldSchool.GOODIES, 'Goody');
 DarkSun2E.LANGUAGES = {
@@ -936,17 +936,7 @@ DarkSun2E.randomizeOneAttribute = function(attributes, attribute) {
   let choices;
   let howMany;
   let i;
-  if(attribute == 'abilities') {
-    for(let a in OldSchool.ABILITIES)
-      DarkSun2E.randomizeOneAttribute(attributes, a.toLowerCase());
-  } else if(attribute in OldSchool.ABILITIES) {
-    let rolls = [];
-    for(i = 0; i < 6; i++)
-      rolls.push(QuilvynUtils.random(1, 4));
-    rolls.sort();
-    attributes[attribute] =
-      rolls[1] + rolls[2] + rolls[3] + rolls[4] + rolls[5];
-  } else if(attribute == 'element') {
+  if(attribute == 'element') {
     attributes[attribute] =
       ['Air', 'Earth', 'Fire', 'Water'][QuilvynUtils.random(0, 3)];
   } else if(attribute == 'spells' &&
@@ -974,18 +964,18 @@ DarkSun2E.randomizeOneAttribute = function(attributes, attribute) {
         howMany--;
       }
     }
-    // Call OSRIC in case of multiclass caster
-    OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
+    // Call OldSchool in case of multiclass caster
+    OldSchool.randomizeOneAttribute.apply(this, [attributes, attribute]);
   } else if(attribute == 'weapons' &&
             ('levels.Gladiator' in attributes ||
              'experiencePoints.Gladiator' in attributes)) {
     for(let w in this.getChoices('weapons'))
       attributes['weaponProficiency.' + w] = 1;
-    OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
+    OldSchool.randomizeOneAttribute.apply(this, [attributes, attribute]);
     for(let w in this.getChoices('weapons'))
       delete attributes['weaponProficiency.' + w];
   } else {
-    OSRIC.randomizeOneAttribute.apply(this, [attributes, attribute]);
+    OldSchool.randomizeOneAttribute.apply(this, [attributes, attribute]);
   }
 };
 
@@ -1008,6 +998,8 @@ DarkSun2E.ruleNotes = function() {
     'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions ' +
     'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
     'the Coast LLC.\n' +
+    '</p><p>\n' +
+    'Dark Sun Rule Book © 1991 TSR Inc.\n' +
     '</p><p>\n' +
     'Advanced Dungeons & Dragons 2nd Edition Player\'s Handbook © 1989, ' +
     '1995, 2013 Wizards of the Coast LLC.\n' +
