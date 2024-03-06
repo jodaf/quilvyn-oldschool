@@ -35,9 +35,10 @@ function DarkSun2E() {
     return;
   }
 
-  OldSchool.EDITION = 'Second Edition';
-
   let rules = new QuilvynRules('Dark Sun - AD&D 2E', DarkSun2E.VERSION);
+  rules.plugin = DarkSun2E;
+  DarkSun2E.rules = rules;
+  rules.edition = 'Second Edition';
 
   rules.defineChoice
     ('choices', ['Discipline', 'Power'].concat(OldSchool.CHOICES));
