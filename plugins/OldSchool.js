@@ -4223,8 +4223,8 @@ OldSchool.ruleNotes = function() {
     '  example, "R10\'" in the W1 Grease spell should be read as 10 yards' +
     '  for 2E characters.\n' +
     '  </li><li>\n' +
-    '  The OldSchool rule set allows you to add homebrew choices for all of' +
-    '  the same types discussed in the <a href="plugins/homebrew-osric.html">OSRIC Homebrew Examples document</a>.\n' +
+    '  Discussion of adding different types of homebrew options to the' +
+    '  OldSchool rule sets can be found in <a href="plugins/homebrew-oldschool.html">OldSchool Homebrew Examples</a>.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
