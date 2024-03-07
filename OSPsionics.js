@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /*jshint esversion: 6 */
 /* jshint forin: false */
-/* globals OldSchool, QuilvynRules, QuilvynUtils */
+/* globals Expr, OldSchool, OSRIC, QuilvynRules, QuilvynUtils */
 "use strict";
 
 /*
@@ -66,7 +66,7 @@ OSPsionics.FEATURES = {
     'Note="May access %V disciplines, %1 sciences, %2 devotions, and %3 defense modes"',
   'Psionic Talent':
     'Section=magic ' +
-    'Note="May access 1 or more powers/Has %V Psionic Strength Points"',
+    'Note="May access 1 or more powers; has sufficient power to use the powers and maintain them 4 times"',
   'Resist Enchantment':'Section=save Note="+2 vs. enchantment spells"'
 };
 OSPsionics.GOODIES = {
@@ -77,29 +77,29 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'PowerScore="Wisdom -5" ' +
     'InitialCost=9 ' +
-    'MaintenanceCost=9 ' +
-    'Description="R50\' Self learns 2 targets\' alignment or level"',
+    'MaintenanceCost=9/rd ' +
+    'Description="R50\' Reveals the alignment or level of 2 targets"',
   'Clairaudience':
     'Discipline=Clairsentience ' +
     'Type=Science ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Self hears known location"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Allows self to hear a known location"',
   'Clairvoyance':
     'Discipline=Clairsentience ' +
     'Type=Science ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=7 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Self sees known location"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Allows self to see a known location"',
   'Object Reading':
     'Discipline=Clairsentience ' +
     'Type=Science ' +
     'PowerScore="Wisdom -5" ' +
     'Preparation=1 ' +
     'InitialCost=16 ' +
-    'Description="Self learns info about target object\'s prior owner"',
+    'Description="Reveals info about a target object\'s prior owner"',
   'Precognition':
     'Discipline=Clairsentience ' +
     'Type=Science ' +
@@ -107,29 +107,29 @@ OSPsionics.POWERS = {
     'Preparation=5 ' +
     'InitialCost=24 ' +
     'Description=' +
-      '"Self learns probable outcome of action over the next few hours"',
+      '"Reveals the likely outcome of a proposed action up to few hours in the future"',
   'Sensitivity To Psychic Impressions':
     'Discipline=Clairsentience ' +
     'Type=Science ' +
     'PowerScore="Wisdom -4" ' +
     'Preparation=2 ' +
     'InitialCost=12 ' +
-    'MaintenanceCost=2 ' +
-    'Description="Self learns history of 60\' radius"',
+    'MaintenanceCost=2/rd ' +
+    'Description="Reveals the history of a 60\' radius"',
   'All-Round Vision':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=4 ' +
+    'MaintenanceCost=4/rd ' +
     'Description=' +
-      '"Self gains vision in all directions, suffers -4 save vs. gaze"',
+      '"Gives self vision in all directions; inflicts -4 save vs. gaze"',
   'Combat Mind':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -4" ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=4 ' +
+    'MaintenanceCost=4/rd ' +
     'Description="Self gains -1 initiative"',
   'Danger Sense':
     'Discipline=Clairsentience ' +
@@ -137,75 +137,75 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -3" ' +
     'InitialCost=4 ' +
     'MaintenanceCost=3/tn ' +
-    'Description="R10\' Self detects nearby hazards and threats"',
+    'Description="R10\' Reveals nearby hazards and threats"',
   'Feel Light':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=7 ' +
-    'MaintenanceCost=5 ' +
-    'Description="Self sees via skin"',
+    'MaintenanceCost=5/rd ' +
+    'Description="Self may see via skin"',
   'Feel Sound':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self hears via skin, gains +2 save vs. sonic"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Self may hear via skin and gains +2 save vs. sonic"',
   'Hear Light':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self sees via ears"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Self may see via ears"',
   'Know Direction':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore=Intelligence ' +
     'InitialCost=1 ' +
-    'Description="Self determines north"',
+    'Description="Reveals which direction is north"',
   'Know Location':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore=Intelligence ' +
     'Preparation=5 ' +
     'InitialCost=10 ' +
-    'Description="Self learns general location"',
+    'Description="Gives general info about current location"',
   'Poison Sense':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=1 ' +
-    'Description="R1\' Self detects presence of poison"',
+    'Description="R1\' Reveals the presence of poison"',
   'Radial Navigation':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -3" ' +
     'InitialCost=4 ' +
     'MaintenanceCost=7/hr ' +
-    'Description="Self knows distance and direction from starting point"',
+    'Description="Gives the distance and direction to initial location"',
   'See Sound':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self hears via eyes"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Self may hear via eyes"',
   'Spirit Sense':
     'Discipline=Clairsentience ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=10 ' +
-    'Description="R15\' Self detects presence of spirits"',
+    'Description="R15\' Reveals the presence of spirits"',
   'Create Object':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Science ' +
     'PowerScore="Intelligence -4" ' +
     'InitialCost=16 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R20\' Creates object up to 10 lbs and 4\' diameter"',
+    'MaintenanceCost=3/rd ' +
+    'Description="R20\' Creates an object of up to 10 lbs and 4\' in diameter"',
   'Detonate':
     'Require=powers.Telekinesis,"powers.Molecular Agitation" ' +
     'Discipline=Psychokinesis ' +
@@ -219,7 +219,7 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=40 ' +
-    'Description="R50\' Target obliterated (Death save neg)"',
+    'Description="R50\' Obliterates target (Death save neg)"',
   'Molecular Rearrangement':
     'Require=powers.Telekinesis,"powers.Molecular Manipulation" ' +
     'Discipline=Psychokinesis ' +
@@ -241,24 +241,26 @@ OSPsionics.POWERS = {
     'Type=Science ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=3 ' +
-    'MaintenanceCost=1 ' +
-    'Description="R30\' Target object moves 60\'/rd"',
+    'MaintenanceCost=1/rd ' +
+    'Description="R30\' Moves target object 60\'/rd"',
   'Animate Object':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -3" ' +
     'InitialCost=8 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R50\' Target up to 100 lb moves up to 60\'/rd as if alive"',
+    'MaintenanceCost=3/rd ' +
+    'Description=' +
+      '"R50\' Moves target object of up to 100 lb 60\'/rd in a lifelike fashion"',
   'Animate Shadow':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=7 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R40\' Target 100\' sq shadow moves independently of source"',
+    'MaintenanceCost=3/rd ' +
+    'Description=' +
+      '"R40\' Moves target 100\' sq shadow independently of its source"',
   'Ballistic Attack':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
@@ -272,32 +274,33 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore="Constitution -2" ' +
     'InitialCost=8 ' +
-    'MaintenanceCost=8 ' +
-    'Description="R80\' Self controls target\'s movements (Strength save neg)"',
+    'MaintenanceCost=8/rd ' +
+    'Description=' +
+      '"R80\' Allows self to control target\'s movement (Strength save neg)"',
   'Control Flames':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -1" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=3 ' +
+    'MaintenanceCost=3/rd ' +
     'Description=' +
-      '"R40\' Target 10\' sq flame doubles or halves size and/or heat"',
+      '"R40\' Doubles or halves the size and/or heat of a 10\' sq flame "',
   'Control Light':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore=Intelligence ' +
     'InitialCost=12 ' +
-    'MaintenanceCost=4 ' +
-    'Description="R25\' Target 400\' sq area brightens or dims"',
+    'MaintenanceCost=4/rd ' +
+    'Description="R25\' Brightens or dims a 400\' sq area"',
   'Control Sound':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -5" ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=2 ' +
+    'MaintenanceCost=2/rd ' +
     'Description="R100\' Modifies existing sounds"',
   'Control Wind':
     'Require=powers.Telekinesis ' +
@@ -306,24 +309,24 @@ OSPsionics.POWERS = {
     'PowerScore="Constitution -4" ' +
     'Preparation=2 ' +
     'InitialCost=16 ' +
-    'MaintenanceCost=10 ' +
+    'MaintenanceCost=10/rd ' +
     'Description=' +
-      '"R500\' Changes speed and direction of wind, up to 10 MPH and 90 degrees"',
+      '"R500\' Changes the speed and direction of wind up to 10 MPH and 90 degrees"',
   'Create Sound':
     'Require=powers.Telekinesis,"powers.Control Sound" ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -7" ' +
     'InitialCost=8 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R100\' Creates sound up to group shouting"',
+    'MaintenanceCost=3/rd ' +
+    'Description="R100\' Creates a sound as loud as a group shouting"',
   'Inertial Barrier':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=7 ' +
-    'MaintenanceCost=5 ' +
+    'MaintenanceCost=5/rd ' +
     'Description=' +
       '"R3\' Barrier reduces damage from missiles, flames, breath, and gas"',
   'Levitation':
@@ -332,15 +335,15 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=12 ' +
-    'MaintenanceCost=2 ' +
-    'Description="Self ascend or descend up to 60\'/rd"',
+    'MaintenanceCost=2/rd ' +
+    'Description="Allows self to ascend or descend 60\'/rd"',
   'Molecular Agitation':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=7 ' +
-    'MaintenanceCost=6 ' +
+    'MaintenanceCost=6/rd ' +
     'Description="R40\' Heats targets"',
   'Molecular Manipulation':
     'Require=powers.Telekinesis ' +
@@ -349,30 +352,30 @@ OSPsionics.POWERS = {
     'PowerScore="Intelligence -3" ' +
     'Preparation=1 ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=5 ' +
-    'Description="R15\' Creates weak spot in target"',
+    'MaintenanceCost=5/rd ' +
+    'Description="R15\' Creates a weak spot in target"',
   'Soften':
     'Require=powers.Telekinesis ' +
     'Discipline=Psychokinesis ' +
     'Type=Devotion ' +
     'PowerScore=Intelligence ' +
     'InitialCost=4 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R30\' Target object softens"',
+    'MaintenanceCost=3/rd ' +
+    'Description="R30\' Softens target object"',
   'Animal Affinity':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
     'PowerScore="Constitution -4" ' +
     'InitialCost=15 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Self gains one attribute of affinity animal"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Gives self one attribute of affinity animal"',
   'Complete Healing':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
     'PowerScore=Constitution ' +
     'Preparation="1 dy" ' +
     'InitialCost=30 ' +
-    'Description="Self healed of all ailments, wounds, and normal disease"',
+    'Description="Heals self of all ailments, wounds, and normal diseases"',
   'Death Field':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
@@ -380,22 +383,22 @@ OSPsionics.POWERS = {
     'Preparation=3 ' +
     'InitialCost=40 ' +
     'Description=' +
-      '"R20\' All in range lose specified number of HP (Death save neg)"',
+      '"R20\' Inflicts a specified number of HP on all within range (Death save neg)"',
   'Energy Containment':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
     'PowerScore="Constitution -2" ' +
     'InitialCost=10 ' +
     'Description=' +
-      '"Self doubles saves and takes half damage vs. specified energy"',
+      '"Self gains double saves and takes half damage vs. specified energy"',
   'Life Draining':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=11 ' +
-    'MaintenanceCost=5 ' +
+    'MaintenanceCost=5/rd ' +
     'Description=' +
-      '"Transfers 1d6 HP/rd from touched to self, raising self HP up to %{hitPoints+10}"',
+      '"Transfers 1d6 HP/rd from touched to self; up to 10 HP above maximum may be transferred for 1 hr"',
   'Metamorphosis':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
@@ -403,14 +406,15 @@ OSPsionics.POWERS = {
     'Preparation=5 ' +
     'InitialCost=21 ' +
     'MaintenanceCost=1/tn ' +
-    'Description="Self transforms into object of approximately same mass"',
+    'Description=' +
+      '"Transforms self into an object of approximately the same mass"',
   'Shadow-form':
     'Discipline=Psychometabolism ' +
     'Type=Science ' +
     'PowerScore="Constitution -6" ' +
     'InitialCost=12 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self transforms into shadow"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Transforms self into a shadow"',
   'Absorb Disease':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -422,8 +426,9 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=8 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Self gains 1d6 Strength, Dexterity, or Constitution"',
+    'MaintenanceCost=4/rd ' +
+    'Description=' +
+      '"Gives self an additional 1d6 Strength, Dexterity, or Constitution"',
   'Aging':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -435,131 +440,131 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore="Constitution -2" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=3 ' +
+    'MaintenanceCost=3/rd ' +
     'Description=' +
-      '"Self gains -1 AC, damage from attacks on self reduced by 2 HP"',
+      '"Gives self -1 AC and reduces damage from attacks by 2 HP"',
   'Body Control':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -4" ' +
     'InitialCost=7 ' +
     'MaintenanceCost=5/tn ' +
-    'Description="Self becomes comfortable in extreme environment"',
+    'Description="Allows self to remain comfortable in extreme environments"',
   'Body Equilibrium':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=2 ' +
-    'MaintenanceCost=2 ' +
+    'MaintenanceCost=2/rd ' +
     'Description=' +
-      '"Self becomes very light, can walk on water or fragile surfaces, takes no damage from falling"',
+      '"Makes self very light, allowing walking on water and fragile surfaces and negating damage from falling"',
   'Body Weaponry':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=9 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Self arm becomes chosen weapon"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Transforms self arm into chosen weapon"',
   'Catfall':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Dexterity -2" ' +
     'InitialCost=4 ' +
     'Description=' +
-      '"Self drops 30\' w/out damage, takes half damage from longer fall"',
+      '"Allows self to fall 30\' w/out damage; longer falls inflict half damage"',
   'Cause Decay':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -2" ' +
     'InitialCost=4 ' +
-    'Description="Touched object decays or rusts"',
+    'Description="Decays or rusts touched object"',
   'Cell Adjustment':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=20 ' +
+    'MaintenanceCost=20/rd ' +
     'Description="Cures touched of disease"',
   'Chameleon Power':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -1" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self skin and clothes blend into background"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Visually blends self skin and clothes into background"',
   'Chemical Simulation':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -4" ' +
     'Preparation=1 ' +
     'InitialCost=9 ' +
-    'MaintenanceCost=6 ' +
+    'MaintenanceCost=6/rd ' +
     'Description="Touch causes acid effects"',
   'Displacement':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self gains -2 AC"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Gives self -2 AC"',
   'Double Pain':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=7 ' +
-    'Description="Touched takes double damage, regains half after 1 tn"',
+    'Description="Touched suffers double damage, regaining half after 1 tn"',
   'Ectoplasmic Form':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -4" ' +
     'Preparation=1 ' +
     'InitialCost=9 ' +
-    'MaintenanceCost=9 ' +
-    'Description="Self becomes insubstantial"',
+    'MaintenanceCost=9/rd ' +
+    'Description="Makes self insubstantial"',
   'Enhanced Strength':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=2 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Self strength increases"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Increases self Strength"',
   'Expansion':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -2" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Self dimension increased 50%-400%"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Increases self dimensions up to 4x"',
   'Flesh Armor':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'InitialCost=8 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Self skin becomes armor"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Transforms self skin into armor"',
   'Graft Weapon':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -5" ' +
     'InitialCost=10 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Self weapon gains +1 attack and damage"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Gives self weapon +1 attack and damage"',
   'Heightened Senses':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore=Constitution ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=1 ' +
+    'MaintenanceCost=1/rd ' +
     'Description=' +
-      '"Self gains increased notice, tracking, hearing, poison detection, and touch identification"',
+      '"Gives self increased notice, tracking, hearing, poison detection, and touch identification"',
   'Immovability':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -5" ' +
     'InitialCost=9 ' +
-    'MaintenanceCost=6 ' +
+    'MaintenanceCost=6/rd ' +
     'Description=' +
-      '"Self moved only by combined strength of %{(constitution-5)*10}"',
+      '"Make self movable only by a combined Strength of %{(constitution-5)*10}"',
   'Lend Health':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
@@ -572,36 +577,36 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -3" ' +
     'InitialCost=0 ' +
     'MaintenanceCost=10/dy ' +
-    'Description="Self needs no food, water, or sleep"',
+    'Description="Allows self to function without food, water, or sleep"',
   'Reduction':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -2" ' +
     'InitialCost=1 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Reduces self dimension down to 1\'"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Decreases self dimensions as small as 1\'"',
   'Share Strength':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -4" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=2 ' +
-    'Description="Transfers strength from self to touched"',
+    'MaintenanceCost=2/rd ' +
+    'Description="Transfers Strength from self to touched"',
   'Suspend Animation':
     'Discipline=Psychometabolism ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -3" ' +
     'Preparation=5 ' +
     'InitialCost=12 ' +
-    'Description="Self or touched appears dead"',
+    'Description="Allows self or touched to appear dead"',
   'Banishment':
     'Require=powers.Teleport ' +
     'Discipline=Psychoportation ' +
     'Type=Science ' +
     'PowerScore="Intelligence -1" ' +
     'InitialCost=30 ' +
-    'MaintenanceCost=10 ' +
-    'Description="R5\' Target banished to pocket dimension"',
+    'MaintenanceCost=10/rd ' +
+    'Description="R5\' Banishes target to a pocket dimension"',
   'Probability Travel':
     'Discipline=Psychoportation ' +
     'Type=Science ' +
@@ -609,7 +614,7 @@ OSPsionics.POWERS = {
     'Preparation=2 ' +
     'InitialCost=20 ' +
     'MaintenanceCost=8/hr ' +
-    'Description="Self travels astral plane"',
+    'Description="Allows self to travel to astral plane"',
   'Summon Planar Creature':
     'Require=powers.Teleport ' +
     'Discipline=Psychoportation ' +
@@ -617,20 +622,20 @@ OSPsionics.POWERS = {
     'PowerScore="Intelligence -4" ' +
     'Preparation=12 ' +
     'InitialCost=45 ' + // TODO or 90
-    'Description="R200\' Brings and controls creature from another plane"',
+    'Description="R200\' Summons and controls a creature from another plane"',
   'Teleport':
     'Discipline=Psychoportation ' +
     'Type=Science ' +
     'PowerScore=Intelligence ' +
     'InitialCost=10 ' +
-    'Description="Transfer self to familiar location"',
+    'Description="Transfers self to a familiar location"',
   'Teleport Other':
     'Require=powers.Teleport ' +
     'Discipline=Psychoportation ' +
     'Type=Science ' +
     'PowerScore="Intelligence -2" ' +
     'InitialCost=20 ' +
-    'Description="R10\' Transfers target to familiar location"',
+    'Description="R10\' Transfers target to a familiar location"',
   'Astral Projection':
     'Discipline=Psychoportation ' +
     'Type=Devotion ' +
@@ -638,15 +643,15 @@ OSPsionics.POWERS = {
     'Preparation=1 ' +
     'InitialCost=6 ' +
     'MaintenanceCost=2/hr ' +
-    'Description="Astral copy of self travels astral plane"',
+    'Description="Transfers astral body to astral plane"',
   'Dimensional Door':
     'Discipline=Psychoportation ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -1" ' +
     'InitialCost=4 ' +
-    'MaintenanceCost=2 ' +
+    'MaintenanceCost=2/rd ' +
     'Description=' +
-      '"R50\' Creates a pair of portals that teleport users between them, followed by 1 rd dazed"',
+      '"R50\' Creates a pair of portals that teleports users between them, inflicting dazed for 1 rd"',
   'Dimension Walk':
     'Discipline=Psychoportation ' +
     'Type=Devotion ' +
@@ -655,13 +660,13 @@ OSPsionics.POWERS = {
     'InitialCost=8 ' +
     'MaintenanceCost=4/tn ' +
     'Description=' +
-      '"Self travels 7 miles/tn via parallel dimension; failed Wisdom check randomizes exit point"',
+      '"Self may travel 7 miles/tn via a parallel dimension; a failed Wisdom check randomizes the exit point"',
   'Dream Travel':
     'Discipline=Psychoportation ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=1 ' +
-    'Description="R500 miles Self and companions travel during sleep"',
+    'Description="R500 miles Self and companions may travel during sleep"',
   'Teleport Trigger':
     'Require=powers.Teleport ' +
     'Discipline=Psychoportation ' +
@@ -669,34 +674,35 @@ OSPsionics.POWERS = {
     'PowerScore="Intelligence +1" ' +
     'InitialCost=0 ' +
     'MaintenanceCost=2/hr ' +
-    'Description="Trigger teleports self to safe location"',
+    'Description="Teleports self to a safe location when triggered"',
   'Time Shift':
     'Require=powers.Teleport ' +
     'Discipline=Psychoportation ' +
     'Type=Devotion ' +
     'PowerScore=Intelligence ' +
     'InitialCost=16 ' +
-    'Description="Self travels up to three rounds into the future"',
+    'Description="Allows self to travel up to three rounds into the future"',
   'Time/Space Anchor':
     'Discipline=Psychoportation ' +
     'Type=Devotion ' +
     'PowerScore=Intelligence ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Creature in 3\' radius cannot be involuntarily teleported"',
+    'MaintenanceCost=1/rd ' +
+    'Description="3\' radius prevents involuntarily teleportation"',
   'Domination':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Science ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=6 ' +
-    'Description="R30\' Self controls contact\'s actions (Spell save neg)"',
+    'MaintenanceCost=6/rd ' +
+    'Description=' +
+      '"R30\' Gives self control of a contact\'s actions (Spell save neg)"',
   'Ejection':
     'Discipline=Telepathy ' +
     'Type=Science ' +
     'PowerScore="Wisdom -4" ' +
-    'InitialCost=2 ' + // TODO or more
+    'InitialCost=variable ' +
     'Description="Forcibly breaks psionic contact; may harm self"',
   'Fate Link':
     'Require=powers.Mindlink,powers.Contact ' +
@@ -707,7 +713,7 @@ OSPsionics.POWERS = {
     'InitialCost=0 ' +
     'MaintenanceCost=5/tn ' +
     'Description=' +
-      '"Self share pain and HP loss w/contact (Death save avoids sharing death)"',
+      '"Joins self and a contact to share each other\'s pain and HP loss (Death save avoids sharing death)"',
   'Mass Domination':
     'Require=powers.Mindlink,powers.Contact,powers.Domination ' +
     'Discipline=Telepathy ' +
@@ -715,16 +721,17 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -6" ' +
     'Preparation=2 ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=2+ ' +
-    'Description="R40\' Self controls 5 contacts\' actions (Spell save neg)"',
+    'MaintenanceCost=variable ' +
+    'Description=' +
+      '"R40\' Allows self to control 5 contacts\' actions (Spell save neg)"',
   'Mindlink':
     'Require=powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Science ' +
     'PowerScore="Wisdom -5" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=8 ' +
-    'Description="Self converses telepathically w/contact"',
+    'MaintenanceCost=8/rd ' +
+    'Description="Allows self to converse telepathically w/a contact"',
   'Mindwipe':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -732,33 +739,34 @@ OSPsionics.POWERS = {
     'PowerScore="Intelligence -6" ' +
     'Preparation=1 ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=8 ' +
+    'MaintenanceCost=8/rd ' +
     'Description=' +
-      '"Touched contact suffers -1 intelligence, wisdom, and level (Spell save neg)"',
+      '"Touched contact suffers -1 Intelligence, Wisdom, and level (Spell save neg)"',
   'Probe':
     'Require=powers.ESP,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Science ' +
     'PowerScore="Wisdom -5" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=9 ' +
+    'MaintenanceCost=9/rd ' +
     'Description=' +
-      '"R2\' Self gains access to all of contact\'s memories (Spell save neg)"',
+      '"R2\' Gives self access to all of a contact\'s memories (Spell save neg)"',
   'Psychic Crush':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
     'Type=Science ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=7 ' +
-    'Description="R50\' Inflicts 1d8 HP upon contact (Paralyzation save neg)"',
+    'Description=' +
+      '"R50\' Inflicts 1d8 HP upon a contact (Paralyzation save neg)"',
   'Superior Invisibility':
     'Require=powers.Mindlink,powers.Contact,powers.Invisibility ' +
     'Discipline=Telepathy ' +
     'Type=Science ' +
     'PowerScore="Intelligence -5" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=5 ' +
-    'Description="Contact cannot see, hear, or smell self"',
+    'MaintenanceCost=5/rd ' +
+    'Description="Prevents a contact from seeing, hearing, or smelling self"',
   'Switch Personality':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -767,22 +775,22 @@ OSPsionics.POWERS = {
     'Preparation=3 ' +
     'InitialCost=30 ' +
     'Description=' +
-      '"Self exchanges minds with touched contact, both become comatose (System Shock neg) and lose 1 constitution/dy (Con neg)"',
+      '"Allows self to exchange minds with a touched contact; each becomes comatose (System Shock neg) and loses 1 Constitution/dy (Constitution neg)"',
   'Tower Of Iron Will':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
     'Type=Defense ' +
     'PowerScore="Wisdom -2" ' +
     'InitialCost=6 ' +
-    'Description="R1\' Creates psionic defense"',
+    'Description="R1\' Creates a psionic defense"',
   'Attraction':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=8 ' +
-    'Description="R200\' Contact overwhelmingly drawn to chosen item"',
+    'MaintenanceCost=8/rd ' +
+    'Description="R200\' Draws a contact to a chosen item"',
   'Aversion':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -790,40 +798,39 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -4" ' +
     'InitialCost=0 ' +
     'MaintenanceCost=8/tn ' +
-    'Description=' +
-      '"R200\' Contact overwhelmingly repelled by chosen item for 1 tn"',
+    'Description="R200\' Repels a contact from a chosen item for 1 tn"',
   'Awe':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Charisma -2" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Contacts will flee or obey self (Spell save neg)"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Causes contacts to flee or to obey self (Spell save neg)"',
   'Conceal Thoughts':
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Self becomes shielded from mental probing"',
+    'MaintenanceCost=3/rd ' +
+    'Description="Shields self from mental probing"',
   'Contact':
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=3 ' +
-    'MaintenanceCost=1 ' +
+    'MaintenanceCost=1/rd ' +
     'Description=' +
-      '"Self psionically contacts known target (psionicist neg, others resist -2) to use other telepathic powers"',
+      '"Allows self to contact a known creature psionically (psionicist neg, others resist -2) in order to apply other telepathic powers"',
   'Daydream':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=3 ' +
+    'MaintenanceCost=3/rd ' +
     'Description=' +
-      '"Contact becomes distracted (intelligence &gt; 14 neg, concentration neg)"',
+      '"Distracts a contact (Intelligence &gt; 14 neg, concentration neg)"',
   'Ego Whip':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
@@ -831,54 +838,54 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -3" ' +
     'InitialCost=4 ' +
     'Description=' +
-      '"Establishes contact and dazes (-5 rolls) for 1d4 rd target psionicist"',
+      '"Establishes contact with a psionicist target and dazes (-5 rolls) for 1d4 rd"',
   'Empathy':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=1 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Self senses desires and emotions of creatures in 20\' sq"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Reveals desires and emotions of creatures in a 20\' sq"',
   'ESP':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=6 ' +
-    'Description="Self reads contact\'s surface thoughts"',
+    'MaintenanceCost=6/rd ' +
+    'Description="Reveals a contact\'s surface thoughts"',
   'False Sensory Input':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -3" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Modifies contacts\'s sensory input"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Modifies a contacts\'s sensory input"',
   'Id Insinuation':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=5 ' +
-    'Description="Contact becomes unable to act for 1d4 rd"',
+    'Description="Prevents a contact from acting for 1d4 rd"',
   'Identity Penetration':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=6 ' +
-    'Description="Self learns contact\'s true identity"',
+    'MaintenanceCost=6/rd ' +
+    'Description="Reveals a contact\'s true identity"',
   'Incarnation Awareness':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=13 ' +
-    'Description="Self learns about contact\'s past lives"',
+    'MaintenanceCost=13/rd ' +
+    'Description="Reveals info about a contact\'s past lives"',
   'Inflict Pain':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -886,7 +893,7 @@ OSPsionics.POWERS = {
     'PowerScore="Constitution -4" ' +
     'Preparation=1 ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=2 ' +
+    'MaintenanceCost=2/rd ' +
     'Description="Touched contact suffers -4 attacks (Paralyzation save neg)"',
   'Intellect Fortress':
     'Require=powers.Mindlink ' +
@@ -901,24 +908,24 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=5 ' +
+    'MaintenanceCost=5/rd ' +
     'Description=' +
-      '"Contact believes any damage taken (rev damage dealt) is fatal"',
+      '"Convinces a contact that any damage taken (Reverse damage dealt) is fatal"',
   'Invisibility':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -5" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=2 ' +
-    'Description="R100\' Self invisible to contacts"',
+    'MaintenanceCost=2/rd ' +
+    'Description="R100\' Prevents contacts from seeing chosen creature"',
   'Life Detection':
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -2" ' +
     'InitialCost=3 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R100\' Self detects living creatures"',
+    'MaintenanceCost=3/rd ' +
+    'Description="R100\' Allows self to discern living creatures"',
   'Mental Barrier':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
@@ -931,9 +938,9 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore="Intelligence -2" ' +
     'InitialCost=6 ' +
-    'MaintenanceCost=4 ' +
+    'MaintenanceCost=4/rd ' +
     'Description=' +
-      '"Self gains 75% resistance to mental magic, immunity to possession and non-contact psionic attacks"',
+      '"Gives self 75% resistance to mental magic and immunity to possession and non-contact psionic attacks"',
   'Mind Blank':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
@@ -948,24 +955,24 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -2" ' +
     'InitialCost=2 ' +
     'Description=' +
-      '"Establishes contact w/target psionicist, or contact loses 1 power for 2d6 dy"',
+      '"Establishes contact w/a target psionicist or suppresses an existing contact\'s power for 2d6 dy"',
   'Phobia Amplification':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -2" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Contact suffers overwhelming fear"',
+    'MaintenanceCost=4/rd ' +
+    'Description="Inflicts overwhelming fear on a contact"',
   'Post-Hypnotic Suggestion':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -3" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=1 ' +
+    'MaintenanceCost=1/level ' +
     'Description=' +
-      '"Plants suggestion in target (intelligence &lt; 7 or &gt; 17 neg)"',
+      '"Plants a suggestion in target (Intelligence &lt; 7 or &gt; 17 neg)"',
   'Psionic Blast':
     'Require=powers.Telekinesis ' +
     'Discipline=Telepathy ' +
@@ -973,7 +980,7 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -5" ' +
     'InitialCost=10 ' +
     'Description=' +
-      '"Contact believes 80% of HP are lost for 6 tn (Death save neg)"',
+      '"Convinces a contact that 80% of its HP are lost (Death save neg) for 6 tn"',
   'Psychic Impersonation':
     'Require=powers.Mindlink,powers.Probe ' +
     'Discipline=Telepathy ' +
@@ -983,32 +990,32 @@ OSPsionics.POWERS = {
     'InitialCost=10 ' +
     'MaintenanceCost=3/hr ' +
     'Description=' +
-      '"Self mimic target\'s aura and thoughts, suffers -1 power scores"',
+      '"Allows self to mimic target\'s aura and thoughts; inflicts -1 power scores on self"',
   'Psychic Messenger':
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -4" ' +
     'Preparation=2 ' +
     'InitialCost=4 ' +
-    'MaintenanceCost=3 ' +
-    'Description="R200 miles Sends auditory and visual message"',
+    'MaintenanceCost=3/rd ' +
+    'Description="R200 miles Sends an auditory and visual message"',
   'Repugnance':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -5" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=8 ' +
-    'Description="R200\' Makes contact wish to destroy chosen item"',
+    'MaintenanceCost=8/rd ' +
+    'Description="R200\' Convinces a contact to destroy a chosen item"',
   'Send Thoughts':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -1" ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=2 ' +
+    'MaintenanceCost=2/rd ' +
     'Description=' +
-      '"Contact receives self thoughts (-2 attacks, save vs. spells to cast)"',
+      '"Sends self thoughts to a contact, inflicting -2 attacks and a save vs. Spells to cast a spell"',
   'Sight Link':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -1017,7 +1024,7 @@ OSPsionics.POWERS = {
     'Preparation=1 ' +
     'InitialCost=0 ' +
     'MaintenanceCost=5/tn ' +
-    'Description="Self sees through contact\'s eyes"',
+    'Description="Allows self to see through a contact\'s eyes"',
   'Sound Link':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -1026,14 +1033,14 @@ OSPsionics.POWERS = {
     'Preparation=1 ' +
     'InitialCost=0 ' +
     'MaintenanceCost=4/tn ' +
-    'Description="Self hears through contact\'s ears"',
+    'Description="Allows self to hear through a contact\'s ears"',
   'Synaptic Static':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -4" ' +
     'InitialCost=15 ' +
-    'MaintenanceCost=10 ' +
+    'MaintenanceCost=10/rd ' +
     'Description="60\' radius interferes w/psionic activity"',
   'Taste Link':
     'Require=powers.Mindlink,powers.Contact ' +
@@ -1043,7 +1050,7 @@ OSPsionics.POWERS = {
     'Preparation=1 ' +
     'InitialCost=0 ' +
     'MaintenanceCost=4/tn ' +
-    'Description="Self tastes through contact\'s tongue"',
+    'Description="Allows self to tastes through a contact\'s tongue"',
   'Telempathic Projection':
     'Require=powers.Mindlink,powers.Contact ' +
     'Discipline=Telepathy ' +
@@ -1051,8 +1058,9 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -2" ' +
     'Preparation=1 ' +
     'InitialCost=0 ' +
-    'MaintenanceCost=4 ' +
-    'Description="Amplifies or dampens emotions of contacts in 15\' radius"',
+    'MaintenanceCost=4/rd ' +
+    'Description=' +
+      '"Amplifies or dampens the emotions of contacts in a 15\' radius"',
   'Thought Shield':
     'Require=powers.Mindlink ' +
     'Discipline=Telepathy ' +
@@ -1066,14 +1074,15 @@ OSPsionics.POWERS = {
     'Type=Devotion ' +
     'PowerScore=Wisdom ' +
     'InitialCost=4 ' +
-    'MaintenanceCost=2 ' +
-    'Description="Self detects lies"',
+    'MaintenanceCost=2/rd ' +
+    'Description="Allows self to detect lies"',
   'Appraise':
     'Discipline=Metapsionic ' +
     'Type=Science ' +
     'PowerScore="Intelligence -4" ' +
     'InitialCost=14 ' +
-    'Description="Self determines likelihood of action success"',
+    'Description=' +
+      '"Allows self to determine the likelihood of success of a proposed action"',
   'Aura Alteration':
     'Require="powers.Psychic Surgery","level >= 5" ' +
     'Discipline=Metapsionic ' +
@@ -1082,14 +1091,14 @@ OSPsionics.POWERS = {
     'Preparation=5 ' +
     'InitialCost=10 ' +
     'Description=' +
-      '"Masks touched\'s alignment or level for 1d6 hr or removes curse or geas"',
+      '"Masks touched\'s alignment or level for 1d6 hr or removes a curse or geas"',
   'Empower':
     'Require="level >= 10" ' +
     'Discipline=Metapsionic ' +
     'Type=Science ' +
     'PowerScore="Wisdom -12" ' +
     'InitialCost=150 ' +
-    'Description="Imbues touched object with intelligence and psionic power"',
+    'Description="Imbues touched object with Intelligence and psionic power"',
   'Psychic Clone':
     'Require=' +
       'powers.Clairaudience,' +
@@ -1101,8 +1110,8 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -8" ' +
     'Preparation=10 ' +
     'InitialCost=50 ' +
-    'MaintenanceCost=5 ' +
-    'Description="Extracts self psyche into insubstantial form"',
+    'MaintenanceCost=5/rd ' +
+    'Description="Extracts self psyche into an insubstantial form"',
   'Psychic Surgery':
     'Require=disciplines.Telepathy,powers.Contact ' +
     'Discipline=Metapsionic ' +
@@ -1112,7 +1121,7 @@ OSPsionics.POWERS = {
     'InitialCost=0 ' +
     'MaintenanceCost=10/tn ' +
     'Description=' +
-      '"Repairs psychic damage to touched contact or makes telepathic power permanent"',
+      '"Repairs psychic damage to a touched contact or makes a telepathic power permanent"',
   'Split Personality':
     'Require="powers.Psychic Surgery","level >= 10" ' +
     'Discipline=Metapsionic ' +
@@ -1120,8 +1129,8 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -5" ' +
     'Preparation=1 ' +
     'InitialCost=40 ' +
-    'MaintenanceCost=6 ' +
-    'Description="Self can use two powers each rd"',
+    'MaintenanceCost=6/rd ' +
+    'Description="Allows self to use 2 powers each rd"',
   'Ultrablast':
     'Require="level >= 10" ' +
     'Discipline=Metapsionic ' +
@@ -1130,14 +1139,14 @@ OSPsionics.POWERS = {
     'Preparation=3 ' +
     'InitialCost=75 ' +
     'Description=' +
-      '"Inflicts unconsciousness (Paralyzation save neg) and loss of psionic power (Paralyzation save neg) in 50\' radius"',
+      '"Inflicts unconsciousness (Paralyzation save neg) and loss of psionic power (Paralyzation save neg) in a 50\' radius"',
   'Cannibalize':
     'Require="level >= 5" ' +
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore=Constitution ' +
     'InitialCost=0 ' +
-    'Description="Self trades constitution points for 8x PSP, recovers 1/wk"',
+    'Description="Allows self to convert Constitution points into 8x PSP; recovery requires 1 wk/point"',
   'Convergence':
     'Require=powers.Contact,"level >= 4" ' +
     'Discipline=Metapsionic ' +
@@ -1146,7 +1155,7 @@ OSPsionics.POWERS = {
     'Preparation=1 ' +
     'InitialCost=8 ' +
     'Description=' +
-      '"R10\' Creates joint psionic defense among multiple psionicists"',
+      '"R10\' Creates a joint psionic defense among multiple psionicists"',
   'Enhancement':
     'Require="level >= 6" ' +
     'Discipline=Metapsionic ' +
@@ -1154,16 +1163,17 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -3" ' +
     'Preparation=5 ' +
     'InitialCost=30 ' +
-    'MaintenanceCost=8 ' +
+    'MaintenanceCost=8/rd ' +
     'Description=' +
-      '"Self gains +2 power scores in chosen discipline, suffers -1 in others"',
+      '"Allows self to gain +2 power scores in chosen discipline and suffer -1 in others"',
   'Gird':
     'Require="level >= 3" ' +
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -3" ' +
     'InitialCost=0 ' +
-    'Description="Maintains chosen powers w/out concentration at double cost"',
+    'Description=' +
+      '"Maintains chosen powers w/out concentration at double normal cost"',
   'Intensify':
     'Require="level >= 3" ' +
     'Discipline=Metapsionic ' +
@@ -1171,9 +1181,9 @@ OSPsionics.POWERS = {
     'PowerScore="variable -3" ' +
     'Preparation=1 ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=1 ' +
+    'MaintenanceCost=1/rd ' +
     'Description=' +
-      '"Self trades psionic increase in intelligence, wisdom, or constitution for equal decrease in the others"',
+      '"Allows self to gain a psionic increase in Intelligence, Wisdom, or Constitution; inflicts an equal decrease in the others"',
   'Magnify':
     'Require="level >= 6" ' +
     'Discipline=Metapsionic ' +
@@ -1181,8 +1191,8 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -5" ' +
     'Preparation=5 ' +
     'InitialCost=25 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Doubles effects of chosen power"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Doubles the effects of a chosen power"',
   'Martial Trance':
     'Require="level >= 3" ' +
     'Discipline=Metapsionic ' +
@@ -1190,15 +1200,15 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -3" ' +
     'Preparation=1 ' +
     'InitialCost=7 ' +
-    'Description="Trance grants +1 telepathy scores"',
+    'Description="Gives self +1 telepathy scores"',
   'Prolong':
     'Require="level >= 4" ' +
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Constitution -4" ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=2 ' +
-    'Description="Increases range and area of powers by 50%"',
+    'MaintenanceCost=2/rd ' +
+    'Description="Increases the range and area of powers by 50%"',
   'Psionic Inflation':
     'Require="level >= 3" ' +
     'Discipline=Metapsionic ' +
@@ -1206,30 +1216,30 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -5" ' +
     'Preparation=1 ' +
     'InitialCost=20 ' +
-    'MaintenanceCost=3 ' +
-    'Description="Doubles cost of psionic powers for others in 100\' radius"',
+    'MaintenanceCost=3/rd ' +
+    'Description="100\' radius doubles the cost of psionic powers for others"',
   'Psionic Sense':
     'Require=disciplines.Telepathy ' +
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -3" ' +
     'InitialCost=4 ' +
-    'MaintenanceCost=1 ' +
-    'Description="R200\' Self detects psionic activity"',
+    'MaintenanceCost=1/rd ' +
+    'Description="R200\' Allows self to detect psionic activity"',
   'Psychic Drain':
     'Require=disciplines.Telepathy,powers.Contact,"level >= 6" ' +
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -6" ' +
     'InitialCost=10 ' +
-    'Description="Self powers psionic powers by draining sleeping contacts\' constitution, intelligence, or wisdom for x10 PSP"',
+    'Description="Self may power psionic powers by draining sleeping contacts\' Constitution, Intelligence, or Wisdom for 10x PSP"',
   'Receptacle':
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -5" ' +
     'Preparation=1 ' +
     'InitialCost=0 ' +
-    'Description="Self stores PSP in object for later use"',
+    'Description="Allows self to store PSP in an object for later use"',
   'Retrospection':
     'Require=powers.Convergence,"level >= 7" ' +
     'Discipline=Metapsionic ' +
@@ -1237,15 +1247,15 @@ OSPsionics.POWERS = {
     'PowerScore="Wisdom -4" ' +
     'Preparation=10 ' +
     'InitialCost=120 ' +
-    'Description="Self and two converged gain historical information"',
+    'Description="Allows three psionicists to learn historical information"',
   'Splice':
     'Require="level >= 2" ' +
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Intelligence -2" ' +
     'InitialCost=5 ' +
-    'MaintenanceCost=1 ' +
-    'Description="Allows simultaneous use of multiple powers"',
+    'MaintenanceCost=1/rd ' +
+    'Description="Allows the simultaneous use of multiple powers"',
   'Stasis Field':
     'Require="level >= 8" ' +
     'Discipline=Metapsionic ' +
@@ -1253,15 +1263,15 @@ OSPsionics.POWERS = {
     'PowerScore="Constitution -3" ' +
     'Preparation=3 ' +
     'InitialCost=20 ' +
-    'MaintenanceCost=20 ' +
-    'Description="Slows time in %{levels.Psionicist*3}\' radius"',
+    'MaintenanceCost=20/rd ' +
+    'Description="Slows time in a %{levels.Psionicist*3}\' radius"',
   'Wrench':
     'Discipline=Metapsionic ' +
     'Type=Devotion ' +
     'PowerScore="Wisdom -4" ' +
     'InitialCost=15 ' +
-    'MaintenanceCost=8 ' +
-    'Description="R30\' Forces multi-planar target into single plane"'
+    'MaintenanceCost=8/rd ' +
+    'Description="R30\' Forces a multi-planar target into a single plane"'
 };
 OSPsionics.SKILLS = {
   'Harness Subconscious':'Ability=wisdom Modifier=-1 Class=Psionicist',
@@ -1297,14 +1307,6 @@ OSPsionics.psionicsRules = function(rules, firstEdition) {
     (rules, 'discipline', 'psionicDisciplineCount', 'Sum "^disciplines\\."');
   rules.defineRule
     ('features.Psionic Talent', 'psionicTalent', '=', 'source ? 1 : null');
-  rules.defineRule
-    ('magicNotes.psionicTalent', 'level', '=', '4 * (source - 1)');
-  rules.defineRule
-    ('psionicDisciplineCount', 'magicNotes.psionicTalent', '+=', '1');
-  rules.defineRule
-    ('psionicDevotionCount', 'magicNotes.psionicTalent', '+=', '1');
-  rules.defineRule
-    ('psionicStrengthPoints', 'magicNotes.psionicTalent', '+=', null);
   rules.defineChoice('choices', 'Discipline', 'Power');
   rules.defineChoice('random', 'disciplines', 'powers');
   rules.choiceEditorElements = OSPsionics.choiceEditorElements;
@@ -1462,13 +1464,12 @@ OSPsionics.powerRules = function(
     console.log('Bad preparation "' + preparation + '" for power ' + name);
     return;
   }
-  if(typeof(initialCost) != 'number') {
+  if(!(initialCost+'').match(/^variable$/i) &&
+     typeof(initialCost) != 'number') {
     console.log('Bad initialCost "' + initialCost + '" for power ' + name);
     return;
   }
-  if(maintenanceCost &&
-     typeof(maintenanceCost) != 'number' &&
-     typeof(maintenanceCost) != 'string') {
+  if(maintenanceCost && typeof(maintenanceCost) != 'string') {
     console.log('Bad maintenanceCost "' + maintenanceCost + '" for power ' + name);
     return;
   }
@@ -1483,23 +1484,21 @@ OSPsionics.powerRules = function(
     QuilvynRules.prerequisiteRules
       (rules, 'validation', prefix + 'Power', 'powers.' + name, requires);
 
-  let ability = powerScore.replace(/\s*[-+].*/, '').toLowerCase();
+  let ability = powerScore.replace(/\s*[-+].*/, '');
   let modifier = powerScore.replace(/^[^-+]*/, '').replaceAll(' ', '');
-  let testAndCost = ability.substring(0, 3) + modifier;
-  if(ability != 'variable')
-    testAndCost += ' (%{' + ability.toLowerCase() + modifier + '})';
-  if(maintenanceCost && !(maintenanceCost + '').includes('/'))
-    maintenanceCost += '/rd';
+  let testAndCost;
+
+  if(ability.match(/^variable$/i))
+    testAndCost = 'Variable' + modifier;
+  else
+    testAndCost =
+      ability.substring(0, 3) + modifier + ' (%{' + ability.toLowerCase() + modifier + '})';
   testAndCost += '; ' + initialCost + (maintenanceCost ? '+' + maintenanceCost: '') + ' PSP';
   if(preparation)
     testAndCost += '; Prep ' + preparation;
   rules.defineChoice
     ('notes', 'powers.' + name + ':(' + testAndCost + ') ' + description);
-  if(ability != 'variable')
-    rules.defineRule('magicNotes.psionicTalent',
-      'powers.' + name, '+',
-      ability + (maintenanceCost ? (maintenanceCost+'').replace(/\/.*/, '') : 0) * 4
-    );
+
 };
 
 /*
@@ -1549,9 +1548,12 @@ OSPsionics.randomizeOneAttribute = function(attributes, attribute) {
   } else if(attribute == 'powers') {
     attrs = this.applyRules(attributes);
     let allowedDisciplines = {};
+    let chooseWildDevotion = attributes.psionicTalent != null;
     for(attr in attrs) {
-      if(attr.match(/^disciplines\./))
+      if(attr.match(/^disciplines\./)) {
         allowedDisciplines[attr.replace('disciplines.', '')] = 1;
+        chooseWildDevotion = false;
+      }
     }
     let allPowers = this.getChoices('powers');
     ['Science', 'Devotion', 'Defense'].forEach(type => {
@@ -1571,11 +1573,43 @@ OSPsionics.randomizeOneAttribute = function(attributes, attribute) {
       }
       while(howMany > 0 && choices.length > 0) {
         i = QuilvynUtils.random(0, choices.length - 1);
-        attributes['powers.' + choices[i]] = 1;
+        attr = choices[i];
+        let prereq = QuilvynUtils.getAttrValueArray(allPowers[attr], 'Require');
+        if(prereq.length == 0 || new Expr(prereq.join('&&')).eval(attrs)) {
+          attributes['powers.' + attr] = 1;
+          attrs['powers.' + attr] = 1;
+          howMany--;
+        }
         choices.splice(i, 1);
-        howMany--;
       }
     });
+    if(chooseWildDevotion) {
+      choices = [];
+      howMany = 1;
+      for(attr in allPowers) {
+        if(!allPowers[attr].includes('Type=Devotion'))
+          continue;
+        if('powers.' + attr in attrs)
+          howMany--;
+        else
+          choices.push(attr);
+      }
+      if(howMany > 0 && choices.length > 0) {
+        let toAdd = [choices[QuilvynUtils.random(0, choices.length - 1)]];
+        while(toAdd.length > 0) {
+          attr = toAdd.shift();
+          if(!(attr in allPowers)) {
+            console.log('Unknown power "' + attr + '"');
+            continue;
+          }
+          attributes['powers.' + attr] = 1;
+          QuilvynUtils.getAttrValueArray(allPowers[attr], 'Require').forEach(p => {
+            if(p.startsWith('powers.'))
+              toAdd.push(p.replace('powers.', ''));
+          });
+        }
+      }
+    }
   }
 };
 
