@@ -3328,12 +3328,12 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
   if(rules.edition == 'Second Edition')
     rules.defineRule('turnUndeadColumn',
       'turningLevel', '=',
-      'source <= 9 ? source : source <= 11 ? 10 : source <= 13 ? 11 : 12'
+      'source <= 9 ? source - 1 : source <= 11 ? 9 : source <= 13 ? 10 : 11'
     );
   else
     rules.defineRule('turnUndeadColumn',
       'turningLevel', '=',
-      'source <= 8 ? source : source <= 13 ? 9 : source <= 18 ? 10 : 11'
+      'source <= 8 ? source - 1 : source <= 13 ? 8 : source <= 18 ? 9 : 10'
     );
   let turningTable = rules.edition == 'Second Edition' ? {
     'Skeleton':'10:7 :4 :T :T :D :D :D :D :D :D :D ',
@@ -3364,10 +3364,11 @@ OldSchool.combatRules = function(rules, armors, shields, weapons) {
     'Lich'    :'- :- :- :- :- :- :- :19:16:10:10',
     'Fiend'   :'- :- :- :- :- :- :- :20:19:13:13'
   };
-  for(let u in turningTable)
+  for(let u in turningTable) {
     rules.defineRule('turnUndead.' + u,
-      'turnUndeadColumn', '=', '"' + turningTable[u] +'".split(":")[source - 1].trim()'
+      'turnUndeadColumn', '=', '"' + turningTable[u] +'".split(":")[source].trim()'
     );
+  }
   rules.defineRule('skillNotes.armorSkillModifiers', 'hasSkills', '?', null);
   // Replace SRD35's two-handedWeapon validation note
   delete rules.choices.notes['validationNotes.two-handedWeapon'];
