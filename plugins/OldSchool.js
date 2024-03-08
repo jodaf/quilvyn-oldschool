@@ -3529,6 +3529,9 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
     );
     OldSchool.classRulesExtra(rules, name);
+  } else if(type == 'Discipline') {
+    if(window.OSPsionics != null)
+      OSPsionics.choiceRules(rules, type, name, attrs);
   } else if(type == 'Feature')
     OldSchool.featureRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
@@ -3545,7 +3548,10 @@ OldSchool.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'Language')
     OldSchool.languageRules(rules, name);
-  else if(type == 'Race') {
+  else if(type == 'Power') {
+    if(window.OSPsionics != null)
+      OSPsionics.choiceRules(rules, type, name, attrs);
+  } else if(type == 'Race') {
     OldSchool.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),

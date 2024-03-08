@@ -1511,11 +1511,13 @@ OSPsionics.choiceEditorElements = function(rules, type) {
     ; // empty
   else if(type == 'Power')
     result.push(
+      ['Require', 'Prerequisite', 'text', [40]],
       ['Discipline', 'Discipline', 'select-one', QuilvynUtils.getKeys(rules.getChoices('disciplines'))],
       ['Type', 'Type', 'select-one', ['Defense', 'Devotion', 'Science']],
-      ['Score', 'Score', 'text', [20]],
-      ['Cost', 'Cost', 'text', [20]],
-      ['Description', 'Description', 'text', [40]]
+      ['PowerScore', 'Power Score', 'text', [20]],
+      ['InitialCost', 'Initial Cost', 'text', [10]],
+      ['MaintenanceCost', 'Maintenance Cost', 'text', [10]],
+      ['Description', 'Description', 'text', [60]]
     );
   else
    result = OSRIC.choiceEditorElements(rules, type);
